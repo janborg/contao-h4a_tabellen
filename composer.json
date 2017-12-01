@@ -5,7 +5,7 @@
     "type":"contao-module",
     "license": "LGPL-3.0+",
     "require": {
-        "php": ">=5.3",
+        "php": ">=5.4",
         "contao/core-bundle": ">=3.5 || ~4.4"
     }
 }
