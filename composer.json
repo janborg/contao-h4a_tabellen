@@ -8,7 +8,7 @@
         {
             "name":"Jan Lünborg",
             "homepage":"",
-        }
+        },
     ],
     "require":{
         "php":">=5.3",
