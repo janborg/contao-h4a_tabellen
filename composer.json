@@ -7,11 +7,11 @@
     "authors":[
         {
             "name":"Jan Lünborg",
-            "homepage":"",
-        },
+            "homepage":""
+        }
     ],
     "require":{
         "php":">=5.3",
         "contao/core-bundle":">=3.5 || ~4.4",
-    },
+    }
 }
