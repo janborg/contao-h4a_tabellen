@@ -1,0 +1,29 @@
+
+<?php $this->extend('block_searchable'); ?>
+
+<?php $this->block('content'); ?>
+    
+<div class="autospiele">
+    <table border="0" width="100%" cellspacing="0" cellpadding="3" class="matchtable">
+        <tbody>
+            <tr>
+                <th>Datum</th>
+                <th>Uhrzeit</th>
+                <th>Heim</th>
+                <th>Gast</th>
+                <th style="text-align:center">Ergebnis</th>
+            </tr>
+            <?php foreach($this->spiele as $spiel): ?>
+            <tr>
+                <td><?=$spiel["gDate"] ?></td>
+                <td><?=$spiel["gTime"] ?></td>
+                <td <?php if($spiel["gHomeTeam"]==$this->myTeam): ?>class="myteam"<?php endif ?>><?=$spiel["gHomeTeam"] ?></td>
+                <td <?php if($spiel["gGuestTeam"]==$this->myTeam): ?>class="myteam"<?php endif ?>><?=$spiel["gGuestTeam"] ?></td>
+                <td style="text-align:center"><?=$spiel["gHomeGoals"] ?> : <?=$spiel["gHomeGoals"] ?></td>
+            </tr>        
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+<?php $this->endblock(); ?>
