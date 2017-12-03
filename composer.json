@@ -1,12 +1,12 @@
 {
     "name":"jan_borg/contao-h4a_tabellen",
-    "description":"Tabellen, SpielplÃ¤ne und Ergebnisse Ã¼ber die Handball4all json API als Contao Inhaltselemente ausgeben",
+    "description":"Tabellen, Spielpläne und Ergebnisse über die Handball4all json API als Contao Inhaltselemente ausgeben",
     "keywords":["Handball","H4a","Ergebnisse","Spielplan","Tabelle"],
     "type":"contao-module",
     "license":"LGPL-3.0+",
     "authors":[
         {
-            "name":"Jan LÃ¼nborg",
+            "name":"Jan Lünborg",
             "homepage":""
         }
     ],
@@ -17,7 +17,7 @@
     "extra":{
         "contao":{
             "sources":{
-                "h4a_tabellen":"system/modules/h4a_tabellen"
+                "":"system/modules/contao-h4a_tabellen"
             }
         }
     }
