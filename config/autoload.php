@@ -8,6 +8,10 @@
  * @license LGPL-3.0+
  */
 
+/**
+ * Register the namespace
+ */
+ClassLoader::addNamespace('H4aTabellen');
 
 /**
  * Register the classes
@@ -15,8 +19,8 @@
 ClassLoader::addClasses(array
 (
 	// Classes
-	'Contao\ContentH4aTabelle' => 'system/modules/h4a_tabellen/classes/ContentH4aTabelle.php',
-	'Contao\ContentH4aSpiele'  => 'system/modules/h4a_tabellen/classes/ContentH4aSpiele.php',
+	'H4aTabellen\ContentH4aTabelle' => 'system/modules/h4a_tabellen/classes/ContentH4aTabelle.php',
+	'H4aTabellen\ContentH4aSpiele'  => 'system/modules/h4a_tabellen/classes/ContentH4aSpiele.php',
 ));
 
 
