@@ -19,8 +19,8 @@ ClassLoader::addNamespace('H4aTabellen');
 ClassLoader::addClasses(array
 (
 	// Classes
-	'H4aTabellen\ContentH4aTabelle' => 'system/modules/h4a_tabellen/classes/ContentH4aTabelle.php',
-	'H4aTabellen\ContentH4aSpiele'  => 'system/modules/h4a_tabellen/classes/ContentH4aSpiele.php',
+	'H4aTabellen\ContentH4aTabelle' => 'system/modules/contao-h4a_tabellen/classes/ContentH4aTabelle.php',
+	'H4aTabellen\ContentH4aSpiele'  => 'system/modules/contao-h4a_tabellen/classes/ContentH4aSpiele.php',
 ));
 
 
