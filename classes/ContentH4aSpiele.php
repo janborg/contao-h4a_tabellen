@@ -18,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-namespace Contao;
+namespace H4aTabellen;
 
 /**
  * Class ContentHVWSpiele
@@ -48,7 +48,7 @@ class ContentH4aSpiele extends \ContentElement{
     }
  
     /**
-     * Erzeugt die Ausgebe fÃ¼r das Backend.
+     * Erzeugt die Ausgebe für das Backend.
      * @return string
      */
     private function genBeOutput()
@@ -59,12 +59,12 @@ class ContentH4aSpiele extends \ContentElement{
         $this->Template->wildcard   = "liga_ID: ".$this->h4a_liga_ID.", Team ID: ".$this->h4a_team_ID.", Team Name: ".$this->my_team_name;
     }
       /**
-     * Erzeugt die Ausgabe fÃ¼r das Frontend.
+     * Erzeugt die Ausgabe für das Frontend.
      * @return string
      */
     private function genFeOutput()
 	{
-		//json File fÃ¼r Team abholen
+		//json File für Team abholen
 		$liga_url = 'https://h4a.it4sport.de/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$this->h4a_team_ID;
 		$strSpieleJson = file_get_contents($liga_url);
 		
