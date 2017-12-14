@@ -26,12 +26,12 @@
                         if($spiel["gHomeGoals"]==" "):
                             echo " " ;
                         else:
-                            echo $spiel["gHomeGoals"]." : ".$spiel["gGuestGoals"];
+                            echo $spiel["gHomeGoals"].":".$spiel["gGuestGoals"];
                         endif;
                         if($spiel["gHomeGoals_1"]==" "):
                             echo " " ;
                         else:
-                            echo "(".$spiel["gHomeGoals_1"]." : ".$spiel["gGuestGoals_1"].")";
+                            echo " (".$spiel["gHomeGoals_1"].":".$spiel["gGuestGoals_1"].")";
                         endif;
                     ?>
                 </td>
