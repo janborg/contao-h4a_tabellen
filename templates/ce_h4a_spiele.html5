@@ -21,15 +21,14 @@
                 <td><?=$spiel["gGymnasiumName"] ?></td>
                 <td <?php if($spiel["gHomeTeam"]==$this->myTeam): ?>class="myteam"<?php endif ?>><?=$spiel["gHomeTeam"] ?></td>
                 <td <?php if($spiel["gGuestTeam"]==$this->myTeam): ?>class="myteam"<?php endif ?>><?=$spiel["gGuestTeam"] ?></td>
-                <td> <?php if($spiel["gHomeGoals"]): ?>  <?=$spiel["gHomeGoals"].":".$spiel["gHomeGoals"] ?><?php endif?>
                 <td style="text-align:center">
-                  					<?php
-                  					if($spiel["gHomeGoals"]==" "):
-                  						echo " " ;
-                  					else:
-                  						echo $spiel["gHomeGoals"]." : ".$spiel["gHomeGoals"];
-                  					endif;
-                  					?>
+                    <?php
+                        if($spiel["gHomeGoals"]==" "):
+                            echo " " ;
+                        else:
+                            echo $spiel["gHomeGoals"]." : ".$spiel["gGuestGoals"];
+                        endif;
+                    ?>
                 </td>
             </tr>
             <?php endforeach; ?>
