@@ -1,4 +1,5 @@
 <?php
+
 namespace Janborg\H4aTabellen;
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
