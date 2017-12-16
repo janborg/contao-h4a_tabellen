@@ -17,7 +17,7 @@
             <?php foreach($this->spiele as $spiel): ?>
             <tr>
                 <td><?=$spiel["gDate"] ?></td>
-                <td><?=$spiel["gTime"] ?></td>
+                <td><?=$spiel["gTime"]." Uhr" ?></td>
                 <td><?=$spiel["gGymnasiumName"] ?></td>
                 <td <?php if($spiel["gHomeTeam"]==$this->myTeam): ?>class="myteam"<?php endif ?>><?=$spiel["gHomeTeam"] ?></td>
                 <td <?php if($spiel["gGuestTeam"]==$this->myTeam): ?>class="myteam"<?php endif ?>><?=$spiel["gGuestTeam"] ?></td>
