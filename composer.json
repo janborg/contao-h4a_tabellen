@@ -17,9 +17,9 @@
     "autoload": {
         "psr-4": {
             "Janborg\\H4aTabellenBundle\\": "src/"
-          },
-        "extra": {
-            "contao-manager-plugin": "Janborg\\H4aTabellen\\ContaoManagerPlugin"
-        }
+          }
+      }
+    "extra": {
+        "contao-manager-plugin": "Janborg\\H4aTabellen\\ContaoManagerPlugin"
     }
 }
