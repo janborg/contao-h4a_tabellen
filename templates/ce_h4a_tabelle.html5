@@ -24,8 +24,8 @@
                 <td style="text-align:center"><?=$team["numWonGames"] ?></td>
 		            <td style="text-align:center"><?=$team["numEqualGames"] ?></td>
 		            <td style="text-align:center"><?=$team["numLostGames"] ?></td>
-                <td style="text-align:center"><?=$team["numGoalsShot"] ?>:<?=$team["numGoalsGot"] ?></td>
-                <td style="text-align:center"><?=$team["pointsPlus"] ?>:<?=$team["pointsMinus"] ?></td>
+                <td style="text-align:center"><?=$team["numGoalsShot"] ?> : <?=$team["numGoalsGot"] ?></td>
+                <td style="text-align:center"><?=$team["pointsPlus"] ?> : <?=$team["pointsMinus"] ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>
