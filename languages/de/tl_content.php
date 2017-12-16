@@ -1,6 +1,6 @@
 <?php
 
-$GLOBALS['TL_LANG']['CTE']['handball']= 'Handball';
+$GLOBALS['TL_LANG']['CTE']['handball']= 'Handball4all';
 $GLOBALS['TL_LANG']['CTE']['h4a_tabelle']['0']= 'h4a-Tabelle';
 $GLOBALS['TL_LANG']['CTE']['h4a_spiele']['0']= 'h4a-Spielplan';
 
@@ -13,4 +13,4 @@ $GLOBALS['TL_LANG']['tl_content']['h4a_team_ID']['1']='Bitte geben Sie die 6-ste
 $GLOBALS['TL_LANG']['tl_content']['my_team_name']['0']='Mein Team';
 $GLOBALS['TL_LANG']['tl_content']['my_team_name']['1']='Genaue Bezeichnung der Mannschaft, die hervorgehoben werden soll';
 
-$GLOBALS['TL_LANG']['tl_content']['h4a_legend']='Details';
+$GLOBALS['TL_LANG']['tl_content']['h4a_legend']='Handball4all-Daten';
