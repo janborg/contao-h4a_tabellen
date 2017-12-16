@@ -9,7 +9,6 @@ namespace Janborg\H4aTabellen\Element;
 
 use Contao\ContentElement;
 
-
 /**
  * Class ContentHVWSpiele
  *
@@ -23,7 +22,6 @@ class ContentH4aSpiele extends \ContentElement{
      * @var string
      */
     protected $strTemplate = 'ce_h4a_spiele';
-
 
     /**
      * Generate the module

@@ -6,6 +6,7 @@
 
 namespace Janborg\H4aTabellen\Element;
 
+use Contao\ContentElement;
 /**
  * Class ContentHVWTabelle
  *

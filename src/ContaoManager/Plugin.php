@@ -5,7 +5,7 @@ use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
-class ContaoManagerPlugin implements BundlePluginInterface
+class Plugin implements BundlePluginInterface
 {
 	/**
 	 * {@inheritdoc}
@@ -15,6 +15,7 @@ class ContaoManagerPlugin implements BundlePluginInterface
 		return [
 			BundleConfig::create(JanborgH4aTabellenBundle::class)
 				->setLoadAfter([ContaoCoreBundle::class])
+				->setReplace(['h4a_tabellen']),
 		];
 	}
 }
