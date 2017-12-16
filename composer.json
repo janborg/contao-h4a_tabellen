@@ -1,5 +1,5 @@
 {
-    "name":"jan_borg/contao-h4a_tabellen",
+    "name":"janborg/contao-h4a_tabellen",
     "description":"Tabellen, Spielpläne und Ergebnisse über die Handball4all json API als Contao Inhaltselemente ausgeben",
     "keywords":["Handball","H4a","Ergebnisse","Spielplan","Tabelle"],
     "type":"contao-module",
