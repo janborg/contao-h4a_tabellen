@@ -4,7 +4,7 @@
  * Copyright (C) 2017 Janborg
  */
 
-namespace Janborg\H4aTabellen\Element;
+namespace Janborg\H4aTabellen\Resources\Elements;
 
 use Contao\ContentElement;
 /**
