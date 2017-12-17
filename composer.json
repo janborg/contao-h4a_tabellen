@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Janborg\\H4aTabellenBundle\\": "src/"
+            "Janborg\\H4aTabellen\\": "src/"
           },
           "classmap": [
               "src/Resources/contao/"
@@ -33,5 +33,8 @@
               "src/Resources/contao/languages/",
               "src/Resources/contao/templates/"
             ]
-      }
+      },
+    "extra":{
+      "contao-manager-plugin": "Janborg\\H4aTabellen\\ContaoManager\\Plugin"
+    }
 }
