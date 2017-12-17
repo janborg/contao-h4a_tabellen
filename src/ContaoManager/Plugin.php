@@ -4,7 +4,6 @@ namespace Janborg\H4aTabellenBundle\ContaoManager;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
-use Janborg\H4aTabellenBundle\JanborgH4aTabellenBundle;
 use Contao\CoreBundle\ContaoCoreBundle;
 
 class Plugin implements BundlePluginInterface
