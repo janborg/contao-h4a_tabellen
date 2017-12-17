@@ -1,20 +1,18 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/*
+ * 
  */
 
 $GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_tabelle'] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID,h4a_team_ID, my_team_name';
 $GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_spiele'] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID,h4a_team_ID, my_team_name';
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_liga_ID'] = array(
-    'label'     => $GLOBALS['TL_LANG']['tl_content']['h4a_liga_ID'], 
+    'label'     => $GLOBALS['TL_LANG']['tl_content']['h4a_liga_ID'],
     'inputType'	=> 'text',
     'exclude'	=> true,
     'eval'	=> array(
-        'mandatory'     => true, 
+        'mandatory'     => true,
         'rgxp'          => 'digit',
         'minlenght'     => 5,
         'maxlength'     => 5,
@@ -23,11 +21,11 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_liga_ID'] = array(
     'sql'	=>	"varchar(255) NOT NULL default ''",
 );
 $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_team_ID'] = array(
-    'label'     => $GLOBALS['TL_LANG']['tl_content']['h4a_team_ID'], 
+    'label'     => $GLOBALS['TL_LANG']['tl_content']['h4a_team_ID'],
     'inputType'	=> 'text',
     'exclude'	=> true,
     'eval'	=> array(
-        'mandatory'     => true, 
+        'mandatory'     => true,
         'rgxp'          => 'digit',
         'minlenght'     => 6,
         'maxlength'     => 6,
