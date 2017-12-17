@@ -33,8 +33,5 @@
               "src/Resources/contao/languages/",
               "src/Resources/contao/templates/"
             ]
-      },
-    "extra":{
-      "contao-manager-plugin": "Janborg\\H4aTabellen\\ContaoManager\\Plugin"
-    }
+      }
 }
