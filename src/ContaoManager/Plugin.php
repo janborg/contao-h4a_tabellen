@@ -16,8 +16,12 @@ class Plugin implements BundlePluginInterface
 	{
 		return [
 			BundleConfig::create(JanborgH4aTabellenBundle::class)
-				->setLoadAfter([ContaoCoreBundle::class])
-				->setReplace(['h4a_tabellen']),
+				->setLoadAfter(
+					[
+						'Contao\CoreBundle\ContaoCoreBundle',
+						'Contao\ContaoManager\ContaoManagerBundle',
+					]
+				),
 		];
 	}
 }
