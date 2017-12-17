@@ -5,7 +5,7 @@
  *
  */
 
-namespace Janborg\H4aTabellen\Element;
+namespace Janborg\H4aTabellenBundle\Element;
 
 use Contao\ContentElement;
 

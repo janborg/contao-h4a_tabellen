@@ -1,6 +1,6 @@
 <?php
 
-namespace Janborg\H4aTabellen\ContaoManager;
+namespace Janborg\H4aTabellenBundle\ContaoManager;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
