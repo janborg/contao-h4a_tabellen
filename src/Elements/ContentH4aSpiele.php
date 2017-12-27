@@ -13,11 +13,11 @@ use Contao\ContentElement;
  *
  * @author Janborg
  */
-
-class ContentH4aSpiele extends \ContentElement{
-
+class ContentH4aSpiele extends \ContentElement
+{
     /**
      * Template
+     *
      * @var string
      */
     protected $strTemplate = 'ce_h4a_spiele';
@@ -26,8 +26,8 @@ class ContentH4aSpiele extends \ContentElement{
      * Generate the module
      */
     protected function compile()
-	{
-		if (TL_MODE == 'BE') {
+    {
+        if (TL_MODE == 'BE') {
             $this->genBeOutput();
         } else {
             $this->genFeOutput();
@@ -35,33 +35,36 @@ class ContentH4aSpiele extends \ContentElement{
     }
 
     /**
-     * Erzeugt die Ausgebe f�r das Backend.
+     * Erzeugt die Ausgabe für das Backend.
+     *
      * @return string
      */
     private function genBeOutput()
     {
-        $this->strTemplate          = 'be_wildcard';
-        $this->Template             = new \BackendTemplate($this->strTemplate);
-        $this->Template->title      = $this->headline;
-        $this->Template->wildcard   = "liga_ID: ".$this->h4a_liga_ID.", Team ID: ".$this->h4a_team_ID.", Team Name: ".$this->my_team_name;
+        $this->strTemplate = 'be_wildcard';
+        $this->Template = new \BackendTemplate($this->strTemplate);
+        $this->Template->title = $this->headline;
+        $this->Template->wildcard = 'liga_ID: '.$this->h4a_liga_ID.', Team ID: '.$this->h4a_team_ID.', Team Name: '.$this->my_team_name;
     }
-      /**
+
+    /**
      * Erzeugt die Ausgabe für das Frontend.
+     *
      * @return string
      */
     private function genFeOutput()
-	{
-		//json File des Teams abrufen
-		$liga_url = 'https://h4a.it4sport.de/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$this->h4a_team_ID;
-		$strSpieleJson = file_get_contents($liga_url);
+    {
+        //json File des Teams abrufen
+        $liga_url = 'https://h4a.it4sport.de/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$this->h4a_team_ID;
+        $strSpieleJson = file_get_contents($liga_url);
 
-		//json File in Array umwandeln
-		$arrSpiele = json_decode($strSpieleJson, true);
+        //json File in Array umwandeln
+        $arrSpiele = json_decode($strSpieleJson, true);
 
         // Template ausgeben
-        $this->Template = new \FrontendTemplate($this->strTemplate);
-        $this->Template->class="ce_h4a_spiele";
-        $this->Template->spiele=$arrSpiele[0]['dataList'];
-        $this->Template->myTeam=$this->my_team_name;
+        $this->Template                = new \FrontendTemplate($this->strTemplate);
+        $this->Template->class      = 'ce_h4a_spiele';
+        $this->Template->spiele     = $arrSpiele[0]['dataList'];
+        $this->Template->myTeam = $this->my_team_name;
     }
 }
