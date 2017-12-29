@@ -6,24 +6,22 @@
 
 namespace Janborg\H4aTabellen\Elements;
 
-use Contao\ContentElement;
-
 /**
- * Class ContentH4aSpiele
+ * Class ContentH4aSpiele.
  *
  * @author Janborg
  */
 class ContentH4aSpiele extends \ContentElement
 {
     /**
-     * Template
+     * Template.
      *
      * @var string
      */
     protected $strTemplate = 'ce_h4a_spiele';
 
     /**
-     * Generate the module
+     * Generate the module.
      */
     protected function compile()
     {
@@ -35,7 +33,7 @@ class ContentH4aSpiele extends \ContentElement
     }
 
     /**
-     * Erzeugt die Ausgabe für das Backend.
+     * Erzeugt die Ausgebe für das Backend.
      *
      * @return string
      */
@@ -62,9 +60,9 @@ class ContentH4aSpiele extends \ContentElement
         $arrSpiele = json_decode($strSpieleJson, true);
 
         // Template ausgeben
-        $this->Template                = new \FrontendTemplate($this->strTemplate);
-        $this->Template->class      = 'ce_h4a_spiele';
-        $this->Template->spiele     = $arrSpiele[0]['dataList'];
+        $this->Template = new \FrontendTemplate($this->strTemplate);
+        $this->Template->class = 'ce_h4a_spiele';
+        $this->Template->spiele = $arrSpiele[0]['dataList'];
         $this->Template->myTeam = $this->my_team_name;
     }
 }

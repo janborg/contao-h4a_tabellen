@@ -126,6 +126,8 @@ class tl_calendar_h4a extends Backend
      */
     public function h4a_update($href, $label, $title, $class, $attributes)
     {
+		$href = 'key=update_events';
+		
         return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
     }
 }

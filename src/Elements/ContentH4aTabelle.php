@@ -6,24 +6,22 @@
 
 namespace Janborg\H4aTabellen\Elements;
 
-use Contao\ContentElement;
-
 /**
- * Class ContentH4aTabelle
+ * Class ContentH4aTabelle.
  *
  * @author Janborg
  */
 class ContentH4aTabelle extends \ContentElement
 {
     /**
-     * Template
+     * Template.
      *
      * @var string
      */
     protected $strTemplate = 'ce_h4a_tabelle';
 
     /**
-     * Generate the module
+     * Generate the module.
      */
     protected function compile()
     {
@@ -35,7 +33,7 @@ class ContentH4aTabelle extends \ContentElement
     }
 
     /**
-     * Erzeugt die Ausgabe für das Backend
+     * Erzeugt die Ausgebe für das Backend.
      *
      * @return string
      */
@@ -48,7 +46,7 @@ class ContentH4aTabelle extends \ContentElement
     }
 
     /**
-     * Erzeugt die Ausgabe für das Frontend
+     * Erzeugt die Ausgabe für das Frontend.
      *
      * @return string
      */
