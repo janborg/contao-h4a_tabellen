@@ -17,22 +17,22 @@ class EventManager
         $this->database = Database::getInstance();
         $this->config = $config;
     }
-    public function process(GraphObject $data, GraphObject $image)
+    public function manage($h4adata, $calendar)
     {
-        $facebookId = $data->getProperty('id');
+        $EventGameNo = $h4adata['gNo'];
         // check if event exists
-        if (null !== ($event = $this->checkIfEventExists($gNo))) {
-            $this->updateEvent($event, $data, $image);
+        if (null !== ($event = $this->checkIfEventExists($EventGameNo))) {
+            $this->updateEvent($h4adata, $calendar);
             return;
         }
-        $this->createEvent($data, $image);
+        $this->createEvent($h4adata, $calendar);
         return;
     }
 
-    protected function checkIfEventExists($gGameNo)
+    protected function checkIfEventExists($EventGameNo)
     {
         $result = $this->database->prepare('SELECT * FROM tl_calendar_events WHERE gGameNo=? LIMIT 1')
-            ->execute($gGameNo)
+            ->execute($EventGameNo)
         ;
         if ($result->numRows > 0) {
             return $result->first();
@@ -43,7 +43,7 @@ class EventManager
      * @param $h4adata
      * @param $calendar
      */
-	public function createEvent($h4adata, $calendar)
+	protected function createEvent($h4adata, $calendar)
     {
         $arrDate = explode(".",$h4adata['gDate']);
         $arrTime = explode(":",$h4adata['gTime']);
@@ -51,7 +51,6 @@ class EventManager
         $dateDay = mktime(0,0,0,$arrDate[1],$arrDate[0],$arrDate[2]);
 		$dateTime = mktime($arrTime[0],$arrTime[1],0,$arrDate[1],$arrDate[0],$arrDate[2]);
 
-        //$timestamps = $this->getTimestamps($data);
         $this->database->prepare("
             INSERT INTO tl_calendar_events
                 (pid, tstamp, title, alias, author, addTime, startTime, endTime, startDate, location, gGameNo, gClassName, gHomeTeam, gGuestTeam, gResult, gHalfResult, published)
@@ -82,63 +81,26 @@ class EventManager
                 true
             )
         ;
-        // Get the Id of the inserted Event
-        /*$insertedEvent = $this->database->prepare('SELECT id FROM tl_calendar_events WHERE facebookEvents_id = ?')
-            ->execute($data->getProperty('id'))
-        ;
-        $eventId = $insertedEvent->next()->id;
-        // Insert ContentElement
-        $this->database->prepare("
-            INSERT INTO tl_content
-                (pid, ptable, sorting, tstamp, type, headline, text, floating, sortOrder, perRow, cssID, space, com_order, com_template)
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ")
-            ->execute(
-                $eventId,
-                'tl_calendar_events',
-                128,
-                time(),
-                'text',
-                serialize(array('unit' => 'h1', 'value' => $data->getProperty('name'))),
-                sprintf('<p>%s</p>', nl2br($data->getProperty('description'))),
-                'above',
-                'ascending',
-                4,
-                serialize(array('', '')),
-                serialize(array('', '')),
-                'ascending',
-                'com_default'
-            )
-        ;*/
     }
-    protected function updateEvent($eventObj, GraphObject $data, GraphObject $image)
+    protected function updateEvent($h4adata, $calendar)
     {
-        $timestamps = $this->getTimestamps($data);
-        $file = $this->writePicture($data->getProperty('id'), $image);
-        $this->database->prepare('UPDATE tl_calendar_events SET title = ?, teaser = ?, singleSRC = ?, addTime = ?, startTime = ?, startDate = ?, endTime = ?, endDate = ?, location = ? WHERE facebookEvents_id = ?')
+        $arrDate = explode(".",$h4adata['gDate']);
+        $arrTime = explode(":",$h4adata['gTime']);
+
+        $dateDay = mktime(0,0,0,$arrDate[1],$arrDate[0],$arrDate[2]);
+		$dateTime = mktime($arrTime[0],$arrTime[1],0,$arrDate[1],$arrDate[0],$arrDate[2]);
+
+        $this->database->prepare('UPDATE tl_calendar_events SET addTime = ?, startTime = ?, endTime = ?, startDate = ?,  location = ?, gResult = ?, gHalfResult = ? WHERE gGameNo = ?')
             ->execute(
-                $data->getProperty('name'),
-                sprintf('<p>%s</p>', nl2br($data->getProperty('description'))),
-                $file->uuid,
-                // Timestamps
-                $timestamps['addTime'],
-                $timestamps['startTime'],
-                $timestamps['startDate'],
-                $timestamps['endTime'],
-                $timestamps['endDate'],
-                $data->getProperty('place') ? $data->getProperty('place')->getProperty('name') : '',
-                $data->getProperty('id')
-            )
-        ;
-        // Update Text ContentElement
-        $this->database->prepare('UPDATE tl_content SET headline = ?, text = ? WHERE type = ? AND pid = ? AND ptable = ?')
-            ->execute(
-                serialize(array('unit' => 'h1', 'value' => $data->getProperty('name'))),
-                sprintf('<p>%s</p>', nl2br($data->getProperty('description'))),
-                'text',
-                $eventObj->id,
-                'tl_calendar_events'
+                //Timestamps
+                1,
+                $dateTime,
+				$dateTime,
+                $dateDay,
+                $h4adata['gGymnasiumName'],
+                $h4adata['gHomeGoals'].":".$h4adata['gGuestGoals'],
+                $h4adata['gHomeGoals_1'].":".$h4adata['gGuestGoals_1'],
+                $h4adata['gNo']
             )
         ;
     }
