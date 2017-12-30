@@ -41,7 +41,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'] = array_merge(
  */
 
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] = array_merge(
-        array('h4a_imported' => 'h4a_liga_ID, h4a_team_ID, my_team_name',
+        array('h4a_imported' => 'h4a_team_ID, my_team_name',
         ),
         $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']
 );
@@ -100,7 +100,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         $GLOBALS['TL_DCA']['tl_calendar']['fields']
     );
 
-	
+
 /**
  * Class tl_calendar_h4a.
  */
@@ -127,7 +127,7 @@ class tl_calendar_h4a extends Backend
     public function h4a_update($href, $label, $title, $class, $attributes)
     {
 		$href = 'key=update_events';
-		
+
         return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
     }
 }
