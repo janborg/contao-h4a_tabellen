@@ -12,7 +12,7 @@ System::loadLanguageFile('tl_h4a');
             'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'],
             'class' => 'header_h4a',
 			'$href' => 'key=update_events',
-            'icon' => '',
+            'icon' 	=> 'bundles/janborgcontaoh4atabellen/update.svg',
             'button_callback' => array('tl_calendar_h4a', 'h4a_update'),
         )),
     $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations']
@@ -41,7 +41,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'] = array_merge(
  */
 
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] = array_merge(
-        array('h4a_imported' => 'h4a_team_ID, my_team_name',
+        array('h4a_imported' => 'h4a_team_ID, my_team_name, h4aEvents_author',
         ),
         $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']
 );
@@ -97,6 +97,29 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
             ),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
+		array('h4aEvents_author' => array(
+			'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4aEvents_author'],
+			'default' => \BackendUser::getInstance()->id,
+			'exclude' => true,
+			'filter' => true,
+			'sorting' => true,
+			'flag' => 1,
+			'inputType' => 'select',
+			'foreignKey' => 'tl_user.name',
+			'eval' => array(
+				'doNotCopy' => true,
+				'chosen' => true,
+				'mandatory' => true,
+				'includeBlankOption' => true,
+				'cols' => 4,
+				'tl_class' => 'w50',
+			),
+			'sql' => "int(10) unsigned NOT NULL default '0'",
+			'relation' => array(
+				'type' => 'hasOne',
+				'load' => 'eager',
+			)
+	   )),
         $GLOBALS['TL_DCA']['tl_calendar']['fields']
     );
 

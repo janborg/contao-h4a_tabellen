@@ -3,6 +3,7 @@
 namespace Janborg\H4aTabellen\Cron;
 
 use Contao\Backend;
+use Contao\System;
 use Contao\Database;
 use Janborg\H4aTabellen\EventManager;
 
@@ -18,7 +19,7 @@ class H4aEventAutomator extends Backend
 		$database = Database::getInstance();
         $calendars = $database->prepare("
             SELECT
-                id, h4a_liga_ID, h4a_team_ID, my_team_name
+                id, h4a_liga_ID, h4a_team_ID, my_team_name, h4aEvents_author
             FROM
                 tl_calendar
             WHERE
@@ -33,14 +34,14 @@ class H4aEventAutomator extends Backend
 
 			$Spiele = $arrResponse[0]['dataList'];
 			$calendar = $calendars ->id;
-
-			//$Spiel = $Spiele[0];
+			$author = $calendars ->h4aEvents_author;
 
 			foreach ($Spiele as $spiel)
 			{
 				$eventmanager = new EventManager($spiel);
-				$eventmanager->manage($spiel, $calendar);
+				$eventmanager->manage($spiel, $calendar, $author);
 			}
+			System::log('Ein Update des Kalenders '.$calendars ->id.' wurde über Handball4all ausgeführt' , __METHOD__, 'CRON');
 		 }
 	}
 
