@@ -1,7 +1,17 @@
-# Spielpläne und Tabellen über die json API von handball4all integrieren
-verfügbare Handballverbände, sowie die IDs der Ligen und Mannschaften sind hier zu finden:
+# Spielpläne und Tabellen über die json API von handball4all ins Contao CMS integrieren
+IDs der Ligen und Mannschaften kann der Verein in seinem Vereinsaccount abrufen. Nähere Infos hier:
 
 https://www.handball4all.de/index.php?tacoma=webpart.pages.Handball4allPage&navid=1263&coid=1263&cid=4&h4all=hu1eec7p9e7q0fvdhmrkgujtq7
+
+## Handballvereine folgender Verbände werden unterstützt
+
+- Badischer Handball-Verband
+- Südbadischer Handballverband
+- Thüringer Handball-Verband
+- Handballverband Schleswig-Holstein
+- Handballverband Westfalen
+- Handballverband Württemberg
+
 
 ## Felder für Spielpläne
 
