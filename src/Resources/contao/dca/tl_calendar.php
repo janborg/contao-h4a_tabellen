@@ -41,7 +41,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'] = array_merge(
  */
 
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] = array_merge(
-        array('h4a_imported' => 'h4a_team_ID, my_team_name, h4aEvents_author',
+        array('h4a_imported' => 'h4a_team_ID, my_team_name, h4aEvents_author, h4a_ignore',
         ),
         $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']
 );
@@ -57,6 +57,14 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
             'filter' => true,
             'inputType' => 'checkbox',
             'eval' => array('submitOnChange' => true),
+            'sql' => "char(1) NOT NULL default ''",
+        )),
+        array('h4a_ignore' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_ignore'],
+            'exclude' => true,
+            'filter' => true,
+            'inputType' => 'checkbox',
+            'eval' => array('tl_class' => 'w50 m12', ),
             'sql' => "char(1) NOT NULL default ''",
         )),
         array('h4a_liga_ID' => array(
