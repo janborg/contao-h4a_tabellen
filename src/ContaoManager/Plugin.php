@@ -17,7 +17,8 @@ class Plugin implements BundlePluginInterface
         return [
             BundleConfig::create(JanborgH4aTabellenBundle::class)
                 ->setLoadAfter(['Contao\CoreBundle\ContaoCoreBundle',
-                            'Contao\ContaoManager\ContaoManagerBundle', ]),
+                                'Contao\ContaoManager\ContaoManagerBundle',
+                                'Contao\CalendarBundle\ContaoCalendarBundle', ]),
         ];
     }
 }
