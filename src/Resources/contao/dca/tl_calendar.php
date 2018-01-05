@@ -12,7 +12,7 @@ System::loadLanguageFile('tl_h4a');
             'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'],
             'class' => 'header_h4a',
 			'$href' => 'key=update_events',
-            'icon' 	=> 'bundles/janborgcontaoh4atabellen/update.svg',
+            'icon' 	=> 'bundles/janborgh4atabellen/update.svg',
             'button_callback' => array('tl_calendar_h4a', 'h4a_update'),
         )),
     $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations']
@@ -20,7 +20,7 @@ System::loadLanguageFile('tl_h4a');
 
 /*
  * Operation(s)
- */ 
+ */
  $GLOBALS['TL_DCA']['tl_calendar']['list']['operations'] = array_merge(
 	$GLOBALS['TL_DCA']['tl_calendar']['list']['operations'],
 	array('toggle_ignore' => array(
@@ -31,17 +31,17 @@ System::loadLanguageFile('tl_h4a');
 			'options'    => [
 				[
 					'value'     => '',
-					'icon'      => 'invisible.gif'
+					'icon'      => 'visible.gif'
 				],
 				[
 					'value'     => '1',
-					'icon'      => 'visible.gif'
+					'icon'      => 'delete.gif'
 				]
 			]
 		]
 	))
  );
- 
+
 /*
  * Extend palettes
  */
