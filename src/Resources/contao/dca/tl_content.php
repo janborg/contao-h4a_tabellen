@@ -1,11 +1,18 @@
 <?php
 
+// Load language file(s)
+System::loadLanguageFile('tl_h4a');
+
 /*
- *
+ * Palettes
  */
 
 $GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_tabelle'] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID,h4a_team_ID, my_team_name';
 $GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_spiele'] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID,h4a_team_ID, my_team_name';
+
+/*
+ * Fields
+ */
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_liga_ID'] = array(
     'label' => $GLOBALS['TL_LANG']['tl_content']['h4a_liga_ID'],

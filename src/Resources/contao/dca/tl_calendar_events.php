@@ -1,5 +1,7 @@
 <?php
 
+// Load language file(s)
+System::loadLanguageFile('tl_h4a');
 
 /*
  * Extend palettes
