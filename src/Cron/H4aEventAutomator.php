@@ -23,7 +23,7 @@ class H4aEventAutomator extends Backend
             FROM
                 tl_calendar
             WHERE
-                h4a_imported = '1'
+                h4a_imported = '1' AND h4a_ignore != '1'
         ")->execute();
         while ($calendars->next()) {
 
