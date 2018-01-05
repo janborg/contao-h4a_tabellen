@@ -19,6 +19,30 @@ System::loadLanguageFile('tl_h4a');
  );
 
 /*
+ * Operation(s)
+ */ 
+ $GLOBALS['TL_DCA']['tl_calendar']['list']['operations'] = array_merge(
+	$GLOBALS['TL_DCA']['tl_calendar']['list']['operations'],
+	array('toggle_ignore' => array(
+		'label'                 => &$GLOBALS['TL_LANG']['tl_calendar']['toggle_ignore'],
+		'attributes'            => 'onclick="Backend.getScrollOffset();"',
+		'haste_ajax_operation'  => [
+			'field'     => 'h4a_ignore',
+			'options'    => [
+				[
+					'value'     => '',
+					'icon'      => 'invisible.gif'
+				],
+				[
+					'value'     => '1',
+					'icon'      => 'visible.gif'
+				]
+			]
+		]
+	))
+ );
+ 
+/*
  * Extend palettes
  */
 \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
