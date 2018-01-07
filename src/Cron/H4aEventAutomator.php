@@ -32,16 +32,22 @@ class H4aEventAutomator extends Backend
 			$strSpieleJson = file_get_contents($liga_url);
 			$arrResponse = json_decode($strSpieleJson, true);
 
-			$Spiele = $arrResponse[0]['dataList'];
+			$spiele = $arrResponse[0]['dataList'];
+			$lvTypeLabelStr = $arrResponse[0]['lvTypeLabelStr'];
+
 			$calendar = $calendars ->id;
 			$author = $calendars ->h4aEvents_author;
 
-			foreach ($Spiele as $spiel)
-			{
-				$eventmanager = new EventManager($spiel);
-				$eventmanager->manage($spiel, $calendar, $author);
+			if ($lvTypeLabelStr == "/ [error]") {
+				System::log('Updateversuch des Kalenders '.$calendar.' abgebrochen, prüfen Sie die Team ID!' , __METHOD__, 'ERROR');
+			} else {
+				foreach ($spiele as $spiel)
+				{
+					$eventmanager = new EventManager($spiel);
+					$eventmanager->manage($spiel, $calendar, $author);
+				}
+				System::log('Update des Kalenders '.$calendar.' über Handball4all ausgeführt' , __METHOD__, 'CRON');
 			}
-			System::log('Ein Update des Kalenders '.$calendars ->id.' wurde über Handball4all ausgeführt' , __METHOD__, 'CRON');
 		 }
 	}
 
