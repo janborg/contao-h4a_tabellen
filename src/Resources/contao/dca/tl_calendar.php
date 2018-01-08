@@ -98,7 +98,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
             'eval' => array(
                 'mandatory' => true,
                 'rgxp' => 'digit',
-                'minlenght' => 5,
+                'minlength' => 5,
                 'maxlength' => 5,
                 'tl_class' => 'w50',
             ),
@@ -111,7 +111,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
             'eval' => array(
                 'mandatory' => true,
                 'rgxp' => 'digit',
-                'minlenght' => 6,
+                'minlength' => 6,
                 'maxlength' => 6,
                 'tl_class' => 'w50',
             ),
