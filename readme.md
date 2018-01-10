@@ -1,6 +1,10 @@
 # Spielpläne und Tabellen über die json API von handball4all ins Contao CMS integrieren
 IDs der Ligen und Mannschaften kann der Verein in seinem Vereinsaccount abrufen. Nähere Infos hier:
 
+Features
+- Contentelemente zur direkten Ausgabe von Spielen oder der Tabelle einer Mannschaft
+- Import und Update (dailyCron) von Spielen einer Mannschaft als Kalendereinträge in einem Kalender
+
 https://www.handball4all.de/index.php?tacoma=webpart.pages.Handball4allPage&navid=1263&coid=1263&cid=4&h4all=hu1eec7p9e7q0fvdhmrkgujtq7
 
 ## Nur Handballvereine folgender Verbände bzw. Oberligen dürfen die Daten verwenden
