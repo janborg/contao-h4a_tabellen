@@ -6,6 +6,11 @@
 
 namespace Janborg\H4aTabellen\Elements;
 
+use StringUtil;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use System;
+
+
 /**
  * Class ContentH4aSpiele.
  *
@@ -54,15 +59,45 @@ class ContentH4aSpiele extends \ContentElement
     {
         //json File des Teams abrufen
         $liga_url = 'https://h4a.it4sport.de/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$this->h4a_team_ID;
-        $strSpieleJson = file_get_contents($liga_url);
 
-        //json File in Array umwandeln
-        $arrSpiele = json_decode($strSpieleJson, true);
+        // prepare cache control
+        $strCachePath = StringUtil::stripRootDir(System::getContainer()->getParameter('kernel.cache_dir'));
+        $arrResult = null;
+        $strCacheFile = $strCachePath . '/contao/janborg/' . $this->h4a_team_ID . '.json';
+
+		// Load the cached result
+        if (file_exists(TL_ROOT . '/' . $strCacheFile))
+        {
+            $objFile = new \File($strCacheFile);
+            if ($objFile->mtime > time() - 60*60*6)
+            {
+                $arrResult = json_decode($objFile->getContent(), true);
+            }
+            else
+            {
+                $objFile->delete();
+            }
+        }
+
+		// Cache the result
+        if ($arrResult === null)
+        {
+            try
+            {
+                $arrResult = json_decode(file_get_contents($liga_url), true);
+            }
+            catch (\Exception $e)
+            {
+                System::log('h4a update failed: ' . $e->getMessage(), __METHOD__, TL_ERROR);
+                $arrResult = array();
+            }
+            \File::putContent($strCacheFile, json_encode($arrResult));
+        }
 
         // Template ausgeben
         $this->Template = new \FrontendTemplate($this->strTemplate);
         $this->Template->class = 'ce_h4a_spiele';
-        $this->Template->spiele = $arrSpiele[0]['dataList'];
+        $this->Template->spiele = $arrResult[0]['dataList'];
         $this->Template->myTeam = $this->my_team_name;
     }
 }
