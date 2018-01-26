@@ -3,7 +3,7 @@
     "description":"Tabellen, Spielpläne und Ergebnisse über die Handball4all json API als Contao Inhaltselemente ausgeben",
     "keywords":["Handball","H4a","Ergebnisse","Spielplan","Tabelle"],
     "type":"contao-bundle",
-    "license":"LGPL-3.0+",
+    "license":"LGPL-3.0-or-later",
     "authors":[
         {
             "name":"Jan Lünborg",
