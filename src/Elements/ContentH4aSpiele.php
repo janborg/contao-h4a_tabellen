@@ -47,7 +47,7 @@ class ContentH4aSpiele extends \ContentElement
         $this->strTemplate = 'be_wildcard';
         $this->Template = new \BackendTemplate($this->strTemplate);
         $this->Template->title = $this->headline;
-        $this->Template->wildcard = 'liga_ID: '.$this->h4a_liga_ID.', Team ID: '.$this->h4a_team_ID.', Team Name: '.$this->my_team_name;
+        $this->Template->wildcard = 'Team ID: '.$this->h4a_team_ID.', Team Name: '.$this->my_team_name;
     }
 
     /**
