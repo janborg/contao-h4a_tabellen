@@ -9,7 +9,7 @@ namespace Janborg\H4aTabellen\Elements;
 use StringUtil;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use System;
-
+use Janborg\H4aTabellen\Helper\Helper;
 
 /**
  * Class ContentH4aSpiele.
@@ -47,7 +47,7 @@ class ContentH4aSpiele extends \ContentElement
         $this->strTemplate = 'be_wildcard';
         $this->Template = new \BackendTemplate($this->strTemplate);
         $this->Template->title = $this->headline;
-        $this->Template->wildcard = 'liga_ID: '.$this->h4a_liga_ID.', Team ID: '.$this->h4a_team_ID.', Team Name: '.$this->my_team_name;
+        $this->Template->wildcard = 'Team ID: '.$this->h4a_team_ID.', Team Name: '.$this->my_team_name;
     }
 
     /**
@@ -57,19 +57,15 @@ class ContentH4aSpiele extends \ContentElement
      */
     private function genFeOutput()
     {
-        //json File des Teams abrufen
-        $liga_url = 'https://h4a.it4sport.de/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$this->h4a_team_ID;
-
-        // prepare cache control
-        $strCachePath = StringUtil::stripRootDir(System::getContainer()->getParameter('kernel.cache_dir'));
-        $arrResult = null;
-        $strCacheFile = $strCachePath . '/contao/janborg/' . $this->h4a_team_ID . '.json';
+        $type = 'team';
+        $liga_url = Helper::getURL($type,$this->h4a_team_ID);
+        $strCacheFile = Helper::getCachedFile($this->h4a_team_ID);
 
 		// Load the cached result
         if (file_exists(TL_ROOT . '/' . $strCacheFile))
         {
             $objFile = new \File($strCacheFile);
-            if ($objFile->mtime > time() - 60*60*6)
+            if ($objFile->mtime > time() - 60*60*24)
             {
                 $arrResult = json_decode($objFile->getContent(), true);
             }
