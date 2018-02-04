@@ -9,7 +9,7 @@ namespace Janborg\H4aTabellen\Elements;
 use StringUtil;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use System;
-
+use Janborg\H4aTabellen\Helper\Helper;
 
 /**
  * Class ContentH4aTabelle.
@@ -57,19 +57,15 @@ class ContentH4aTabelle extends \ContentElement
      */
     private function genFeOutput()
     {
-        //json File des Teams abrufen
-        $liga_url = 'https://h4a.it4sport.de/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext='.$this->h4a_liga_ID;
-
-        // prepare cache control
-        $strCachePath = StringUtil::stripRootDir(System::getContainer()->getParameter('kernel.cache_dir'));
-        $arrResult = null;
-        $strCacheFile = $strCachePath . '/contao/janborg/' . $this->h4a_liga_ID . '.json';
+        $type = 'liga';
+        $liga_url = Helper::getURL($type,$this->h4a_liga_ID);
+        $strCacheFile = Helper::getCachedFile($this->h4a_liga_ID);
 
 		// Load the cached result
         if (file_exists(TL_ROOT . '/' . $strCacheFile))
         {
             $objFile = new \File($strCacheFile);
-            if ($objFile->mtime > time() - 60*60*6)
+            if ($objFile->mtime > time() - 60*60*24)
             {
                 $arrResult = json_decode($objFile->getContent(), true);
             }

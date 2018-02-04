@@ -6,6 +6,7 @@ use Contao\Backend;
 use Contao\System;
 use Contao\Database;
 use Janborg\H4aTabellen\EventManager;
+use Janborg\H4aTabellen\Helper\Helper;
 
 class H4aEventAutomator extends Backend
 {
@@ -26,14 +27,12 @@ class H4aEventAutomator extends Backend
                 h4a_imported = '1' AND h4a_ignore != '1'
         ")->execute();
         while ($calendars->next()) {
-
-			//json File des Teams abrufen und in array umwandeln
-			$liga_url = 'https://h4a.it4sport.de/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$calendars->h4a_team_ID;
-			$strSpieleJson = file_get_contents($liga_url);
-			$arrResponse = json_decode($strSpieleJson, true);
-
-			$spiele = $arrResponse[0]['dataList'];
-			$lvTypeLabelStr = $arrResponse[0]['lvTypeLabelStr'];
+			$type = 'team';
+			$liga_url = Helper::getURL($type,$calendars->h4a_team_ID);
+			$arrResult = Helper::setCachedFile($calendars->h4a_team_ID,$liga_url);
+			
+			$spiele = $arrResult[0]['dataList'];
+			$lvTypeLabelStr = $arrResult[0]['lvTypeLabelStr'];
 
 			$calendar = $calendars ->id;
 			$author = $calendars ->h4aEvents_author;
