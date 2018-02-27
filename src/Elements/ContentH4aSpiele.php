@@ -68,6 +68,7 @@ class ContentH4aSpiele extends \ContentElement
             if ($objFile->mtime > time() - 60*60*24)
             {
                 $arrResult = json_decode($objFile->getContent(), true);
+                $lastUpdate = $objFile->mtime;
             }
             else
             {
@@ -81,6 +82,7 @@ class ContentH4aSpiele extends \ContentElement
             try
             {
                 $arrResult = json_decode(file_get_contents($liga_url), true);
+                $lastUpdate = time();
             }
             catch (\Exception $e)
             {
@@ -95,5 +97,6 @@ class ContentH4aSpiele extends \ContentElement
         $this->Template->class = 'ce_h4a_spiele';
         $this->Template->spiele = $arrResult[0]['dataList'];
         $this->Template->myTeam = $this->my_team_name;
+        $this->Template->lastUpdate = $lastUpdate;
     }
 }
