@@ -30,7 +30,7 @@ class H4aEventAutomator extends Backend
 			$type = 'team';
 			$liga_url = Helper::getURL($type,$calendars->h4a_team_ID);
 			$arrResult = Helper::setCachedFile($calendars->h4a_team_ID,$liga_url);
-			
+
 			$spiele = $arrResult[0]['dataList'];
 			$lvTypeLabelStr = $arrResult[0]['lvTypeLabelStr'];
 
@@ -45,9 +45,10 @@ class H4aEventAutomator extends Backend
 					$eventmanager = new EventManager($spiel);
 					$eventmanager->manage($spiel, $calendar, $author);
 				}
-				System::log('Update des Kalenders '.$calendar.' über Handball4all ausgeführt' , __METHOD__, 'CRON');
+				$updated_calendars = $updated_calendars.$calendar.",";
 			}
 		 }
+		System::log('Update für Kalender '.\substr($updated_calendars,0,-1).' über Handball4all ausgeführt' , __METHOD__, 'CRON');
 	}
 
 	public function updateEvents()

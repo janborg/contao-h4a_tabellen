@@ -1,4 +1,3 @@
-
 <?php $this->extend('block_searchable'); ?>
 
 <?php $this->block('content'); ?>
@@ -30,6 +29,12 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+    <p class="lastupdate">
+    	zuletzt aktualisiert: 
+    	<time datetime="<?= $this->lastUpdate ?>" itemprop="startDate">
+    		<?php echo \Date::parse('D, d.m.Y H:i:s', $this->lastUpdate); ?>
+    	</time>
+    </p>
 </div>
 
 <?php $this->endblock(); ?>
