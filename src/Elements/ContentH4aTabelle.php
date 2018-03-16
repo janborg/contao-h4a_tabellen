@@ -65,7 +65,7 @@ class ContentH4aTabelle extends \ContentElement
         if (file_exists(TL_ROOT . '/' . $strCacheFile))
         {
             $objFile = new \File($strCacheFile);
-            if ($objFile->mtime > time() - 60*60*24)
+            if ($objFile->mtime > time() - 60*60*6)
             {
                 $arrResult = json_decode($objFile->getContent(), true);
 				$lastUpdate = $objFile->mtime;
