@@ -4,24 +4,19 @@
 System::loadLanguageFile('tl_h4a');
 
 /*
+ * amend onload_callback
+ */
+ $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'] = array_merge(
+         array(
+             array('tl_calendar_events_h4a', 'h4a_event_imported')
+         ),
+         $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback']
+ );
+
+/*
  * Extend palettes
  */
 
- \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
-	->addLegend('h4a_legend', 'title_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
-	->addField('gGameNo,gClassName,gHomeTeam,gGuestTeam', 'h4a_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
-	->applyToPalette('default', 'tl_calendar_events');
-
- \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
-	->addLegend('gymnasium_legend', 'h4a_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
-	->addField('gGymnasiumNo,gGymnasiumName,gGymnasiumStreet,gGymnasiumTown,gGymnasiumPostal', 'gymnasium_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
-	->applyToPalette('default', 'tl_calendar_events');
-
- \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
-	->addLegend('result_legend', 'gymnasium_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
-	->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1', 'result_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
-	->applyToPalette('default', 'tl_calendar_events');
-	
 /*
  * Add Selector(s)
  */
@@ -34,13 +29,12 @@ System::loadLanguageFile('tl_h4a');
  * Global Operation(s)
  */
 
-
 /*
  * Table tl_calendar_events
  */
 
  $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
-        array('gGameNo' => array(
+         array('gGameNo' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGameNo'],
             'exclude' => true,
             'search' => true,
@@ -147,3 +141,45 @@ System::loadLanguageFile('tl_h4a');
         $GLOBALS['TL_DCA']['tl_calendar_events']['fields']
     );
 
+    /**
+     * Class tl_calendar_events_h4a.
+     */
+    class tl_calendar_events_h4a extends Backend
+    {
+        /**
+         * tl_calendar__events_h4a constructor.
+         */
+        public function __construct()
+        {
+            parent::__construct();
+            $this->import('BackendUser', 'User');
+        }
+
+        /**
+        * @param DataContainer $dc
+        *extend palettes only if checkbox "h4a_imported" in parent calendar is set
+        */
+         public function h4a_event_imported(DataContainer $dc)
+         {
+             $objCalendarEvent = \CalendarEventsModel::findById(\Input::get(id));
+             $objCalendar = \CalendarModel::findById($objCalendarEvent->pid);
+
+             if ($objCalendar->h4a_imported == '1')
+             {
+                 \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
+                 ->addLegend('h4a_legend', 'title_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
+                 ->addField('gGameNo,gClassName,gHomeTeam,gGuestTeam', 'h4a_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
+                 ->applyToPalette('default', 'tl_calendar_events');
+
+                 \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
+                 ->addLegend('gymnasium_legend', 'h4a_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
+                 ->addField('gGymnasiumNo,gGymnasiumName,gGymnasiumStreet,gGymnasiumTown,gGymnasiumPostal', 'gymnasium_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
+                 ->applyToPalette('default', 'tl_calendar_events');
+
+                 \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
+                 ->addLegend('result_legend', 'gymnasium_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
+                 ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1', 'result_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
+                 ->applyToPalette('default', 'tl_calendar_events');
+             };
+        }
+    }
