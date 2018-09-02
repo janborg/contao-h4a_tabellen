@@ -7,7 +7,7 @@ System::loadLanguageFile('tl_h4a');
  * Global Operation(s)
  */
 
- $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
+$GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
     array('h4a_update' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'],
             'class' => 'header_h4a',
