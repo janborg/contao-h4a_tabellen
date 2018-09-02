@@ -28,7 +28,16 @@ System::loadLanguageFile('tl_h4a');
 /*
  * Global Operation(s)
  */
-
+ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] = array_merge(
+     array('h4a_update' => array(
+             'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'],
+             'class' => 'header_h4a',
+ 			'$href' => 'key=update_calendar',
+             'icon' 	=> 'bundles/janborgh4atabellen/update.svg',
+             'button_callback' => array('tl_calendar_events_h4a', 'h4a_update'),
+         )),
+     $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations']
+  );
 /*
  * Table tl_calendar_events
  */
@@ -181,5 +190,21 @@ System::loadLanguageFile('tl_h4a');
                  ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1', 'result_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
                  ->applyToPalette('default', 'tl_calendar_events');
              };
+        }
+        /**
+         * @param $href
+         * @param $label
+         * @param $title
+         * @param $class
+         * @param $attributes
+         *
+         * @return string
+         */
+        public function h4a_update($href, $label, $title, $class, $attributes)
+        {
+    		$href = 'key=update_calendar';
+            $id = \strlen(Input::get('id')) ? Input::get('id') : CURRENT_ID;
+
+            return '<a href="'.$this->addToUrl($href.'&amp;id='.$id).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
         }
     }

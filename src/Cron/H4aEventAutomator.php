@@ -15,17 +15,8 @@ class H4aEventAutomator extends Backend
 		parent::__construct();
 	}
 
-	public function syncCalendars()
+	public function syncCalendars($calendars)
 	{
-		$database = Database::getInstance();
-        $calendars = $database->prepare("
-            SELECT
-                id, h4a_liga_ID, h4a_team_ID, my_team_name, h4aEvents_author
-            FROM
-                tl_calendar
-            WHERE
-                h4a_imported = '1' AND h4a_ignore != '1'
-        ")->execute();
         while ($calendars->next()) {
 			$type = 'team';
 			$liga_url = Helper::getURL($type,$calendars->h4a_team_ID);
@@ -53,7 +44,35 @@ class H4aEventAutomator extends Backend
 
 	public function updateEvents()
 	{
-		$this->syncCalendars();
+		$database = Database::getInstance();
+		$calendars = $database->prepare("
+			SELECT
+				id, h4a_liga_ID, h4a_team_ID, my_team_name, h4aEvents_author
+			FROM
+				tl_calendar
+			WHERE
+				h4a_imported = '1' AND h4a_ignore != '1'
+		")->execute();
+
+		$this->syncCalendars($calendars);
+		$this->redirect($this->getReferer());
+	}
+
+	public function updateArchive()
+	{
+		$id=array(\Input::get(id));
+
+		$database = Database::getInstance();
+		$calendar = $database->prepare("
+			SELECT
+				id, h4a_liga_ID, h4a_team_ID, my_team_name, h4aEvents_author
+			FROM
+				tl_calendar
+			WHERE
+				id = ?
+		")->execute($id);
+
+		$this->syncCalendars($calendar);
 		$this->redirect($this->getReferer());
 	}
 }
