@@ -50,15 +50,16 @@ class EventManager
 
         $this->database->prepare("
             INSERT INTO tl_calendar_events
-                (pid, tstamp, title, alias, author, addTime, startTime, endTime, startDate, gGymnasiumNo, gGymnasiumName, gGymnasiumStreet, gGymnasiumTown, gGymnasiumPostal, gGameNo, gClassName, gHomeTeam, gGuestTeam, gHomeGoals, gGuestGoals, gHomeGoals_1, gGuestGoals_1, published)
+                (pid, tstamp, title, alias, author,source, addTime, startTime, endTime, startDate, gGymnasiumNo, gGymnasiumName, gGymnasiumStreet, gGymnasiumTown, gGymnasiumPostal, gGameNo, gClassName, gHomeTeam, gGuestTeam, gHomeGoals, gGuestGoals, gHomeGoals_1, gGuestGoals_1, published)
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
             ->execute(
                 $calendar,//3,//$this->config['calendar'],
                 time(),
                 $h4adata['gClassSname'].": ".$h4adata['gHomeTeam']." - ".$h4adata['gGuestTeam'],
 				standardize(\StringUtil::restoreBasicEntities($h4adata['gClassSname']."_".$h4adata['gHomeTeam']."_".$h4adata['gGuestTeam']."_".$h4adata['gNo'])),
                 $author,
+                'default',
                 //Timestamps
                 1,
                 $dateTime,
@@ -92,9 +93,10 @@ class EventManager
         $dateDay = mktime(0,0,0,$arrDate[1],$arrDate[0],$arrDate[2]);
 		$dateTime = mktime($arrTime[0],$arrTime[1],0,$arrDate[1],$arrDate[0],$arrDate[2]);
 
-        $this->database->prepare('UPDATE tl_calendar_events SET author = ?, addTime = ?, startTime = ?, endTime = ?, startDate = ?,  gGymnasiumNo = ?, gGymnasiumName = ?, gGymnasiumStreet = ?, gGymnasiumTown = ?, gGymnasiumPostal = ?, gHomeGoals = ?, gGuestGoals = ?, gHomeGoals_1 = ?, gGuestGoals_1 = ? WHERE gGameNo = ?')
+        $this->database->prepare('UPDATE tl_calendar_events SET author = ?, source =?, addTime = ?, startTime = ?, endTime = ?, startDate = ?,  gGymnasiumNo = ?, gGymnasiumName = ?, gGymnasiumStreet = ?, gGymnasiumTown = ?, gGymnasiumPostal = ?, gHomeGoals = ?, gGuestGoals = ?, gHomeGoals_1 = ?, gGuestGoals_1 = ? WHERE gGameNo = ?')
             ->execute(
 				$author,
+                'default',
                 //Timestamps
                 1,
                 $dateTime,
@@ -106,7 +108,7 @@ class EventManager
 				$h4adata['gGymnasiumStreet'],
 				$h4adata['gGymnasiumTown'],
 				$h4adata['gGymnasiumPostal'],
-				
+
                 $h4adata['gHomeGoals'],
 				$h4adata['gGuestGoals'],
                 $h4adata['gHomeGoals_1'],
