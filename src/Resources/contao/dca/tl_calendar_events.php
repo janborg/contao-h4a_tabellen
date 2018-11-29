@@ -81,7 +81,7 @@ System::loadLanguageFile('tl_h4a');
             'search' => true,
             'inputType' => 'text',
             'eval' => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'),
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => "varchar(255) NULL default ''",
         )),
 		array('gGymnasiumName' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumName'],
@@ -89,7 +89,7 @@ System::loadLanguageFile('tl_h4a');
             'search' => true,
             'inputType' => 'text',
             'eval' => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'),
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => "varchar(255) NULL default ''",
         )),
 		array('gGymnasiumStreet' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumStreet'],
@@ -97,7 +97,7 @@ System::loadLanguageFile('tl_h4a');
             'search' => true,
             'inputType' => 'text',
             'eval' => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'),
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => "varchar(255) NULL default ''",
         )),
 		array('gGymnasiumTown' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumTown'],
@@ -105,7 +105,7 @@ System::loadLanguageFile('tl_h4a');
             'search' => true,
             'inputType' => 'text',
             'eval' => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'),
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => "varchar(255) NULL default ''",
         )),
 		array('gGymnasiumPostal' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumPostal'],
@@ -113,7 +113,7 @@ System::loadLanguageFile('tl_h4a');
             'search' => true,
             'inputType' => 'text',
             'eval' => array('mandatory' => false, 'maxlength' => 5, 'tl_class' => 'w50'),
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => "varchar(255) NULL default ''",
         )),
         array('gHomeGoals' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gHomeGoals'],
