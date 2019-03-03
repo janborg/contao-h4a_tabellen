@@ -6,8 +6,7 @@
     "license":"LGPL-3.0-or-later",
     "authors":[
         {
-            "name":"Jan Lünborg",
-            "homepage":""
+            "name":"Jan Lünborg"
         }
     ],
     "require":{
@@ -16,7 +15,8 @@
         "codefog/contao-haste": "^4.17"
     },
     "require-dev": {
-         "contao/manager-plugin": "^2.0"
+         "contao/manager-plugin": "^2.0",
+         "friendsofphp/php-cs-fixer":"^2.12"
     },
     "conflict": {
          "contao/manager-plugin": "<2.0 || >=3.0"

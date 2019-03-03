@@ -1,15 +1,15 @@
 <?php
 
 /*
- * Copyright (C) 2017 Janborg
-  */
+ * This file is part of contao-h4a_tabellen.
+ * (c) Jan Lünborg
+ * @license LGPL-3.0-or-later
+ */
 
 namespace Janborg\H4aTabellen\Elements;
 
-use StringUtil;
-use Symfony\Component\Config\Definition\Exception\Exception;
-use System;
 use Janborg\H4aTabellen\Helper\Helper;
+use System;
 
 /**
  * Class ContentH4aSpiele.
@@ -30,7 +30,7 @@ class ContentH4aSpiele extends \ContentElement
      */
     protected function compile()
     {
-        if (TL_MODE == 'BE') {
+        if (TL_MODE === 'BE') {
             $this->genBeOutput();
         } else {
             $this->genFeOutput();
@@ -58,36 +58,28 @@ class ContentH4aSpiele extends \ContentElement
     private function genFeOutput()
     {
         $type = 'team';
-        $liga_url = Helper::getURL($type,$this->h4a_team_ID);
+        $liga_url = Helper::getURL($type, $this->h4a_team_ID);
         $strCacheFile = Helper::getCachedFile($this->h4a_team_ID);
 
-		// Load the cached result
-        if (file_exists(TL_ROOT . '/' . $strCacheFile))
-        {
+        // Load the cached result
+        if (file_exists(TL_ROOT.'/'.$strCacheFile)) {
             $objFile = new \File($strCacheFile);
-            if ($objFile->mtime > time() - 60*60*6)
-            {
+            if ($objFile->mtime > time() - 60 * 60 * 6) {
                 $arrResult = json_decode($objFile->getContent(), true);
                 $lastUpdate = $objFile->mtime;
-            }
-            else
-            {
+            } else {
                 $objFile->delete();
             }
         }
 
-		// Cache the result
-        if ($arrResult === null)
-        {
-            try
-            {
+        // Cache the result
+        if (null === $arrResult) {
+            try {
                 $arrResult = json_decode(file_get_contents($liga_url), true);
                 $lastUpdate = time();
-            }
-            catch (\Exception $e)
-            {
-                System::log('h4a update failed: ' . $e->getMessage(), __METHOD__, TL_ERROR);
-                $arrResult = array();
+            } catch (\Exception $e) {
+                System::log('h4a update failed: '.$e->getMessage(), __METHOD__, TL_ERROR);
+                $arrResult = [];
             }
             \File::putContent($strCacheFile, json_encode($arrResult));
         }

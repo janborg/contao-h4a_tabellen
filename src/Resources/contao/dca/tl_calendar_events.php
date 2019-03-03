@@ -170,7 +170,7 @@ System::loadLanguageFile('tl_h4a');
         */
          public function h4a_event_imported(DataContainer $dc)
          {
-             $objCalendarEvent = \CalendarEventsModel::findById(\Input::get(id));
+             $objCalendarEvent = \CalendarEventsModel::findById(\Input::get('id'));
              $objCalendar = \CalendarModel::findById($objCalendarEvent->pid);
 
              if ($objCalendar->h4a_imported == '1')
