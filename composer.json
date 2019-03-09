@@ -6,7 +6,8 @@
     "license":"LGPL-3.0-or-later",
     "authors":[
         {
-            "name":"Jan Lünborg"
+            "name":"Jan Lünborg",
+            "homepage":"https://github.com/janborg"
         }
     ],
     "require":{
