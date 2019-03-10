@@ -6,7 +6,7 @@ This file is part of contao-h4a_tabellen.
 EOF;
 $finder = PhpCsFixer\Finder::create()
     ->exclude('Resources')
-    ->in([__DIR__.'/src'/*, __DIR__.'/tests'*/])
+    ->in([__DIR__.'/src', __DIR__.'/tests'])
 ;
 return PhpCsFixer\Config::create()
     ->setRules([
