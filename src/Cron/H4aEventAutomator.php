@@ -49,16 +49,16 @@ class H4aEventAutomator extends Backend
 
     public function syncResults($gameResults)
     {
-      while ($gameResults->next()) {
-        $type = 'team';
-        $liga_url = Helper::getURL($type, $gameResults->h4a_team_ID);
-        $arrResult = Helper::setCachedFile($gameResults->h4a_team_ID, $liga_url);
+        while ($gameResults->next()) {
+            $type = 'team';
+            $liga_url = Helper::getURL($type, $gameResults->h4a_team_ID);
+            $arrResult = Helper::setCachedFile($gameResults->h4a_team_ID, $liga_url);
 
-        $games = $arrResult[0]['dataList'];
-        $gameId = array_search($gameResults->gGameNo, array_column($games,'gNo'));
+            $games = $arrResult[0]['dataList'];
+            $gameId = array_search($gameResults->gGameNo, array_column($games, 'gNo'), true);
 
-        $database = Database::getInstance();
-        $database->prepare('UPDATE tl_calendar_events SET gHomeGoals = ?, gGuestGoals = ?, gHomeGoals_1 = ?, gGuestGoals_1 = ? WHERE gGameNo = ?')
+            $database = Database::getInstance();
+            $database->prepare('UPDATE tl_calendar_events SET gHomeGoals = ?, gGuestGoals = ?, gHomeGoals_1 = ?, gGuestGoals_1 = ? WHERE gGameNo = ?')
           ->execute(
         $games[$gameId]['gHomeGoals'],
         $games[$gameId]['gGuestGoals'],
@@ -67,8 +67,8 @@ class H4aEventAutomator extends Backend
         $games[$gameId]['gNo']
         );
 
-        System::log('Ergebnis für Spiel '.$gameResults->gGameNo.' über Handball4all aktualisiert', __METHOD__, 'CRON');
-      }
+            System::log('Ergebnis für Spiel '.$gameResults->gGameNo.' über Handball4all aktualisiert', __METHOD__, 'CRON');
+        }
     }
 
     public function updateEvents()
@@ -107,8 +107,8 @@ class H4aEventAutomator extends Backend
 
     public function updateResults()
     {
-      $database = Database::getInstance();
-      $gameResults = $database->prepare('
+        $database = Database::getInstance();
+        $gameResults = $database->prepare('
     SELECT DISTINCT
       tl_calendar_events.id, gGameNo, h4a_liga_ID, h4a_team_ID
     FROM
@@ -123,8 +123,6 @@ class H4aEventAutomator extends Backend
       gHomeGoals = ""
   ')->execute();
 
-      $this->syncResults($gameResults);
-
-
+        $this->syncResults($gameResults);
     }
 }
