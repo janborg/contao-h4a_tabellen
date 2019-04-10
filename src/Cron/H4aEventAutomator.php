@@ -80,4 +80,27 @@ class H4aEventAutomator extends Backend
         $this->syncCalendars($calendar);
         $this->redirect($this->getReferer());
     }
+
+    public function updateResults()
+    {
+      $database = Database::getInstance();
+      $gameResults = $database->prepare('
+    SELECT DISTINCT
+      tl_calendar.id, gGameNo, h4a_liga_ID, h4a_team_ID, my_team_name, h4aEvents_author, gHomeGoals, gGuestGoals, gHomeGoals_1, gGuestGoals_1
+    FROM
+      tl_calendar
+    INNER JOIN
+      tl_calendar_events ON tl_calendar.id = tl_calendar_events.pid
+    WHERE
+      DATE(FROM_UNIXTIME(startdate)) = CURDATE()
+    AND
+      TIME(FROM_UNIXTIME(starttime)) < CURTIME() + 2
+    AND
+      gHomeGoals = ""
+  ')->execute();
+
+      $this->syncResults($gameResults);
+
+
+    }
 }
