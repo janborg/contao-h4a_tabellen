@@ -47,6 +47,30 @@ class H4aEventAutomator extends Backend
         System::log('Update für Kalender '.\substr($updated_calendars, 0, -1).' über Handball4all ausgeführt', __METHOD__, 'CRON');
     }
 
+    public function syncResults($gameResults)
+    {
+      while ($gameResults->next()) {
+        $type = 'team';
+        $liga_url = Helper::getURL($type, $gameResults->h4a_team_ID);
+        $arrResult = Helper::setCachedFile($gameResults->h4a_team_ID, $liga_url);
+
+        $games = $arrResult[0]['dataList'];
+        $gameId = array_search($gameResults->gGameNo, array_column($games,'gNo'));
+
+        $database = Database::getInstance();
+        $database->prepare('UPDATE tl_calendar_events SET gHomeGoals = ?, gGuestGoals = ?, gHomeGoals_1 = ?, gGuestGoals_1 = ? WHERE gGameNo = ?')
+          ->execute(
+        $games[$gameId]['gHomeGoals'],
+        $games[$gameId]['gGuestGoals'],
+        $games[$gameId]['gHomeGoals_1'],
+        $games[$gameId]['gGuestGoals_1'],
+        $games[$gameId]['gNo']
+        );
+
+        System::log('Ergebnis für Spiel '.$gameResults->gGameNo.' über Handball4all aktualisiert', __METHOD__, 'CRON');
+      }
+    }
+
     public function updateEvents()
     {
         $database = Database::getInstance();
@@ -86,7 +110,7 @@ class H4aEventAutomator extends Backend
       $database = Database::getInstance();
       $gameResults = $database->prepare('
     SELECT DISTINCT
-      tl_calendar.id, gGameNo, h4a_liga_ID, h4a_team_ID, my_team_name, h4aEvents_author, gHomeGoals, gGuestGoals, gHomeGoals_1, gGuestGoals_1
+      tl_calendar_events.id, gGameNo, h4a_liga_ID, h4a_team_ID
     FROM
       tl_calendar
     INNER JOIN
