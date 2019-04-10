@@ -118,7 +118,7 @@ class H4aEventAutomator extends Backend
     WHERE
       DATE(FROM_UNIXTIME(startdate)) = CURDATE()
     AND
-      TIME(FROM_UNIXTIME(starttime)) < CURTIME() + 2
+      TIME(FROM_UNIXTIME(starttime)) < CURTIME()
     AND
       gHomeGoals = ""
   ')->execute();
