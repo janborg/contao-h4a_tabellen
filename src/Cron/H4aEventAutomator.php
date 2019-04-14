@@ -58,19 +58,18 @@ class H4aEventAutomator extends Backend
             $gameId = array_search($gameResults->gGameNo, array_column($games, 'gNo'), true);
 
             if ($games[$gameId]['gHomeGoals']!='') {
-              System::log('Ergebnis für Spiel '.$gameResults->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', __METHOD__, 'CRON');
-            } else {
               $database = Database::getInstance();
               $database->prepare('UPDATE tl_calendar_events SET gHomeGoals = ?, gGuestGoals = ?, gHomeGoals_1 = ?, gGuestGoals_1 = ? WHERE gGameNo = ?')
-            ->execute(
-                $games[$gameId]['gHomeGoals'],
-                $games[$gameId]['gGuestGoals'],
-                $games[$gameId]['gHomeGoals_1'],
-                $games[$gameId]['gGuestGoals_1'],
-                $games[$gameId]['gNo']
-              );
-
+                ->execute(
+                  $games[$gameId]['gHomeGoals'],
+                  $games[$gameId]['gGuestGoals'],
+                  $games[$gameId]['gHomeGoals_1'],
+                  $games[$gameId]['gGuestGoals_1'],
+                  $games[$gameId]['gNo']
+                );
               System::log('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$gameResults->gGameNo.' über Handball4all aktualisiert', __METHOD__, 'CRON');
+            } else {
+                System::log('Ergebnis für Spiel '.$gameResults->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', __METHOD__, 'CRON');
             }
         }
     }
