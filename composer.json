@@ -34,7 +34,7 @@
       },
     "autoload-dev": {
       "psr-4": {
-          "Acme\\ContaoHelloWorldBundle\\Tests\\": "tests/"
+          "Janborg\\H4aTabellen\\Tests\\": "tests/"
           }
       },
     "extra":{
