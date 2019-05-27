@@ -13,6 +13,12 @@ use System;
 
 class Helper
 {
+    /**
+    * @param string $type 'liga' oder 'team'
+    * @param integer $id
+    *
+    * @return String $liga_url
+    */
     public static function getURL($type, $id)
     {
         if ('liga' === $type) {
@@ -25,6 +31,11 @@ class Helper
         return $liga_url;
     }
 
+    /**
+    * @param integer $id
+    *
+    * @return $strCacheFile
+    */
     public static function getCachedFile($id)
     {
         // prepare cache control
@@ -35,6 +46,12 @@ class Helper
         return $strCacheFile;
     }
 
+    /**
+    * @param integer $id
+    * @param string $liga_url
+    *
+    * @return $arrResult
+    */
     public static function setCachedFile($id, $liga_url)
     {
         // prepare cache control
