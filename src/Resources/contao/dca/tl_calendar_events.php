@@ -147,6 +147,14 @@ System::loadLanguageFile('tl_h4a');
             'eval' => array('mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
+        array('h4a_resultComplete' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['h4a_resultComplete'],
+            'exclude' => true,
+            'filter' => true,
+            'inputType' => 'checkbox',
+            'eval' => array('tl_class' => 'w50 m12', ),
+            'sql' => "char(1) NOT NULL default ''",
+        )),
         $GLOBALS['TL_DCA']['tl_calendar_events']['fields']
     );
 
