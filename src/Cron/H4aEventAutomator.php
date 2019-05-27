@@ -9,11 +9,12 @@
 namespace Janborg\H4aTabellen\Cron;
 
 use Contao\Backend;
-use Contao\Database;
 use Contao\System;
-use Janborg\H4aTabellen\EventManager;
 use Janborg\H4aTabellen\Helper\Helper;
 
+/**
+* Class H4aEventAutomator
+*/
 class H4aEventAutomator extends Backend
 {
     public function __construct()
@@ -21,111 +22,172 @@ class H4aEventAutomator extends Backend
         parent::__construct();
     }
 
-    public function syncCalendars($calendars)
-    {
-        while ($calendars->next()) {
-            $type = 'team';
-            $liga_url = Helper::getURL($type, $calendars->h4a_team_ID);
-            $arrResult = Helper::setCachedFile($calendars->h4a_team_ID, $liga_url);
-
-            $spiele = $arrResult[0]['dataList'];
-            $lvTypeLabelStr = $arrResult[0]['lvTypeLabelStr'];
-
-            $calendar = $calendars->id;
-            $author = $calendars->h4aEvents_author;
-
-            if ('/ [error]' === $lvTypeLabelStr) {
-                System::log('Updateversuch des Kalenders '.$calendar.' abgebrochen, prüfen Sie die Team ID!', __METHOD__, 'ERROR');
-            } else {
-                foreach ($spiele as $spiel) {
-                    $eventmanager = new EventManager($spiel);
-                    $eventmanager->manage($spiel, $calendar, $author);
-                }
-                $updated_calendars = $updated_calendars.$calendar.',';
-            }
-        }
-        System::log('Update für Kalender '.\substr($updated_calendars, 0, -1).' über Handball4all ausgeführt', __METHOD__, 'CRON');
-    }
-
-    public function syncResults($gameResults)
-    {
-        while ($gameResults->next()) {
-            $type = 'team';
-            $liga_url = Helper::getURL($type, $gameResults->h4a_team_ID);
-            $arrResult = Helper::setCachedFile($gameResults->h4a_team_ID, $liga_url);
-
-            $games = $arrResult[0]['dataList'];
-            $gameId = array_search($gameResults->gGameNo, array_column($games, 'gNo'), true);
-
-            if ($games[$gameId]['gHomeGoals']!='') {
-              $database = Database::getInstance();
-              $database->prepare('UPDATE tl_calendar_events SET gHomeGoals = ?, gGuestGoals = ?, gHomeGoals_1 = ?, gGuestGoals_1 = ? WHERE gGameNo = ?')
-                ->execute(
-                  $games[$gameId]['gHomeGoals'],
-                  $games[$gameId]['gGuestGoals'],
-                  $games[$gameId]['gHomeGoals_1'],
-                  $games[$gameId]['gGuestGoals_1'],
-                  $games[$gameId]['gNo']
-                );
-              System::log('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$gameResults->gGameNo.' über Handball4all aktualisiert', __METHOD__, 'CRON');
-            } else {
-                System::log('Ergebnis für Spiel '.$gameResults->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', __METHOD__, 'CRON');
-            }
-        }
-    }
-
     public function updateEvents()
     {
-        $database = Database::getInstance();
-        $calendars = $database->prepare("
-			SELECT
-				id, h4a_liga_ID, h4a_team_ID, my_team_name, h4aEvents_author
-			FROM
-				tl_calendar
-			WHERE
-				h4a_imported = '1' AND h4a_ignore != '1'
-		")->execute();
+      $objCalendars = \CalendarModel::findby(
+        array('tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'),
+        array('1', '1')
+    );
 
-        $this->syncCalendars($calendars);
-        $this->redirect($this->getReferer());
+    foreach($objCalendars as $objCalendar) {
+
+      $this->syncCalendars($objCalendar);
+    }
+
+    $this->redirect($this->getReferer());
     }
 
     public function updateArchive()
     {
-        $id = [\Input::get('id')];
+      $id = [\Input::get('id')];
 
-        $database = Database::getInstance();
-        $calendar = $database->prepare('
-			SELECT
-				id, h4a_liga_ID, h4a_team_ID, my_team_name, h4aEvents_author
-			FROM
-				tl_calendar
-			WHERE
-				id = ?
-		')->execute($id);
+  	  $objCalendar = \CalendarModel::findById($id);
 
-        $this->syncCalendars($calendar);
-        $this->redirect($this->getReferer());
+      $this->syncCalendars($objCalendar);
+      $this->redirect($this->getReferer());
+    }
+
+    /**
+    * Update Calendars via json from H4a
+    *
+    * @param \CalendarModel $objCalendars
+    */
+    public function syncCalendars(\CalendarModel $objCalendar)
+    {
+        $type = 'team';
+
+        $liga_url = Helper::getURL($type, $objCalendar->h4a_team_ID);
+        $arrResult = Helper::setCachedFile($objCalendar->h4a_team_ID, $liga_url);
+
+        if ($arrResult[0]['lvTypeLabelStr'] === '/ [error]') {
+
+          System::log('Updateversuch des Kalenders '.$objCalendar->id.' abgebrochen, prüfen Sie die Team ID!', __METHOD__, 'ERROR');
+
+        } else {
+
+          $arrSpiele = $arrResult[0]['dataList'];
+
+          //Update or Create Event
+          foreach($arrSpiele as $arrSpiel) {
+
+            $objEvent = \CalendarEventsModel::findOneBy('gGameNo', $arrSpiel['gNo']);
+
+            //Update, wenn ModelObjekt existiert
+            if ($objEvent != NULL) {
+
+              $arrDate = explode('.', $arrSpiel['gDate']);
+              $arrTime = explode(':', $arrSpiel['gTime']);
+
+              $dateDay = mktime(0, 0, 0, $arrDate[1], $arrDate[0], $arrDate[2]);
+              $dateTime = mktime($arrTime[0], $arrTime[1], 0, $arrDate[1], $arrDate[0], $arrDate[2]);
+
+              $objEvent->author = $objCalendar->h4aEvents_author;
+              $objEvent->source = 'default';
+              $objEvent->addTime = 1;
+              $objEvent->startTime = $dateTime;
+              $objEvent->endTime = $dateTime;
+              $objEvent->startDate = $dateDay;
+              $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
+              $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
+              $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
+              $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
+              $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
+              $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
+              $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
+              $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
+              $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
+              $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
+              $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
+              $objEvent->published = true;
+
+              if($arrSpiel['gHomeGoals']!='') {
+                $objEvent->h4a_resultComplete = true;
+              }
+
+              $objEvent->save();
+
+            //Create Event, wenn ModelObjekt existiert
+            } else {
+
+              $objEvent = new \CalendarEventsModel();
+
+              $arrDate = explode('.', $arrSpiel['gDate']);
+              $arrTime = explode(':', $arrSpiel['gTime']);
+
+              $dateDay = mktime(0, 0, 0, $arrDate[1], $arrDate[0], $arrDate[2]);
+              $dateTime = mktime($arrTime[0], $arrTime[1], 0, $arrDate[1], $arrDate[0], $arrDate[2]);
+
+              $objEvent->pid = $objCalendar->id;
+              $objEvent->timestamp = time();
+              $objEvent->title = $arrSpiel['gClassSname'].': '.$arrSpiel['gHomeTeam'].' - '.$arrSpiel['gGuestTeam'];
+              $objEvent->alias = standardize(\StringUtil::restoreBasicEntities($arrSpiel['gClassSname'].'_'.$arrSpiel['gHomeTeam'].'_'.$arrSpiel['gGuestTeam'].'_'.$arrSpiel['gNo']));
+              $objEvent->gGameNo = $arrSpiel['gNo'];
+              $objEvent->gClassName = $arrSpiel['gClassName'];
+              $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
+              $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
+
+              $objEvent->author = $objCalendar->h4aEvents_author;
+              $objEvent->source = 'default';
+              $objEvent->addTime = 1;
+              $objEvent->startTime = $dateTime;
+              $objEvent->endTime = $dateTime;
+              $objEvent->startDate = $dateDay;
+              $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
+              $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
+              $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
+              $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
+              $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
+              $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
+              $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
+              $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
+              $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
+              $objEvent->published = true;
+
+              if($arrSpiel['gHomeGoals']!='') {
+                $objEvent->h4a_resultComplete = true;
+              }
+
+              $objEvent->save();
+            }
+          }
+        }
     }
 
     public function updateResults()
     {
-        $database = Database::getInstance();
-        $gameResults = $database->prepare('
-    SELECT DISTINCT
-      tl_calendar_events.id, gGameNo, h4a_liga_ID, h4a_team_ID
-    FROM
-      tl_calendar
-    INNER JOIN
-      tl_calendar_events ON tl_calendar.id = tl_calendar_events.pid
-    WHERE
-      DATE(FROM_UNIXTIME(startdate)) = CURDATE()
-    AND
-      TIME(FROM_UNIXTIME(starttime)) < CURTIME()
-    AND
-      gHomeGoals = ""
-  ')->execute();
+        $type = 'team';
 
-        $this->syncResults($gameResults);
+        $objEvents = \CalendarEventsModel::findby(
+            ['DATE(FROM_UNIXTIME(startdate)) = ?', 'TIME(FROM_UNIXTIME(starttime)) < ?', 'h4a_resultComplete != ?'],
+            [date('Y-m-d'), time(), true]
+      );
+
+        //hier muss noch eine IF $objEvents = NULL rein
+        if ($objEvents=== NULL)
+        {
+          return;
+        }
+        foreach ($objEvents as $objEvent) {
+            $objCalendar = \CalendarModel::findById($objEvent->pid);
+
+            $liga_url = Helper::getURL($type, $objCalendar->h4a_team_ID);
+            $arrResult = Helper::setCachedFile($objCalendar->h4a_team_ID, $liga_url);
+
+            $games = $arrResult[0]['dataList'];
+            $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
+
+            if ('' !== $games[$gameId]['gHomeGoals']) {
+                $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
+                $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
+                $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
+                $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
+                $objEvent->h4a_resultComplete = true;
+                $objEvent->save();
+
+                System::log('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', __METHOD__, 'CRON');
+            } else {
+                System::log('Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', __METHOD__, 'CRON');
+            }
+        }
     }
 }
