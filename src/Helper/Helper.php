@@ -14,11 +14,11 @@ use System;
 class Helper
 {
     /**
-    * @param string $type 'liga' oder 'team'
-    * @param integer $id
-    *
-    * @return String $liga_url
-    */
+     * @param string $type 'liga' oder 'team'
+     * @param int    $id
+     *
+     * @return string $liga_url
+     */
     public static function getURL($type, $id)
     {
         if ('liga' === $type) {
@@ -32,10 +32,10 @@ class Helper
     }
 
     /**
-    * @param integer $id
-    *
-    * @return $strCacheFile
-    */
+     * @param int $id
+     *
+     * @return $strCacheFile
+     */
     public static function getCachedFile($id)
     {
         // prepare cache control
@@ -47,11 +47,11 @@ class Helper
     }
 
     /**
-    * @param integer $id
-    * @param string $liga_url
-    *
-    * @return $arrResult
-    */
+     * @param int    $id
+     * @param string $liga_url
+     *
+     * @return $arrResult
+     */
     public static function setCachedFile($id, $liga_url)
     {
         // prepare cache control

@@ -13,8 +13,8 @@ use Contao\System;
 use Janborg\H4aTabellen\Helper\Helper;
 
 /**
-* Class H4aEventAutomator
-*/
+ * Class H4aEventAutomator.
+ */
 class H4aEventAutomator extends Backend
 {
     public function __construct()
@@ -24,34 +24,33 @@ class H4aEventAutomator extends Backend
 
     public function updateEvents()
     {
-      $objCalendars = \CalendarModel::findby(
-        array('tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'),
-        array('1', '1')
+        $objCalendars = \CalendarModel::findby(
+        ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
+        ['1', '1']
     );
 
-    foreach($objCalendars as $objCalendar) {
+        foreach ($objCalendars as $objCalendar) {
+            $this->syncCalendars($objCalendar);
+        }
 
-      $this->syncCalendars($objCalendar);
-    }
-
-    $this->redirect($this->getReferer());
+        $this->redirect($this->getReferer());
     }
 
     public function updateArchive()
     {
-      $id = [\Input::get('id')];
+        $id = [\Input::get('id')];
 
-  	  $objCalendar = \CalendarModel::findById($id);
+        $objCalendar = \CalendarModel::findById($id);
 
-      $this->syncCalendars($objCalendar);
-      $this->redirect($this->getReferer());
+        $this->syncCalendars($objCalendar);
+        $this->redirect($this->getReferer());
     }
 
     /**
-    * Update Calendars via json from H4a
-    *
-    * @param \CalendarModel $objCalendars
-    */
+     * Update Calendars via json from H4a.
+     *
+     * @param \CalendarModel $objCalendars
+     */
     public function syncCalendars(\CalendarModel $objCalendar)
     {
         $type = 'team';
@@ -59,97 +58,91 @@ class H4aEventAutomator extends Backend
         $liga_url = Helper::getURL($type, $objCalendar->h4a_team_ID);
         $arrResult = Helper::setCachedFile($objCalendar->h4a_team_ID, $liga_url);
 
-        if ($arrResult[0]['lvTypeLabelStr'] === '/ [error]') {
-
-          System::log('Updateversuch des Kalenders '.$objCalendar->id.' abgebrochen, prüfen Sie die Team ID!', __METHOD__, 'ERROR');
-
+        if ('/ [error]' === $arrResult[0]['lvTypeLabelStr']) {
+            System::log('Updateversuch des Kalenders '.$objCalendar->id.' abgebrochen, prüfen Sie die Team ID!', __METHOD__, 'ERROR');
         } else {
+            $arrSpiele = $arrResult[0]['dataList'];
 
-          $arrSpiele = $arrResult[0]['dataList'];
+            //Update or Create Event
+            foreach ($arrSpiele as $arrSpiel) {
+                $objEvent = \CalendarEventsModel::findOneBy('gGameNo', $arrSpiel['gNo']);
 
-          //Update or Create Event
-          foreach($arrSpiele as $arrSpiel) {
+                //Update, wenn ModelObjekt existiert
+                if (null !== $objEvent) {
+                    $arrDate = explode('.', $arrSpiel['gDate']);
+                    $arrTime = explode(':', $arrSpiel['gTime']);
 
-            $objEvent = \CalendarEventsModel::findOneBy('gGameNo', $arrSpiel['gNo']);
+                    $dateDay = mktime(0, 0, 0, $arrDate[1], $arrDate[0], $arrDate[2]);
+                    $dateTime = mktime($arrTime[0], $arrTime[1], 0, $arrDate[1], $arrDate[0], $arrDate[2]);
 
-            //Update, wenn ModelObjekt existiert
-            if ($objEvent != NULL) {
+                    $objEvent->author = $objCalendar->h4aEvents_author;
+                    $objEvent->source = 'default';
+                    $objEvent->addTime = 1;
+                    $objEvent->startTime = $dateTime;
+                    $objEvent->endTime = $dateTime;
+                    $objEvent->startDate = $dateDay;
+                    $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
+                    $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
+                    $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
+                    $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
+                    $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
+                    $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
+                    $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
+                    $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
+                    $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
+                    $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
+                    $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
+                    $objEvent->published = true;
 
-              $arrDate = explode('.', $arrSpiel['gDate']);
-              $arrTime = explode(':', $arrSpiel['gTime']);
+                    if ('' !== $arrSpiel['gHomeGoals']) {
+                        $objEvent->h4a_resultComplete = true;
+                    }
 
-              $dateDay = mktime(0, 0, 0, $arrDate[1], $arrDate[0], $arrDate[2]);
-              $dateTime = mktime($arrTime[0], $arrTime[1], 0, $arrDate[1], $arrDate[0], $arrDate[2]);
+                    $objEvent->save();
 
-              $objEvent->author = $objCalendar->h4aEvents_author;
-              $objEvent->source = 'default';
-              $objEvent->addTime = 1;
-              $objEvent->startTime = $dateTime;
-              $objEvent->endTime = $dateTime;
-              $objEvent->startDate = $dateDay;
-              $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
-              $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
-              $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
-              $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
-              $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
-              $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
-              $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
-              $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
-              $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
-              $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
-              $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
-              $objEvent->published = true;
+                //Create Event, wenn ModelObjekt existiert
+                } else {
+                    $objEvent = new \CalendarEventsModel();
 
-              if($arrSpiel['gHomeGoals']!='') {
-                $objEvent->h4a_resultComplete = true;
-              }
+                    $arrDate = explode('.', $arrSpiel['gDate']);
+                    $arrTime = explode(':', $arrSpiel['gTime']);
 
-              $objEvent->save();
+                    $dateDay = mktime(0, 0, 0, $arrDate[1], $arrDate[0], $arrDate[2]);
+                    $dateTime = mktime($arrTime[0], $arrTime[1], 0, $arrDate[1], $arrDate[0], $arrDate[2]);
 
-            //Create Event, wenn ModelObjekt existiert
-            } else {
+                    $objEvent->pid = $objCalendar->id;
+                    $objEvent->timestamp = time();
+                    $objEvent->title = $arrSpiel['gClassSname'].': '.$arrSpiel['gHomeTeam'].' - '.$arrSpiel['gGuestTeam'];
+                    $objEvent->alias = standardize(\StringUtil::restoreBasicEntities($arrSpiel['gClassSname'].'_'.$arrSpiel['gHomeTeam'].'_'.$arrSpiel['gGuestTeam'].'_'.$arrSpiel['gNo']));
+                    $objEvent->gGameNo = $arrSpiel['gNo'];
+                    $objEvent->gClassName = $arrSpiel['gClassName'];
+                    $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
+                    $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
 
-              $objEvent = new \CalendarEventsModel();
+                    $objEvent->author = $objCalendar->h4aEvents_author;
+                    $objEvent->source = 'default';
+                    $objEvent->addTime = 1;
+                    $objEvent->startTime = $dateTime;
+                    $objEvent->endTime = $dateTime;
+                    $objEvent->startDate = $dateDay;
+                    $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
+                    $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
+                    $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
+                    $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
+                    $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
+                    $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
+                    $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
+                    $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
+                    $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
+                    $objEvent->published = true;
 
-              $arrDate = explode('.', $arrSpiel['gDate']);
-              $arrTime = explode(':', $arrSpiel['gTime']);
+                    if ('' !== $arrSpiel['gHomeGoals']) {
+                        $objEvent->h4a_resultComplete = true;
+                    }
 
-              $dateDay = mktime(0, 0, 0, $arrDate[1], $arrDate[0], $arrDate[2]);
-              $dateTime = mktime($arrTime[0], $arrTime[1], 0, $arrDate[1], $arrDate[0], $arrDate[2]);
-
-              $objEvent->pid = $objCalendar->id;
-              $objEvent->timestamp = time();
-              $objEvent->title = $arrSpiel['gClassSname'].': '.$arrSpiel['gHomeTeam'].' - '.$arrSpiel['gGuestTeam'];
-              $objEvent->alias = standardize(\StringUtil::restoreBasicEntities($arrSpiel['gClassSname'].'_'.$arrSpiel['gHomeTeam'].'_'.$arrSpiel['gGuestTeam'].'_'.$arrSpiel['gNo']));
-              $objEvent->gGameNo = $arrSpiel['gNo'];
-              $objEvent->gClassName = $arrSpiel['gClassName'];
-              $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
-              $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
-
-              $objEvent->author = $objCalendar->h4aEvents_author;
-              $objEvent->source = 'default';
-              $objEvent->addTime = 1;
-              $objEvent->startTime = $dateTime;
-              $objEvent->endTime = $dateTime;
-              $objEvent->startDate = $dateDay;
-              $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
-              $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
-              $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
-              $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
-              $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
-              $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
-              $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
-              $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
-              $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
-              $objEvent->published = true;
-
-              if($arrSpiel['gHomeGoals']!='') {
-                $objEvent->h4a_resultComplete = true;
-              }
-
-              $objEvent->save();
+                    $objEvent->save();
+                }
             }
-          }
         }
     }
 
@@ -163,9 +156,8 @@ class H4aEventAutomator extends Backend
       );
 
         //hier muss noch eine IF $objEvents = NULL rein
-        if ($objEvents=== NULL)
-        {
-          return;
+        if (null === $objEvents) {
+            return;
         }
         foreach ($objEvents as $objEvent) {
             $objCalendar = \CalendarModel::findById($objEvent->pid);
