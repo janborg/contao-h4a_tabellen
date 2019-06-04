@@ -49,7 +49,7 @@ class H4aEventAutomator extends Backend
     /**
      * Update Calendars via json from H4a.
      *
-     * @param \CalendarModel $objCalendars
+     * @param \CalendarModel $objCalendar
      */
     public function syncCalendars(\CalendarModel $objCalendar)
     {
@@ -59,7 +59,7 @@ class H4aEventAutomator extends Backend
         $arrResult = Helper::setCachedFile($objCalendar->h4a_team_ID, $liga_url);
 
         if ('/ [error]' === $arrResult[0]['lvTypeLabelStr']) {
-            System::log('Updateversuch des Kalenders '.$objCalendar->id.' abgebrochen, prüfen Sie die Team ID!', __METHOD__, 'ERROR');
+            System::log('Updateversuch des Kalenders '.$objCalendar->title.' (ID:'.$objCalendar->id.') abgebrochen, prüfen Sie die Team ID!', __METHOD__, 'ERROR');
         } else {
             $arrSpiele = $arrResult[0]['dataList'];
 
