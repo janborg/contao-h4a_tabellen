@@ -8,6 +8,8 @@
 
 namespace Janborg\H4aTabellen\ContaoManager;
 
+use Contao\CalendarBundle\ContaoCalendarBundle;
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
@@ -21,10 +23,10 @@ class Plugin implements BundlePluginInterface
     public function getBundles(ParserInterface $parser)
     {
         return [
-            BundleConfig::create(JanborgH4aTabellenBundle::class)
-                ->setLoadAfter(['Contao\CoreBundle\ContaoCoreBundle',
-                                'Contao\ContaoManager\ContaoManagerBundle',
-                                'Contao\CalendarBundle\ContaoCalendarBundle', ]),
+            BundleConfig::create(JanborgH4aTabellenBundle::class)->setLoadAfter([
+              ContaoCoreBundle::class,
+              ContaoCalendarBundle::class,
+            ]),
         ];
     }
 }
