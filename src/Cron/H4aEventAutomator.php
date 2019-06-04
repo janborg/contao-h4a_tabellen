@@ -33,6 +33,7 @@ class H4aEventAutomator extends Backend
             $this->syncCalendars($objCalendar);
         }
 
+        System::log('Update aller Kalender über Handball4all durchgeführt.', __METHOD__, 'CRON');
         $this->redirect($this->getReferer());
     }
 
@@ -43,6 +44,7 @@ class H4aEventAutomator extends Backend
         $objCalendar = \CalendarModel::findById($id);
 
         $this->syncCalendars($objCalendar);
+        System::log('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', __METHOD__, 'CRON');
         $this->redirect($this->getReferer());
     }
 
@@ -59,7 +61,7 @@ class H4aEventAutomator extends Backend
         $arrResult = Helper::setCachedFile($objCalendar->h4a_team_ID, $liga_url);
 
         if ('/ [error]' === $arrResult[0]['lvTypeLabelStr']) {
-            System::log('Updateversuch des Kalenders '.$objCalendar->title.' (ID:'.$objCalendar->id.') abgebrochen, prüfen Sie die Team ID!', __METHOD__, 'ERROR');
+            System::log('Updateversuch des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') abgebrochen, prüfen Sie die Team ID!', __METHOD__, 'ERROR');
         } else {
             $arrSpiele = $arrResult[0]['dataList'];
 
