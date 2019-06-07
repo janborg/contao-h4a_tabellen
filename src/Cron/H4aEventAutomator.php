@@ -29,11 +29,13 @@ class H4aEventAutomator extends Backend
         ['1', '1']
     );
 
+        System::log('Updates der Kalender über Handball4all gestartet', __METHOD__, 'H4A');
         foreach ($objCalendars as $objCalendar) {
-            $this->syncCalendars($objCalendar);
+          System::log('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', __METHOD__, 'CRON');
+          $this->syncCalendars($objCalendar);
         }
 
-        System::log('Update aller Kalender über Handball4all durchgeführt.', __METHOD__, 'CRON');
+        System::log('Update aller Kalender über Handball4all beendet', __METHOD__, 'CRON');
         $this->redirect($this->getReferer());
     }
 
