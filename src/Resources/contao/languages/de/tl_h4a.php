@@ -24,6 +24,8 @@ $GLOBALS['TL_LANG']['tl_calendar']['my_team_name']['1'] = 'Genaue Bezeichnung de
 $GLOBALS['TL_LANG']['tl_calendar']['h4aEvents_author']['0'] = 'Autor';
 $GLOBALS['TL_LANG']['tl_calendar']['h4aEvents_author']['1'] = 'Benutzer, der bei den automatisch generierten Events als Autor hinterlegt werden soll';
 
+$GLOBALS['TL_LANG']['tl_calendar']['h4a_season']['0'] = 'Saison';
+$GLOBALS['TL_LANG']['tl_calendar']['h4a_season']['1'] = 'Die Saison in der die Spiele dieses Kalenders stattfinden';
 
 /*
  * tl_calendar_events
