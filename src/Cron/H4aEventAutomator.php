@@ -25,17 +25,22 @@ class H4aEventAutomator extends Backend
     public function updateEvents()
     {
         $objCalendars = \CalendarModel::findby(
-        ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
-        ['1', '1']
-    );
+          ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
+          ['1', '1']
+        );
 
-        System::log('Updates der Kalender über Handball4all gestartet', __METHOD__, 'H4A');
+        $intCalendars=\CalendarModel::countby(
+          ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
+          ['1', '1']
+        );
+
+        System::log('Update für '.$intCalendars.' Kalender über Handball4all gestartet', __METHOD__, 'CRON');
         foreach ($objCalendars as $objCalendar) {
-          System::log('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', __METHOD__, 'H4A');
+          //System::log('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', __METHOD__, 'H4A');
           $this->syncCalendars($objCalendar);
         }
 
-        System::log('Update aller Kalender über Handball4all beendet', __METHOD__, 'H4A');
+        System::log('Update aller Kalender über Handball4all beendet', __METHOD__, 'CRON');
         $this->redirect($this->getReferer());
     }
 
@@ -46,7 +51,7 @@ class H4aEventAutomator extends Backend
         $objCalendar = \CalendarModel::findById($id);
 
         $this->syncCalendars($objCalendar);
-        System::log('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', __METHOD__, 'H4A');
+        System::log('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', __METHOD__, 'GENERAL');
         $this->redirect($this->getReferer());
     }
 
