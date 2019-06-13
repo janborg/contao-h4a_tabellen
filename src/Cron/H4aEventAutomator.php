@@ -36,7 +36,6 @@ class H4aEventAutomator extends Backend
 
         System::log('Update für '.$intCalendars.' Kalender über Handball4all gestartet', __METHOD__, 'CRON');
         foreach ($objCalendars as $objCalendar) {
-
             $this->syncCalendars($objCalendar);
         }
 
