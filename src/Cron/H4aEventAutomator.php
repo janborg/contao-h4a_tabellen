@@ -29,18 +29,18 @@ class H4aEventAutomator extends Backend
           ['1', '1']
         );
 
-        $intCalendars=\CalendarModel::countby(
+        $intCalendars = \CalendarModel::countby(
           ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
           ['1', '1']
         );
 
         System::log('Update für '.$intCalendars.' Kalender über Handball4all gestartet', __METHOD__, 'CRON');
         foreach ($objCalendars as $objCalendar) {
-          //System::log('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', __METHOD__, 'H4A');
-          $this->syncCalendars($objCalendar);
+
+            $this->syncCalendars($objCalendar);
         }
 
-        System::log('Update aller Kalender über Handball4all beendet', __METHOD__, 'CRON');
+        System::log('Update der Kalender über Handball4all beendet', __METHOD__, 'CRON');
         $this->redirect($this->getReferer());
     }
 
