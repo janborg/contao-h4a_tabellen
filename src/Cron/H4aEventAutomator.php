@@ -123,7 +123,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->title = $arrSpiel['gClassSname'].': '.$arrSpiel['gHomeTeam'].' - '.$arrSpiel['gGuestTeam'];
                     $objEvent->alias = standardize(\StringUtil::restoreBasicEntities($arrSpiel['gClassSname'].'_'.$arrSpiel['gHomeTeam'].'_'.$arrSpiel['gGuestTeam'].'_'.$arrSpiel['gNo']));
                     $objEvent->gGameNo = $arrSpiel['gNo'];
-                    $objEvent->gClassName = $arrSpiel['gClassName'];
+                    $objEvent->gClassName = $arrSpiel['gClassSname'];
                     $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
                     $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
 
