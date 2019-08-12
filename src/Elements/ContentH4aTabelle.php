@@ -74,14 +74,7 @@ class ContentH4aTabelle extends \ContentElement
 
         // Cache the result
         if (null === $arrResult) {
-            try {
-                $arrResult = json_decode(file_get_contents($liga_url), true);
-                $lastUpdate = time();
-            } catch (\Exception $e) {
-                System::log('h4a update failed: '.$e->getMessage(), __METHOD__, TL_ERROR);
-                $arrResult = [];
-            }
-            \File::putContent($strCacheFile, json_encode($arrResult));
+            $arrResult = Helper::setCachedFile($this->h4a_liga_ID, $liga_url);
         }
 
         // Template ausgeben
