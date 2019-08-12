@@ -43,6 +43,14 @@ System::loadLanguageFile('tl_h4a');
  */
 
  $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
+         array('gGameID' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGameID'],
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
+            'sql' => "varchar(255) NOT NULL default ''",
+          )),
          array('gGameNo' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGameNo'],
             'exclude' => true,

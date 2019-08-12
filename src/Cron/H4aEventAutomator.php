@@ -86,6 +86,7 @@ class H4aEventAutomator extends Backend
                     $dateDay = mktime(0, 0, 0, $arrDate[1], $arrDate[0], $arrDate[2]);
                     $dateTime = mktime($arrTime[0], $arrTime[1], 0, $arrDate[1], $arrDate[0], $arrDate[2]);
 
+                    $objEvent->gGameID = $arrSpiel['gID'];
                     $objEvent->author = $objCalendar->h4aEvents_author;
                     $objEvent->source = 'default';
                     $objEvent->addTime = 1;
@@ -125,6 +126,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->timestamp = time();
                     $objEvent->title = $arrSpiel['gClassSname'].': '.$arrSpiel['gHomeTeam'].' - '.$arrSpiel['gGuestTeam'];
                     $objEvent->alias = standardize(\StringUtil::restoreBasicEntities($arrSpiel['gClassSname'].'_'.$arrSpiel['gHomeTeam'].'_'.$arrSpiel['gGuestTeam'].'_'.$arrSpiel['gNo']));
+                    $objEvent->gGameID = $arrSpiel['gID'];
                     $objEvent->gGameNo = $arrSpiel['gNo'];
                     $objEvent->gClassName = $arrSpiel['gClassSname'];
                     $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
