@@ -73,7 +73,10 @@ class H4aEventAutomator extends Backend
 
             //Update or Create Event
             foreach ($arrSpiele as $arrSpiel) {
-                $objEvent = \CalendarEventsModel::findOneBy('gGameNo', $arrSpiel['gNo']);
+              $objEvent = \CalendarEventsModel::findOneBy(
+                    array('gGameNo=?', 'pid=?'),
+                    array($arrSpiel['gNo'], $objCalendar->id)
+                  );
 
                 //Update, wenn ModelObjekt existiert
                 if (null !== $objEvent) {
