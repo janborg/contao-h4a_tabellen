@@ -60,16 +60,15 @@ class ContentH4aSpiele extends \ContentElement
         $type = 'team';
         $liga_url = Helper::getURL($type, $this->h4a_team_ID);
         $strCacheFile = Helper::getCachedFile($this->h4a_team_ID);
+        $cacheTime = $GLOBALS['TL_CONFIG']['h4a_cache_time'];
 
         // Load the cached result
         if (file_exists(TL_ROOT.'/'.$strCacheFile)) {
             $objFile = new \File($strCacheFile);
-            if ($objFile->mtime > time() - 60 * 60 * 6) {
+            if ($objFile->mtime > time() - $cacheTime) {
                 $arrResult = json_decode($objFile->getContent(), true);
                 $lastUpdate = $objFile->mtime;
-            } else {
-                $objFile->delete();
-            }
+            } 
         }
 
         // Cache the result
