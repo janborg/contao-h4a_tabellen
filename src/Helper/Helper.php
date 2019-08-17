@@ -56,16 +56,20 @@ class Helper
     {
         // prepare cache control
         $strCachePath = StringUtil::stripRootDir(System::getContainer()->getParameter('kernel.cache_dir'));
-        $arrResult = null;
+        $arrResult = NULL;
         $strCacheFile = $strCachePath.'/contao/janborg/'.$id.'.json';
         try {
             $arrResult = json_decode(file_get_contents($liga_url), true);
         } catch (\Exception $e) {
             System::log('h4a update failed for h4a-ID: '.$id.$e->getMessage(), __METHOD__, TL_ERROR);
-            $arrResult = [];
+            //$arrResult = [];
         }
-        \File::putContent($strCacheFile, json_encode($arrResult));
+        if ($arrResult === NULL) {
+          return $arrResult;
+        } else {
+          \File::putContent($strCacheFile, json_encode($arrResult));
 
-        return $arrResult;
+          return $arrResult;          
+        }
     }
 }
