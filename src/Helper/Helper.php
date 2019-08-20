@@ -22,10 +22,10 @@ class Helper
     public static function getURL($type, $id)
     {
         if ('liga' === $type) {
-            $liga_url = 'https://h4a.it4sport.de/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext='.$id;
+            $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext='.$id;
         }
         if ('team' === $type) {
-            $liga_url = 'https://h4a.it4sport.de/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$id;
+            $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$id;
         }
 
         return $liga_url;
@@ -58,8 +58,11 @@ class Helper
         $strCachePath = StringUtil::stripRootDir(System::getContainer()->getParameter('kernel.cache_dir'));
         $arrResult = NULL;
         $strCacheFile = $strCachePath.'/contao/janborg/'.$id.'.json';
+        $strJson = file_get_contents($liga_url);
+        $strJsonTrimmed = trim($strJson,"\x28\x29");
+        $strJsonUTF8 = utf8_encode($strJsonTrimmed);
         try {
-            $arrResult = json_decode(file_get_contents($liga_url), true);
+            $arrResult = json_decode($strJsonUTF8, true);
         } catch (\Exception $e) {
             System::log('h4a update failed for h4a-ID: '.$id.$e->getMessage(), __METHOD__, TL_ERROR);
             //$arrResult = [];
@@ -69,7 +72,7 @@ class Helper
         } else {
           \File::putContent($strCacheFile, json_encode($arrResult));
 
-          return $arrResult;          
+          return $arrResult;
         }
     }
 }
