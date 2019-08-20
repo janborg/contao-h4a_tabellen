@@ -93,6 +93,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->startTime = $dateTime;
                     $objEvent->endTime = $dateTime;
                     $objEvent->startDate = $dateDay;
+                    $objEvent->gClassName = $arrSpiel['gClassSname'];
                     $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
                     $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
                     $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
