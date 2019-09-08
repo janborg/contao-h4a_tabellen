@@ -13,7 +13,14 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
             'class' => 'header_h4a',
 	          '$href' => 'key=update_events',
             'icon' 	=> 'bundles/janborgh4atabellen/update.svg',
-            'button_callback' => array('tl_calendar_h4a', 'h4a_update'),
+            'button_callback' => array('tl_calendar_h4a', 'h4a_update_events'),
+        )),
+    array('h4a_update_results' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationUpdateResultsFromH4a'],
+            'class' => 'header_h4a',
+	          '$href' => 'key=update_results',
+            'icon' 	=> 'bundles/janborgh4atabellen/update.svg',
+            'button_callback' => array('tl_calendar_h4a', 'h4a_update_results'),
         )),
     $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations']
  );
@@ -27,7 +34,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
 		'label'                 => &$GLOBALS['TL_LANG']['tl_calendar']['toggle_ignore'],
 		'attributes'            => 'onclick="Backend.getScrollOffset();"',
 		'haste_ajax_operation'  => [
-			'field'     => 'h4a_ignore',
+			'field'      => 'h4a_ignore',
 			'options'    => [
 				[
 					'value'     => '',
@@ -193,9 +200,25 @@ class tl_calendar_h4a extends Backend
      *
      * @return string
      */
-    public function h4a_update($href, $label, $title, $class, $attributes)
+    public function h4a_update_events($href, $label, $title, $class, $attributes)
     {
 		$href = 'key=update_events';
+
+        return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
+    }
+
+    /**
+     * @param $href
+     * @param $label
+     * @param $title
+     * @param $class
+     * @param $attributes
+     *
+     * @return string
+     */
+    public function h4a_update_results($href, $label, $title, $class, $attributes)
+    {
+		$href = 'key=update_results';
 
         return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
     }

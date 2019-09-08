@@ -162,38 +162,38 @@ class H4aEventAutomator extends Backend
 
     public function updateResults()
     {
-        $type = 'team';
+      $type = 'team';
 
-        $objEvents = \CalendarEventsModel::findby(
+      $objEvents = \CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) = ?', 'TIME(FROM_UNIXTIME(startTime)) < ?', 'h4a_resultComplete != ?'],
             [date('Y-m-d'), time(), true]
       );
 
-        //hier muss noch eine IF $objEvents = NULL rein
-        if (null === $objEvents) {
-            return;
-        }
-        foreach ($objEvents as $objEvent) {
-            $objCalendar = \CalendarModel::findById($objEvent->pid);
+      if (null === $objEvents) {
+          return;
+      }
+      foreach ($objEvents as $objEvent) {
+          $objCalendar = \CalendarModel::findById($objEvent->pid);
 
-            $liga_url = Helper::getURL($type, $objCalendar->h4a_team_ID);
-            $arrResult = Helper::setCachedFile($objCalendar->h4a_team_ID, $liga_url);
+          $liga_url = Helper::getURL($type, $objCalendar->h4a_team_ID);
+          $arrResult = Helper::setCachedFile($objCalendar->h4a_team_ID, $liga_url);
 
-            $games = $arrResult[0]['dataList'];
-            $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
+          $games = $arrResult[0]['dataList'];
+          $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
 
-            if ('' !== $games[$gameId]['gHomeGoals']) {
-                $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
-                $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
-                $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
-                $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
-                $objEvent->h4a_resultComplete = true;
-                $objEvent->save();
+          if ('' !== $games[$gameId]['gHomeGoals']) {
+              $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
+              $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
+              $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
+              $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
+              $objEvent->h4a_resultComplete = true;
+              $objEvent->save();
 
-                System::log('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', __METHOD__, 'CRON');
-            } else {
-                System::log('Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', __METHOD__, 'CRON');
-            }
-        }
+              System::log('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', __METHOD__, 'CRON');
+          } else {
+              System::log('Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', __METHOD__, 'CRON');
+          }
+      }
+      $this->redirect($this->getReferer());
     }
 }

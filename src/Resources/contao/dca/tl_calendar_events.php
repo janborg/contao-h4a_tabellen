@@ -32,8 +32,8 @@ System::loadLanguageFile('tl_h4a');
      array('h4a_update' => array(
              'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'],
              'class' => 'header_h4a',
- 			'$href' => 'key=update_calendar',
-             'icon' 	=> 'bundles/janborgh4atabellen/update.svg',
+ 			       '$href' => 'key=update_calendar',
+             'icon'  => 'bundles/janborgh4atabellen/update.svg',
              'button_callback' => array('tl_calendar_events_h4a', 'h4a_update'),
          )),
      $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations']
@@ -203,7 +203,7 @@ System::loadLanguageFile('tl_h4a');
 
                  \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
                  ->addLegend('result_legend', 'gymnasium_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
-                 ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1', 'result_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
+                 ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1,h4a_resultComplete', 'result_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
                  ->applyToPalette('default', 'tl_calendar_events');
              };
         }

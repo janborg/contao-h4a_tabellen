@@ -4,7 +4,8 @@
  * tl_calendar
  */
 
-$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'] = 'Update H4a';
+$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'] = 'Update H4a-Events';
+$GLOBALS['TL_LANG']['tl_h4a']['operationUpdateResultsFromH4a'] = 'Update H4a-Results';
 
 $GLOBALS['TL_LANG']['tl_calendar']['h4a_imported']['0'] = 'Handball4all Update';
 $GLOBALS['TL_LANG']['tl_calendar']['h4a_imported']['1'] = 'Kalendereinträge für die Spiele einer Mansnchaft werden automatisch über Handball4all erstellt';
