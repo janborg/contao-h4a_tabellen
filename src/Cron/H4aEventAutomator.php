@@ -170,6 +170,7 @@ class H4aEventAutomator extends Backend
       );
 
       if (null === $objEvents) {
+          $this->redirect($this->getReferer());
           return;
       }
       foreach ($objEvents as $objEvent) {
