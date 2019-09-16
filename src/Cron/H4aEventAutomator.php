@@ -157,7 +157,7 @@ class H4aEventAutomator extends Backend
                     } else {
                         $objEvent->h4a_resultComplete = false;
                     }
-                    
+
                     $objEvent->save();
                 }
             }
@@ -186,7 +186,7 @@ class H4aEventAutomator extends Backend
           $games = $arrResult[0]['dataList'];
           $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
 
-          if ('' !== $games[$gameId]['gHomeGoals']) {
+          if (' ' !== $arrSpiel['gHomeGoals'] and ' ' !== $arrSpiel['gGuestGoals']) {
               $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
               $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
               $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
