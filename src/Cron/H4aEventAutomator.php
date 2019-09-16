@@ -107,8 +107,10 @@ class H4aEventAutomator extends Backend
                     $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
                     $objEvent->published = true;
 
-                    if ('' !== $arrSpiel['gHomeGoals']) {
+                    if (' ' !== $arrSpiel['gHomeGoals'] and ' ' !== $arrSpiel['gGuestGoals']) {
                         $objEvent->h4a_resultComplete = true;
+                    } else {
+                        $objEvent->h4a_resultComplete = false;
                     }
 
                     $objEvent->save();
@@ -150,10 +152,12 @@ class H4aEventAutomator extends Backend
                     $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
                     $objEvent->published = true;
 
-                    if ('' !== $arrSpiel['gHomeGoals']) {
+                    if (' ' !== $arrSpiel['gHomeGoals'] and ' ' !== $arrSpiel['gGuestGoals']) {
                         $objEvent->h4a_resultComplete = true;
+                    } else {
+                        $objEvent->h4a_resultComplete = false;
                     }
-
+                    
                     $objEvent->save();
                 }
             }
