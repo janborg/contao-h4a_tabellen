@@ -186,7 +186,7 @@ class H4aEventAutomator extends Backend
           $games = $arrResult[0]['dataList'];
           $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
 
-          if (' ' !== $arrSpiel['gHomeGoals'] and ' ' !== $arrSpiel['gGuestGoals']) {
+          if (' ' !== $games[$gameId]['gHomeGoals'] and ' ' !== $games[$gameId]['gGuestGoals']) {
               $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
               $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
               $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
@@ -196,6 +196,7 @@ class H4aEventAutomator extends Backend
 
               System::log('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', __METHOD__, 'CRON');
           } else {
+              $objEvent->h4a_resultComplete = false;
               System::log('Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', __METHOD__, 'CRON');
           }
       }
