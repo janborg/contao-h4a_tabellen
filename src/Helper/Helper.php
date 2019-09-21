@@ -27,6 +27,9 @@ class Helper
         if ('team' === $type) {
             $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$id;
         }
+        if ('verein' === $type) {
+            $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=club&lvIDNext='.$id;
+        }
 
         return $liga_url;
     }
