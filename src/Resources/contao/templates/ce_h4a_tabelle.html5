@@ -16,7 +16,7 @@
                 <th style="text-align:center">Punkte</th>
             </tr>
             <?php foreach($this->teams as $team): ?>
-            <tr <?php if($team["tabTeamname"]==$this->myTeam): ?> class="myteam"<?php endif ?>>
+            <tr <?php if(strpos($team["tabTeamname"], $this->myTeam) !== false): ?> class="myteam"<?php endif ?>>
                 <td style="text-align:center"><?=$team["tabScore"] ?></td>
                 <td style="text-align:left"><?=$team["tabTeamname"] ?></td>
                 <td style="text-align:center"><?=$team["numPlayedGames"] ?></td>
@@ -30,7 +30,7 @@
         </tbody>
     </table>
     <p class="lastupdate">
-    	zuletzt aktualisiert: 
+    	zuletzt aktualisiert:
     	<time datetime="<?= $this->lastUpdate ?>" itemprop="startDate">
     		<?php echo \Date::parse('D, d.m.Y H:i:s', $this->lastUpdate); ?>
     	</time>

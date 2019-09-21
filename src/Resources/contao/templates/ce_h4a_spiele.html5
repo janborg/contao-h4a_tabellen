@@ -19,8 +19,8 @@
                 <td><?=$spiel["gDate"] ?></td>
                 <td><?=$spiel["gTime"]." Uhr" ?></td>
                 <td><?=$spiel["gGymnasiumName"] ?></td>
-                <td <?php if($spiel["gHomeTeam"]==$this->myTeam): ?>class="myteam"<?php endif ?>><?=$spiel["gHomeTeam"] ?></td>
-                <td <?php if($spiel["gGuestTeam"]==$this->myTeam): ?>class="myteam"<?php endif ?>><?=$spiel["gGuestTeam"] ?></td>
+                <td <?php if(strpos($spiel["gHomeTeam"], $this->myTeam) !== false): ?>class="myteam"<?php endif ?>><?=$spiel["gHomeTeam"] ?></td>
+                <td <?php if(strpos($spiel["gGuestTeam"], $this->myTeam) !== false): ?>class="myteam"<?php endif ?>><?=$spiel["gGuestTeam"] ?></td>
                 <td style="text-align:center">
                     <?php
                         if($spiel["gHomeGoals"]==" "):
