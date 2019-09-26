@@ -178,6 +178,10 @@ class H4aEventAutomator extends Backend
           return;
       }
       foreach ($objEvents as $objEvent) {
+          if ($objEvent->startTime > time()) {
+            continue;
+          }
+
           $objCalendar = \CalendarModel::findById($objEvent->pid);
 
           $liga_url = Helper::getURL($type, $objCalendar->h4a_team_ID);
