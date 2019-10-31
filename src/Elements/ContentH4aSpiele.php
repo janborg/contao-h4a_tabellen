@@ -9,7 +9,6 @@
 namespace Janborg\H4aTabellen\Elements;
 
 use Janborg\H4aTabellen\Helper\Helper;
-use System;
 
 /**
  * Class ContentH4aSpiele.
@@ -68,12 +67,12 @@ class ContentH4aSpiele extends \ContentElement
             if ($objFile->mtime > time() - $cacheTime) {
                 $arrResult = json_decode($objFile->getContent(), true);
                 $lastUpdate = $objFile->mtime;
-            } 
+            }
         }
 
         // Cache the result
         if (null === $arrResult) {
-             $arrResult = Helper::setCachedFile($this->h4a_team_ID, $liga_url);
+            $arrResult = Helper::setCachedFile($this->h4a_team_ID, $liga_url);
         }
 
         // Template ausgeben

@@ -59,10 +59,10 @@ class Helper
     {
         // prepare cache control
         $strCachePath = StringUtil::stripRootDir(System::getContainer()->getParameter('kernel.cache_dir'));
-        $arrResult = NULL;
+        $arrResult = null;
         $strCacheFile = $strCachePath.'/contao/janborg/'.$id.'.json';
         $strJson = file_get_contents($liga_url);
-        $strJsonTrimmed = trim($strJson,"\x28\x29");
+        $strJsonTrimmed = trim($strJson, "\x28\x29");
         $strJsonUTF8 = utf8_encode($strJsonTrimmed);
         try {
             $arrResult = json_decode($strJsonUTF8, true);
@@ -70,12 +70,11 @@ class Helper
             System::log('h4a update failed for h4a-ID: '.$id.$e->getMessage(), __METHOD__, TL_ERROR);
             //$arrResult = [];
         }
-        if ($arrResult === NULL) {
-          return $arrResult;
-        } else {
-          \File::putContent($strCacheFile, json_encode($arrResult));
-
-          return $arrResult;
+        if (null === $arrResult) {
+            return $arrResult;
         }
+        \File::putContent($strCacheFile, json_encode($arrResult));
+
+        return $arrResult;
     }
 }

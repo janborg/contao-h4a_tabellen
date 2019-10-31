@@ -73,9 +73,9 @@ class H4aEventAutomator extends Backend
 
             //Update or Create Event
             foreach ($arrSpiele as $arrSpiel) {
-              $objEvent = \CalendarEventsModel::findOneBy(
-                    array('gGameNo=?', 'pid=?'),
-                    array($arrSpiel['gNo'], $objCalendar->id)
+                $objEvent = \CalendarEventsModel::findOneBy(
+                    ['gGameNo=?', 'pid=?'],
+                    [$arrSpiel['gNo'], $objCalendar->id]
                   );
 
                 //Update, wenn ModelObjekt existiert
@@ -166,44 +166,45 @@ class H4aEventAutomator extends Backend
 
     public function updateResults()
     {
-      $type = 'team';
+        $type = 'team';
 
-      $objEvents = \CalendarEventsModel::findby(
+        $objEvents = \CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) = ?', 'h4a_resultComplete != ?'],
             [date('Y-m-d'), true]
       );
 
-      if (null === $objEvents) {
-          $this->redirect($this->getReferer());
-          return;
-      }
-      foreach ($objEvents as $objEvent) {
-          if ($objEvent->startTime > time()) {
-            continue;
-          }
+        if (null === $objEvents) {
+            $this->redirect($this->getReferer());
 
-          $objCalendar = \CalendarModel::findById($objEvent->pid);
+            return;
+        }
+        foreach ($objEvents as $objEvent) {
+            if ($objEvent->startTime > time()) {
+                continue;
+            }
 
-          $liga_url = Helper::getURL($type, $objCalendar->h4a_team_ID);
-          $arrResult = Helper::setCachedFile($objCalendar->h4a_team_ID, $liga_url);
+            $objCalendar = \CalendarModel::findById($objEvent->pid);
 
-          $games = $arrResult[0]['dataList'];
-          $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
+            $liga_url = Helper::getURL($type, $objCalendar->h4a_team_ID);
+            $arrResult = Helper::setCachedFile($objCalendar->h4a_team_ID, $liga_url);
 
-          if (' ' !== $games[$gameId]['gHomeGoals'] and ' ' !== $games[$gameId]['gGuestGoals']) {
-              $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
-              $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
-              $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
-              $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
-              $objEvent->h4a_resultComplete = true;
-              $objEvent->save();
+            $games = $arrResult[0]['dataList'];
+            $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
 
-              System::log('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', __METHOD__, 'CRON');
-          } else {
-              $objEvent->h4a_resultComplete = false;
-              System::log('Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', __METHOD__, 'CRON');
-          }
-      }
-      $this->redirect($this->getReferer());
+            if (' ' !== $games[$gameId]['gHomeGoals'] and ' ' !== $games[$gameId]['gGuestGoals']) {
+                $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
+                $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
+                $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
+                $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
+                $objEvent->h4a_resultComplete = true;
+                $objEvent->save();
+
+                System::log('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', __METHOD__, 'CRON');
+            } else {
+                $objEvent->h4a_resultComplete = false;
+                System::log('Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', __METHOD__, 'CRON');
+            }
+        }
+        $this->redirect($this->getReferer());
     }
 }

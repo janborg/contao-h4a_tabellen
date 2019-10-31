@@ -9,7 +9,6 @@
 namespace Janborg\H4aTabellen\Elements;
 
 use Janborg\H4aTabellen\Helper\Helper;
-use System;
 
 /**
  * Class ContentH4aTabelle.

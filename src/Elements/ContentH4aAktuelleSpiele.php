@@ -1,12 +1,17 @@
 <?php
 
+/*
+ * This file is part of contao-h4a_tabellen.
+ * (c) Jan Lünborg
+ * @license LGPL-3.0-or-later
+ */
+
 namespace Janborg\H4aTabellen\Elements;
 
 use Janborg\H4aTabellen\Helper\Helper;
-use System;
 
 /**
- * Class ContentH4aAktuelleSpiele
+ * Class ContentH4aAktuelleSpiele.
  *
  * @author Janborg
  */
@@ -67,7 +72,7 @@ class ContentH4aAktuelleSpiele extends \ContentElement
 
         // Cache the result
         if (null === $arrResult) {
-             $arrResult = Helper::setCachedFile($this->h4a_verein_ID, $liga_url);
+            $arrResult = Helper::setCachedFile($this->h4a_verein_ID, $liga_url);
         }
 
         // Template ausgeben
