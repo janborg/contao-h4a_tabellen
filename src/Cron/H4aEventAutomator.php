@@ -56,8 +56,6 @@ class H4aEventAutomator extends Backend
 
     /**
      * Update Calendars via json from H4a.
-     *
-     * @param \CalendarModel $objCalendar
      */
     public function syncCalendars(\CalendarModel $objCalendar)
     {
