@@ -38,6 +38,12 @@ System::loadLanguageFile('tl_h4a');
          )),
      $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations']
   );
+
+/*
+ *Child record callback
+ */
+$GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callback'] = array('tl_calendar_events_h4a', 'listEvents');
+
 /*
  * Table tl_calendar_events
  */
@@ -222,5 +228,49 @@ System::loadLanguageFile('tl_h4a');
             $id = \strlen(Input::get('id')) ? Input::get('id') : CURRENT_ID;
 
             return '<a href="'.$this->addToUrl($href.'&amp;id='.$id).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
+        }
+
+        /**
+      	 * Add the type of input field
+      	 *
+      	 * @param array $arrRow
+      	 *
+      	 * @return string
+      	 */
+
+        public function listEvents($arrRow)
+        {
+          $objCalendar = \CalendarModel::findById(\Input::get('id'));
+
+          $span = Contao\Calendar::calculateSpan($arrRow['startTime'], $arrRow['endTime']);
+
+          if ($span > 0)
+          {
+            $date = Contao\Date::parse(Contao\Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['startTime']) . $GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'] . Contao\Date::parse(Contao\Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['endTime']);
+          }
+          elseif ($arrRow['startTime'] == $arrRow['endTime'])
+          {
+            $date = Contao\Date::parse(Contao\Config::get('dateFormat'), $arrRow['startTime']) . ($arrRow['addTime'] ? ' ' . Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['startTime']) : '');
+          }
+          else
+          {
+            $date = Contao\Date::parse(Contao\Config::get('dateFormat'), $arrRow['startTime']) . ($arrRow['addTime'] ? ' ' . Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['startTime']) . $GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'] . Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['endTime']) : '');
+          }
+
+          // Show result in listview only, when existing
+          if (' ' !== $arrRow['gHomeGoals'] and ' ' !== $arrRow['gGuestGoals'])
+          {
+            $result = $arrRow['gHomeGoals'] . ' : ' . $arrRow['gGuestGoals'] . ' (' . $arrRow['gHomeGoals_1'] . ' : ' . $arrRow['gGuestGoals_1']. ')';
+          }
+
+          //different listview with result for calendars, that are updated via h4a
+          if ($objCalendar->h4a_imported == '1')
+          {
+            return '<div class="tl_content_left"><span style="padding-right:3px">[' . $date . ']</span>' . $arrRow['title'] . ' <span style="color:#999;padding-left:3px">' . $result . '</span> </div>';
+          }
+          else
+          {
+            return '<div class="tl_content_left">' . $arrRow['title'] . ' <span style="color:#999;padding-left:3px">[' . $date . ']</span></div>';
+          }
         }
     }
