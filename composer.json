@@ -22,7 +22,8 @@
          "php-http/guzzle6-adapter": "^1.1",
          "php-http/message-factory": "^1.0.2",
          "phpunit/phpunit": "^5.7.26",
-         "symfony/phpunit-bridge": "^3.2"
+         "symfony/phpunit-bridge": "^3.2",
+         "contao/calendar-bundle": "^4.8"
     },
     "conflict": {
          "contao/manager-plugin": "<2.0 || >=3.0"
