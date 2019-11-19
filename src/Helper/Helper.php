@@ -14,7 +14,7 @@ use System;
 class Helper
 {
     /**
-     * @param string $type 'liga' oder 'team'
+     * @param string $type 'liga' oder 'team' oder 'verein'
      * @param int    $id
      *
      * @return string $liga_url
