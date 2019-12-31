@@ -49,7 +49,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_verein_ID'] = array(
         'mandatory' => true,
         'rgxp' => 'digit',
         'minlenght' => 1,
-        'maxlength' => 3,
+        'maxlength' => 4,
         'tl_class' => 'w50',
     ),
     'sql' => "varchar(255) NOT NULL default ''",
