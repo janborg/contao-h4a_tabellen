@@ -62,13 +62,11 @@ class Helper
         $arrResult = null;
         $strCacheFile = $strCachePath.'/contao/janborg/'.$id.'.json';
         $strJson = file_get_contents($liga_url);
-        $strJsonTrimmed = trim($strJson, "\x28\x29");
-        $strJsonUTF8 = utf8_encode($strJsonTrimmed);
+
         try {
-            $arrResult = json_decode($strJsonUTF8, true);
+            $arrResult = json_decode($strJson, true);
         } catch (\Exception $e) {
             System::log('h4a update failed for h4a-ID: '.$id.$e->getMessage(), __METHOD__, TL_ERROR);
-            //$arrResult = [];
         }
         if (null === $arrResult) {
             return $arrResult;
