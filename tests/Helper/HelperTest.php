@@ -35,7 +35,7 @@ class HelperTest extends TestCase
     {
         $liga_url = Helper::getURL($type, $id);
         $data = file_get_contents($liga_url);
-        $result = json_decode($data,true);
+        $result = json_decode($data, true);
 
         $this->assertSame($typePath, $result[0]['lvTypePathStr']);
     }
