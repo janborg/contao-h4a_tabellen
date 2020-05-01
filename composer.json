@@ -1,9 +1,9 @@
 {
     "name":"janborg/contao-h4a_tabellen",
-    "description":"Tabellen, Spielpläne und Ergebnisse über die Handball4all json API als Contao Inhaltselemente ausgeben",
+    "description":"Spielpläne und Tabellen von handball4all in Contao CMS integrieren",
     "keywords":["Handball","H4a","Ergebnisse","Spielplan","Tabelle"],
     "type":"contao-bundle",
-    "license":"LGPL-3.0-or-later",
+    "license":"MIT",
     "authors":[
         {
             "name":"Jan Lünborg",
