@@ -1,36 +1,21 @@
-# Spielpläne und Tabellen über die json API von handball4all ins Contao CMS integrieren
+# Spielpläne und Tabellen von handball4all in Contao CMS integrieren
+
+[![GitHub license](https://img.shields.io/github/license/janborg/contao-h4a_tabellen)](https://github.com/janborg/contao-h4a_tabellen)
+![Packagist Version](https://img.shields.io/packagist/v/janborg/contao-h4a_tabellen)
+![Packagist](https://img.shields.io/packagist/dt/janborg/contao-h4a_tabellen)
 
 ## Features
-- Contentelemente zur direkten Ausgabe aller Spiele oder der Tabelle einer Mannschaft
-- Import und Update (dailyCron) von Spielen einer Mannschaft als Kalendereinträge in einem Contao-Kalender
-- Update der Ergebnisse in den Kalendereinträgen über einen hourlyCron
+- Contentelemente zur Anzeige aller Spiele oder der Tabelle einer Mannschaft
+- Import der Spiele einer Mannschaft in einen Contao-Kalender 
+- tägliches Update der Spiele in einem Contao-Kalender 
+- stündliches Update der Ergebnisse der Spiele im Contao-Kalender
 
 (IDs der Ligen und Mannschaften kann der Verein in seinem Vereinsaccount abrufen)
-
-## Nur Handballvereine folgender Verbände bzw. Oberligen dürfen die Daten verwenden
-- Badischer HV
-- Hamburger HV
-- HV Rheinhessen
-- HV Saar
-- HV Schleswig-Holstein
-- Südbadischer HV
-- Thüringer HV
-- HV Württemberg
-- Oberliga Rheinland-Pfalz/Saar
-- Oberliga Mitteldeutschland
-- Fédération Luxembourgeoise de Handball
-- Vorarlberger HV
-
-Jede weitere Verwendung der Schnittstellen bzw. der abgerufenen Daten ist nicht erlaubt. Dies gilt insbesondere für die Darstellung auf Webseiten die:
-
-- nicht vereinsbezogen sind,
-- mehrere Ligen und/oder mehrere Vereine darstellen, sofern keine Spielgemeinschaft besteht und/ oder
-- als Portalseiten ein möglichst weitreichendes Abbild unserer Daten verfolgen.
 
 
 # Funktionen
 ## Elemente
-Es stehen zwei Content-Elemente zur Verfügung, um für ein bestimmte Mannschaft einen Spielplan mit Ergebnissen oder eine aktuelle Tabelle im Frontend auszugeben.
+Es stehen die folgenden Content-Elemente zur Verfügung.
 
 ### h4a-Spielplan
 Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
@@ -38,11 +23,19 @@ Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
 2. Team ID: eine 6-stellige ID der Mannschaft, die der Übersicht im Vereinsaccount von handball4all entnommen werden kann
 3. Mein Team: Hier muss manuell die genaue Bezeichnung der Mannschaft eingegeben werden. Im Frontend kann dann über die CSS Klasse "myteam" eine Hervorhebung der Mannschaft erfolgen
 
+Hier ein Beispiel:
+![](docs/images/h4a_Spielplan_BE.png)
+![](docs/images/h4a_Spielplan_FE.png)
+
 ### h4a-Tabelle
 Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
 1. Überschrift
 2. Liga ID: eine 5-stellige ID der anzuzeigenden Liga, die der Übersicht im Vereinsaccount von handball4all entnommen werden kann
 3. Mein Team: Hier muss manuell die genaue Bezeichnung der Mannschaft eingegeben werden. Im Frontend kann dann über die CSS Klasse "myteam" eine Hervorhebung der Mannschaft erfolgen.
+
+Hier ein Beispiel:
+![](docs/images/h4a_Tabelle_BE.png)
+![](docs/images/h4a_Tabelle_FE.png)
 
 ### h4a-aktuelle Spiele
 Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
@@ -51,9 +44,37 @@ Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
 3. Mein Team: Hier muss manuell die genaue Bezeichnung der Mannschaft eingegeben werden. Im Frontend kann dann über die CSS Klasse "myteam" eine Hervorhebung der Mannschaft erfolgen.
 
 
-## Caching
-Da der Abruf der .json-Datei von h4a insbesondere für den Spielplan einige Zeit benötigt und sich das sehr negativ auf die Ladezeit der Seite auswirkt, wird die .json-Datei im Cache zwischengespeichert. Unter den Einstellungen/handball4all-Einstellungen sollte daher eine Zeit in Sekunden angegeben werden, wie lange diese Datei aus dem Cache aufgerufen werden soll, bevor ein erneuter Abruf von von handball4all erfolgen soll.  
-
-Für das Element h4a-aktuelle Spiele ist das Caching automatisch auf 300s gesetzt, da hier eine Aktualität sinnvoll ist.
-
 ## Kalender
+### Anlegen eines neuen Kalenders für einen Mannschaft
+Es besteh die Möglichkeit für die Spiele einer Mannschaft einen eigenen Contao Kalender anzulegen, um dann die Contao Standard-Module zur Ansicht der Spiele zu nutzen.
+ Dazu muss man beim Anlegen eines neuen Kalenders lediglich das Häkchen "Handball4all Update" aktivieren und die entsprechenden Felder füllen.
+![](docs/images/h4a_Kalender.png)
+
+Dann am Besten mit "Speichern und Bearbeiten" schließen und in der Ansicht "Bearbeiten" des Kalenders auf "Update H4a Events" klicken.
+
+![](docs/images/h4a_Update_Events.png)
+
+Über einen CronJob werden dann für jeden Kalender, bei dem das Häkchen "Handball4all Update" gesetzt ist, einmal am Tag die Spiele aktualisiert, falls sich Termine ändern sollten
+
+Außerdem wird über einen CronJob stündlich geprüft, ob für die Spiele neue Ergebnisse vorliegen und diese ebenfalls aktuaisiert.
+
+# Handball4all: 
+## Nur Handballvereine folgender Verbände bzw. Oberligen dürfen die Daten verwenden
+- Badischer HV
+- Hamburger HV
+- HV Rheinhessen
+- HV Saar
+- HV Schleswig-Holstein
+- Pfälzer HV
+- Südbadischer HV
+- HV Westfalen
+- HV Württemberg
+- Oberliga Rheinland-Pfalz/Saar
+- Fédération Luxembourgeoise de Handball
+- Vorarlberger HV
+
+Jede weitere Verwendung der Schnittstellen bzw. der abgerufenen Daten ist nicht erlaubt. Dies gilt insbesondere für die Darstellung auf Webseiten die:
+
+- nicht vereinsbezogen sind,
+- mehrere Ligen und/oder mehrere Vereine darstellen, sofern keine Spielgemeinschaft besteht und/ oder
+- als Portalseiten ein möglichst weitreichendes Abbild unserer Daten verfolgen.
