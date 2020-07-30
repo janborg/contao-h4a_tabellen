@@ -25,13 +25,13 @@ class H4aEventAutomator extends Backend
     public function updateEvents()
     {
         $objCalendars = \CalendarModel::findby(
-          ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
-          ['1', '1']
+            ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
+            ['1', '1']
         );
 
         $intCalendars = \CalendarModel::countby(
-          ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
-          ['1', '1']
+            ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
+            ['1', '1']
         );
 
         System::log('Update für '.$intCalendars.' Kalender über Handball4all gestartet', __METHOD__, 'CRON');
@@ -74,7 +74,7 @@ class H4aEventAutomator extends Backend
                 $objEvent = \CalendarEventsModel::findOneBy(
                     ['gGameNo=?', 'pid=?'],
                     [$arrSpiel['gNo'], $objCalendar->id]
-                  );
+                );
 
                 //Update, wenn ModelObjekt existiert
                 if (null !== $objEvent) {
@@ -169,7 +169,7 @@ class H4aEventAutomator extends Backend
         $objEvents = \CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) = ?', 'h4a_resultComplete != ?'],
             [date('Y-m-d'), true]
-      );
+        );
 
         if (null === $objEvents) {
             $this->redirect($this->getReferer());

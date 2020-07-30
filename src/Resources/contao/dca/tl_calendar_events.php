@@ -7,10 +7,10 @@ System::loadLanguageFile('tl_h4a');
  * amend onload_callback
  */
  $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'] = array_merge(
-         array(
+     array(
              array('tl_calendar_events_h4a', 'h4a_event_imported')
          ),
-         $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback']
+     $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback']
  );
 
 /*
@@ -32,12 +32,12 @@ System::loadLanguageFile('tl_h4a');
      array('h4a_update' => array(
              'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'],
              'class' => 'header_h4a',
- 			       '$href' => 'key=update_calendar',
+                   '$href' => 'key=update_calendar',
              'icon'  => 'bundles/janborgh4atabellen/update.svg',
              'button_callback' => array('tl_calendar_events_h4a', 'h4a_update'),
          )),
      $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations']
-  );
+ );
 
 /*
  *Child record callback
@@ -49,7 +49,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
  */
 
  $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
-         array('gGameID' => array(
+     array('gGameID' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGameID'],
             'exclude' => true,
             'search' => true,
@@ -57,7 +57,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
           )),
-         array('gGameNo' => array(
+     array('gGameNo' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGameNo'],
             'exclude' => true,
             'search' => true,
@@ -65,7 +65,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
-        array('gClassName' => array(
+     array('gClassName' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gClassName'],
             'exclude' => true,
             'search' => true,
@@ -73,7 +73,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
-        array('gHomeTeam' => array(
+     array('gHomeTeam' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gHomeTeam'],
             'exclude' => true,
             'search' => true,
@@ -81,7 +81,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
-        array('gGuestTeam' => array(
+     array('gGuestTeam' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGuestTeam'],
             'exclude' => true,
             'search' => true,
@@ -89,7 +89,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
-		array('gGymnasiumNo' => array(
+     array('gGymnasiumNo' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumNo'],
             'exclude' => true,
             'search' => true,
@@ -97,7 +97,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NULL default ''",
         )),
-		array('gGymnasiumName' => array(
+     array('gGymnasiumName' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumName'],
             'exclude' => true,
             'search' => true,
@@ -105,7 +105,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NULL default ''",
         )),
-		array('gGymnasiumStreet' => array(
+     array('gGymnasiumStreet' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumStreet'],
             'exclude' => true,
             'search' => true,
@@ -113,7 +113,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NULL default ''",
         )),
-		array('gGymnasiumTown' => array(
+     array('gGymnasiumTown' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumTown'],
             'exclude' => true,
             'search' => true,
@@ -121,7 +121,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NULL default ''",
         )),
-		array('gGymnasiumPostal' => array(
+     array('gGymnasiumPostal' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumPostal'],
             'exclude' => true,
             'search' => true,
@@ -129,7 +129,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => false, 'maxlength' => 5, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NULL default ''",
         )),
-        array('gHomeGoals' => array(
+     array('gHomeGoals' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gHomeGoals'],
             'exclude' => true,
             'search' => false,
@@ -137,7 +137,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
-        array('gGuestGoals' => array(
+     array('gGuestGoals' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGuestGoals'],
             'exclude' => true,
             'search' => false,
@@ -145,7 +145,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
-		array('gHomeGoals_1' => array(
+     array('gHomeGoals_1' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gHomeGoals_1'],
             'exclude' => true,
             'search' => false,
@@ -153,7 +153,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
-        array('gGuestGoals_1' => array(
+     array('gGuestGoals_1' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGuestGoals_1'],
             'exclude' => true,
             'search' => false,
@@ -161,7 +161,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
-        array('h4a_resultComplete' => array(
+     array('h4a_resultComplete' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['h4a_resultComplete'],
             'exclude' => true,
             'filter' => true,
@@ -169,8 +169,8 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('tl_class' => 'w50 m12', ),
             'sql' => "char(1) NOT NULL default ''",
         )),
-        $GLOBALS['TL_DCA']['tl_calendar_events']['fields']
-    );
+     $GLOBALS['TL_DCA']['tl_calendar_events']['fields']
+ );
 
     /**
      * Class tl_calendar_events_h4a.
@@ -190,28 +190,27 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
         * @param DataContainer $dc
         *extend palettes only if checkbox "h4a_imported" in parent calendar is set
         */
-         public function h4a_event_imported(DataContainer $dc)
-         {
-             $objCalendarEvent = \CalendarEventsModel::findById(\Input::get('id'));
-             $objCalendar = \CalendarModel::findById($objCalendarEvent->pid);
+        public function h4a_event_imported(DataContainer $dc)
+        {
+            $objCalendarEvent = \CalendarEventsModel::findById(\Input::get('id'));
+            $objCalendar = \CalendarModel::findById($objCalendarEvent->pid);
 
-             if ($objCalendar->h4a_imported == '1')
-             {
-                 \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
+            if ($objCalendar->h4a_imported == '1') {
+                \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
                  ->addLegend('h4a_legend', 'title_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
                  ->addField('gGameNo,gClassName,gHomeTeam,gGuestTeam', 'h4a_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
                  ->applyToPalette('default', 'tl_calendar_events');
 
-                 \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
+                \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
                  ->addLegend('gymnasium_legend', 'h4a_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
                  ->addField('gGymnasiumNo,gGymnasiumName,gGymnasiumStreet,gGymnasiumTown,gGymnasiumPostal', 'gymnasium_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
                  ->applyToPalette('default', 'tl_calendar_events');
 
-                 \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
+                \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
                  ->addLegend('result_legend', 'gymnasium_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
                  ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1,h4a_resultComplete', 'result_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
                  ->applyToPalette('default', 'tl_calendar_events');
-             };
+            };
         }
         /**
          * @param $href
@@ -224,7 +223,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
          */
         public function h4a_update($href, $label, $title, $class, $attributes)
         {
-    		$href = 'key=update_calendar';
+            $href = 'key=update_calendar';
             $id = \strlen(Input::get('id')) ? Input::get('id') : CURRENT_ID;
 
             return '<a href="'.$this->addToUrl($href.'&amp;id='.$id).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
@@ -240,37 +239,28 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
 
         public function listEvents($arrRow)
         {
-          $objCalendar = \CalendarModel::findById(\Input::get('id'));
+            $objCalendar = \CalendarModel::findById(\Input::get('id'));
 
-          $span = Contao\Calendar::calculateSpan($arrRow['startTime'], $arrRow['endTime']);
+            $span = Contao\Calendar::calculateSpan($arrRow['startTime'], $arrRow['endTime']);
 
-          if ($span > 0)
-          {
-            $date = Contao\Date::parse(Contao\Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['startTime']) . $GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'] . Contao\Date::parse(Contao\Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['endTime']);
-          }
-          elseif ($arrRow['startTime'] == $arrRow['endTime'])
-          {
-            $date = Contao\Date::parse(Contao\Config::get('dateFormat'), $arrRow['startTime']) . ($arrRow['addTime'] ? ' ' . Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['startTime']) : '');
-          }
-          else
-          {
-            $date = Contao\Date::parse(Contao\Config::get('dateFormat'), $arrRow['startTime']) . ($arrRow['addTime'] ? ' ' . Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['startTime']) . $GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'] . Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['endTime']) : '');
-          }
+            if ($span > 0) {
+                $date = Contao\Date::parse(Contao\Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['startTime']) . $GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'] . Contao\Date::parse(Contao\Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['endTime']);
+            } elseif ($arrRow['startTime'] == $arrRow['endTime']) {
+                $date = Contao\Date::parse(Contao\Config::get('dateFormat'), $arrRow['startTime']) . ($arrRow['addTime'] ? ' ' . Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['startTime']) : '');
+            } else {
+                $date = Contao\Date::parse(Contao\Config::get('dateFormat'), $arrRow['startTime']) . ($arrRow['addTime'] ? ' ' . Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['startTime']) . $GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'] . Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['endTime']) : '');
+            }
 
-          // Show result in listview only, when existing
-          if (' ' !== $arrRow['gHomeGoals'] and ' ' !== $arrRow['gGuestGoals'])
-          {
-            $result = $arrRow['gHomeGoals'] . ' : ' . $arrRow['gGuestGoals'] . ' (' . $arrRow['gHomeGoals_1'] . ' : ' . $arrRow['gGuestGoals_1']. ')';
-          }
+            // Show result in listview only, when existing
+            if (' ' !== $arrRow['gHomeGoals'] and ' ' !== $arrRow['gGuestGoals']) {
+                $result = $arrRow['gHomeGoals'] . ' : ' . $arrRow['gGuestGoals'] . ' (' . $arrRow['gHomeGoals_1'] . ' : ' . $arrRow['gGuestGoals_1']. ')';
+            }
 
-          //different listview with result for calendars, that are updated via h4a
-          if ($objCalendar->h4a_imported == '1')
-          {
-            return '<div class="tl_content_left"><span style="padding-right:3px">[' . $date . ']</span>' . $arrRow['title'] . ' <span style="color:#999;padding-left:3px">' . $result . '</span> </div>';
-          }
-          else
-          {
-            return '<div class="tl_content_left">' . $arrRow['title'] . ' <span style="color:#999;padding-left:3px">[' . $date . ']</span></div>';
-          }
+            //different listview with result for calendars, that are updated via h4a
+            if ($objCalendar->h4a_imported == '1') {
+                return '<div class="tl_content_left"><span style="padding-right:3px">[' . $date . ']</span>' . $arrRow['title'] . ' <span style="color:#999;padding-left:3px">' . $result . '</span> </div>';
+            } else {
+                return '<div class="tl_content_left">' . $arrRow['title'] . ' <span style="color:#999;padding-left:3px">[' . $date . ']</span></div>';
+            }
         }
     }
