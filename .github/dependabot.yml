@@ -13,6 +13,6 @@ updates:
       - "janborg"
     labels:
       - "dependabot"
-    commit_message:
+    commit-message:
       prefix: "chore"
       include_scope: true
