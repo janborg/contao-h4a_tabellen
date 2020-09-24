@@ -14,5 +14,5 @@ updates:
     labels:
       - "dependabot"
     commit-message:
-      prefix: "chore"
-      include_scope: true
+      prefix: "Composer"
+      include: "scope"
