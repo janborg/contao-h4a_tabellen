@@ -9,9 +9,9 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-    default_assignees:
+    assignees:
       - "janborg"
-    default_labels:
+    labels:
       - "dependabot"
     commit_message:
       prefix: "chore"
