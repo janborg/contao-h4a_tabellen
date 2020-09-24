@@ -9,10 +9,10 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
-      default_assignees:
-        - "janborg"
-      default_labels:
-        - "dependabot"
-      commit_message:
-        prefix: "chore"
-        include_scope: true
+    default_assignees:
+      - "janborg"
+    default_labels:
+      - "dependabot"
+    commit_message:
+      prefix: "chore"
+      include_scope: true
