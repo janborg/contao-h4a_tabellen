@@ -96,6 +96,8 @@ class H4aEventAutomator extends Backend
                     $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
                     $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
                     $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
+                    $objEvent->location = $arrSpiel['gGymnasiumName'];
+                    $objEvent->address = $arrSpiel['gGymnasiumStreet'].", ".$arrSpiel['gGymnasiumPostal']." ".$arrSpiel['gGymnasiumTown'];
                     $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
                     $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
                     $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
@@ -141,6 +143,8 @@ class H4aEventAutomator extends Backend
                     $objEvent->startDate = $dateDay;
                     $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
                     $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
+                    $objEvent->location = $arrSpiel['gGymnasiumName'];
+                    $objEvent->address = $arrSpiel['gGymnasiumStreet'].", ".$arrSpiel['gGymnasiumPostal']." ".$arrSpiel['gGymnasiumTown'];
                     $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
                     $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
                     $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
