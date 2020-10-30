@@ -79,6 +79,9 @@ class H4aEventAutomator extends Backend
                 //Update, wenn ModelObjekt existiert
                 if (null !== $objEvent) {
                     $arrDate = explode('.', $arrSpiel['gDate']);
+                    if (!preg_match("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/", $arrSpiel['gTime'])) {
+                        $arrSpiel['gTime'] = '00:00';
+                    }
                     $arrTime = explode(':', $arrSpiel['gTime']);
 
                     $dateDay = mktime(0, 0, 0, $arrDate[1], $arrDate[0], $arrDate[2]);
@@ -121,6 +124,9 @@ class H4aEventAutomator extends Backend
                     $objEvent = new \CalendarEventsModel();
 
                     $arrDate = explode('.', $arrSpiel['gDate']);
+                    if (!preg_match("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/", $arrSpiel['gTime'])) {
+                        $arrSpiel['gTime'] = '00:00';
+                    }
                     $arrTime = explode(':', $arrSpiel['gTime']);
 
                     $dateDay = mktime(0, 0, 0, $arrDate[1], $arrDate[0], $arrDate[2]);
