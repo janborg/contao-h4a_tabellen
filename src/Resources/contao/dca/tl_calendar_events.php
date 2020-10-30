@@ -169,7 +169,16 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('tl_class' => 'w50 m12', ),
             'sql' => "char(1) NOT NULL default ''",
         )),
-     $GLOBALS['TL_DCA']['tl_calendar_events']['fields']
+    array(
+        'h4a_gComment' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gComment'],
+            'exclude' => true,
+            'search' => false,
+            'inputType' => 'text',
+            'eval' => array('mandatory' => false, 'tl_class' => 'w50'),
+            'sql' => "varchar(255) NOT NULL default ''",
+        )),
+    $GLOBALS['TL_DCA']['tl_calendar_events']['fields']
  );
 
     /**
@@ -208,7 +217,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
 
                 \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
                  ->addLegend('result_legend', 'gymnasium_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
-                 ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1,h4a_resultComplete', 'result_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
+                 ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1,h4a_resultComplete,gComment', 'result_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
                  ->applyToPalette('default', 'tl_calendar_events');
             };
         }
