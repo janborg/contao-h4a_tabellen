@@ -170,7 +170,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'sql' => "char(1) NOT NULL default ''",
         )),
     array(
-        'h4a_gComment' => array(
+        'gComment' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gComment'],
             'exclude' => true,
             'search' => false,
