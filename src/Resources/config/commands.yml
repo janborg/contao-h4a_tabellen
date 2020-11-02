@@ -1,0 +1,20 @@
+services:
+    _defaults:
+        autoconfigure: true
+
+    _instanceof:
+        Contao\CoreBundle\Framework\FrameworkAwareInterface:
+            calls:
+                - ['setFramework', ['@contao.framework']]
+    
+    h4a.command.getTabelle:
+        class: Janborg\H4aTabellen\Command\H4aTabelleCommand
+        arguments:
+            - '@contao.framework'
+            - '%kernel.project_dir%'
+
+    h4a.command.getSpielplan:
+        class: Janborg\H4aTabellen\Command\H4aSpielplanCommand
+        arguments:
+            - '@contao.framework'
+            - '%kernel.project_dir%'
