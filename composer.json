@@ -24,7 +24,7 @@
         "php-http/message-factory": "^1.0.2",
         "phpunit/phpunit": "^5.7.26",
         "symfony/phpunit-bridge": "^5.1",
-        "contao/calendar-bundle": "^4.8"
+        "contao/calendar-bundle": "^4.9"
     },
     "conflict": {
          "contao/manager-plugin": "<2.0 || >=3.0"
