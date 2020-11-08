@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of contao-h4a_commands.
+ * This file is part of contao-h4a_tabellen.
  * (c) Jan Lünborg
  * @license MIT
  */
@@ -66,11 +66,11 @@ class H4aSpielplanCommand extends Command
 
         $ligaID = $arrResultSpielplan['dataList'][0]['gClassID'];
 
-        if ($ligaID != null) {
+        if (null !== $ligaID) {
             $arrResultTabelle = $this->getJsonTabelle($ligaID);
         }
-            
-        $this->updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);         
+
+        $this->updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
 
         $this->io->text('Datenbankeintrag für team_id '.$teamID.' wurde erstellt!');
 
@@ -107,8 +107,8 @@ class H4aSpielplanCommand extends Command
 
         $arrResult = null;
 
-        $liga_url = Helper::getURL($type,$ligaID);
-        
+        $liga_url = Helper::getURL($type, $ligaID);
+
         $strJson = file_get_contents($liga_url);
 
         try {
@@ -120,8 +120,6 @@ class H4aSpielplanCommand extends Command
         return $arrResult[0];
     }
 
-
-
     protected function updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle)
     {
         $objH4aJsonData = H4aJsonDataModel::findOneBy(
@@ -131,40 +129,38 @@ class H4aSpielplanCommand extends Command
 
         if (null === $objH4aJsonData) {
             $objH4aJsonData = new H4aJsonDataModel();
-        } 
-        
+        }
+
         $objH4aJsonData->tstamp = time();
         $objH4aJsonData->lvTypePathStr = $arrResultSpielplan['lvTypePathStr'];
         $objH4aJsonData->lvIDPathStr = $arrResultSpielplan['lvIDPathStr'];
-        $objH4aJsonData->lvTypeLabelStr = trim($arrResultSpielplan['lvTypeLabelStr'], "/ ");
+        $objH4aJsonData->lvTypeLabelStr = trim($arrResultSpielplan['lvTypeLabelStr'], '/ ');
         $objH4aJsonData->gClassID = $arrResultSpielplan['dataList'][0]['gClassID'];
         $objH4aJsonData->gClassName = $arrResultSpielplan['dataList'][0]['gClassSname'];
         $objH4aJsonData->gTeamJson = json_encode($arrResultSpielplan);
         $objH4aJsonData->gTableJson = json_encode($arrResultTabelle);
-        
-            
-        if(!is_null($arrResultSpielplan['dataList'][0]['gDate'])) {
+
+        if (null !== $arrResultSpielplan['dataList'][0]['gDate']) {
             $arrDate = explode('.', $arrResultSpielplan['dataList'][0]['gDate']);
-            $Unixdate = mktime(0, 0, 0, (int)$arrDate[1], (int)$arrDate[0], (int)$arrDate[2]);
-            $objH4aJsonData->DateStart = $Unixdate; 
+            $Unixdate = mktime(0, 0, 0, (int) $arrDate[1], (int) $arrDate[0], (int) $arrDate[2]);
+            $objH4aJsonData->DateStart = $Unixdate;
             $month = date('m', $Unixdate);
 
             switch (true) {
-                case ($month < 4):
-                    $objH4aJsonData->season = date('Y', $Unixdate-31536000)."/".(date('Y', $Unixdate));
+                case $month < 4:
+                    $objH4aJsonData->season = date('Y', $Unixdate - 31536000).'/'.(date('Y', $Unixdate));
                     break;
-                
-                case ($month >= 3):
-                    $objH4aJsonData->season = date('Y', $Unixdate)."/".(date('Y', $Unixdate+31536000));
+
+                case $month >= 3:
+                    $objH4aJsonData->season = date('Y', $Unixdate).'/'.(date('Y', $Unixdate + 31536000));
                     break;
             }
         }
-        
-        if (!is_null($arrResultTabelle['lvTypeLabelStr'])) {
-            $objH4aJsonData->gClassNameLong = trim($arrResultTabelle['lvTypeLabelStr'], "/ ");
+
+        if (null !== $arrResultTabelle['lvTypeLabelStr']) {
+            $objH4aJsonData->gClassNameLong = trim($arrResultTabelle['lvTypeLabelStr'], '/ ');
         }
 
         $objH4aJsonData->save();
-
     }
 }

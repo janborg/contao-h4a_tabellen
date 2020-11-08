@@ -1,4 +1,11 @@
 <?php
+
+/*
+ * This file is part of contao-h4a_tabellen.
+ * (c) Jan Lünborg
+ * @license MIT
+ */
+
 namespace Janborg\H4aTabellen\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
@@ -11,13 +18,11 @@ class JanborgH4aTabellenExtension extends Extension
     /**
      * Loads configuration.
      *
-     * @param array $configs
-     * @param ContainerBuilder $container
      * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $fileLocator = new FileLocator(__DIR__ . '/../Resources/config');
+        $fileLocator = new FileLocator(__DIR__.'/../Resources/config');
         $loader = new YamlFileLoader($container, $fileLocator);
 
         $loader->load('commands.yml');

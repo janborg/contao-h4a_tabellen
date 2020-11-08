@@ -3,7 +3,7 @@
 /*
  * This file is part of contao-h4a_tabellen.
  * (c) Jan Lünborg
- * @license LGPL-3.0-or-later
+ * @license MIT
  */
 
 namespace Janborg\H4aTabellen\Cron;
@@ -79,7 +79,7 @@ class H4aEventAutomator extends Backend
                 //Update, wenn ModelObjekt existiert
                 if (null !== $objEvent) {
                     $arrDate = explode('.', $arrSpiel['gDate']);
-                    if (!preg_match("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/", $arrSpiel['gTime'])) {
+                    if (!preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $arrSpiel['gTime'])) {
                         $arrSpiel['gTime'] = '00:00';
                     }
                     $arrTime = explode(':', $arrSpiel['gTime']);
@@ -100,7 +100,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
                     $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
                     $objEvent->location = $arrSpiel['gGymnasiumName'];
-                    $objEvent->address = $arrSpiel['gGymnasiumStreet'].", ".$arrSpiel['gGymnasiumPostal']." ".$arrSpiel['gGymnasiumTown'];
+                    $objEvent->address = $arrSpiel['gGymnasiumStreet'].', '.$arrSpiel['gGymnasiumPostal'].' '.$arrSpiel['gGymnasiumTown'];
                     $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
                     $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
                     $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
@@ -124,7 +124,7 @@ class H4aEventAutomator extends Backend
                     $objEvent = new \CalendarEventsModel();
 
                     $arrDate = explode('.', $arrSpiel['gDate']);
-                    if (!preg_match("/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/", $arrSpiel['gTime'])) {
+                    if (!preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $arrSpiel['gTime'])) {
                         $arrSpiel['gTime'] = '00:00';
                     }
                     $arrTime = explode(':', $arrSpiel['gTime']);
@@ -151,7 +151,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
                     $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
                     $objEvent->location = $arrSpiel['gGymnasiumName'];
-                    $objEvent->address = $arrSpiel['gGymnasiumStreet'].", ".$arrSpiel['gGymnasiumPostal']." ".$arrSpiel['gGymnasiumTown'];
+                    $objEvent->address = $arrSpiel['gGymnasiumStreet'].', '.$arrSpiel['gGymnasiumPostal'].' '.$arrSpiel['gGymnasiumTown'];
                     $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
                     $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
                     $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
