@@ -76,7 +76,11 @@ class Helper
 
         return $arrResult;
     }
-
+    /**
+     * @param int $teamID
+     *
+     * @return $arrResult
+     */
     public static function getJsonSpielplan($teamID)
     {
         $type = 'team';
@@ -94,13 +98,18 @@ class Helper
         } catch (\Exception $e) {
             $this->io->text('Json File für team_id '.$teamID.' konnte nicht erstellt werden!');
         }
-
+        // gehört in Command
         \File::putContent($strFilePath, json_encode($arrResult));
         $this->io->text('Json File wurde in '.$strFilePath.' erstellt!');
 
         return $arrResult[0];
     }
 
+    /**
+     * @param int $ligaID
+     *
+     * @return $arrResult
+     */
     public static function getJsonTabelle($ligaID)
     {
         $type = 'liga';
@@ -119,6 +128,11 @@ class Helper
 
         return $arrResult[0];
     }
+
+    /**
+     * @param array $arrResultSpielplan
+     * @param array $arrResultTabelle
+     */
 
     public static function updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle)
     {
