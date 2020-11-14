@@ -88,8 +88,10 @@ class Helper
         $arrResult = null;
 
         $liga_url = Helper::getURL($type, $teamID);
-
-        $strFilePath = '/files/h4a/team/'.$teamID.'.json';
+        
+        // in cache speichern
+        $strCachePath = StringUtil::stripRootDir(System::getContainer()->getParameter('kernel.cache_dir'));
+        $strFilePath = $strCachePath.'/contao/janborg/'.$teamID.'.json';
 
         $strJson = file_get_contents($liga_url);
 
@@ -98,9 +100,8 @@ class Helper
         } catch (\Exception $e) {
             $this->io->text('Json File für team_id '.$teamID.' konnte nicht erstellt werden!');
         }
-        // gehört in Command
+
         \File::putContent($strFilePath, json_encode($arrResult));
-        $this->io->text('Json File wurde in '.$strFilePath.' erstellt!');
 
         return $arrResult[0];
     }
@@ -118,6 +119,9 @@ class Helper
 
         $liga_url = Helper::getURL($type, $ligaID);
 
+        $strCachePath = StringUtil::stripRootDir(System::getContainer()->getParameter('kernel.cache_dir'));
+        $strFilePath = $strCachePath.'/contao/janborg/'.$ligaID.'.json';
+
         $strJson = file_get_contents($liga_url);
 
         try {
@@ -126,6 +130,8 @@ class Helper
             $this->io->text('Json File für liga_id '.$ligaID.' konnte nicht abgerufen werden!');
         }
 
+        \File::putContent($strFilePath, json_encode($arrResult));
+        
         return $arrResult[0];
     }
 
