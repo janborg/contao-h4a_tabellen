@@ -56,30 +56,32 @@ class ContentH4aSpiele extends \ContentElement
      */
     private function genFeOutput()
     {
-        $type = 'team';
-        $liga_url = Helper::getURL($type, $this->h4a_team_ID);
-        $strCacheFile = Helper::getCachedFile($this->h4a_team_ID);
-        $cacheTime = $GLOBALS['TL_CONFIG']['h4a_cache_time'];
+        //$type = 'team';
+        //$liga_url = Helper::getURL($type, $this->h4a_team_ID);
+        //$strCacheFile = Helper::getCachedFile($this->h4a_team_ID);
+        //$cacheTime = $GLOBALS['TL_CONFIG']['h4a_cache_time'];
 
         // Load the cached result
-        if (file_exists(TL_ROOT.'/'.$strCacheFile)) {
-            $objFile = new \File($strCacheFile);
-            if ($objFile->mtime > time() - $cacheTime) {
-                $arrResult = json_decode($objFile->getContent(), true);
-                $lastUpdate = $objFile->mtime;
-            }
-        }
+        //if (file_exists(TL_ROOT.'/'.$strCacheFile)) {
+        //    $objFile = new \File($strCacheFile);
+        //    if ($objFile->mtime > time() - $cacheTime) {
+        //        $arrResult = json_decode($objFile->getContent(), true);
+        //        $lastUpdate = $objFile->mtime;
+        //    }
+        //}
 
         // Cache the result
-        if (null === $arrResult) {
-            $arrResult = Helper::setCachedFile($this->h4a_team_ID, $liga_url);
-        }
+        //if (null === $arrResult) {
+        //    $arrResult = Helper::setCachedFile($this->h4a_team_ID, $liga_url);
+        //}
+
+        $arrResult = Helper::getJsonSpielplan($this->h4a_team_ID);
 
         // Template ausgeben
         $this->Template = new \FrontendTemplate($this->strTemplate);
         $this->Template->class = 'ce_h4a_spiele';
-        $this->Template->spiele = $arrResult[0]['dataList'];
+        $this->Template->spiele = $arrResult['dataList'];
         $this->Template->myTeam = $this->my_team_name;
-        $this->Template->lastUpdate = $lastUpdate;
+        //$this->Template->lastUpdate = $lastUpdate;
     }
 }
