@@ -8,9 +8,12 @@
 
 namespace Janborg\H4aTabellen\Helper;
 
-use StringUtil;
-use System;
+use Contao\StringUtil;
+use Contao\System;
 use Janborg\H4aTabellen\Model\H4aJsonDataModel;
+use Contao\File;
+use Psr\Log\LogLevel;
+use Contao\CoreBundle\Monolog\ContaoContext;
 
 class Helper
 {
@@ -67,12 +70,14 @@ class Helper
         try {
             $arrResult = json_decode($strJson, true);
         } catch (\Exception $e) {
-            System::log('h4a update failed for h4a-ID: '.$id.$e->getMessage(), __METHOD__, TL_ERROR);
+            System::getContainer()
+            ->get('monolog.logger.contao')
+            ->log(LogLevel::INFO, 'h4a update failed for h4a-ID: '.$id.$e->getMessage(), array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR))); 
         }
         if (null === $arrResult) {
             return $arrResult;
         }
-        \File::putContent($strCacheFile, json_encode($arrResult));
+        File::putContent($strCacheFile, json_encode($arrResult));
 
         return $arrResult;
     }
@@ -98,10 +103,12 @@ class Helper
         try {
             $arrResult = json_decode($strJson, true);
         } catch (\Exception $e) {
-            $this->io->text('Json File für team_id '.$teamID.' konnte nicht erstellt werden!');
+            System::getContainer()
+            ->get('monolog.logger.contao')
+            ->log(LogLevel::INFO, 'Json File für team_id '.$teamID.' konnte nicht erstellt werden!', array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)));
         }
 
-        \File::putContent($strFilePath, json_encode($arrResult));
+        File::putContent($strFilePath, json_encode($arrResult));
 
         return $arrResult[0];
     }
@@ -127,10 +134,12 @@ class Helper
         try {
             $arrResult = json_decode($strJson, true);
         } catch (\Exception $e) {
-            $this->io->text('Json File für liga_id '.$ligaID.' konnte nicht abgerufen werden!');
+            System::getContainer()
+            ->get('monolog.logger.contao')
+            ->log(LogLevel::INFO, 'Json File für liga_id '.$ligaID.' konnte nicht abgerufen werden!', array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)));
         }
 
-        \File::putContent($strFilePath, json_encode($arrResult));
+        File::putContent($strFilePath, json_encode($arrResult));
         
         return $arrResult[0];
     }
