@@ -59,15 +59,14 @@ class H4aEventAutomator extends Backend
      */
     public function syncCalendars(\CalendarModel $objCalendar)
     {
-        $type = 'team';
+        $arrResultSpielplan = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
+        $arrResultTabelle = Helper::getJsonTabelle($arrResultSpielplan['dataList'][0]['gClassID']);
+        Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
 
-        $liga_url = Helper::getURL($type, $objCalendar->h4a_team_ID);
-        $arrResult = Helper::setCachedFile($objCalendar->h4a_team_ID, $liga_url);
-
-        if ('/ [error]' === $arrResult[0]['lvTypeLabelStr']) {
+        if ('/ [error]' === $arrResultSpielplan['lvTypeLabelStr']) {
             System::log('Updateversuch des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') abgebrochen, prüfen Sie die Team ID!', __METHOD__, 'ERROR');
         } else {
-            $arrSpiele = $arrResult[0]['dataList'];
+            $arrSpiele = $arrResultSpielplan['dataList'];
 
             //Update or Create Event
             foreach ($arrSpiele as $arrSpiel) {
