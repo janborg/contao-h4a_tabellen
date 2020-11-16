@@ -9,13 +9,17 @@
 namespace Janborg\H4aTabellen\Elements;
 
 use Janborg\H4aTabellen\Helper\Helper;
+use Contao\BackendTemplate;
+use Contao\FrontendTemplate;
+use Contao\ContentElement;
+
 
 /**
  * Class ContentH4aSpiele.
  *
  * @author Janborg
  */
-class ContentH4aSpiele extends \ContentElement
+class ContentH4aSpiele extends ContentElement
 {
     /**
      * Template.
@@ -44,7 +48,7 @@ class ContentH4aSpiele extends \ContentElement
     private function genBeOutput()
     {
         $this->strTemplate = 'be_wildcard';
-        $this->Template = new \BackendTemplate($this->strTemplate);
+        $this->Template = new BackendTemplate($this->strTemplate);
         $this->Template->title = $this->headline;
         $this->Template->wildcard = 'Team ID: '.$this->h4a_team_ID.', Team Name: '.$this->my_team_name;
     }
@@ -60,7 +64,7 @@ class ContentH4aSpiele extends \ContentElement
         $arrResult = Helper::getJsonSpielplan($this->h4a_team_ID);
 
         // Template ausgeben
-        $this->Template = new \FrontendTemplate($this->strTemplate);
+        $this->Template = new FrontendTemplate($this->strTemplate);
         $this->Template->class = 'ce_h4a_spiele';
         $this->Template->spiele = $arrResult['dataList'];
         $this->Template->myTeam = $this->my_team_name;
