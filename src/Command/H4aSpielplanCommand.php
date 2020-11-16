@@ -75,5 +75,4 @@ class H4aSpielplanCommand extends Command
 
         return $this->statusCode;
     }
-
 }

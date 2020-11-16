@@ -8,11 +8,11 @@
 
 namespace Janborg\H4aTabellen\Elements;
 
-use Janborg\H4aTabellen\Helper\Helper;
 use Contao\BackendTemplate;
-use Contao\FrontendTemplate;
 use Contao\ContentElement;
 use Contao\File;
+use Contao\FrontendTemplate;
+use Janborg\H4aTabellen\Helper\Helper;
 
 /**
  * Class ContentH4aAktuelleSpiele.

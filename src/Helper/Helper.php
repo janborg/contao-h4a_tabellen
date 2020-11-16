@@ -8,12 +8,12 @@
 
 namespace Janborg\H4aTabellen\Helper;
 
+use Contao\CoreBundle\Monolog\ContaoContext;
+use Contao\File;
 use Contao\StringUtil;
 use Contao\System;
 use Janborg\H4aTabellen\Model\H4aJsonDataModel;
-use Contao\File;
 use Psr\Log\LogLevel;
-use Contao\CoreBundle\Monolog\ContaoContext;
 
 class Helper
 {
@@ -72,7 +72,7 @@ class Helper
         } catch (\Exception $e) {
             System::getContainer()
             ->get('monolog.logger.contao')
-            ->log(LogLevel::INFO, 'h4a update failed for h4a-ID: '.$id.$e->getMessage(), array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR))); 
+            ->log(LogLevel::INFO, 'h4a update failed for h4a-ID: '.$id.$e->getMessage(), ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)]);
         }
         if (null === $arrResult) {
             return $arrResult;
@@ -81,6 +81,7 @@ class Helper
 
         return $arrResult;
     }
+
     /**
      * @param int $teamID
      *
@@ -92,8 +93,8 @@ class Helper
 
         $arrResult = null;
 
-        $liga_url = Helper::getURL($type, $teamID);
-        
+        $liga_url = self::getURL($type, $teamID);
+
         // in cache speichern
         $strCachePath = StringUtil::stripRootDir(System::getContainer()->getParameter('kernel.cache_dir'));
         $strFilePath = $strCachePath.'/contao/janborg/'.$teamID.'.json';
@@ -105,7 +106,7 @@ class Helper
         } catch (\Exception $e) {
             System::getContainer()
             ->get('monolog.logger.contao')
-            ->log(LogLevel::INFO, 'Json File für team_id '.$teamID.' konnte nicht erstellt werden!', array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)));
+            ->log(LogLevel::INFO, 'Json File für team_id '.$teamID.' konnte nicht erstellt werden!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)]);
         }
 
         File::putContent($strFilePath, json_encode($arrResult));
@@ -124,7 +125,7 @@ class Helper
 
         $arrResult = null;
 
-        $liga_url = Helper::getURL($type, $ligaID);
+        $liga_url = self::getURL($type, $ligaID);
 
         $strCachePath = StringUtil::stripRootDir(System::getContainer()->getParameter('kernel.cache_dir'));
         $strFilePath = $strCachePath.'/contao/janborg/'.$ligaID.'.json';
@@ -136,11 +137,11 @@ class Helper
         } catch (\Exception $e) {
             System::getContainer()
             ->get('monolog.logger.contao')
-            ->log(LogLevel::INFO, 'Json File für liga_id '.$ligaID.' konnte nicht abgerufen werden!', array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)));
+            ->log(LogLevel::INFO, 'Json File für liga_id '.$ligaID.' konnte nicht abgerufen werden!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)]);
         }
 
         File::putContent($strFilePath, json_encode($arrResult));
-        
+
         return $arrResult[0];
     }
 
@@ -148,7 +149,6 @@ class Helper
      * @param array $arrResultSpielplan
      * @param array $arrResultTabelle
      */
-
     public static function updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle)
     {
         $objH4aJsonData = H4aJsonDataModel::findOneBy(

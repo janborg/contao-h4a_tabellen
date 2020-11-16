@@ -8,11 +8,10 @@
 
 namespace Janborg\H4aTabellen\Elements;
 
-use Janborg\H4aTabellen\Helper\Helper;
 use Contao\BackendTemplate;
-use Contao\FrontendTemplate;
 use Contao\ContentElement;
-
+use Contao\FrontendTemplate;
+use Janborg\H4aTabellen\Helper\Helper;
 
 /**
  * Class ContentH4aSpiele.
@@ -60,7 +59,6 @@ class ContentH4aSpiele extends ContentElement
      */
     private function genFeOutput()
     {
-
         $arrResult = Helper::getJsonSpielplan($this->h4a_team_ID);
         $lastUpdate = time();
 

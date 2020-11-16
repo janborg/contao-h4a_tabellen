@@ -9,13 +9,13 @@
 namespace Janborg\H4aTabellen\Cron;
 
 use Contao\Backend;
-use Contao\System;
-use Janborg\H4aTabellen\Helper\Helper;
-use Contao\CalendarModel;
 use Contao\CalendarEventsModel;
+use Contao\CalendarModel;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\Input;
 use Contao\StringUtil;
+use Contao\System;
+use Janborg\H4aTabellen\Helper\Helper;
 use Psr\Log\LogLevel;
 
 /**
@@ -42,7 +42,7 @@ class H4aEventAutomator extends Backend
 
         System::getContainer()
         ->get('monolog.logger.contao')
-        ->log(LogLevel::INFO, 'Update für '.$intCalendars.' Kalender über Handball4all gestartet', array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)));
+        ->log(LogLevel::INFO, 'Update für '.$intCalendars.' Kalender über Handball4all gestartet', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)]);
 
         foreach ($objCalendars as $objCalendar) {
             $this->syncCalendars($objCalendar);
@@ -50,7 +50,7 @@ class H4aEventAutomator extends Backend
 
         System::getContainer()
         ->get('monolog.logger.contao')
-        ->log(LogLevel::INFO, 'Update der Kalender über Handball4all beendet', array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)));
+        ->log(LogLevel::INFO, 'Update der Kalender über Handball4all beendet', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)]);
 
         $this->redirect($this->getReferer());
     }
@@ -62,18 +62,16 @@ class H4aEventAutomator extends Backend
         $objCalendar = CalendarModel::findById($id);
 
         $this->syncCalendars($objCalendar);
-        
+
         System::getContainer()
         ->get('monolog.logger.contao')
-        ->log(LogLevel::INFO, 'Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)));
+        ->log(LogLevel::INFO, 'Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)]);
 
         $this->redirect($this->getReferer());
     }
 
     /**
      * Update Calendars via json from H4a.
-     * 
-     * @param Calendarmodel $objCalendar
      */
     public function syncCalendars(CalendarModel $objCalendar)
     {
@@ -82,11 +80,9 @@ class H4aEventAutomator extends Backend
         Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
 
         if ('/ [error]' === $arrResultSpielplan['lvTypeLabelStr']) {
-
             System::getContainer()
             ->get('monolog.logger.contao')
-            ->log(LogLevel::INFO, 'Updateversuch des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') abgebrochen, prüfen Sie die Team ID!', array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)));
-
+            ->log(LogLevel::INFO, 'Updateversuch des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') abgebrochen, prüfen Sie die Team ID!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)]);
         } else {
             $arrSpiele = $arrResultSpielplan['dataList'];
 
@@ -232,15 +228,13 @@ class H4aEventAutomator extends Backend
 
                 System::getContainer()
                 ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)));
-    
+                ->log(LogLevel::INFO, 'Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)]);
             } else {
                 $objEvent->h4a_resultComplete = false;
-                
+
                 System::getContainer()
                 ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', array('contao'=>new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)));
-                
+                ->log(LogLevel::INFO, 'Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)]);
             }
         }
         $this->redirect($this->getReferer());
