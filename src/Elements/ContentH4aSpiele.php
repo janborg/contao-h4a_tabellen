@@ -62,6 +62,7 @@ class ContentH4aSpiele extends ContentElement
     {
 
         $arrResult = Helper::getJsonSpielplan($this->h4a_team_ID);
+        $lastUpdate = time();
 
         // Template ausgeben
         $this->Template = new FrontendTemplate($this->strTemplate);

@@ -60,6 +60,7 @@ class ContentH4aTabelle extends ContentElement
     private function genFeOutput()
     {
         $arrResult = Helper::getJsonTabelle($this->h4a_liga_ID);
+        $lastUpdate = time();
 
         // Template ausgeben
         $this->Template = new FrontendTemplate($this->strTemplate);
