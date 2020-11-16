@@ -3,11 +3,15 @@
 /*
  * This file is part of contao-h4a_tabellen.
  * (c) Jan Lünborg
- * @license LGPL-3.0-or-later
+ * @license MIT
  */
 
 namespace Janborg\H4aTabellen\Elements;
 
+use Contao\BackendTemplate;
+use Contao\ContentElement;
+use Contao\File;
+use Contao\FrontendTemplate;
 use Janborg\H4aTabellen\Helper\Helper;
 
 /**
@@ -15,7 +19,7 @@ use Janborg\H4aTabellen\Helper\Helper;
  *
  * @author Janborg
  */
-class ContentH4aAktuelleSpiele extends \ContentElement
+class ContentH4aAktuelleSpiele extends ContentElement
 {
     /**
      * Template.
@@ -44,7 +48,7 @@ class ContentH4aAktuelleSpiele extends \ContentElement
     private function genBeOutput()
     {
         $this->strTemplate = 'be_wildcard';
-        $this->Template = new \BackendTemplate($this->strTemplate);
+        $this->Template = new BackendTemplate($this->strTemplate);
         $this->Template->title = $this->headline;
         $this->Template->wildcard = 'Verein ID: '.$this->h4a_verein_ID.', Team Name: '.$this->my_team_name;
     }
@@ -63,7 +67,7 @@ class ContentH4aAktuelleSpiele extends \ContentElement
 
         // Load the cached result
         if (file_exists(TL_ROOT.'/'.$strCacheFile)) {
-            $objFile = new \File($strCacheFile);
+            $objFile = new File($strCacheFile);
             if ($objFile->mtime > time() - $cacheTime) {
                 $arrResult = json_decode($objFile->getContent(), true);
                 $lastUpdate = $objFile->mtime;
@@ -76,7 +80,7 @@ class ContentH4aAktuelleSpiele extends \ContentElement
         }
 
         // Template ausgeben
-        $this->Template = new \FrontendTemplate($this->strTemplate);
+        $this->Template = new FrontendTemplate($this->strTemplate);
         $this->Template->class = 'ce_h4a_aktuellespiele';
         $this->Template->spiele = $arrResult[0]['dataList'];
         $this->Template->myTeam = $this->my_team_name;

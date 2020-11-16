@@ -3,7 +3,7 @@
 /*
  * This file is part of contao-h4a_tabellen.
  * (c) Jan Lünborg
- * @license LGPL-3.0-or-later
+ * @license MIT
  */
 
 namespace Janborg\H4aTabellen\ContaoManager;

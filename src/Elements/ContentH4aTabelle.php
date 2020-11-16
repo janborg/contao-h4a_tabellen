@@ -3,11 +3,14 @@
 /*
  * This file is part of contao-h4a_tabellen.
  * (c) Jan Lünborg
- * @license LGPL-3.0-or-later
+ * @license MIT
  */
 
 namespace Janborg\H4aTabellen\Elements;
 
+use Contao\BackendTemplate;
+use Contao\ContentElement;
+use Contao\FrontendTemplate;
 use Janborg\H4aTabellen\Helper\Helper;
 
 /**
@@ -15,7 +18,7 @@ use Janborg\H4aTabellen\Helper\Helper;
  *
  * @author Janborg
  */
-class ContentH4aTabelle extends \ContentElement
+class ContentH4aTabelle extends ContentElement
 {
     /**
      * Template.
@@ -44,7 +47,7 @@ class ContentH4aTabelle extends \ContentElement
     private function genBeOutput()
     {
         $this->strTemplate = 'be_wildcard';
-        $this->Template = new \BackendTemplate($this->strTemplate);
+        $this->Template = new BackendTemplate($this->strTemplate);
         $this->Template->title = $this->headline;
         $this->Template->wildcard = 'liga_ID: '.$this->h4a_liga_ID.', Team Name: '.$this->my_team_name;
     }
@@ -56,29 +59,13 @@ class ContentH4aTabelle extends \ContentElement
      */
     private function genFeOutput()
     {
-        $type = 'liga';
-        $liga_url = Helper::getURL($type, $this->h4a_liga_ID);
-        $strCacheFile = Helper::getCachedFile($this->h4a_liga_ID);
-        $cacheTime = $GLOBALS['TL_CONFIG']['h4a_cache_time'];
-
-        // Load the cached result
-        if (file_exists(TL_ROOT.'/'.$strCacheFile)) {
-            $objFile = new \File($strCacheFile);
-            if ($objFile->mtime > time() - $cacheTime) {
-                $arrResult = json_decode($objFile->getContent(), true);
-                $lastUpdate = $objFile->mtime;
-            }
-        }
-
-        // Cache the result
-        if (null === $arrResult) {
-            $arrResult = Helper::setCachedFile($this->h4a_liga_ID, $liga_url);
-        }
+        $arrResult = Helper::getJsonTabelle($this->h4a_liga_ID);
+        $lastUpdate = time();
 
         // Template ausgeben
-        $this->Template = new \FrontendTemplate($this->strTemplate);
+        $this->Template = new FrontendTemplate($this->strTemplate);
         $this->Template->class = 'ce_h4a_tabelle';
-        $this->Template->teams = $arrResult[0]['dataList'];
+        $this->Template->teams = $arrResult['dataList'];
         $this->Template->myTeam = $this->my_team_name;
         $this->Template->lastUpdate = $lastUpdate;
     }
