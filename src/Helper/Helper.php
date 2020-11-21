@@ -146,6 +146,37 @@ class Helper
     }
 
     /**
+     * @param int $vereinID
+     *
+     * @return $arrResult
+     */
+    public static function getJsonVerein($vereinID)
+    {
+        $type = 'club';
+
+        $arrResult = null;
+
+        $liga_url = self::getURL($type, $vereinID);
+
+        $strCachePath = StringUtil::stripRootDir(System::getContainer()->getParameter('kernel.cache_dir'));
+        $strFilePath = $strCachePath.'/contao/janborg/'.$vereinID.'.json';
+
+        $strJson = file_get_contents($liga_url);
+
+        try {
+            $arrResult = json_decode($strJson, true);
+        } catch (\Exception $e) {
+            System::getContainer()
+            ->get('monolog.logger.contao')
+            ->log(LogLevel::INFO, 'Json File für liga_id '.$vereinID.' konnte nicht abgerufen werden!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)]);
+        }
+
+        File::putContent($strFilePath, json_encode($arrResult));
+
+        return $arrResult[0];
+    }
+
+    /**
      * @param array $arrResultSpielplan
      * @param array $arrResultTabelle
      */
