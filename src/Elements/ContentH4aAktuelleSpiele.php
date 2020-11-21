@@ -60,29 +60,13 @@ class ContentH4aAktuelleSpiele extends ContentElement
      */
     private function genFeOutput()
     {
-        $type = 'verein';
-        $liga_url = Helper::getURL($type, $this->h4a_verein_ID);
-        $strCacheFile = Helper::getCachedFile($this->h4a_verein_ID);
-        $cacheTime = 300;
-
-        // Load the cached result
-        if (file_exists(TL_ROOT.'/'.$strCacheFile)) {
-            $objFile = new File($strCacheFile);
-            if ($objFile->mtime > time() - $cacheTime) {
-                $arrResult = json_decode($objFile->getContent(), true);
-                $lastUpdate = $objFile->mtime;
-            }
-        }
-
-        // Cache the result
-        if (null === $arrResult) {
-            $arrResult = Helper::setCachedFile($this->h4a_verein_ID, $liga_url);
-        }
-
+        $arrResult=Helper::getJsonVerein($this->h4a_verein_ID);
+        $lastUpdate = time();
+        
         // Template ausgeben
         $this->Template = new FrontendTemplate($this->strTemplate);
         $this->Template->class = 'ce_h4a_aktuellespiele';
-        $this->Template->spiele = $arrResult[0]['dataList'];
+        $this->Template->spiele = $arrResult['dataList'];
         $this->Template->myTeam = $this->my_team_name;
         $this->Template->lastUpdate = $lastUpdate;
     }
