@@ -18,20 +18,20 @@ use Psr\Log\LogLevel;
 class Helper
 {
     /**
-     * @param string $type 'liga' oder 'team' oder 'verein'
+     * @param string $type 'class' oder 'team' oder 'club'
      * @param int    $id
      *
      * @return string $liga_url
      */
     public static function getURL($type, $id)
     {
-        if ('liga' === $type) {
+        if ('class' === $type) {
             $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext='.$id;
         }
         if ('team' === $type) {
             $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$id;
         }
-        if ('verein' === $type) {
+        if ('club' === $type) {
             $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=club&lvIDNext='.$id;
         }
 
@@ -121,7 +121,7 @@ class Helper
      */
     public static function getJsonTabelle($ligaID)
     {
-        $type = 'liga';
+        $type = 'class';
 
         $arrResult = null;
 
