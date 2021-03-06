@@ -35,10 +35,7 @@ class H4aEventAutomator extends Backend
             ['1', '1']
         );
 
-        $intCalendars = CalendarModel::countby(
-            ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
-            ['1', '1']
-        );
+        $intCalendars = count($objCalendars);
 
         System::getContainer()
         ->get('monolog.logger.contao')
@@ -193,8 +190,6 @@ class H4aEventAutomator extends Backend
 
     public function updateResults()
     {
-        $type = 'team';
-
         $objEvents = CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) = ?', 'h4a_resultComplete != ?'],
             [date('Y-m-d'), true]
@@ -212,10 +207,9 @@ class H4aEventAutomator extends Backend
 
             $objCalendar = CalendarModel::findById($objEvent->pid);
 
-            $liga_url = Helper::getURL($type, $objCalendar->h4a_team_ID);
-            $arrResult = Helper::setCachedFile($objCalendar->h4a_team_ID, $liga_url);
+            $arrResult = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
 
-            $games = $arrResult[0]['dataList'];
+            $games = $arrResult['dataList'];
             $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
 
             if (' ' !== $games[$gameId]['gHomeGoals'] and ' ' !== $games[$gameId]['gGuestGoals']) {
