@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @license MIT
  */
 
-namespace Janborg\H4aTabellen\Tests\ContaoManager;
+namespace Janborg\H4aTabellen\Tests\Helper;
 
 use Janborg\H4aTabellen\Helper\Helper;
 use PHPUnit\Framework\TestCase;
