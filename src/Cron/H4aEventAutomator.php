@@ -35,7 +35,7 @@ class H4aEventAutomator extends Backend
             ['1', '1']
         );
 
-        $intCalendars = count($objCalendars);
+        $intCalendars = \count($objCalendars);
 
         System::getContainer()
         ->get('monolog.logger.contao')
@@ -125,7 +125,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->gComment = $arrSpiel['gComment'];
                     $objEvent->published = true;
 
-                    if (' ' !== $arrSpiel['gHomeGoals'] and ' ' !== $arrSpiel['gGuestGoals']) {
+                    if (' ' !== $arrSpiel['gHomeGoals'] && ' ' !== $arrSpiel['gGuestGoals']) {
                         $objEvent->h4a_resultComplete = true;
                     } else {
                         $objEvent->h4a_resultComplete = false;
@@ -176,7 +176,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->gComment = $arrSpiel['gComment'];
                     $objEvent->published = true;
 
-                    if (' ' !== $arrSpiel['gHomeGoals'] and ' ' !== $arrSpiel['gGuestGoals']) {
+                    if (' ' !== $arrSpiel['gHomeGoals'] && ' ' !== $arrSpiel['gGuestGoals']) {
                         $objEvent->h4a_resultComplete = true;
                     } else {
                         $objEvent->h4a_resultComplete = false;
@@ -201,7 +201,7 @@ class H4aEventAutomator extends Backend
             return;
         }
         foreach ($objEvents as $objEvent) {
-            if ($objEvent->startTime > time() or date("H:i",$objEvent->startTime) == "00:00") {
+            if ($objEvent->startTime > time() || '00:00' === date('H:i', $objEvent->startTime)) {
                 continue;
             }
 
@@ -212,7 +212,7 @@ class H4aEventAutomator extends Backend
             $games = $arrResult['dataList'];
             $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
 
-            if (' ' !== $games[$gameId]['gHomeGoals'] and ' ' !== $games[$gameId]['gGuestGoals']) {
+            if (' ' !== $games[$gameId]['gHomeGoals'] && ' ' !== $games[$gameId]['gGuestGoals']) {
                 $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
                 $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
                 $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];

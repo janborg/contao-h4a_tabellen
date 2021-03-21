@@ -10,7 +10,6 @@ namespace Janborg\H4aTabellen\Elements;
 
 use Contao\BackendTemplate;
 use Contao\ContentElement;
-use Contao\File;
 use Contao\FrontendTemplate;
 use Janborg\H4aTabellen\Helper\Helper;
 
@@ -60,9 +59,9 @@ class ContentH4aAktuelleSpiele extends ContentElement
      */
     private function genFeOutput()
     {
-        $arrResult=Helper::getJsonVerein($this->h4a_verein_ID);
+        $arrResult = Helper::getJsonVerein($this->h4a_verein_ID);
         $lastUpdate = time();
-        
+
         // Template ausgeben
         $this->Template = new FrontendTemplate($this->strTemplate);
         $this->Template->class = 'ce_h4a_aktuellespiele';
