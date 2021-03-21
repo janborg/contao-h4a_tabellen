@@ -29,6 +29,6 @@ class PluginTest extends TestCase
 
         $this->assertInstanceOf(BundleConfig::class, $config);
         $this->assertSame(JanborgH4aTabellenBundle::class, $config->getName());
-        $this->assertSame([ContaoCoreBundle::class, ContaoCalendarBundle::class], $config->getLoadAfter());
+        $this->assertSame([ContaoCalendarBundle::class, ContaoCoreBundle::class], $config->getLoadAfter());
     }
 }
