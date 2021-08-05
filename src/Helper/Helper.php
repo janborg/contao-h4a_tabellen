@@ -26,7 +26,7 @@ class Helper
     public static function getURL($type, $id)
     {
         switch ($type) {
-            case 'class':
+            case 'table':
                 $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext='.$id;
                 break;
             case 'team':
@@ -73,7 +73,7 @@ class Helper
      */
     public static function getJsonTabelle($ligaID)
     {
-        $type = 'class';
+        $type = 'table';
 
         $arrResult = null;
 

@@ -18,7 +18,7 @@ class HelperTest extends TestCase
     public function typeProvider()
     {
         return [
-            ['class', '0', 'class'],
+            ['table', '0', 'class'],
             ['team', '0', 'team'],
             ['club', '0', 'club'],
         ];
