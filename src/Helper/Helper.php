@@ -26,8 +26,11 @@ class Helper
     public static function getURL($type, $id)
     {
         switch ($type) {
-            case 'table':
+            case 'class_table':
                 $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext='.$id;
+                break;
+            case 'class_games':
+                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&lvIDNext='.$id;
                 break;
             case 'team':
                 $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$id;
@@ -71,9 +74,35 @@ class Helper
      *
      * @return $arrResult
      */
+    public static function getJsonAllGames($ligaID)
+    {
+        $type = 'class_games';
+
+        $arrResult = null;
+
+        $liga_url = self::getURL($type, $ligaID);
+
+        $strJson = file_get_contents($liga_url);
+
+        try {
+            $arrResult = json_decode($strJson, true);
+        } catch (\Exception $e) {
+            System::getContainer()
+            ->get('monolog.logger.contao')
+            ->log(LogLevel::INFO, 'Json File für liga_id '.$ligaID.' konnte nicht erstellt werden!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)]);
+        }
+
+        return $arrResult[0];
+    }
+
+    /**
+     * @param int $ligaID
+     *
+     * @return $arrResult
+     */
     public static function getJsonTabelle($ligaID)
     {
-        $type = 'table';
+        $type = 'class_table';
 
         $arrResult = null;
 
