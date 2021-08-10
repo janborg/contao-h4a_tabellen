@@ -41,5 +41,10 @@
       },
     "extra":{
       "contao-manager-plugin": "Janborg\\H4aTabellen\\ContaoManager\\Plugin"
+    },
+    "support": {
+        "issues": "https://github.com/janborg/contao-h4a_tabellen/issues",
+        "source": "https://github.com/janborg/contao-h4a_tabellen"
     }
+
 }
