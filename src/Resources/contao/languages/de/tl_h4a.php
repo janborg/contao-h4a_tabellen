@@ -7,6 +7,8 @@
 $GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'] = 'Update H4a-Events';
 $GLOBALS['TL_LANG']['tl_h4a']['operationUpdateResultsFromH4a'] = 'Update H4a-Results';
 
+$GLOBALS['TL_LANG']['tl_calendar']['h4a_legend'] = 'Handball4all Daten';
+
 $GLOBALS['TL_LANG']['tl_calendar']['h4a_imported']['0'] = 'Handball4all Update';
 $GLOBALS['TL_LANG']['tl_calendar']['h4a_imported']['1'] = 'Kalendereinträge für die Spiele einer Mansnchaft werden automatisch über Handball4all erstellt';
 
@@ -31,6 +33,10 @@ $GLOBALS['TL_LANG']['tl_calendar']['h4a_season']['1'] = 'Die Saison in der die S
 /*
  * tl_calendar_events
  */
+
+$GLOBALS['TL_LANG']['tl_calendar_events']['h4a_legend'] = 'Spiel-Nr. Klasse und Mannschaften';
+$GLOBALS['TL_LANG']['tl_calendar_events']['gymnasium_legend'] = 'Halleninformationen';
+$GLOBALS['TL_LANG']['tl_calendar_events']['result_legend'] = 'Halbzeit- und Endergebnis';
 
 $GLOBALS['TL_LANG']['tl_calendar_events']['gGameNo']['0'] = 'Spielnummer';
 $GLOBALS['TL_LANG']['tl_calendar_events']['gGameNo']['1'] = 'Wird automatisch beim Update über handball4all gesetzt';
@@ -115,7 +121,3 @@ $GLOBALS['TL_LANG']['tl_settings']['h4a_legend'] = 'Handball4all-Einstellungen';
  * tl_content
  */
 
-$GLOBALS['TL_LANG']['tl_calendar']['h4a_legend'] = 'Handball4all Daten';
-$GLOBALS['TL_LANG']['tl_calendar_events']['h4a_legend'] = 'Spiel-Nr. Klasse und Mannschaften';
-$GLOBALS['TL_LANG']['tl_calendar_events']['gymnasium_legend'] = 'Halleninformationen';
-$GLOBALS['TL_LANG']['tl_calendar_events']['result_legend'] = 'Halbzeit- und Endergebnis';
