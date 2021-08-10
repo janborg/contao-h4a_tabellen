@@ -81,19 +81,19 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['gGuestGoals_1']['1'] = 'Wird automati
  * tl_content
  */
 
-$GLOBALS['TL_LANG']['CTE']['handball4all'] = 'Handball4all';
+$GLOBALS['TL_LANG']['CTE']['handball4all'] = 'Handball4All Elemente';
 
-$GLOBALS['TL_LANG']['CTE']['h4a_tabelle']['0'] = 'Liga-Tabelle (H4a)';
+$GLOBALS['TL_LANG']['CTE']['h4a_tabelle']['0'] = 'Tabelle Liga';
 $GLOBALS['TL_LANG']['CTE']['h4a_tabelle']['1'] = 'Erzeugt die aktuelle Tabelle für die angegebene Liga';
 
-$GLOBALS['TL_LANG']['CTE']['h4a_spiele']['0'] = 'Team-Spielplan (H4a)';
+$GLOBALS['TL_LANG']['CTE']['h4a_spiele']['0'] = 'Spielplan Team';
 $GLOBALS['TL_LANG']['CTE']['h4a_spiele']['1'] = 'Erzeugt den Spielplan für das angegebene Team';
 
-$GLOBALS['TL_LANG']['CTE']['h4a_ligaspiele']['0'] = 'Liga-Spielplan (H4a)';
+$GLOBALS['TL_LANG']['CTE']['h4a_ligaspiele']['0'] = 'Spielplan Liga';
 $GLOBALS['TL_LANG']['CTE']['h4a_ligaspiele']['1'] = 'Erzeugt den Spielplan für die angegebene Liga';
 
-$GLOBALS['TL_LANG']['CTE']['h4a_aktuellespiele']['0'] = 'Aktuelle Spiele (H4a)';
-$GLOBALS['TL_LANG']['CTE']['h4a_aktuellespiele']['1'] = 'Erzeugt die akteulle Spielüberischt des Vereins';
+$GLOBALS['TL_LANG']['CTE']['h4a_aktuellespiele']['0'] = 'Aktuelle Spiele Verein';
+$GLOBALS['TL_LANG']['CTE']['h4a_aktuellespiele']['1'] = 'Erzeugt die akteulle Spielübericht des Vereins';
 
 
 $GLOBALS['TL_LANG']['tl_content']['h4a_liga_ID']['0'] = 'Liga ID';
