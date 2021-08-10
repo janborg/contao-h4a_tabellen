@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @ContentElement("h4a_tabelle",
- *   category="texts",
+ *   category="handball4all",
  *   template="ce_h4a_tabelle",
  * )
  */
