@@ -17,6 +17,8 @@ services:
 
     Janborg\H4aTabellen\Controller\ContentElement\H4aSpielplanElement: ~
 
+    Janborg\H4aTabellen\Controller\ContentElement\H4aLigaSpielplanElement: ~
+
     Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement: ~
 
     Janborg\H4aTabellen\Controller\ContentElement\H4aAktuelleSpieleElement: ~
