@@ -73,7 +73,7 @@ class HelperTest extends TestCase
 
     public function testJsonAllGamesHasCorrectDataFields(): void
     {
-        $spielplan = Helper::getJsonAllGames('49301');
+        $spielplan = Helper::getJsonLigaSpielplan('49301');
         $spiel = $spielplan['dataList']['0'];
 
         $this->assertArrayHasKey('lvTypePathStr', $spielplan);

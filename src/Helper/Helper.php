@@ -74,7 +74,7 @@ class Helper
      *
      * @return $arrResult
      */
-    public static function getJsonAllGames($ligaID)
+    public static function getJsonLigaSpielplan($ligaID)
     {
         $type = 'class_games';
 

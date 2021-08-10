@@ -17,20 +17,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @ContentElement("h4a_spiele",
+ * @ContentElement("h4a_ligaspiele",
  *   category="handball4all",
- *   template="ce_h4a_spiele",
+ *   template="ce_h4a_ligaspiele",
  * )
  */
-class H4aSpielplanElement extends AbstractContentElementController
+class H4aLigaSpielplanElement extends AbstractContentElementController
 {
     protected function getResponse(Template $template, ContentModel $model, Request $request): ?Response
     {
-        $arrResult = Helper::getJsonSpielplan($model->h4a_team_ID);
+        $arrResult = Helper::getJsonLigaSpielplan($model->h4a_liga_ID);
         $lastUpdate = time();
 
         $template->spiele = $arrResult['dataList'];
-        $template->class = 'ce_h4a_spiele';
+        $template->class = 'ce_h4a_ligaspiele';
         $template->myTeam = $model->my_team_name;
         $template->lastUpdate = $lastUpdate;
 
