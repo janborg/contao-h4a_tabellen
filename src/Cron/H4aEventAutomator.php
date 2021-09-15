@@ -117,6 +117,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->startTime = $dateTime;
                     $objEvent->endTime = $dateTime;
                     $objEvent->startDate = $dateDay;
+                    $objEvent->gClassID = $arrSpiel['gClassID'];
                     $objEvent->gClassName = $arrSpiel['gClassSname'];
                     $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
                     $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
@@ -162,6 +163,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->alias = StringUtil::generateAlias($arrSpiel['gClassSname'].'_'.$arrSpiel['gHomeTeam'].'_'.$arrSpiel['gGuestTeam'].'_'.$arrSpiel['gNo']);
                     $objEvent->gGameID = $arrSpiel['gID'];
                     $objEvent->gGameNo = $arrSpiel['gNo'];
+                    $objEvent->gClassID = $arrSpiel['gClassID'];
                     $objEvent->gClassName = $arrSpiel['gClassSname'];
                     $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
                     $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
