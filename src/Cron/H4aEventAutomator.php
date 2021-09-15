@@ -107,8 +107,8 @@ class H4aEventAutomator extends Backend
                     }
                     $arrTime = explode(':', $arrSpiel['gTime']);
 
-                    $dateDay = mktime(0, 0, 0, $arrDate[1], $arrDate[0], $arrDate[2]);
-                    $dateTime = mktime($arrTime[0], $arrTime[1], 0, $arrDate[1], $arrDate[0], $arrDate[2]);
+                    $dateDay = mktime(0, 0, 0, intval($arrDate[1]), intval($arrDate[0]), intval($arrDate[2]));
+                    $dateTime = mktime(intval($arrTime[0]), intval($arrTime[1]), 0, intval($arrDate[1]), intval($arrDate[0]), intval($arrDate[2]));
 
                     $objEvent->gGameID = $arrSpiel['gID'];
                     $objEvent->author = $objCalendar->h4aEvents_author;
@@ -154,8 +154,8 @@ class H4aEventAutomator extends Backend
                     }
                     $arrTime = explode(':', $arrSpiel['gTime']);
 
-                    $dateDay = mktime(0, 0, 0, $arrDate[1], $arrDate[0], $arrDate[2]);
-                    $dateTime = mktime($arrTime[0], $arrTime[1], 0, $arrDate[1], $arrDate[0], $arrDate[2]);
+                    $dateDay = mktime(0, 0, 0, intval($arrDate[1]), intval($arrDate[0]), intval($arrDate[2]));
+                    $dateTime = mktime(intval($arrTime[0]), intval($arrTime[1]), 0, intval($arrDate[1]), intval($arrDate[0]), intval($arrDate[2]));
 
                     $objEvent->pid = $objCalendar->id;
                     $objEvent->timestamp = time();
