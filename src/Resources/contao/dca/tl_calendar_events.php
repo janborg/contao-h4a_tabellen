@@ -202,7 +202,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'exclude' => true,
         'search' => true,
         'inputType' => 'text',
-        'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
     $GLOBALS['TL_DCA']['tl_calendar_events']['fields']
