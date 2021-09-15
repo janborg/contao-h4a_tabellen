@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 /*
  * This file is part of contao-h4a_tabellen.
+ *
  * (c) Jan Lünborg
+ *
  * @license MIT
  */
 
@@ -49,8 +51,9 @@ class H4aSpielplanCommand extends Command
         $argument = new InputArgument('teamID', InputArgument::REQUIRED, $parameterLigIDHelp);
 
         $this->setName('h4a:spielplan')
-             ->setDefinition([$argument])
-             ->setDescription($commandHelp);
+            ->setDefinition([$argument])
+            ->setDescription($commandHelp)
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): ?int

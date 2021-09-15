@@ -1,7 +1,13 @@
 <?php
 
-/*H4aTabellen
-*filesource
+declare(strict_types=1);
+
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
  */
 
 $GLOBALS['BE_MOD']['content']['calendar']['update_events'] = ['Janborg\H4aTabellen\Cron\H4aEventAutomator', 'updateEvents'];

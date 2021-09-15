@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of contao-h4a_tabellen.
+ *
  * (c) Jan Lünborg
+ *
  * @license MIT
  */
 
@@ -13,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 class JanborgH4aTabellenBundleTest extends TestCase
 {
-    public function testCanBeInstantiated()
+    public function testCanBeInstantiated(): void
     {
         $bundle = new JanborgH4aTabellenBundle();
 

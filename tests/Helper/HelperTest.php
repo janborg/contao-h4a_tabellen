@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 /*
  * This file is part of contao-h4a_tabellen.
+ *
  * (c) Jan Lünborg
+ *
  * @license MIT
  */
 
@@ -50,7 +52,7 @@ class HelperTest extends TestCase
         $this->assertArrayHasKey('lvIDPathStr', $spielplan);
         $this->assertArrayHasKey('lvTypeLabelStr', $spielplan);
         $this->assertArrayHasKey('dataList', $spielplan);
-        
+
         $this->assertArrayHasKey('gID', $spiel);
         $this->assertArrayHasKey('gNo', $spiel);
         $this->assertArrayHasKey('gClassID', $spiel);
@@ -80,7 +82,7 @@ class HelperTest extends TestCase
         $this->assertArrayHasKey('lvIDPathStr', $spielplan);
         $this->assertArrayHasKey('lvTypeLabelStr', $spielplan);
         $this->assertArrayHasKey('dataList', $spielplan);
-        
+
         $this->assertArrayHasKey('gID', $spiel);
         $this->assertArrayHasKey('gNo', $spiel);
         $this->assertArrayHasKey('gClassID', $spiel);

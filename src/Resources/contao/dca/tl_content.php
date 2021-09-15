@@ -1,6 +1,15 @@
 <?php
 
-// Load language file(s)
+declare(strict_types=1);
+
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 System::loadLanguageFile('tl_h4a');
 
 /*
@@ -15,54 +24,54 @@ $GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_ligaspiele'] = '{type_legend},
  * Fields
  */
 
-$GLOBALS['TL_DCA']['tl_content']['fields']['h4a_liga_ID'] = array(
+$GLOBALS['TL_DCA']['tl_content']['fields']['h4a_liga_ID'] = [
     'label' => $GLOBALS['TL_LANG']['tl_content']['h4a_liga_ID'],
     'inputType' => 'text',
     'exclude' => true,
-    'eval' => array(
+    'eval' => [
         'mandatory' => true,
         'rgxp' => 'digit',
         'minlenght' => 5,
         'maxlength' => 5,
         'tl_class' => 'w50',
-    ),
+    ],
     'sql' => "varchar(255) NOT NULL default ''",
-);
-$GLOBALS['TL_DCA']['tl_content']['fields']['h4a_team_ID'] = array(
+];
+$GLOBALS['TL_DCA']['tl_content']['fields']['h4a_team_ID'] = [
     'label' => $GLOBALS['TL_LANG']['tl_content']['h4a_team_ID'],
     'inputType' => 'text',
     'exclude' => true,
-    'eval' => array(
+    'eval' => [
         'mandatory' => true,
         'rgxp' => 'digit',
         'minlenght' => 6,
         'maxlength' => 6,
         'tl_class' => 'w50',
-    ),
+    ],
     'sql' => "varchar(255) NOT NULL default ''",
-);
-$GLOBALS['TL_DCA']['tl_content']['fields']['h4a_verein_ID'] = array(
+];
+$GLOBALS['TL_DCA']['tl_content']['fields']['h4a_verein_ID'] = [
     'label' => $GLOBALS['TL_LANG']['tl_content']['h4a_verein_ID'],
     'inputType' => 'text',
     'exclude' => true,
-    'eval' => array(
+    'eval' => [
         'mandatory' => true,
         'rgxp' => 'digit',
         'minlenght' => 1,
         'maxlength' => 4,
         'tl_class' => 'w50',
-    ),
+    ],
     'sql' => "varchar(255) NOT NULL default ''",
-);
-$GLOBALS['TL_DCA']['tl_content']['fields']['my_team_name'] = array(
+];
+$GLOBALS['TL_DCA']['tl_content']['fields']['my_team_name'] = [
     'label' => $GLOBALS['TL_LANG']['tl_content']['my_team_name'],
     'inputType' => 'text',
     'exclude' => true,
-    'eval' => array(
+    'eval' => [
         'mandatory' => true,
         'unique' => false,
         'maxlength' => 255,
         'tl_class' => 'w50',
-    ),
+    ],
     'sql' => "varchar(255) NOT NULL default ''",
-);
+];

@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of contao-h4a_tabellen.
+ *
  * (c) Jan Lünborg
+ *
  * @license MIT
  */
 
@@ -23,10 +27,12 @@ class Plugin implements BundlePluginInterface
     public function getBundles(ParserInterface $parser)
     {
         return [
-            BundleConfig::create(JanborgH4aTabellenBundle::class)->setLoadAfter([
-              ContaoCoreBundle::class,
-              ContaoCalendarBundle::class,
-            ]),
+            BundleConfig::create(JanborgH4aTabellenBundle::class)->setLoadAfter(
+                [
+                ContaoCoreBundle::class,
+                ContaoCalendarBundle::class,
+                ]
+            ),
         ];
     }
 }

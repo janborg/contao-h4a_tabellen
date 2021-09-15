@@ -1,7 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 /*
- * tl_calendar
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
  */
 
 $GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'] = 'Update H4a-Events';
@@ -95,7 +101,6 @@ $GLOBALS['TL_LANG']['CTE']['h4a_ligaspiele']['1'] = 'Erzeugt den Spielplan für 
 $GLOBALS['TL_LANG']['CTE']['h4a_aktuellespiele']['0'] = 'Aktuelle Spiele Verein';
 $GLOBALS['TL_LANG']['CTE']['h4a_aktuellespiele']['1'] = 'Erzeugt die akteulle Spielübericht des Vereins';
 
-
 $GLOBALS['TL_LANG']['tl_content']['h4a_liga_ID']['0'] = 'Liga ID';
 $GLOBALS['TL_LANG']['tl_content']['h4a_liga_ID']['1'] = 'Bitte geben Sie die 5-stellige ID der Liga (www.handball4all.de) ein';
 
@@ -111,7 +116,6 @@ $GLOBALS['TL_LANG']['tl_content']['h4a_legend'] = 'Handball4all-Daten';
 * tl_settings
 */
 
-
 $GLOBALS['TL_LANG']['tl_settings']['h4a_cache_time']['0'] = 'Cache Zeit [s]';
 $GLOBALS['TL_LANG']['tl_settings']['h4a_cache_time']['1'] = 'Zeit in Sekunden, wie lange ein h4a-Element aus dem Cache geladen wird bevor es neu von h4a abgerufen wird';
 
@@ -120,4 +124,3 @@ $GLOBALS['TL_LANG']['tl_settings']['h4a_legend'] = 'Handball4all-Einstellungen';
  /*
  * tl_content
  */
-
