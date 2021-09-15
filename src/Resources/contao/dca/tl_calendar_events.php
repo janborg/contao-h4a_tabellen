@@ -65,6 +65,14 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
+    array('gClassID' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gClassID'],
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
+            'sql' => "varchar(255) NOT NULL default ''",
+        )),
      array('gClassName' => array(
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gClassName'],
             'exclude' => true,
@@ -178,6 +186,14 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             'eval' => array('mandatory' => false, 'tl_class' => 'w50'),
             'sql' => "varchar(255) NOT NULL default ''",
         )),
+    array('sGID' => array(
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['sGID'],
+            'exclude' => true,
+            'search' => true,
+            'inputType' => 'text',
+            'eval' => array('mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
+            'sql' => "varchar(255) NOT NULL default ''",
+        )),
     $GLOBALS['TL_DCA']['tl_calendar_events']['fields']
  );
 
@@ -187,7 +203,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
     class tl_calendar_events_h4a extends Backend
     {
         /**
-         * tl_calendar__events_h4a constructor.
+         * tl_calendar__events_h4a constructor. 
          */
         public function __construct()
         {
@@ -207,7 +223,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callba
             if ($objCalendar->h4a_imported == '1') {
                 \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
                  ->addLegend('h4a_legend', 'title_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
-                 ->addField('gGameNo,gClassName,gHomeTeam,gGuestTeam', 'h4a_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
+                 ->addField('gHomeTeam,gGuestTeam,gClassID,gClassName,gGameNo,sGID', 'h4a_legend', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
                  ->applyToPalette('default', 'tl_calendar_events');
 
                 \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
