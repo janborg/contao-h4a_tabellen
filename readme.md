@@ -5,7 +5,8 @@
 ![Packagist](https://img.shields.io/packagist/dt/janborg/contao-h4a_tabellen)
 
 ## Features
-- Contentelemente zur Anzeige aller Spiele oder der Tabelle einer Mannschaft
+- Contentelemente zur Anzeige der Spiele eines Teams oder einer Liga 
+- Contentelement zur Anzeige der aktuellen Tabelle einer Liga
 - Import der Spiele einer Mannschaft in einen Contao-Kalender 
 - tägliches Update der Spiele in einem Contao-Kalender 
 - stündliches Update der Ergebnisse der Spiele im Contao-Kalender
@@ -17,7 +18,7 @@
 ## Elemente
 Es stehen die folgenden Content-Elemente zur Verfügung.
 
-### h4a-Spielplan
+### Spielplan Team
 Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
 1. Überschrift
 2. Team ID: eine 6-stellige ID der Mannschaft, die der Übersicht im Vereinsaccount von handball4all entnommen werden kann
@@ -27,7 +28,7 @@ Hier ein Beispiel:
 ![](docs/images/h4a_Spielplan_BE.png)
 ![](docs/images/h4a_Spielplan_FE.png)
 
-### h4a-Tabelle
+### Tabelle Liga
 Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
 1. Überschrift
 2. Liga ID: eine 5-stellige ID der anzuzeigenden Liga, die der Übersicht im Vereinsaccount von handball4all entnommen werden kann
@@ -37,7 +38,13 @@ Hier ein Beispiel:
 ![](docs/images/h4a_Tabelle_BE.png)
 ![](docs/images/h4a_Tabelle_FE.png)
 
-### h4a-aktuelle Spiele
+### Spielplan Liga
+Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
+1. Überschrift
+2. Liga ID: eine 5-stellige ID der anzuzeigenden Liga, die der Übersicht im Vereinsaccount von handball4all entnommen werden kann
+3. Mein Team: Hier muss manuell die genaue Bezeichnung der Mannschaft eingegeben werden. Im Frontend kann dann über die CSS Klasse "myteam" eine Hervorhebung der Mannschaft erfolgen
+
+### Aktuelle Spiele Verein
 Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
 1. Überschrift
 2. Verein ID: eine ID des anzuzeigenden Vereins, die der Übersicht im Vereinsaccount von handball4all entnommen werden kann
