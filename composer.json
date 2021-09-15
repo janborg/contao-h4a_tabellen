@@ -24,7 +24,8 @@
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/message-factory": "^1.0.2",
         "phpunit/phpunit": "^9.5.1",
-        "symfony/phpunit-bridge": "^5.1"
+        "symfony/phpunit-bridge": "^5.1",
+        "contao/easy-coding-standard": "^3.4"
     },
     "conflict": {
          "contao/manager-plugin": "<2.0 || >=3.0"
