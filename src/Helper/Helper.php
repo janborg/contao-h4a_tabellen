@@ -20,7 +20,7 @@ use Psr\Log\LogLevel;
 class Helper
 {
     /**
-     * @param string $type 'class' oder 'team' oder 'club'
+     * @param string $type 'class' oder 'team' oder 'club' oder 'score'
      * @param int    $id
      *
      * @return string
@@ -42,6 +42,9 @@ class Helper
 
             case 'club':
                 $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=club&lvIDNext='.$id;
+                break;
+            case 'score':
+                $liga_url = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score='.$id;
                 break;
         }
 
