@@ -27,6 +27,14 @@ class HelperTest extends TestCase
         ];
     }
 
+    public function gamesReportProvider()
+    {
+        return [
+            ['49301', '10022', '1035145'],
+            ['58766', '95107', '1249171'],
+        ];
+    }
+
     /**
      * @dataProvider typeProvider
      *
@@ -101,5 +109,18 @@ class HelperTest extends TestCase
         $this->assertArrayHasKey('gGuestGoals', $spiel);
         $this->assertArrayHasKey('gHomeGoals_1', $spiel);
         $this->assertArrayHasKey('gGuestGoals_1', $spiel);
+    }
+
+    /**
+     * @dataProvider gamesReportProvider
+     *
+     * @param mixed $ligaID
+     * @param mixed $gameNo
+     * @param mixed $sGID
+     */
+    public function testGetsCorrectReportNo($ligaID, $gameNo, $sGID): void
+    {
+        $reportNo = Helper::getReportNo($ligaID, $gameNo);
+        $this->assertSame($sGID, $reportNo);
     }
 }
