@@ -248,4 +248,33 @@ class H4aEventAutomator extends Backend
         }
         $this->redirect($this->getReferer());
     }
+    
+    /**
+     * Update field sGID for all calendarEvents of today or earlier, where sGID is empty and h4a_resultComplete is true
+     */
+    public function updateReportIDs()
+    {
+        $objEvents=CalendarEventsModel::findBy(
+            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'sGID = ?', 'h4a_resultComplete = ?'],
+            [date('Y-m-d'), '', true]
+        );
+
+        if (null === $objEvents) {
+            $this->redirect($this->getReferer());
+
+            return;
+        }
+
+        foreach ($objEvents as $objEvent) {
+            $sGID =  Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
+            if (isset($sGID)) {
+                $objEvent->sGID = $sGID;
+                $objEvent->save();
+
+                System::getContainer()
+                    ->get('monolog.logger.contao')
+                    ->log(LogLevel::INFO, 'Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)]);    
+            }
+        }
+    }
 }
