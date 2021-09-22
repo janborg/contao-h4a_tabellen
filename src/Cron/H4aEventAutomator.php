@@ -214,7 +214,7 @@ class H4aEventAutomator extends Backend
         }
 
         foreach ($objEvents as $objEvent) {
-            if ($objEvent->startTime > time() || '00:00' === date('H:i', $objEvent->startTime)) {
+            if ($objEvent->startTime > time() || '00:00' === date('H:i', (int) $objEvent->startTime)) {
                 continue;
             }
 
