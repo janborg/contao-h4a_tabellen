@@ -107,8 +107,8 @@ class H4aEventAutomator extends Backend
                     }
                     $arrTime = explode(':', $arrSpiel['gTime']);
 
-                    $dateDay = mktime(0, 0, 0, intval($arrDate[1]), intval($arrDate[0]), intval($arrDate[2]));
-                    $dateTime = mktime(intval($arrTime[0]), intval($arrTime[1]), 0, intval($arrDate[1]), intval($arrDate[0]), intval($arrDate[2]));
+                    $dateDay = mktime(0, 0, 0, (int) ($arrDate[1]), (int) ($arrDate[0]), (int) ($arrDate[2]));
+                    $dateTime = mktime((int) ($arrTime[0]), (int) ($arrTime[1]), 0, (int) ($arrDate[1]), (int) ($arrDate[0]), (int) ($arrDate[2]));
 
                     $objEvent->gGameID = $arrSpiel['gID'];
                     $objEvent->author = $objCalendar->h4aEvents_author;
@@ -154,8 +154,8 @@ class H4aEventAutomator extends Backend
                     }
                     $arrTime = explode(':', $arrSpiel['gTime']);
 
-                    $dateDay = mktime(0, 0, 0, intval($arrDate[1]), intval($arrDate[0]), intval($arrDate[2]));
-                    $dateTime = mktime(intval($arrTime[0]), intval($arrTime[1]), 0, intval($arrDate[1]), intval($arrDate[0]), intval($arrDate[2]));
+                    $dateDay = mktime(0, 0, 0, (int) ($arrDate[1]), (int) ($arrDate[0]), (int) ($arrDate[2]));
+                    $dateTime = mktime((int) ($arrTime[0]), (int) ($arrTime[1]), 0, (int) ($arrDate[1]), (int) ($arrDate[0]), (int) ($arrDate[2]));
 
                     $objEvent->pid = $objCalendar->id;
                     $objEvent->timestamp = time();
@@ -248,13 +248,13 @@ class H4aEventAutomator extends Backend
         }
         $this->redirect($this->getReferer());
     }
-    
+
     /**
-     * Update field sGID for all calendarEvents of today or earlier, where sGID is empty and h4a_resultComplete is true
+     * Update field sGID for all calendarEvents of today or earlier, where sGID is empty and h4a_resultComplete is true.
      */
-    public function updateReportIDs()
+    public function updateReportIDs(): void
     {
-        $objEvents=CalendarEventsModel::findBy(
+        $objEvents = CalendarEventsModel::findBy(
             ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'sGID = ?', 'h4a_resultComplete = ?'],
             [date('Y-m-d'), '', true]
         );
@@ -266,14 +266,16 @@ class H4aEventAutomator extends Backend
         }
 
         foreach ($objEvents as $objEvent) {
-            $sGID =  Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
+            $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
+
             if (isset($sGID)) {
                 $objEvent->sGID = $sGID;
                 $objEvent->save();
 
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)]);    
+                    ->log(LogLevel::INFO, 'Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
+                ;
             }
         }
     }

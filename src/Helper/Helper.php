@@ -17,6 +17,7 @@ use Contao\System;
 use Janborg\H4aTabellen\Model\H4aJsonDataModel;
 use Psr\Log\LogLevel;
 use Symfony\Component\DomCrawler\Crawler;
+
 class Helper
 {
     /**
@@ -43,6 +44,7 @@ class Helper
             case 'club':
                 $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=club&lvIDNext='.$id;
                 break;
+
             case 'score':
                 $liga_url = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score='.$id;
                 break;
@@ -54,7 +56,7 @@ class Helper
     /**
      * @param int $teamID
      *
-     * @return array $arrResult
+     * @return array
      */
     public static function getJsonSpielplan($teamID)
     {
@@ -74,15 +76,14 @@ class Helper
                 ->log(LogLevel::INFO, 'Json File für team_id '.$teamID.' konnte nicht erstellt werden!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)])
             ;
         }
-        $arrResult = $arrResult[0];
-        
-        return $arrResult;
+
+        return $arrResult[0];
     }
 
     /**
      * @param int $ligaID
      *
-     * @return array $arrResult
+     * @return array
      */
     public static function getJsonLigaSpielplan($ligaID)
     {
@@ -102,15 +103,14 @@ class Helper
                 ->log(LogLevel::INFO, 'Json File für liga_id '.$ligaID.' konnte nicht erstellt werden!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)])
             ;
         }
-        $arrResult = $arrResult[0];
 
-        return $arrResult;
+        return $arrResult[0];
     }
 
     /**
      * @param int $ligaID
      *
-     * @return array $arrResult
+     * @return array
      */
     public static function getJsonTabelle($ligaID)
     {
@@ -131,15 +131,13 @@ class Helper
             ;
         }
 
-        $arrResult = $arrResult[0];
-
-        return $arrResult;
+        return $arrResult[0];
     }
 
     /**
      * @param int $vereinID
      *
-     * @return arary $arrResult
+     * @return arary
      */
     public static function getJsonVerein($vereinID)
     {
@@ -159,9 +157,8 @@ class Helper
                 ->log(LogLevel::INFO, 'Json File für liga_id '.$vereinID.' konnte nicht abgerufen werden!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)])
             ;
         }
-        $arrResult = $arrResult[0];
 
-        return $arrResult;
+        return $arrResult[0];
     }
 
     /**
@@ -239,8 +236,9 @@ class Helper
                         if ($td->filterXPath('//a')->count() > 0 && null !== $td->filterXPath('//a')->attr('href')) {
                             $parts = parse_url($td->filterXPath('//a')->attr('href'));
                             parse_str($parts['query'], $query);
+
                             if (isset($query['sGID'])) {
-                                $value['sGID'] = $query['sGID'];                                
+                                $value['sGID'] = $query['sGID'];
                             }
                         }
 
