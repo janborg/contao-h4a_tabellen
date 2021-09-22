@@ -16,7 +16,7 @@ use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\System;
 use Janborg\H4aTabellen\Model\H4aJsonDataModel;
 use Psr\Log\LogLevel;
-
+use Symfony\Component\DomCrawler\Crawler;
 class Helper
 {
     /**
@@ -210,5 +210,52 @@ class Helper
         }
 
         $objH4aJsonData->save();
+    }
+
+    /**
+     * Ermittelt die Nummer des Reports (URL Parameter sGID)).
+     *
+     * @param string $ligaID
+     * @param string $gameNo
+     *
+     * @return string
+     */
+    public static function getReportNo($ligaID, $gameNo)
+    {
+        $url = self::getURL('score', $ligaID);
+
+        $html = file_get_contents($url);
+
+        $crawler = new Crawler($html);
+
+        $crawler = $crawler->filterXPath('//table[@class="gametable"]/tr[position() > 1]');
+
+        $allGames = $crawler->filterXPath('//tr')->each(
+            static function ($tr, $i) {
+                return $tr->filterXPath('//td')->each(
+                    static function ($td, $i) {
+                        $value['text'] = $td->text();
+
+                        if ($td->filterXPath('//a')->count() > 0 && null !== $td->filterXPath('//a')->attr('href')) {
+                            $parts = parse_url($td->filterXPath('//a')->attr('href'));
+                            parse_str($parts['query'], $query);
+                            if (isset($query['sGID'])) {
+                                $value['sGID'] = $query['sGID'];                                
+                            }
+                        }
+
+                        return $value;
+                    }
+                );
+            }
+        );
+
+        foreach ($allGames as $game) {
+            if ($game[1]['text'] === $gameNo) {
+                $sGID = $game[10]['sGID'];
+            }
+        }
+
+        return $sGID;
     }
 }
