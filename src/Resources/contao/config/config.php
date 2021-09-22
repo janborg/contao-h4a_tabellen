@@ -17,6 +17,7 @@ $GLOBALS['BE_MOD']['content']['calendar']['update_results'] = ['Janborg\H4aTabel
 // Register Cron job
 $GLOBALS['TL_CRON']['daily'][] = ['Janborg\H4aTabellen\Cron\H4aEventAutomator', 'updateEvents'];
 $GLOBALS['TL_CRON']['hourly'][] = ['Janborg\H4aTabellen\Cron\H4aEventAutomator', 'updateResults'];
+$GLOBALS['TL_CRON']['hourly'][] = ['Janborg\H4aTabellen\Cron\H4aEventAutomator', 'updateReportIDs'];
 
 // Register Models
 $GLOBALS['TL_MODELS']['tl_h4ajsondata'] = Janborg\H4aTabellen\Model\H4aJsonDataModel::class;
