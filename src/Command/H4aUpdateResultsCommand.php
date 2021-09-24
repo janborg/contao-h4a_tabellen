@@ -66,12 +66,12 @@ class H4aUpdateResultsCommand extends Command
             return $this->statusCode;
         }
         else {
-            $this->io->text('Es wurden '.\count($objEvents). 'Events ohne Ergebnis gefunden. Versuche Ergebnisse abzurufen ...');
+            $this->io->text('Es wurden '.\count($objEvents). ' H4a-Events ohne Ergebnis gefunden. Versuche Ergebnisse abzurufen ...');
         }
 
         foreach ($objEvents as $objEvent) {
 
-            $this->io->text('versuche Ergebnis für Spiel',$objEvent->gGameNo.' abzurufen...');
+            $this->io->text('Versuche Ergebnis für Spiel'.$objEvent->gGameNo.' abzurufen...');
 
             if ($objEvent->startTime > time() || '00:00' === date('H:i', (int) $objEvent->startTime)) {
                 
