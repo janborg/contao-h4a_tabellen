@@ -23,7 +23,9 @@ services:
 
     Janborg\H4aTabellen\Controller\ContentElement\H4aAktuelleSpieleElement: ~
 
-    Janborg\H4aTabellen\Cron\H4aEventAutomator:
+    Janborg\H4aTabellen\Cron\H4aCron:
+        arguments:
+            - '@contao.framework'
         tags:
             -
                 name: contao.cronjob
@@ -32,7 +34,7 @@ services:
             -
                 name: contao.cronjob
                 interval: 'hourly'
-                method: updateReportIDs
+                method: updateReports
             -
                 name: contao.cronjob
                 interval: "hourly"
