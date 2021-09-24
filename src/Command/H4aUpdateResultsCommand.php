@@ -61,7 +61,7 @@ class H4aUpdateResultsCommand extends Command
 
         if (null === $objEvents) {
 
-            $this->io->text('Es wurden keine Events ohme Ergebnis gefunden.');
+            $this->io->text('Es wurden keine Events ohne Ergebnis gefunden.');
 
             return $this->statusCode;
         }
