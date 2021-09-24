@@ -45,7 +45,46 @@ class H4aCron
 
     public function updateResults(): void
     {
-        // Do something …
+        $objEvents = CalendarEventsModel::findby(
+            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameNo != ?'],
+            [date('Y-m-d'), true, '']
+        );
+
+        foreach ($objEvents as $objEvent) 
+        {
+            if ($objEvent->startTime > time() || '00:00' === date('H:i', (int) $objEvent->startTime)) {
+                                
+                continue;
+            }
+
+            $objCalendar = CalendarModel::findById($objEvent->pid);
+
+            $arrResult = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
+
+            $games = $arrResult['dataList'];
+            $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
+
+            if (' ' !== $games[$gameId]['gHomeGoals'] && ' ' !== $games[$gameId]['gGuestGoals']) {
+                $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
+                $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
+                $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
+                $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
+                $objEvent->h4a_resultComplete = true;
+                $objEvent->save();
+    
+                System::getContainer()
+                    ->get('monolog.logger.contao')
+                    ->log(LogLevel::INFO, 'Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)]);
+                
+            } else {
+                $objEvent->h4a_resultComplete = false;
+
+                System::getContainer()
+                    ->get('monolog.logger.contao')
+                    ->log(LogLevel::INFO, 'Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)]);
+                ;
+            }
+        }
     }
     public function updateReports(): void
     {
