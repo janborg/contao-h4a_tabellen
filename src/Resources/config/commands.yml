@@ -26,3 +26,10 @@ services:
             - '@contao.framework'
         tags: 
             - "console.command"
+
+    h4a.command.updateEvents:
+        class: Janborg\H4aTabellen\Command\H4aUpdateEventsCommand
+        arguments:
+            - '@contao.framework'
+        tags: 
+            - "console.command"
