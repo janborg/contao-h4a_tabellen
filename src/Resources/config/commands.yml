@@ -19,3 +19,10 @@ services:
             - '@contao.framework'
         tags: 
             - "console.command"
+
+    h4a.command.updateReports:
+        class: Janborg\H4aTabellen\Command\H4aUpdateReportsCommand
+        arguments:
+            - '@contao.framework'
+        tags: 
+            - "console.command"
