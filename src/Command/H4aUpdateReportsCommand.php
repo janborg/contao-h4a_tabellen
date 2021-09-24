@@ -74,8 +74,12 @@ class H4aUpdateReportsCommand extends Command
 
             $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
 
-            $this->io->text('ReportNo (sGID) '.$sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all erhalten.');
+            if (isset($sGID)) {
+                $objEvent->sGID = $sGID;
+                $objEvent->save();
 
+                $this->io->text('ReportNo (sGID) '.$sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all erhalten.');
+            }
         }
 
         return $this->statusCode;
