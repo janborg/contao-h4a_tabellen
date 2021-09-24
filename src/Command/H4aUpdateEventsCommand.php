@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
-use Janborg\H4aTabellen\H4aEventautomator\H4aEventAutomator;
+use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
 
 class H4aUpdateEventsCommand extends Command
 {

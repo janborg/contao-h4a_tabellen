@@ -7,7 +7,7 @@ use Contao\CalendarModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\System;
-use Janborg\H4aTabellen\H4aEventautomator\H4aEventAutomator;
+use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
 use Janborg\H4aTabellen\Helper\Helper;
 use Psr\Log\LogLevel;
 

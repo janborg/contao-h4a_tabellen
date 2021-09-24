@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license MIT
  */
 
-namespace Janborg\H4aTabellen\H4aEventautomator;
+namespace Janborg\H4aTabellen\H4aEventAutomator;
 
 use Contao\Backend;
 use Contao\CalendarEventsModel;
