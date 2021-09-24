@@ -55,8 +55,8 @@ class H4aUpdateResultsCommand extends Command
         $this->io = new SymfonyStyle($input, $output);
 
         $objEvents = CalendarEventsModel::findby(
-            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?'],
-            [date('Y-m-d'), true]
+            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameNo != ?'],
+            [date('Y-m-d'), true, '']
         );
 
         if (null === $objEvents) {
