@@ -41,7 +41,7 @@ class H4aUpdateResultsCommand extends Command
     }
     protected function configure(): void
     {
-        $commandHelp = '';
+        $commandHelp = 'Update Results in H4a-Events';
 
         $this->setName('h4a:updateresults')
             ->setDescription($commandHelp)
