@@ -10,9 +10,9 @@ declare(strict_types=1);
  * @license MIT
  */
 
-$GLOBALS['BE_MOD']['content']['calendar']['update_events'] = ['Janborg\H4aTabellen\Cron\H4aEventAutomator', 'updateEvents'];
-$GLOBALS['BE_MOD']['content']['calendar']['update_calendar'] = ['Janborg\H4aTabellen\Cron\H4aEventAutomator', 'updateArchive'];
-$GLOBALS['BE_MOD']['content']['calendar']['update_results'] = ['Janborg\H4aTabellen\Cron\H4aEventAutomator', 'updateResults'];
+$GLOBALS['BE_MOD']['content']['calendar']['update_events'] = ['Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator', 'updateEvents'];
+$GLOBALS['BE_MOD']['content']['calendar']['update_calendar'] = ['Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator', 'updateArchive'];
+$GLOBALS['BE_MOD']['content']['calendar']['update_results'] = ['Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator', 'updateResults'];
 
 // Register Cron job
 $GLOBALS['TL_CRON']['daily'][] = ['Janborg\H4aTabellen\Cron\H4aEventAutomator', 'updateEvents'];
