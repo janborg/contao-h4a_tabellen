@@ -12,3 +12,24 @@ services:
         arguments:
             - '@contao.framework'
             - '%kernel.project_dir%'
+    
+    h4a.command.updateResults:
+        class: Janborg\H4aTabellen\Command\H4aUpdateResultsCommand
+        arguments:
+            - '@contao.framework'
+        tags: 
+            - "console.command"
+
+    h4a.command.updateReports:
+        class: Janborg\H4aTabellen\Command\H4aUpdateReportsCommand
+        arguments:
+            - '@contao.framework'
+        tags: 
+            - "console.command"
+
+    h4a.command.updateEvents:
+        class: Janborg\H4aTabellen\Command\H4aUpdateEventsCommand
+        arguments:
+            - '@contao.framework'
+        tags: 
+            - "console.command"
