@@ -111,16 +111,3 @@ $GLOBALS['TL_LANG']['tl_content']['my_team_name']['0'] = 'Mein Team';
 $GLOBALS['TL_LANG']['tl_content']['my_team_name']['1'] = 'Genaue Bezeichnung der Mannschaft, die hervorgehoben werden soll';
 
 $GLOBALS['TL_LANG']['tl_content']['h4a_legend'] = 'Handball4all-Daten';
-
-/*
-* tl_settings
-*/
-
-$GLOBALS['TL_LANG']['tl_settings']['h4a_cache_time']['0'] = 'Cache Zeit [s]';
-$GLOBALS['TL_LANG']['tl_settings']['h4a_cache_time']['1'] = 'Zeit in Sekunden, wie lange ein h4a-Element aus dem Cache geladen wird bevor es neu von h4a abgerufen wird';
-
-$GLOBALS['TL_LANG']['tl_settings']['h4a_legend'] = 'Handball4all-Einstellungen';
-
- /*
- * tl_content
- */
