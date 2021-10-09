@@ -12,14 +12,13 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Command;
 
+use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Helper\Helper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Contao\CalendarEventsModel;
-
 
 class H4aUpdateReportsCommand extends Command
 {
@@ -38,6 +37,7 @@ class H4aUpdateReportsCommand extends Command
 
         parent::__construct();
     }
+
     protected function configure(): void
     {
         $commandHelp = 'Update ReportNo in H4a-Events';
@@ -59,17 +59,14 @@ class H4aUpdateReportsCommand extends Command
         );
 
         if (null === $objEvents) {
-
             $this->io->text('Es wurden keine Events mit Ergebnis, aber ohne ReportNo (sGID) gefunden.');
 
             return $this->statusCode;
         }
-        else {
-            $this->io->text('Es wurden '.\count($objEvents). ' H4a-Events mit Ergebnis, aber ohne ReportNo (sGID) gefunden. Versuche ReportNo abzurufen ...');
-        }
+
+        $this->io->text('Es wurden '.\count($objEvents).' H4a-Events mit Ergebnis, aber ohne ReportNo (sGID) gefunden. Versuche ReportNo abzurufen ...');
 
         foreach ($objEvents as $objEvent) {
-
             $this->io->text('Versuche ReportNo für Spiel'.$objEvent->gGameNo.' abzurufen...');
 
             $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);

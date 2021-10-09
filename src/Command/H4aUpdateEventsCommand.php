@@ -12,16 +12,13 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Command;
 
+use Contao\CalendarModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Janborg\H4aTabellen\Helper\Helper;
+use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Contao\CalendarEventsModel;
-use Contao\CalendarModel;
-use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
 
 class H4aUpdateEventsCommand extends Command
 {
@@ -40,6 +37,7 @@ class H4aUpdateEventsCommand extends Command
 
         parent::__construct();
     }
+
     protected function configure(): void
     {
         $commandHelp = 'Update H4a-Events';
@@ -59,27 +57,23 @@ class H4aUpdateEventsCommand extends Command
             ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
             ['1', '1']
         );
-        
-        if (null === $objCalendars) {
 
+        if (null === $objCalendars) {
             $this->io->text('Es wurden keine Kalender zum Update über H4a gefunden.');
 
             return $this->statusCode;
         }
-        else {
-            $this->io->text('Es wurden '.\count($objCalendars). ' Kalender zum Update über H4a gefunden gefunden.');
-        }
+
+        $this->io->text('Es wurden '.\count($objCalendars).' Kalender zum Update über H4a gefunden gefunden.');
 
         foreach ($objCalendars as $objCalendar) {
-
             $this->io->text('Versuche Events für Kalender'.$objCalendar->title.' (Id: '.$objCalendar->id.') abzurufen...');
 
-            $h4aeventautomator = new H4aEventAutomator;
-            
+            $h4aeventautomator = new H4aEventAutomator();
+
             $h4aeventautomator->syncCalendars($objCalendar);
 
             $this->io->text('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.');
-            
         }
 
         return $this->statusCode;

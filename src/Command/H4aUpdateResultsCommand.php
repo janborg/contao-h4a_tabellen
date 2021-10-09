@@ -12,15 +12,14 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Command;
 
+use Contao\CalendarEventsModel;
+use Contao\CalendarModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Helper\Helper;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Contao\CalendarEventsModel;
-use Contao\CalendarModel;
 
 class H4aUpdateResultsCommand extends Command
 {
@@ -39,6 +38,7 @@ class H4aUpdateResultsCommand extends Command
 
         parent::__construct();
     }
+
     protected function configure(): void
     {
         $commandHelp = 'Update Results in H4a-Events';
@@ -60,23 +60,19 @@ class H4aUpdateResultsCommand extends Command
         );
 
         if (null === $objEvents) {
-
             $this->io->text('Es wurden keine Events ohne Ergebnis gefunden.');
 
             return $this->statusCode;
         }
-        else {
-            $this->io->text('Es wurden '.\count($objEvents). ' H4a-Events ohne Ergebnis gefunden. Versuche Ergebnisse abzurufen ...');
-        }
+
+        $this->io->text('Es wurden '.\count($objEvents).' H4a-Events ohne Ergebnis gefunden. Versuche Ergebnisse abzurufen ...');
 
         foreach ($objEvents as $objEvent) {
-
             $this->io->text('Versuche Ergebnis für Spiel'.$objEvent->gGameNo.' abzurufen...');
 
             if ($objEvent->startTime > time() || '00:00' === date('H:i', (int) $objEvent->startTime)) {
-                
-                $this->io->text('Spiel ',$objEvent->gGameNo.' ist noch nicht gestartet. Abruch ...');
-                
+                $this->io->text('Spiel ', $objEvent->gGameNo.' ist noch nicht gestartet. Abruch ...');
+
                 continue;
             }
 
@@ -96,12 +92,10 @@ class H4aUpdateResultsCommand extends Command
                 $objEvent->save();
 
                 $this->io->text('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert');
-                
             } else {
                 $objEvent->h4a_resultComplete = false;
 
                 $this->io->text('Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden');
-                ;
             }
         }
 
