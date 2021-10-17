@@ -110,4 +110,7 @@ $GLOBALS['TL_LANG']['tl_content']['h4a_team_ID']['1'] = 'Bitte geben Sie die 6-s
 $GLOBALS['TL_LANG']['tl_content']['my_team_name']['0'] = 'Mein Team';
 $GLOBALS['TL_LANG']['tl_content']['my_team_name']['1'] = 'Genaue Bezeichnung der Mannschaft, die hervorgehoben werden soll';
 
+$GLOBALS['TL_LANG']['tl_content']['h4a_verein_ID']['0'] = 'Verein ID';
+$GLOBALS['TL_LANG']['tl_content']['h4a_verein_ID']['1'] = 'Bitte geben Sie die 4-stellige ID des Vereins an, dessen Spiele angezeigt werden sollen';
+
 $GLOBALS['TL_LANG']['tl_content']['h4a_legend'] = 'Handball4all-Daten';

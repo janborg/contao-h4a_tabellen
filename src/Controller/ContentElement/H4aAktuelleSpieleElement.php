@@ -30,7 +30,7 @@ class H4aAktuelleSpieleElement extends AbstractContentElementController
 {
     protected function getResponse(Template $template, ContentModel $model, Request $request): ?Response
     {
-        $arrResult = Helper::getJsonVerein($this->h4a_liga_ID);
+        $arrResult = Helper::getJsonVerein($model->h4a_verein_ID);
         $lastUpdate = time();
 
         $template->spiele = $arrResult['dataList'];
