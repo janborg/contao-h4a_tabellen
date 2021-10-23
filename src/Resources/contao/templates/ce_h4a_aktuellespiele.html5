@@ -16,7 +16,7 @@
                 <th style="text-align:center">Ergebnis</th>
             </tr>
             <?php foreach($this->spiele as $spiel): ?>
-              <?php if ($spiel["lvIDNext"] !== NULL): ?>
+              <?php if (isset($spiel["lvIDNext"])): ?>
               <tr>
                   <td><?=$spiel["gClassSname"] ?></td>
                   <td><?=$spiel["gDate"] ?></td>
