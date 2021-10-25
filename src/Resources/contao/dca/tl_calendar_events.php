@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
-
 /*
  * amend onload_callback
  */
@@ -40,7 +39,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'] = array_me
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] = array_merge(
     ['h4a_update' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['operationImportFromH4a'],
         'class' => 'header_h4a',
         '$href' => 'key=update_calendar',
         'icon' => 'bundles/janborgh4atabellen/update.svg',

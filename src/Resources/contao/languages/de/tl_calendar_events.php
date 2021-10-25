@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+$GLOBALS['TL_LANG']['tl_calendar_events']['operationImportFromH4a'] = 'Update H4a-Events';
+
 $GLOBALS['TL_LANG']['tl_calendar_events']['h4a_legend'] = 'Spiel-Nr. Klasse und Mannschaften';
 $GLOBALS['TL_LANG']['tl_calendar_events']['gymnasium_legend'] = 'Halleninformationen';
 $GLOBALS['TL_LANG']['tl_calendar_events']['result_legend'] = 'Halbzeit- und Endergebnis';
