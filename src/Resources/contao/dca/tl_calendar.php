@@ -20,16 +20,16 @@ System::loadLanguageFile('tl_h4a');
 
 $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
     ['h4a_update' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operationImportFromH4a'],
         'class' => 'header_h4a',
-        '$href' => 'key=update_events',
+        'href' => 'key=update_events',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
         'button_callback' => ['tl_calendar_h4a', 'h4a_update_events'],
     ]],
     ['h4a_update_results' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationUpdateResultsFromH4a'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operationUpdateResultsFromH4a'],
         'class' => 'header_h4a',
-        '$href' => 'key=update_results',
+        'href' => 'key=update_results',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
         'button_callback' => ['tl_calendar_h4a', 'h4a_update_results'],
     ]],
