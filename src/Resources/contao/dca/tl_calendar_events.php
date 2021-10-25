@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
-System::loadLanguageFile('tl_h4a');
 
 /*
  * amend onload_callback
