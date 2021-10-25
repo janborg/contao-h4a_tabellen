@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'] = 'Update H4a-Events';
-$GLOBALS['TL_LANG']['tl_h4a']['operationUpdateResultsFromH4a'] = 'Update H4a-Results';
+$GLOBALS['TL_LANG']['tl_calendar']['operationImportFromH4a'] = 'Update H4a-Events';
+$GLOBALS['TL_LANG']['tl_calendar']['operationUpdateResultsFromH4a'] = 'Update H4a-Results';
 
 $GLOBALS['TL_LANG']['tl_calendar']['h4a_legend'] = 'Handball4all Daten';
 

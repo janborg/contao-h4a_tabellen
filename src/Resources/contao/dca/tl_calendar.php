@@ -12,22 +12,20 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
-System::loadLanguageFile('tl_h4a');
-
 /*
  * Global Operation(s)
  */
 
 $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
     ['h4a_update' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationImportFromH4a'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operationImportFromH4a'],
         'class' => 'header_h4a',
         '$href' => 'key=update_events',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
         'button_callback' => ['tl_calendar_h4a', 'h4a_update_events'],
     ]],
     ['h4a_update_results' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_h4a']['operationUpdateResultsFromH4a'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operationUpdateResultsFromH4a'],
         'class' => 'header_h4a',
         '$href' => 'key=update_results',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
@@ -110,7 +108,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'sql' => "char(1) NOT NULL default ''",
     ]],
     ['h4a_liga_ID' => [
-        'label' => $GLOBALS['TL_LANG']['tl_calendar']['h4a_liga_ID'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga_ID'],
         'inputType' => 'text',
         'exclude' => true,
         'eval' => [
@@ -123,7 +121,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
     ['h4a_team_ID' => [
-        'label' => $GLOBALS['TL_LANG']['tl_calendar']['h4a_team_ID'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_team_ID'],
         'inputType' => 'text',
         'exclude' => true,
         'eval' => [
@@ -136,7 +134,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
     ['my_team_name' => [
-        'label' => $GLOBALS['TL_LANG']['tl_calendar']['my_team_name'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['my_team_name'],
         'inputType' => 'text',
         'exclude' => true,
         'eval' => [
@@ -148,7 +146,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
     ['h4a_season' => [
-        'label' => $GLOBALS['TL_LANG']['tl_calendar']['h4a_season'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_season'],
         'inputType' => 'text',
         'filter' => true,
         'exclude' => true,
