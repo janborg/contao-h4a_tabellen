@@ -41,7 +41,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] = array_me
     ['h4a_update' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['operationImportFromH4a'],
         'class' => 'header_h4a',
-        '$href' => 'key=update_calendar',
+        'href' => 'key=update_calendar',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
         'button_callback' => ['tl_calendar_events_h4a', 'h4a_update'],
     ]],
