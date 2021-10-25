@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
-System::loadLanguageFile('tl_h4a');
-
 /*
  * Global Operation(s)
  */
@@ -110,7 +108,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'sql' => "char(1) NOT NULL default ''",
     ]],
     ['h4a_liga_ID' => [
-        'label' => $GLOBALS['TL_LANG']['tl_calendar']['h4a_liga_ID'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga_ID'],
         'inputType' => 'text',
         'exclude' => true,
         'eval' => [
@@ -123,7 +121,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
     ['h4a_team_ID' => [
-        'label' => $GLOBALS['TL_LANG']['tl_calendar']['h4a_team_ID'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_team_ID'],
         'inputType' => 'text',
         'exclude' => true,
         'eval' => [
@@ -136,7 +134,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
     ['my_team_name' => [
-        'label' => $GLOBALS['TL_LANG']['tl_calendar']['my_team_name'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['my_team_name'],
         'inputType' => 'text',
         'exclude' => true,
         'eval' => [
@@ -148,7 +146,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
     ['h4a_season' => [
-        'label' => $GLOBALS['TL_LANG']['tl_calendar']['h4a_season'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_season'],
         'inputType' => 'text',
         'filter' => true,
         'exclude' => true,
