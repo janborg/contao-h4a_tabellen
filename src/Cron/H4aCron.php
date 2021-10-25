@@ -48,7 +48,7 @@ class H4aCron
 
             System::getContainer()
                 ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
+                ->log(LogLevel::DEBUG, 'Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
             ;
         }
     }
@@ -82,14 +82,14 @@ class H4aCron
 
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
+                    ->log(LogLevel::DEBUG, 'Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
                 ;
             } else {
                 $objEvent->h4a_resultComplete = false;
 
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
+                    ->log(LogLevel::DEBUG, 'Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
                 ;
             }
         }
@@ -115,7 +115,7 @@ class H4aCron
 
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
+                    ->log(LogLevel::DEBUG, 'Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
                 ;
             }
         }
