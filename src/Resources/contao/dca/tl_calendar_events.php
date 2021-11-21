@@ -186,15 +186,14 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'eval' => ['tl_class' => 'w50 m12'],
         'sql' => "char(1) NOT NULL default ''",
     ]],
-    [
-        'gComment' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gComment'],
-            'exclude' => true,
-            'search' => false,
-            'inputType' => 'text',
-            'eval' => ['mandatory' => false, 'tl_class' => 'w50'],
-            'sql' => "varchar(255) NOT NULL default ''",
-        ], ],
+    ['gComment' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gComment'],
+        'exclude' => true,
+        'search' => false,
+        'inputType' => 'text',
+        'eval' => ['mandatory' => false, 'tl_class' => 'w50'],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ]],
     ['sGID' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['sGID'],
         'exclude' => true,
