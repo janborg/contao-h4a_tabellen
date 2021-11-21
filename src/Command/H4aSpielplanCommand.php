@@ -47,11 +47,10 @@ class H4aSpielplanCommand extends Command
     protected function configure(): void
     {
         $commandHelp = 'Ruft die json Datei für den Spielplan einer Mannschaft ab';
-        $parameterLigIDHelp = 'Id des Teams, für das die json Datei abgerufen werden soll';
-        $argument = new InputArgument('teamID', InputArgument::REQUIRED, $parameterLigIDHelp);
+        $parameterLigaIDHelp = 'Id des Teams, für das die json Datei abgerufen werden soll';
 
         $this->setName('h4a:spielplan')
-            ->setDefinition([$argument])
+            ->addArgument('teamID', InputArgument::REQUIRED, $parameterLigaIDHelp)
             ->setDescription($commandHelp)
         ;
     }
