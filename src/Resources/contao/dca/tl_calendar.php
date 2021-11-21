@@ -10,7 +10,9 @@ declare(strict_types=1);
  * @license MIT
  */
 
+use Contao\BackendUser;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\StringUtil;
 
 /*
  * Global Operation(s)

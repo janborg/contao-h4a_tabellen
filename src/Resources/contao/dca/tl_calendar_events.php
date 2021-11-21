@@ -10,7 +10,14 @@ declare(strict_types=1);
  * @license MIT
  */
 
+use Contao\Calendar;
+use Contao\CalendarEventsModel;
+use Contao\CalendarModel;
+use Contao\Config;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Contao\Date;
+use Contao\Input;
+use Contao\StringUtil;
 
 /*
  * amend onload_callback
@@ -277,14 +284,14 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         {
             $objCalendar = CalendarModel::findById(Input::get('id'));
 
-            $span = Contao\Calendar::calculateSpan($arrRow['startTime'], $arrRow['endTime']);
+            $span = Calendar::calculateSpan($arrRow['startTime'], $arrRow['endTime']);
 
             if ($span > 0) {
-                $date = Contao\Date::parse(Contao\Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['startTime']).$GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'].Contao\Date::parse(Contao\Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['endTime']);
+                $date = Date::parse(Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['startTime']).$GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'].Date::parse(Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['endTime']);
             } elseif ($arrRow['startTime'] === $arrRow['endTime']) {
-                $date = Contao\Date::parse(Contao\Config::get('dateFormat'), $arrRow['startTime']).($arrRow['addTime'] ? ' '.Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['startTime']) : '');
+                $date = Date::parse(Config::get('dateFormat'), $arrRow['startTime']).($arrRow['addTime'] ? ' '.Date::parse(Config::get('timeFormat'), $arrRow['startTime']) : '');
             } else {
-                $date = Contao\Date::parse(Contao\Config::get('dateFormat'), $arrRow['startTime']).($arrRow['addTime'] ? ' '.Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['startTime']).$GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'].Contao\Date::parse(Contao\Config::get('timeFormat'), $arrRow['endTime']) : '');
+                $date = Date::parse(Config::get('dateFormat'), $arrRow['startTime']).($arrRow['addTime'] ? ' '.Date::parse(Config::get('timeFormat'), $arrRow['startTime']).$GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'].Date::parse(Config::get('timeFormat'), $arrRow['endTime']) : '');
             }
 
             $result = ' ';
