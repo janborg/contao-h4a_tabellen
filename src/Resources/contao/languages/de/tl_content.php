@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 $GLOBALS['TL_LANG']['CTE']['handball4all'] = 'Handball4All Elemente';
 
 $GLOBALS['TL_LANG']['CTE']['h4a_tabelle']['0'] = 'Tabelle Liga';
@@ -27,6 +35,5 @@ $GLOBALS['TL_LANG']['tl_content']['h4a_verein_ID']['1'] = 'Bitte geben Sie die I
 
 $GLOBALS['TL_LANG']['tl_content']['my_team_name']['0'] = 'Mein Team';
 $GLOBALS['TL_LANG']['tl_content']['my_team_name']['1'] = 'Genaue Bezeichnung der Mannschaft, die hervorgehoben werden soll';
-
 
 $GLOBALS['TL_LANG']['tl_content']['h4a_legend'] = 'Handball4all-Daten';

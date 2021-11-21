@@ -289,11 +289,10 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
 
             $result = ' ';
             // Show result in listview only, when existing
-            if ('1' == $arrRow["h4a_resultComplete"]) {
+            if ('1' === $arrRow['h4a_resultComplete']) {
                 $result = $arrRow['gHomeGoals'].' : '.$arrRow['gGuestGoals'].' ('.$arrRow['gHomeGoals_1'].' : '.$arrRow['gGuestGoals_1'].')';
             }
-            
-            
+
             //different listview with result for calendars, that are updated via h4a
             if ('1' === $objCalendar->h4a_imported) {
                 return '<div class="tl_content_left"><span style="padding-right:3px">['.$date.']</span>'.$arrRow['title'].' <span style="color:#999;padding-left:3px">'.$result.'</span> </div>';

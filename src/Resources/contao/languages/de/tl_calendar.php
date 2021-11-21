@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 $GLOBALS['TL_LANG']['tl_calendar']['operationImportFromH4a'] = 'Update H4a-Events';
 $GLOBALS['TL_LANG']['tl_calendar']['operationUpdateResultsFromH4a'] = 'Update H4a-Results';
 
