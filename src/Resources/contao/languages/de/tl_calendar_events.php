@@ -57,3 +57,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['gGuestGoals_1']['1'] = 'Wird automati
 
 $GLOBALS['TL_LANG']['tl_calendar_events']['h4a_resultComplete']['0'] = 'Ergebnis vorhanden';
 $GLOBALS['TL_LANG']['tl_calendar_events']['h4a_resultComplete']['1'] = 'Wird automatisch beim Update über handball4all gesetzt';
+
+$GLOBALS['TL_LANG']['tl_calendar_events']['sGID']['0'] = 'Spielberichtsnummer';
+$GLOBALS['TL_LANG']['tl_calendar_events']['sGID']['1'] = 'Die ID des Spielberichts auf handball4all';
+
