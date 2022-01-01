@@ -209,6 +209,20 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
+    ['h4a_season' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_season'],
+        'inputType' => 'text',
+        'filter' => true,
+        'exclude' => true,
+        'eval' => [
+            'mandatory' => true,
+            'unique' => false,
+            'minlength' => 9,
+            'maxlength' => 9,
+            'tl_class' => 'w50',
+        ],
+        'sql' => "varchar(9) NOT NULL default ''",
+    ]],
     $GLOBALS['TL_DCA']['tl_calendar_events']['fields']
 );
 
@@ -238,7 +252,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
             if ('1' === $objCalendar->h4a_imported) {
                 PaletteManipulator::create()
                     ->addLegend('h4a_legend', 'title_legend', PaletteManipulator::POSITION_AFTER)
-                    ->addField('gHomeTeam,gGuestTeam,gClassID,gClassName,gGameNo,sGID', 'h4a_legend', PaletteManipulator::POSITION_APPEND)
+                    ->addField('gHomeTeam,gGuestTeam,gClassID,gClassName,h4a_season,gGameNo,sGID', 'h4a_legend', PaletteManipulator::POSITION_APPEND)
                     ->applyToPalette('default', 'tl_calendar_events')
                 ;
 
