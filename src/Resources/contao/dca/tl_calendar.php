@@ -13,6 +13,7 @@ declare(strict_types=1);
 use Contao\BackendUser;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\StringUtil;
+use Contao\DataContainer;
 
 /*
  * Global Operation(s)
@@ -32,6 +33,13 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
         'href' => 'key=update_results',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
         'button_callback' => ['tl_calendar_h4a', 'h4a_update_results'],
+    ]],
+    ['h4a_seasons' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operationSeasons'],
+        'class' => 'header_h4a',
+        'href' => 'table=tl_h4a_seasons',
+        'icon' => 'bundles/janborgh4atabellen/seasons.svg',
+        'attr' => 'onclick="Backend.getScrollOffset()"',
     ]],
     $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations']
 );
@@ -84,7 +92,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'] = array_merge(
  */
 
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] = array_merge(
-    ['h4a_imported' => 'h4a_team_ID, my_team_name, h4a_season, h4aEvents_author, h4a_ignore',
+    ['h4a_imported' => 'h4a_team_ID, my_team_name, h4a_season, h4a_seasons, h4aEvents_author, h4a_ignore',
     ],
     $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']
 );
@@ -161,6 +169,47 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         ],
         'sql' => "varchar(9) NOT NULL default ''",
     ]],
+    ['h4a_seasons' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_seasons'],
+        'exclude'  => true,
+        'inputType' => 'multiColumnWizard',
+        'eval' => [
+            'columnFields' => [
+                'h4a_saison' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
+                    'inputType' => 'select',
+                    'options_callback' => ['tl_calendar_h4a', 'getSeasons'],
+                    'eval' => [
+                        'mandatory' => true,
+                        'style' => 'width:150px;',
+                        'includeBlankOption' => true,
+                        'chosen' => true,
+                    ],
+                ],
+                'h4a_liga' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga'],
+                    'inputType' => 'text',
+                    'eval' => [
+                        'mandatory' => true,
+                        'rgxp' => 'digit',
+                        'maxlength' => 5,
+                        'style' => 'width:150px;',
+                    ],
+                ],
+                'h4a_team' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_team'],
+                    'inputType' => 'text',
+                    'eval' => [
+                        'mandatory' => true,
+                        'rgxp' => 'digit',
+                        'maxlength' => 6,
+                        'style' => 'width:150px;',
+                    ],
+                ],
+            ],
+        ],
+        'sql'       => 'blob NULL',
+    ]],
     ['h4aEvents_author' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4aEvents_author'],
         'default' => BackendUser::getInstance()->id,
@@ -231,5 +280,20 @@ class tl_calendar_h4a extends Backend
         $href = 'key=update_results';
 
         return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function getSeasons()
+    {
+        $arrSeasons = [];
+        $objSeasons = $this->Database->prepare('SELECT * FROM tl_h4a_seasons')->execute();
+        while ($objSeasons->next()) {
+            $arrSeasons[$objSeasons->id] = $objSeasons->season;
+        }
+
+        return $arrSeasons;
     }
 }
