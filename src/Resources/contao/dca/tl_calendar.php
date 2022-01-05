@@ -92,7 +92,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'] = array_merge(
  */
 
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] = array_merge(
-    ['h4a_imported' => 'h4a_team_ID, my_team_name, h4a_season, h4a_seasons, h4aEvents_author, h4a_ignore',
+    ['h4a_imported' => 'h4a_seasons, h4aEvents_author, h4a_ignore',
     ],
     $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']
 );
@@ -117,58 +117,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'eval' => ['tl_class' => 'w50 m12'],
         'sql' => "char(1) NOT NULL default ''",
     ]],
-    ['h4a_liga_ID' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga_ID'],
-        'inputType' => 'text',
-        'exclude' => true,
-        'eval' => [
-            'mandatory' => true,
-            'rgxp' => 'digit',
-            'minlength' => 5,
-            'maxlength' => 5,
-            'tl_class' => 'w50',
-        ],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ]],
-    ['h4a_team_ID' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_team_ID'],
-        'inputType' => 'text',
-        'exclude' => true,
-        'eval' => [
-            'mandatory' => true,
-            'rgxp' => 'digit',
-            'minlength' => 6,
-            'maxlength' => 6,
-            'tl_class' => 'w50',
-        ],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ]],
-    ['my_team_name' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['my_team_name'],
-        'inputType' => 'text',
-        'exclude' => true,
-        'eval' => [
-            'mandatory' => true,
-            'unique' => false,
-            'maxlength' => 255,
-            'tl_class' => 'w50',
-        ],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ]],
-    ['h4a_season' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_season'],
-        'inputType' => 'text',
-        'filter' => true,
-        'exclude' => true,
-        'eval' => [
-            'mandatory' => true,
-            'unique' => false,
-            'minlength' => 9,
-            'maxlength' => 9,
-            'tl_class' => 'w50',
-        ],
-        'sql' => "varchar(9) NOT NULL default ''",
-    ]],
     ['h4a_seasons' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_seasons'],
         'exclude'  => true,
@@ -181,19 +129,9 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
                     'options_callback' => ['tl_calendar_h4a', 'getSeasons'],
                     'eval' => [
                         'mandatory' => true,
-                        'style' => 'width:150px;',
+                        'style' => 'width:120px;',
                         'includeBlankOption' => true,
                         'chosen' => true,
-                    ],
-                ],
-                'h4a_liga' => [
-                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga'],
-                    'inputType' => 'text',
-                    'eval' => [
-                        'mandatory' => true,
-                        'rgxp' => 'digit',
-                        'maxlength' => 5,
-                        'style' => 'width:150px;',
                     ],
                 ],
                 'h4a_team' => [
@@ -203,7 +141,26 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
                         'mandatory' => true,
                         'rgxp' => 'digit',
                         'maxlength' => 6,
-                        'style' => 'width:150px;',
+                        'style' => 'width:120px;',
+                    ],
+                ],
+                'h4a_liga' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga'],
+                    'inputType' => 'text',
+                    'eval' => [
+                        'mandatory' => true,
+                        'rgxp' => 'digit',
+                        'maxlength' => 5,
+                        'style' => 'width:120px;',
+                    ],
+                ],
+                'my_team_name' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['my_team_name'],
+                    'inputType' => 'text',
+                    'eval' => [
+                        'mandatory' => true,
+                        'maxlength' => 255,
+                        'style' => 'width:200px;',
                     ],
                 ],
             ],
