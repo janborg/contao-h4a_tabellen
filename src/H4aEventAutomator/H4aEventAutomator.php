@@ -230,9 +230,7 @@ class H4aEventAutomator extends Backend
                 continue;
             }
 
-            $objCalendar = CalendarModel::findById($objEvent->pid);
-
-            $arrResult = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
+            $arrResult = Helper::getJsonLigaSpielplan($objEvent->gClassID); 
 
             $games = $arrResult['dataList'];
             $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
