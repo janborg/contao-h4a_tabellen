@@ -39,3 +39,7 @@ services:
                 name: contao.cronjob
                 interval: "hourly"
                 method: updateEvents
+
+    Janborg\H4aTabellen\Migration\Ḩ4aSeasonsMigration:
+        tags:
+            - { name: contao.migration, priority: 0 }
