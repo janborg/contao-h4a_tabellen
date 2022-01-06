@@ -40,6 +40,6 @@ services:
                 interval: "hourly"
                 method: updateEvents
 
-    Janborg\H4aTabellen\Migration\Ḩ4aSeasonsMigration:
+    Janborg\H4aTabellen\Migration\H4aSeasonsMigration:
         tags:
             - { name: contao.migration, priority: 0 }
