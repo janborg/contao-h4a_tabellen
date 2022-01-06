@@ -25,8 +25,8 @@ class H4aSeasonsMigration extends AbstractMigration
     {
         $schemaManager = $this->connection->getSchemaManager();
 
-        // If the database table itself does not exist we should do nothing
-        if (!$schemaManager->tablesExist(['tl_h4a_seasons'])) {
+        // If the database table already itself exists we should do nothing
+        if ($schemaManager->tablesExist(['tl_h4a_seasons'])) {
             return false;
         }
 
