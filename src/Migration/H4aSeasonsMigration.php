@@ -6,6 +6,7 @@ use Contao\CoreBundle\Migration\AbstractMigration;
 use Contao\CoreBundle\Migration\MigrationResult;
 use Doctrine\DBAL\Connection;
 use Contao\CalendarModel;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Helper\Helper;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
 
@@ -16,10 +17,17 @@ class H4aSeasonsMigration extends AbstractMigration
      */
     private $connection;
 
-    public function __construct(Connection $connection)
+    /**
+     * @var ContaoFramework
+     */
+     private $framework;
+
+    public function __construct(Connection $connection, ContaoFramework $framework)
     {
         $this->connection = $connection;
+        $this->framework = $framework;
     }
+
 
     public function shouldRun(): bool
     {
@@ -40,16 +48,18 @@ class H4aSeasonsMigration extends AbstractMigration
 
     public function run(): MigrationResult
     {
+        $this->framework->initialize();
 
         // neue Tabelle tl_h4a_seasons anlegen
         $this->connection->executeQuery("
-            CREATE TABLE
-                tl_h4a_seasons (
-                    id int(10) unsigned NOT NULL auto_increment,
-                    tstamp int(10) unsigned NOT NULL default '0',
-                    season varchar(255) NULL default '',
-                    is_current_season char(1) NOT NULL default ''
-                )
+        CREATE TABLE tl_h4a_seasons (
+            id INT UNSIGNED AUTO_INCREMENT NOT NULL, 
+            tstamp INT UNSIGNED DEFAULT 0 NOT NULL, 
+            season VARCHAR(255) DEFAULT '', 
+            is_current_season CHAR(1) DEFAULT '' NOT NULL, 
+            PRIMARY KEY(id)
+        ) 
+            DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB ROW_FORMAT = DYNAMIC
         ");
 
         // neues Feld h4a_seasons in der tl_calendar anlegen
@@ -87,7 +97,7 @@ class H4aSeasonsMigration extends AbstractMigration
             $arrH4aSpielplan = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
             
             $h4aSaison = [
-                'h4a_saison' => H4aSeasonModel::findby('season=?', $objCalendar->h4a_season),
+                'h4a_saison' => H4aSeasonModel::findby(['season=?'], [$objCalendar->h4a_season]),
                 'h4a_team' => $objCalendar->h4a_team_ID,
                 'h4a_liga' => $arrH4aSpielplan['dataList'][0]['gClassID'],
                 'my_team_name' => $objCalendar->my_team_name,
