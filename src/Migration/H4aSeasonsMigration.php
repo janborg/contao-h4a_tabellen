@@ -31,11 +31,11 @@ class H4aSeasonsMigration extends AbstractMigration
         }
 
         $columns = $schemaManager->listTableColumns('tl_calendar');
-
+        
         return 
-	        isset($columns['h4a_team_ID']) &&
-	        isset($columns['h4a_season']) &&
-	        !isset($columns['my_team_name']);
+            isset($columns['h4a_team_id']) && 
+            isset($columns['h4a_season']) &&
+            isset($columns['my_team_name']);
     }
 
     public function run(): MigrationResult

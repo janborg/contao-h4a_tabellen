@@ -1,0 +1,7 @@
+services:
+    _defaults:
+        autoconfigure: true
+
+    Janborg\H4aTabellen\Migration\H4aSeasonsMigration:
+        arguments:
+            - '@database_connection'
