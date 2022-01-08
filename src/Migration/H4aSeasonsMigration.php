@@ -32,7 +32,7 @@ class H4aSeasonsMigration extends AbstractMigration
     public function shouldRun(): bool
     {
         $schemaManager = $this->connection->getSchemaManager();
-
+    
         // If the database table already itself exists we should do nothing
         if ($schemaManager->tablesExist(['tl_h4a_seasons'])) {
             return false;
@@ -70,19 +70,20 @@ class H4aSeasonsMigration extends AbstractMigration
                 h4a_seasons blob NULL
         ");
         // alle in Kalendern hinterlegten Saisons finden
-        $seasons = $this->connection->executeQuery("
+        $seasons = $this->connection->fetchAllAssociative("
             SELECT DISTINCT
                 h4a_season 
             FROM 
                 tl_calendar
             WHERE
                 h4a_imported = 1
+            ORDER BY h4a_season ASC
         ");
         
         // neue Seasons in Tabelle tl_h4a_seasons anlegen
         foreach ($seasons as $season) {
             $objSeason = new H4aSeasonModel();
-            $objSeason->h4a_saison = $season->h4a_season;
+            $objSeason->season = $season['h4a_season'];
             $objSeason->is_current_season = 0;
             $objSeason->save();
         };
@@ -96,21 +97,21 @@ class H4aSeasonsMigration extends AbstractMigration
         foreach ($objCalendars as $objCalendar) {
             $arrH4aSpielplan = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
             
-            $h4aSaison = [
-                'h4a_saison' => H4aSeasonModel::findby(['season=?'], [$objCalendar->h4a_season]),
+            $strSeason = H4aSeasonModel::findby(['season=?'], [$objCalendar->h4a_season]);
+
+            $h4aSaison[0] = [
+                'h4a_saison' => $strSeason->id,
                 'h4a_team' => $objCalendar->h4a_team_ID,
                 'h4a_liga' => $arrH4aSpielplan['dataList'][0]['gClassID'],
-                'my_team_name' => $objCalendar->my_team_name,
+                'my_team_name' => $objCalendar->my_team_name, //$arrH4aSpielplan['dataList'][0]['lvTypeLabelStr], aber ohne "/ " am Anfang
             ];
             $objCalendar->h4a_seasons = serialize($h4aSaison);
             $objCalendar->save();
         };
         
-
-
         return $this->createResult( 
             true, 
-            'Created new seasons and updated H4a calendars.'
+            'Created '.count($seasons).' new seasons and updated '.count($objCalendars).' H4a-Calendars.'
         );
     }
 }
