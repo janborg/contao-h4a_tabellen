@@ -1,12 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 namespace Janborg\H4aTabellen\Migration;
 
+use Contao\CalendarModel;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Migration\AbstractMigration;
 use Contao\CoreBundle\Migration\MigrationResult;
 use Doctrine\DBAL\Connection;
-use Contao\CalendarModel;
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Helper\Helper;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
 
@@ -20,7 +30,7 @@ class H4aSeasonsMigration extends AbstractMigration
     /**
      * @var ContaoFramework
      */
-     private $framework;
+    private $framework;
 
     public function __construct(Connection $connection, ContaoFramework $framework)
     {
@@ -28,22 +38,21 @@ class H4aSeasonsMigration extends AbstractMigration
         $this->framework = $framework;
     }
 
-
     public function shouldRun(): bool
     {
         $schemaManager = $this->connection->getSchemaManager();
-    
+
         // If the database table already itself exists we should do nothing
         if ($schemaManager->tablesExist(['tl_h4a_seasons'])) {
             return false;
         }
 
         $columns = $schemaManager->listTableColumns('tl_calendar');
-        
-        return 
-            isset($columns['h4a_team_id']) && 
-            isset($columns['h4a_season']) &&
-            isset($columns['my_team_name']);
+
+        return
+            isset($columns['h4a_team_id']) &&
+            isset($columns['h4a_season'], $columns['my_team_name'])
+            ;
     }
 
     public function run(): MigrationResult
@@ -63,14 +72,14 @@ class H4aSeasonsMigration extends AbstractMigration
         ");
 
         // neues Feld h4a_seasons in der tl_calendar anlegen
-        $this->connection->executeQuery("
+        $this->connection->executeQuery('
             ALTER TABLE
                 tl_calendar
             ADD
                 h4a_seasons blob NULL
-        ");
+        ');
         // alle in Kalendern hinterlegten Saisons finden
-        $seasons = $this->connection->fetchAllAssociative("
+        $seasons = $this->connection->fetchAllAssociative('
             SELECT DISTINCT
                 h4a_season 
             FROM 
@@ -78,25 +87,25 @@ class H4aSeasonsMigration extends AbstractMigration
             WHERE
                 h4a_imported = 1
             ORDER BY h4a_season ASC
-        ");
-        
+        ');
+
         // neue Seasons in Tabelle tl_h4a_seasons anlegen
         foreach ($seasons as $season) {
             $objSeason = new H4aSeasonModel();
             $objSeason->season = $season['h4a_season'];
             $objSeason->is_current_season = 0;
             $objSeason->save();
-        };
-
+        }
 
         //Bei allen tl_calendar mit update_h4a = 1 die Saison, ligaID, teamID, team name in h4a_seasons serialized eintragen
         $objCalendars = CalendarModel::findBy(
             ['tl_calendar.h4a_imported=?'],
             ['1']
         );
+
         foreach ($objCalendars as $objCalendar) {
             $arrH4aSpielplan = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
-            
+
             $strSeason = H4aSeasonModel::findby(['season=?'], [$objCalendar->h4a_season]);
 
             $h4aSaison[0] = [
@@ -107,11 +116,11 @@ class H4aSeasonsMigration extends AbstractMigration
             ];
             $objCalendar->h4a_seasons = serialize($h4aSaison);
             $objCalendar->save();
-        };
-        
-        return $this->createResult( 
-            true, 
-            'Created '.count($seasons).' new seasons and updated '.count($objCalendars).' H4a-Calendars.'
+        }
+
+        return $this->createResult(
+            true,
+            'Created '.\count($seasons).' new seasons and updated '.\count($objCalendars).' H4a-Calendars.'
         );
     }
 }
