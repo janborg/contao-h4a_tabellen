@@ -80,14 +80,14 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] =
             'eval' => ['maxlength' => 9, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NULL default ''",
         ],
-       'is_current_season' => array(
-           'label'                   => &$GLOBALS['TL_LANG']['tl_h4a_season']['is_current_season'],
-           'default'                 => 0,
-           'unique'                  => true,
-           'exclude'                 => true,
-           'inputType'               => 'checkbox',
-           'eval'                    => array('tl_class'=>'w50'),
-           'sql'                     => "char(1) NOT NULL default ''"
-       ),
+        'is_current_season' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_h4a_season']['is_current_season'],
+            'default' => 0,
+            'unique' => true,
+            'exclude' => true,
+            'inputType' => 'checkbox',
+            'eval' => ['tl_class' => 'w50'],
+            'sql' => "char(1) NOT NULL default ''",
+        ],
     ],
 ];

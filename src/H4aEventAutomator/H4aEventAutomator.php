@@ -81,10 +81,8 @@ class H4aEventAutomator extends Backend
     public function syncCalendars(CalendarModel $objCalendar): void
     {
         $arrSeasons = unserialize($objCalendar->h4a_seasons);
-        
 
-        foreach ($arrSeasons as $arrSeason ) {
-            
+        foreach ($arrSeasons as $arrSeason) {
             $seasonName = H4aSeasonModel::findById($arrSeason['h4a_saison'])->season;
 
             $arrResultSpielplan = Helper::getJsonSpielplan($arrSeason['h4a_team']);
@@ -208,7 +206,6 @@ class H4aEventAutomator extends Backend
                     }
                 }
             }
-
         }
     }
 
@@ -230,7 +227,7 @@ class H4aEventAutomator extends Backend
                 continue;
             }
 
-            $arrResult = Helper::getJsonLigaSpielplan($objEvent->gClassID); 
+            $arrResult = Helper::getJsonLigaSpielplan($objEvent->gClassID);
 
             $games = $arrResult['dataList'];
             $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);

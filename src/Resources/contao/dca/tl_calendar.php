@@ -13,7 +13,6 @@ declare(strict_types=1);
 use Contao\BackendUser;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\StringUtil;
-use Contao\DataContainer;
 
 /*
  * Global Operation(s)
@@ -119,7 +118,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
     ]],
     ['h4a_seasons' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_seasons'],
-        'exclude'  => true,
+        'exclude' => true,
         'inputType' => 'multiColumnWizard',
         'eval' => [
             'columnFields' => [
@@ -165,7 +164,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
                 ],
             ],
         ],
-        'sql'       => 'blob NULL',
+        'sql' => 'blob NULL',
     ]],
     ['h4aEvents_author' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4aEvents_author'],
@@ -240,13 +239,13 @@ class tl_calendar_h4a extends Backend
     }
 
     /**
-     * 
      * @return array
      */
     public function getSeasons()
     {
         $arrSeasons = [];
         $objSeasons = $this->Database->prepare('SELECT * FROM tl_h4a_seasons')->execute();
+
         while ($objSeasons->next()) {
             $arrSeasons[$objSeasons->id] = $objSeasons->season;
         }

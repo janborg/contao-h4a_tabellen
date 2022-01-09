@@ -25,8 +25,7 @@ $GLOBALS['BE_MOD']['content']['calendar']['update_events'] = ['Janborg\H4aTabell
 $GLOBALS['BE_MOD']['content']['calendar']['update_calendar'] = ['Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator', 'updateArchive'];
 $GLOBALS['BE_MOD']['content']['calendar']['update_results'] = ['Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator', 'updateResults'];
 
-
-/**
+/*
  * tables
  */
 
