@@ -83,7 +83,7 @@ class H4aEventAutomator extends Backend
         $arrSeasons = unserialize($objCalendar->h4a_seasons);
 
         foreach ($arrSeasons as $arrSeason) {
-            $seasonName = H4aSeasonModel::findById($arrSeason['h4a_saison'])->season;
+            $seasonID = H4aSeasonModel::findById($arrSeason['h4a_saison'])->id;
 
             $arrResultSpielplan = Helper::getJsonSpielplan($arrSeason['h4a_team']);
             $arrResultTabelle = Helper::getJsonTabelle($arrResultSpielplan['dataList'][0]['gClassID']);
@@ -116,7 +116,7 @@ class H4aEventAutomator extends Backend
                         $dateDay = mktime(0, 0, 0, (int) ($arrDate[1]), (int) ($arrDate[0]), (int) ($arrDate[2]));
                         $dateTime = mktime((int) ($arrTime[0]), (int) ($arrTime[1]), 0, (int) ($arrDate[1]), (int) ($arrDate[0]), (int) ($arrDate[2]));
 
-                        $objEvent->h4a_season = $seasonName;
+                        $objEvent->h4a_season = $seasonID;
                         $objEvent->gGameID = $arrSpiel['gID'];
                         $objEvent->author = $objCalendar->h4aEvents_author;
                         $objEvent->source = 'default';
@@ -168,7 +168,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->timestamp = time();
                         $objEvent->title = $arrSpiel['gClassSname'].': '.$arrSpiel['gHomeTeam'].' - '.$arrSpiel['gGuestTeam'];
                         $objEvent->alias = StringUtil::generateAlias($arrSpiel['gClassSname'].'_'.$arrSpiel['gHomeTeam'].'_'.$arrSpiel['gGuestTeam'].'_'.$arrSpiel['gNo']);
-                        $objEvent->h4a_season = $seasonName;
+                        $objEvent->h4a_season = $seasonID;
                         $objEvent->gGameID = $arrSpiel['gID'];
                         $objEvent->gGameNo = $arrSpiel['gNo'];
                         $objEvent->gClassID = $arrSpiel['gClassID'];
