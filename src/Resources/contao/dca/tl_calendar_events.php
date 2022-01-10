@@ -211,7 +211,8 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
     ]],
     ['h4a_season' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_season'],
-        'inputType' => 'text',
+        'inputType' => 'select',
+        'foreignKey' => 'tl_h4a_season.season',
         'filter' => true,
         'exclude' => true,
         'eval' => [
