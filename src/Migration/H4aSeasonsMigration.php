@@ -91,10 +91,11 @@ class H4aSeasonsMigration extends AbstractMigration
 
         // neue Seasons in Tabelle tl_h4a_seasons anlegen
         foreach ($seasons as $season) {
-            $objSeason = new H4aSeasonModel();
-            $objSeason->season = $season['h4a_season'];
-            $objSeason->is_current_season = 0;
-            $objSeason->save();
+            $objNewSeason = new H4aSeasonModel();
+            $objNewSeason->tstamp = time(); 
+            $objNewSeason->season = $season['h4a_season'];
+            $objNewSeason->is_current_season = 0;
+            $objNewSeason->save();
         }
 
         //Bei allen tl_calendar mit update_h4a = 1 die Saison, ligaID, teamID, team name in h4a_seasons serialized eintragen
@@ -106,10 +107,10 @@ class H4aSeasonsMigration extends AbstractMigration
         foreach ($objCalendars as $objCalendar) {
             $arrH4aSpielplan = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
 
-            $strSeason = H4aSeasonModel::findby(['season=?'], [$objCalendar->h4a_season]);
+            $objSeason = H4aSeasonModel::findby(['season=?'], [$objCalendar->h4a_season]);
 
             $h4aSaison[0] = [
-                'h4a_saison' => $strSeason->id,
+                'h4a_saison' => $objSeason->id,
                 'h4a_team' => $objCalendar->h4a_team_ID,
                 'h4a_liga' => $arrH4aSpielplan['dataList'][0]['gClassID'],
                 'my_team_name' => $objCalendar->my_team_name, //$arrH4aSpielplan['dataList'][0]['lvTypeLabelStr], aber ohne "/ " am Anfang
