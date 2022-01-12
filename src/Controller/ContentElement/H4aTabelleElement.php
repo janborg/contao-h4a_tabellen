@@ -34,7 +34,6 @@ class H4aTabelleElement extends AbstractContentElementController
         $lastUpdate = time();
 
         $template->teams = $arrResult['dataList'];
-        $template->class = 'ce_h4a_tabelle';
         $template->myTeam = $model->my_team_name;
         $template->lastUpdate = $lastUpdate;
 

@@ -18,10 +18,10 @@ System::loadLanguageFile('tl_h4a');
  * Palettes
  */
 
-$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_tabelle'] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name';
-$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_spiele'] = '{type_legend},type,headline;{h4a_legend},h4a_team_ID, my_team_name';
-$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_aktuellespiele'] = '{type_legend},type,headline;{h4a_legend},h4a_verein_ID, my_team_name';
-$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_ligaspiele'] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_tabelle'] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_spiele'] = '{type_legend},type,headline;{h4a_legend},h4a_team_ID, my_team_name;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_aktuellespiele'] = '{type_legend},type,headline;{h4a_legend},h4a_verein_ID, my_team_name;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_ligaspiele'] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{expert_legend:hide},cssID';
 /*
  * Fields
  */
