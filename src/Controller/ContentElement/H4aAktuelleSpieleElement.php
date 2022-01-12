@@ -34,7 +34,6 @@ class H4aAktuelleSpieleElement extends AbstractContentElementController
         $lastUpdate = time();
 
         $template->spiele = $arrResult['dataList'];
-        $template->class = 'ce_h4a_aktuellespiele';
         $template->myTeam = $model->my_team_name;
         $template->lastUpdate = $lastUpdate;
 
