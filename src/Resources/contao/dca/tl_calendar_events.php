@@ -218,8 +218,6 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'eval' => [
             'mandatory' => true,
             'unique' => false,
-            'minlength' => 9,
-            'maxlength' => 9,
             'tl_class' => 'w50',
         ],
         'sql' => "varchar(9) NOT NULL default ''",
@@ -253,7 +251,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
             if ('1' === $objCalendar->h4a_imported) {
                 PaletteManipulator::create()
                     ->addLegend('h4a_legend', 'title_legend', PaletteManipulator::POSITION_AFTER)
-                    ->addField('gHomeTeam,gGuestTeam,gClassID,gClassName,h4a_season,gGameNo,sGID', 'h4a_legend', PaletteManipulator::POSITION_APPEND)
+                    ->addField('gHomeTeam,gGuestTeam,gClassID,gClassName,h4a_season,gGameNo', 'h4a_legend', PaletteManipulator::POSITION_APPEND)
                     ->applyToPalette('default', 'tl_calendar_events')
                 ;
 
@@ -265,7 +263,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
 
                 PaletteManipulator::create()
                     ->addLegend('result_legend', 'gymnasium_legend', PaletteManipulator::POSITION_AFTER)
-                    ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1,h4a_resultComplete,gComment', 'result_legend', PaletteManipulator::POSITION_APPEND)
+                    ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1,sGID,gComment,h4a_resultComplete', 'result_legend', PaletteManipulator::POSITION_APPEND)
                     ->applyToPalette('default', 'tl_calendar_events')
                 ;
             }
