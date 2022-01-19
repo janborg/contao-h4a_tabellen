@@ -237,6 +237,9 @@ class H4aEventAutomator extends Backend
                     ->get('monolog.logger.contao')
                     ->log(LogLevel::INFO, 'Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
                 ;
+                
+                $this->updateReportIdForEvent($objEvent);
+
             } else {
                 $objEvent->h4a_resultComplete = false;
 
@@ -266,17 +269,27 @@ class H4aEventAutomator extends Backend
         }
 
         foreach ($objEvents as $objEvent) {
-            $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
+            $this->updateReportIdForEvent($objEvent);
+        }
+    }
 
-            if (isset($sGID)) {
-                $objEvent->sGID = $sGID;
-                $objEvent->save();
+    /**
+     * Update field sGID for a single calendarEvent.
+     *
+     * @param CalendarEventsModel $objEvent
+     */
+    public function updateReportIdForEvent(CalendarEventsModel $objEvent): void
+    {
+        $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
 
-                System::getContainer()
-                    ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
-                ;
-            }
+        if (isset($sGID)) {
+            $objEvent->sGID = $sGID;
+            $objEvent->save();
+
+            System::getContainer()
+                ->get('monolog.logger.contao')
+                ->log(LogLevel::INFO, 'Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
+            ;
         }
     }
 }
