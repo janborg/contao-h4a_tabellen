@@ -22,12 +22,6 @@ use Contao\StringUtil;
 /*
  * amend onload_callback
  */
-$GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'] = array_merge(
-    [
-        ['tl_calendar_events_h4a', 'h4a_event_imported'],
-    ],
-    $GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback']
-);
 
 /*
  * Extend palettes
@@ -237,36 +231,6 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         {
             parent::__construct();
             $this->import('BackendUser', 'User');
-        }
-
-        /**
-         * @param DataContainer $dc
-         *extend palettes only if checkbox "h4a_imported" in parent calendar is set
-         */
-        public function h4a_event_imported(DataContainer $dc): void
-        {
-            $objCalendarEvent = CalendarEventsModel::findById(Input::get('id'));
-            $objCalendar = CalendarModel::findById($objCalendarEvent->pid);
-
-            if ('1' === $objCalendar->h4a_imported) {
-                PaletteManipulator::create()
-                    ->addLegend('h4a_legend', 'title_legend', PaletteManipulator::POSITION_AFTER)
-                    ->addField('gHomeTeam,gGuestTeam,gClassID,gClassName,h4a_season,gGameNo', 'h4a_legend', PaletteManipulator::POSITION_APPEND)
-                    ->applyToPalette('default', 'tl_calendar_events')
-                ;
-
-                PaletteManipulator::create()
-                    ->addLegend('gymnasium_legend', 'h4a_legend', PaletteManipulator::POSITION_AFTER)
-                    ->addField('gGymnasiumNo,gGymnasiumName,gGymnasiumStreet,gGymnasiumTown,gGymnasiumPostal', 'gymnasium_legend', PaletteManipulator::POSITION_APPEND)
-                    ->applyToPalette('default', 'tl_calendar_events')
-                ;
-
-                PaletteManipulator::create()
-                    ->addLegend('result_legend', 'gymnasium_legend', PaletteManipulator::POSITION_AFTER)
-                    ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1,sGID,gComment,h4a_resultComplete', 'result_legend', PaletteManipulator::POSITION_APPEND)
-                    ->applyToPalette('default', 'tl_calendar_events')
-                ;
-            }
         }
 
         /**
