@@ -32,5 +32,6 @@ class JanborgH4aTabellenExtension extends Extension
         $loader->load('commands.yml');
         $loader->load('services.yml');
         $loader->load('migrations.yml');
+        $loader->load('listener.yml');
     }
 }
