@@ -8,11 +8,11 @@ services:
                 - [setFramework, ['@contao.framework']]
 
     h4atabellen.calendarevents.onload.callback:
-        class: Janborg\H4aTabellen\EventListener\DataContainer\ExtendPaletteForH4aCalendarEventsCallback   
+        class: Janborg\H4aTabellen\EventListener\DataContainer\H4aCalendarEventsExtendPaletteCallback   
         arguments:
             - '@request_stack'
 
-    h4atabellen.calendar.list.childrecords.callback:
+    h4atabellen.calendarevents.list.childrecords.callback:
         class: Janborg\H4aTabellen\EventListener\DataContainer\CalendarListChildRecordsCallback   
         arguments:
             - '@request_stack'
