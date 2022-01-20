@@ -11,7 +11,7 @@ use Contao\DataContainer;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
-class H4aCalendarEventsExtendPaletteCallback
+class CalendarEventsExtendPaletteCallback
 {
     private $requestStack;
 
