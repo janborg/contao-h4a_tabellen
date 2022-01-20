@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @license MIT
  */
 
+use Contao\Backend;
 use Contao\BackendUser;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\StringUtil;
@@ -236,20 +237,5 @@ class tl_calendar_h4a extends Backend
         $href = 'key=update_results';
 
         return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
-    }
-
-    /**
-     * @return array
-     */
-    public function getSeasons()
-    {
-        $arrSeasons = [];
-        $objSeasons = $this->Database->prepare('SELECT * FROM tl_h4a_seasons')->execute();
-
-        while ($objSeasons->next()) {
-            $arrSeasons[$objSeasons->id] = $objSeasons->season;
-        }
-
-        return $arrSeasons;
     }
 }

@@ -10,30 +10,10 @@ declare(strict_types=1);
  * @license MIT
  */
 
-use Contao\Calendar;
-use Contao\CalendarEventsModel;
-use Contao\CalendarModel;
-use Contao\Config;
-use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use Contao\Date;
+use Contao\Backend;
 use Contao\Input;
 use Contao\StringUtil;
 
-/*
- * amend onload_callback
- */
-
-/*
- * Extend palettes
- */
-
-/*
- * Add Selector(s)
- */
-
-/*
- * Create Subpalette(s)
- */
 
 /*
  * Global Operation(s)
@@ -48,10 +28,6 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] = array_me
     ]],
     $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations']
 );
-
-/*
- *Child record callback
- */
 
 
 /*
