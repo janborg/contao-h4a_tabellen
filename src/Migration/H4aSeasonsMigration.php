@@ -92,7 +92,7 @@ class H4aSeasonsMigration extends AbstractMigration
         // neue Seasons in Tabelle tl_h4a_seasons anlegen
         foreach ($seasons as $season) {
             $objNewSeason = new H4aSeasonModel();
-            $objNewSeason->tstamp = time(); 
+            $objNewSeason->tstamp = time();
             $objNewSeason->season = $season['h4a_season'];
             $objNewSeason->is_current_season = 0;
             $objNewSeason->save();

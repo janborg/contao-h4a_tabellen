@@ -2,14 +2,22 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 namespace Janborg\H4aTabellen\EventListener\DataContainer;
 
-use Contao\CalendarModel;
 use Contao\CalendarEventsModel;
+use Contao\CalendarModel;
+use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\CoreBundle\ServiceAnnotation\Callback;
 use Contao\DataContainer;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 class CalendarEventsExtendPaletteCallback
 {
@@ -51,6 +59,5 @@ class CalendarEventsExtendPaletteCallback
                 ->applyToPalette('default', 'tl_calendar_events')
             ;
         }
-
     }
 }
