@@ -11,3 +11,8 @@ services:
         class: Janborg\H4aTabellen\EventListener\DataContainer\ExtendPaletteForH4aCalendarEventsCallback   
         arguments:
             - '@request_stack'
+
+    h4atabellen.calendar.list.childrecords.callback:
+        class: Janborg\H4aTabellen\EventListener\DataContainer\CalendarListChildRecordsCallback   
+        arguments:
+            - '@request_stack'

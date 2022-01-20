@@ -52,7 +52,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] = array_me
 /*
  *Child record callback
  */
-$GLOBALS['TL_DCA']['tl_calendar_events']['list']['sorting']['child_record_callback'] = ['tl_calendar_events_h4a', 'listEvents'];
+
 
 /*
  * Table tl_calendar_events
@@ -248,40 +248,5 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
             $id = strlen(Input::get('id')) ? Input::get('id') : CURRENT_ID;
 
             return '<a href="'.$this->addToUrl($href.'&amp;id='.$id).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
-        }
-
-        /**
-         * Add the type of input field.
-         *
-         * @param array $arrRow
-         *
-         * @return string
-         */
-        public function listEvents($arrRow)
-        {
-            $objCalendar = CalendarModel::findById(Input::get('id'));
-
-            $span = Calendar::calculateSpan($arrRow['startTime'], $arrRow['endTime']);
-
-            if ($span > 0) {
-                $date = Date::parse(Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['startTime']).$GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'].Date::parse(Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['endTime']);
-            } elseif ($arrRow['startTime'] === $arrRow['endTime']) {
-                $date = Date::parse(Config::get('dateFormat'), $arrRow['startTime']).($arrRow['addTime'] ? ' '.Date::parse(Config::get('timeFormat'), $arrRow['startTime']) : '');
-            } else {
-                $date = Date::parse(Config::get('dateFormat'), $arrRow['startTime']).($arrRow['addTime'] ? ' '.Date::parse(Config::get('timeFormat'), $arrRow['startTime']).$GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'].Date::parse(Config::get('timeFormat'), $arrRow['endTime']) : '');
-            }
-
-            $result = ' ';
-            // Show result in listview only, when existing
-            if ('1' === $arrRow['h4a_resultComplete']) {
-                $result = $arrRow['gHomeGoals'].' : '.$arrRow['gGuestGoals'].' ('.$arrRow['gHomeGoals_1'].' : '.$arrRow['gGuestGoals_1'].')';
-            }
-
-            //different listview with result for calendars, that are updated via h4a
-            if ('1' === $objCalendar->h4a_imported) {
-                return '<div class="tl_content_left"><span style="padding-right:3px">['.$date.']</span>'.$arrRow['title'].' <span style="color:#999;padding-left:3px">'.$result.'</span> </div>';
-            }
-
-            return '<div class="tl_content_left">'.$arrRow['title'].' <span style="color:#999;padding-left:3px">['.$date.']</span></div>';
         }
     }
