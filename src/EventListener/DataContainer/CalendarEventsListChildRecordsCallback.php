@@ -2,14 +2,22 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 namespace Janborg\H4aTabellen\EventListener\DataContainer;
 
 use Contao\Calendar;
 use Contao\CalendarModel;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Contao\Date;
 use Contao\Config;
+use Contao\CoreBundle\ServiceAnnotation\Callback;
+use Contao\Date;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CalendarEventsListChildRecordsCallback
 {
@@ -18,8 +26,9 @@ class CalendarEventsListChildRecordsCallback
     public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
-        $this->objCalendar = CalendarModel::findById($this->requestStack->getCurrentRequest()->query->get('id')); 
+        $this->objCalendar = CalendarModel::findById($this->requestStack->getCurrentRequest()->query->get('id'));
     }
+
     /**
      * @Callback(table="tl_calendar_events", target="list.sorting.child_record")
      */

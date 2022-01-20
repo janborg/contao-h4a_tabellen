@@ -14,7 +14,6 @@ use Contao\Backend;
 use Contao\Input;
 use Contao\StringUtil;
 
-
 /*
  * Global Operation(s)
  */
@@ -28,7 +27,6 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] = array_me
     ]],
     $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations']
 );
-
 
 /*
  * Table tl_calendar_events
