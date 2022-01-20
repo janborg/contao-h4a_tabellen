@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Contao\Date;
 use Contao\Config;
 
-class CalendarListChildRecordsCallback
+class CalendarEventsListChildRecordsCallback
 {
     private $requestStack;
 
