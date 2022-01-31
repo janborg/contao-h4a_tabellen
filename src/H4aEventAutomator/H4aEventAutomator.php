@@ -115,7 +115,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->source = 'default';
                     $objEvent->addTime = 1;
                     $objEvent->startTime = $dateTime;
-                    $objEvent->endTime = $dateTime;
+                    $objEvent->endTime = $dateTime+5400;
                     $objEvent->startDate = $dateDay;
                     $objEvent->gClassID = $arrSpiel['gClassID'];
                     $objEvent->gClassName = $arrSpiel['gClassSname'];
@@ -172,7 +172,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->source = 'default';
                     $objEvent->addTime = 1;
                     $objEvent->startTime = $dateTime;
-                    $objEvent->endTime = $dateTime;
+                    $objEvent->endTime = $dateTime+5400;
                     $objEvent->startDate = $dateDay;
                     $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
                     $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
