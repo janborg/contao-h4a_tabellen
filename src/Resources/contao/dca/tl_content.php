@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 use Contao\System;
 
-System::loadLanguageFile('tl_h4a');
-
 /*
  * Palettes
  */
@@ -27,7 +25,7 @@ $GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_ligaspiele'] = '{type_legend},
  */
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_liga_ID'] = [
-    'label' => $GLOBALS['TL_LANG']['tl_content']['h4a_liga_ID'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['h4a_liga_ID'],
     'inputType' => 'text',
     'exclude' => true,
     'eval' => [
@@ -40,7 +38,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_liga_ID'] = [
     'sql' => "varchar(255) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_team_ID'] = [
-    'label' => $GLOBALS['TL_LANG']['tl_content']['h4a_team_ID'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['h4a_team_ID'],
     'inputType' => 'text',
     'exclude' => true,
     'eval' => [
@@ -53,7 +51,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_team_ID'] = [
     'sql' => "varchar(255) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_verein_ID'] = [
-    'label' => $GLOBALS['TL_LANG']['tl_content']['h4a_verein_ID'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['h4a_verein_ID'],
     'inputType' => 'text',
     'exclude' => true,
     'eval' => [
@@ -66,7 +64,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_verein_ID'] = [
     'sql' => "varchar(255) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_content']['fields']['my_team_name'] = [
-    'label' => $GLOBALS['TL_LANG']['tl_content']['my_team_name'],
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['my_team_name'],
     'inputType' => 'text',
     'exclude' => true,
     'eval' => [

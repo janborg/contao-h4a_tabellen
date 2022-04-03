@@ -89,11 +89,6 @@ class H4aEventAutomator extends Backend
             $arrResultTabelle = Helper::getJsonTabelle($arrResultSpielplan['dataList'][0]['gClassID']);
             Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
 
-
-            $arrResultSpielplan = Helper::getJsonSpielplan($arrSeason['h4a_team']);
-            $arrResultTabelle = Helper::getJsonTabelle($arrResultSpielplan['dataList'][0]['gClassID']);
-            Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
-
             if ('/ [error]' === $arrResultSpielplan['lvTypeLabelStr']) {
                 System::getContainer()
                     ->get('monolog.logger.contao')
@@ -127,7 +122,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->source = 'default';
                         $objEvent->addTime = 1;
                         $objEvent->startTime = $dateTime;
-                        $objEvent->endTime = $dateTime;
+                        $objEvent->endTime = $dateTime+5400;
                         $objEvent->startDate = $dateDay;
                         $objEvent->gClassID = $arrSpiel['gClassID'];
                         $objEvent->gClassName = $arrSpiel['gClassSname'];
@@ -185,7 +180,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->source = 'default';
                         $objEvent->addTime = 1;
                         $objEvent->startTime = $dateTime;
-                        $objEvent->endTime = $dateTime;
+                        $objEvent->endTime = $dateTime+5400;
                         $objEvent->startDate = $dateDay;
                         $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
                         $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
