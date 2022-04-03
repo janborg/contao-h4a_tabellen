@@ -72,7 +72,11 @@ class H4aCron
             $games = $arrResult['dataList'];
             $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
 
-            if (' ' !== $games[$gameId]['gHomeGoals'] && ' ' !== $games[$gameId]['gGuestGoals']) {
+            if (isset($games[$gameId]['gHomeGoals']) 
+                && isset($games[$gameId]['gGuestGoals'])
+                && ' ' !== $games[$gameId]['gHomeGoals'] 
+                && ' ' !== $games[$gameId]['gGuestGoals']) {
+                
                 $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
                 $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
                 $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
