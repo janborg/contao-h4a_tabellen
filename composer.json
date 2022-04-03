@@ -13,7 +13,8 @@
     "require":{
         "php":"^7.4|^8.0",
         "contao/core-bundle":"^4.9",
-        "codefog/contao-haste": "^4.17"
+        "codefog/contao-haste": "^4.17",
+        "menatwork/contao-multicolumnwizard-bundle": "^3.5"
     },
     "require-dev": {
         "contao/manager-bundle":"^4.9",

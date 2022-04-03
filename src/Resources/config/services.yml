@@ -39,3 +39,5 @@ services:
                 name: contao.cronjob
                 interval: "hourly"
                 method: updateEvents
+
+        

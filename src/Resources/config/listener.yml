@@ -1,0 +1,18 @@
+services:
+    _defaults:
+        autoconfigure: true
+
+    _instanceof:
+        Contao\CoreBundle\Framework\FrameworkAwareInterface:
+            calls:
+                - [setFramework, ['@contao.framework']]
+
+    h4atabellen.calendarevents.onload.callback:
+        class: Janborg\H4aTabellen\EventListener\DataContainer\CalendarEventsExtendPaletteCallback   
+        arguments:
+            - '@request_stack'
+
+    h4atabellen.calendarevents.list.childrecords.callback:
+        class: Janborg\H4aTabellen\EventListener\DataContainer\CalendarEventsListChildRecordsCallback   
+        arguments:
+            - '@request_stack'

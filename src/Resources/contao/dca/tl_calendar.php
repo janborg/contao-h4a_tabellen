@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @license MIT
  */
 
+use Contao\Backend;
 use Contao\BackendUser;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\StringUtil;
@@ -32,6 +33,13 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
         'href' => 'key=update_results',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
         'button_callback' => ['tl_calendar_h4a', 'h4a_update_results'],
+    ]],
+    ['h4a_seasons' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operationSeasons'],
+        'class' => 'header_h4a',
+        'href' => 'table=tl_h4a_seasons',
+        'icon' => 'bundles/janborgh4atabellen/seasons.svg',
+        'attr' => 'onclick="Backend.getScrollOffset()"',
     ]],
     $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations']
 );
@@ -84,7 +92,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'] = array_merge(
  */
 
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] = array_merge(
-    ['h4a_imported' => 'h4a_team_ID, my_team_name, h4a_season, h4aEvents_author, h4a_ignore',
+    ['h4a_imported' => 'h4a_seasons, h4aEvents_author, h4a_ignore',
     ],
     $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']
 );
@@ -109,57 +117,55 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'eval' => ['tl_class' => 'w50 m12'],
         'sql' => "char(1) NOT NULL default ''",
     ]],
-    ['h4a_liga_ID' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga_ID'],
-        'inputType' => 'text',
+    ['h4a_seasons' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_seasons'],
         'exclude' => true,
+        'inputType' => 'multiColumnWizard',
         'eval' => [
-            'mandatory' => true,
-            'rgxp' => 'digit',
-            'minlength' => 5,
-            'maxlength' => 5,
-            'tl_class' => 'w50',
+            'columnFields' => [
+                'h4a_saison' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
+                    'inputType' => 'select',
+                    'foreignKey' => 'tl_h4a_seasons.season',
+                    'eval' => [
+                        'mandatory' => true,
+                        'style' => 'width:120px;',
+                        'includeBlankOption' => true,
+                        'chosen' => true,
+                    ],
+                ],
+                'h4a_team' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_team'],
+                    'inputType' => 'text',
+                    'eval' => [
+                        'mandatory' => true,
+                        'rgxp' => 'digit',
+                        'maxlength' => 6,
+                        'style' => 'width:120px;',
+                    ],
+                ],
+                'h4a_liga' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga'],
+                    'inputType' => 'text',
+                    'eval' => [
+                        'mandatory' => true,
+                        'rgxp' => 'digit',
+                        'maxlength' => 5,
+                        'style' => 'width:120px;',
+                    ],
+                ],
+                'my_team_name' => [
+                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['my_team_name'],
+                    'inputType' => 'text',
+                    'eval' => [
+                        'mandatory' => true,
+                        'maxlength' => 255,
+                        'style' => 'width:200px;',
+                    ],
+                ],
+            ],
         ],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ]],
-    ['h4a_team_ID' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_team_ID'],
-        'inputType' => 'text',
-        'exclude' => true,
-        'eval' => [
-            'mandatory' => true,
-            'rgxp' => 'digit',
-            'minlength' => 6,
-            'maxlength' => 6,
-            'tl_class' => 'w50',
-        ],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ]],
-    ['my_team_name' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['my_team_name'],
-        'inputType' => 'text',
-        'exclude' => true,
-        'eval' => [
-            'mandatory' => true,
-            'unique' => false,
-            'maxlength' => 255,
-            'tl_class' => 'w50',
-        ],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ]],
-    ['h4a_season' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_season'],
-        'inputType' => 'text',
-        'filter' => true,
-        'exclude' => true,
-        'eval' => [
-            'mandatory' => true,
-            'unique' => false,
-            'minlength' => 9,
-            'maxlength' => 9,
-            'tl_class' => 'w50',
-        ],
-        'sql' => "varchar(9) NOT NULL default ''",
+        'sql' => 'blob NULL',
     ]],
     ['h4aEvents_author' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4aEvents_author'],
