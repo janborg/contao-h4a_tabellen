@@ -89,6 +89,11 @@ class H4aEventAutomator extends Backend
             $arrResultTabelle = Helper::getJsonTabelle($arrResultSpielplan['dataList'][0]['gClassID']);
             Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
 
+
+            $arrResultSpielplan = Helper::getJsonSpielplan($arrSeason['h4a_team']);
+            $arrResultTabelle = Helper::getJsonTabelle($arrResultSpielplan['dataList'][0]['gClassID']);
+            Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
+
             if ('/ [error]' === $arrResultSpielplan['lvTypeLabelStr']) {
                 System::getContainer()
                     ->get('monolog.logger.contao')
