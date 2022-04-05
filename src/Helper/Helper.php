@@ -248,11 +248,14 @@ class Helper
             }
         );
 
-        foreach ($allGames as $game) {
-            if ($game[1]['text'] === $gameNo) {
-                $sGID = $game[10]['sGID'];
+        $game = array_filter(
+            $allGames,
+            static function ($game) use ($gameNo) {
+                return $game[1]['text'] === $gameNo;
             }
-        }
+        );
+        $game = array_values($game);
+        $sGID = $game[0][10]['sGID'];
 
         return $sGID;
     }
