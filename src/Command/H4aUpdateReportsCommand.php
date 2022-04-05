@@ -67,15 +67,18 @@ class H4aUpdateReportsCommand extends Command
         $this->io->text('Es wurden '.\count($objEvents).' H4a-Events mit Ergebnis, aber ohne ReportNo (sGID) gefunden. Versuche ReportNo abzurufen ...');
 
         foreach ($objEvents as $objEvent) {
-            $this->io->text('Versuche ReportNo für Spiel'.$objEvent->gGameNo.' abzurufen...');
+            $this->io->text('Versuche ReportNo für Spiel '.$objEvent->title.' ('.$objEvent->gGameNo.') abzurufen...');
 
             $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
 
-            if (isset($sGID)) {
+            if (isset($sGID) && null !== $sGID) {
                 $objEvent->sGID = $sGID;
                 $objEvent->save();
 
-                $this->io->text('ReportNo (sGID) '.$sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all erhalten.');
+                $this->io->text('ReportNo (sGID) '.$sGID.' für Spiel  '.$objEvent->title.' ('.$objEvent->gGameNo.') über Handball4all erhalten.');
+            }
+            else {
+                $this->io->text('ReportNo (sGID) für Spiel  '.$objEvent->title.' ('.$objEvent->gGameNo.') konnte nicht ermittelt werden.');
             }
         }
 

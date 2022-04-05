@@ -70,7 +70,14 @@ class H4aCron
             $arrResult = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
 
             $games = $arrResult['dataList'];
-            $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
+
+            if (isset($games[0])) {
+                $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
+            }
+            else {
+                continue;
+            }
+            
 
             if (isset($games[$gameId]['gHomeGoals']) 
                 && isset($games[$gameId]['gGuestGoals'])
@@ -113,13 +120,19 @@ class H4aCron
         foreach ($objEvents as $objEvent) {
             $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
 
-            if (isset($sGID)) {
+            if (isset($sGID) && null !== $sGID) {
                 $objEvent->sGID = $sGID;
                 $objEvent->save();
 
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::DEBUG, 'Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
+                    ->log(LogLevel::DEBUG, 'Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->title.' ('.$objEvent->gGameNo.') über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
+                ;
+            }
+            else {
+                System::getContainer()
+                    ->get('monolog.logger.contao')
+                    ->log(LogLevel::DEBUG, 'Report Nr. für Spiel '.$objEvent->title.' ('.$objEvent->gGameNo.') konnte nicht ermittelt werden', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
                 ;
             }
         }

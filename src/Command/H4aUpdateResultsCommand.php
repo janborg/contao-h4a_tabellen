@@ -68,7 +68,7 @@ class H4aUpdateResultsCommand extends Command
         $this->io->text('Es wurden '.\count($objEvents).' H4a-Events ohne Ergebnis gefunden. Versuche Ergebnisse abzurufen ...');
 
         foreach ($objEvents as $objEvent) {
-            $this->io->text('Versuche Ergebnis für Spiel'.$objEvent->gGameNo.' abzurufen...');
+            $this->io->text('Versuche Ergebnis für Spiel '.$objEvent->title.' ('.$objEvent->gGameNo.') abzurufen...');
 
             if ($objEvent->startTime > time() || '00:00' === date('H:i', (int) $objEvent->startTime)) {
                 $this->io->text('Spiel ', $objEvent->gGameNo.' ist noch nicht gestartet. Abruch ...');
@@ -79,8 +79,15 @@ class H4aUpdateResultsCommand extends Command
             $objCalendar = CalendarModel::findById($objEvent->pid);
 
             $arrResult = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
+           
+            if (!isset($arrResult['dataList'][0])) {
+                $this->io->text('Spielplan für Team'.$objCalendar->h4a_team_ID.' konnte nicht abgerufen werden. Abruch ...');
+
+                continue;
+            }
 
             $games = $arrResult['dataList'];
+
             $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
 
             if (' ' !== $games[$gameId]['gHomeGoals'] && ' ' !== $games[$gameId]['gGuestGoals']) {
