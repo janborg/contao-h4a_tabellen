@@ -46,6 +46,13 @@
     "support": {
         "issues": "https://github.com/janborg/contao-h4a_tabellen/issues",
         "source": "https://github.com/janborg/contao-h4a_tabellen"
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "contao-community-alliance/composer-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "contao/manager-plugin": true
+        }
     }
-
 }
