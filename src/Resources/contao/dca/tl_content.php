@@ -10,8 +10,6 @@ declare(strict_types=1);
  * @license MIT
  */
 
-use Contao\System;
-
 /*
  * Palettes
  */

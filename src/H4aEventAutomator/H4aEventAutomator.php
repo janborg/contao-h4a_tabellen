@@ -115,7 +115,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->source = 'default';
                     $objEvent->addTime = 1;
                     $objEvent->startTime = $dateTime;
-                    $objEvent->endTime = $dateTime+5400;
+                    $objEvent->endTime = $dateTime + 5400;
                     $objEvent->startDate = $dateDay;
                     $objEvent->gClassID = $arrSpiel['gClassID'];
                     $objEvent->gClassName = $arrSpiel['gClassSname'];
@@ -172,7 +172,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->source = 'default';
                     $objEvent->addTime = 1;
                     $objEvent->startTime = $dateTime;
-                    $objEvent->endTime = $dateTime+5400;
+                    $objEvent->endTime = $dateTime + 5400;
                     $objEvent->startDate = $dateDay;
                     $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
                     $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
@@ -237,9 +237,8 @@ class H4aEventAutomator extends Backend
                     ->get('monolog.logger.contao')
                     ->log(LogLevel::INFO, 'Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
                 ;
-                
-                $this->updateReportIdForEvent($objEvent);
 
+                $this->updateReportIdForEvent($objEvent);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
@@ -275,8 +274,6 @@ class H4aEventAutomator extends Backend
 
     /**
      * Update field sGID for a single calendarEvent.
-     *
-     * @param CalendarEventsModel $objEvent
      */
     public function updateReportIdForEvent(CalendarEventsModel $objEvent): void
     {
