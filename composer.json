@@ -25,7 +25,7 @@
         "php-http/message-factory": "^1.0.2",
         "phpunit/phpunit": "^9.5.1",
         "symfony/phpunit-bridge": "^6.0",
-        "contao/easy-coding-standard": "^4.0"
+        "contao/easy-coding-standard": "^5.3"
     },
     "conflict": {
          "contao/manager-plugin": "<2.0 || >=3.0"
