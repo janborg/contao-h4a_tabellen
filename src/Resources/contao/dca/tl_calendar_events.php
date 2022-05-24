@@ -232,27 +232,30 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
          */
         public function h4a_event_imported(DataContainer $dc): void
         {
-            $objCalendarEvent = CalendarEventsModel::findById(Input::get('id'));
-            $objCalendar = CalendarModel::findById($objCalendarEvent->pid);
+            if (null !== Input::get('act')) {
 
-            if ('1' === $objCalendar->h4a_imported) {
-                PaletteManipulator::create()
-                    ->addLegend('h4a_legend', 'title_legend', PaletteManipulator::POSITION_AFTER)
-                    ->addField('gHomeTeam,gGuestTeam,gClassID,gClassName,gGameNo,sGID', 'h4a_legend', PaletteManipulator::POSITION_APPEND)
-                    ->applyToPalette('default', 'tl_calendar_events')
-                ;
+                $objCalendarEvent = CalendarEventsModel::findById(Input::get('id'));
+                $objCalendar = CalendarModel::findById($objCalendarEvent->pid);
 
-                PaletteManipulator::create()
-                    ->addLegend('gymnasium_legend', 'h4a_legend', PaletteManipulator::POSITION_AFTER)
-                    ->addField('gGymnasiumNo,gGymnasiumName,gGymnasiumStreet,gGymnasiumTown,gGymnasiumPostal', 'gymnasium_legend', PaletteManipulator::POSITION_APPEND)
-                    ->applyToPalette('default', 'tl_calendar_events')
-                ;
+                if ('1' === $objCalendar->h4a_imported) {
+                    PaletteManipulator::create()
+                        ->addLegend('h4a_legend', 'title_legend', PaletteManipulator::POSITION_AFTER)
+                        ->addField('gHomeTeam,gGuestTeam,gClassID,gClassName,gGameNo,sGID', 'h4a_legend', PaletteManipulator::POSITION_APPEND)
+                        ->applyToPalette('default', 'tl_calendar_events')
+                    ;
 
-                PaletteManipulator::create()
-                    ->addLegend('result_legend', 'gymnasium_legend', PaletteManipulator::POSITION_AFTER)
-                    ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1,h4a_resultComplete,gComment', 'result_legend', PaletteManipulator::POSITION_APPEND)
-                    ->applyToPalette('default', 'tl_calendar_events')
-                ;
+                    PaletteManipulator::create()
+                        ->addLegend('gymnasium_legend', 'h4a_legend', PaletteManipulator::POSITION_AFTER)
+                        ->addField('gGymnasiumNo,gGymnasiumName,gGymnasiumStreet,gGymnasiumTown,gGymnasiumPostal', 'gymnasium_legend', PaletteManipulator::POSITION_APPEND)
+                        ->applyToPalette('default', 'tl_calendar_events')
+                    ;
+
+                    PaletteManipulator::create()
+                        ->addLegend('result_legend', 'gymnasium_legend', PaletteManipulator::POSITION_AFTER)
+                        ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1,h4a_resultComplete,gComment', 'result_legend', PaletteManipulator::POSITION_APPEND)
+                        ->applyToPalette('default', 'tl_calendar_events')
+                    ;
+                }
             }
         }
 
