@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 $GLOBALS['TL_LANG']['tl_calendar']['operationImportFromH4a'] = 'Update H4a-Events';
 $GLOBALS['TL_LANG']['tl_calendar']['operationUpdateResultsFromH4a'] = 'Update H4a-Results';
+$GLOBALS['TL_LANG']['tl_calendar']['operationSeasons'] = 'Seasons pflegen';
 
 $GLOBALS['TL_LANG']['tl_calendar']['h4a_legend'] = 'Handball4all Daten';
 
@@ -33,5 +34,14 @@ $GLOBALS['TL_LANG']['tl_calendar']['my_team_name']['1'] = 'Genaue Bezeichnung de
 $GLOBALS['TL_LANG']['tl_calendar']['h4aEvents_author']['0'] = 'Autor';
 $GLOBALS['TL_LANG']['tl_calendar']['h4aEvents_author']['1'] = 'Benutzer, der bei den automatisch generierten Events als Autor hinterlegt werden soll';
 
-$GLOBALS['TL_LANG']['tl_calendar']['h4a_season']['0'] = 'Saison';
-$GLOBALS['TL_LANG']['tl_calendar']['h4a_season']['1'] = 'Die Saison in der die Spiele dieses Kalenders stattfinden';
+$GLOBALS['TL_LANG']['tl_calendar']['h4a_seasons']['0'] = 'H4a Season Settings';
+$GLOBALS['TL_LANG']['tl_calendar']['h4a_seasons']['1'] = 'Die Saisons in der die Spiele dieses Kalenders stattfinden';
+
+$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison']['0'] = 'Saison';
+$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison']['1'] = 'Saison der H4a Daten';
+
+$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga']['0'] = 'Liga ID';
+$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga']['1'] = 'H4a ID für die Liga';
+
+$GLOBALS['TL_LANG']['tl_calendar']['h4a_team']['0'] = 'Team ID';
+$GLOBALS['TL_LANG']['tl_calendar']['h4a_team']['1'] = 'H4a ID für das Team';

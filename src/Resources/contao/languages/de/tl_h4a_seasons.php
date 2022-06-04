@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+$GLOBALS['TL_LANG']['tl_h4a_seasons']['title_legend'] = 'Settings Saison';
+
 $GLOBALS['TL_LANG']['tl_h4a_seasons']['season']['0'] = 'Saison';
 $GLOBALS['TL_LANG']['tl_h4a_seasons']['season']['1'] = 'Die Bezeichnung der Saison, z.Bsp. "2019/2020"';
 
