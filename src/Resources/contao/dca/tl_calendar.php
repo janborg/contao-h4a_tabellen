@@ -122,6 +122,13 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'exclude' => true,
         'inputType' => 'multiColumnWizard',
         'eval' => [
+            'style' => 'width: 680px;',
+            'dragAndDrop'  => false,
+            'buttons'      => [
+                'copy'   => false,
+                'up'     => false,
+                'down'   => false
+            ],
             'columnFields' => [
                 'h4a_saison' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
@@ -129,7 +136,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
                     'foreignKey' => 'tl_h4a_seasons.season',
                     'eval' => [
                         'mandatory' => true,
-                        'style' => 'width:120px;',
+                        'style' => 'width:150px;',
                         'includeBlankOption' => true,
                         'chosen' => true,
                     ],
@@ -141,17 +148,17 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
                         'mandatory' => true,
                         'rgxp' => 'digit',
                         'maxlength' => 6,
-                        'style' => 'width:120px;',
+                        'style' => 'width:100px;',
                     ],
                 ],
                 'h4a_liga' => [
-                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga'],
+                    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga_ID'],
                     'inputType' => 'text',
                     'eval' => [
                         'mandatory' => true,
                         'rgxp' => 'digit',
                         'maxlength' => 5,
-                        'style' => 'width:120px;',
+                        'style' => 'width:100px;',
                     ],
                 ],
                 'my_team_name' => [
@@ -160,7 +167,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
                     'eval' => [
                         'mandatory' => true,
                         'maxlength' => 255,
-                        'style' => 'width:200px;',
+                        'style' => 'width:250px;',
                     ],
                 ],
             ],
