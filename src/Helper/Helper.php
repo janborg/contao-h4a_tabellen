@@ -255,7 +255,7 @@ class Helper
             }
         );
         $game = array_values($game);
-        $sGID = $game[0][10]['sGID'];
+        $sGID = $game[0][10]['sGID'] ?? null;
 
         return $sGID;
     }
