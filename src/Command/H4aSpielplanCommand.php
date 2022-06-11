@@ -31,15 +31,9 @@ class H4aSpielplanCommand extends Command
      */
     private $framework;
 
-    /**
-     * @var string
-     */
-    private $projectDir;
-
-    public function __construct(ContaoFramework $framework, string $projectDir)
+    public function __construct(ContaoFramework $framework)
     {
         $this->framework = $framework;
-        $this->projectDir = $projectDir;
 
         parent::__construct();
     }
@@ -69,7 +63,7 @@ class H4aSpielplanCommand extends Command
 
         if (null !== $ligaID) {
             $arrResultTabelle = Helper::getJsonTabelle($ligaID);
-        }
+        } // else: ???
 
         Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
 

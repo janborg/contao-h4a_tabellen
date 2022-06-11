@@ -22,7 +22,7 @@ class Helper
 {
     /**
      * @param string $type 'class' oder 'team' oder 'club' oder 'score'
-     * @param int    $id
+     * @param string $id
      *
      * @return string
      */
@@ -54,9 +54,9 @@ class Helper
     }
 
     /**
-     * @param int $teamID
+     * @param string $teamID
      *
-     * @return array
+     * @return array<mixed>
      */
     public static function getJsonSpielplan($teamID)
     {
@@ -81,9 +81,9 @@ class Helper
     }
 
     /**
-     * @param int $ligaID
+     * @param string $ligaID
      *
-     * @return array
+     * @return array<mixed>
      */
     public static function getJsonLigaSpielplan($ligaID)
     {
@@ -108,9 +108,9 @@ class Helper
     }
 
     /**
-     * @param int $ligaID
+     * @param string $ligaID
      *
-     * @return array
+     * @return array<mixed>
      */
     public static function getJsonTabelle($ligaID)
     {
@@ -135,9 +135,9 @@ class Helper
     }
 
     /**
-     * @param int $vereinID
+     * @param string $vereinID
      *
-     * @return arary
+     * @return array<mixed>
      */
     public static function getJsonVerein($vereinID)
     {
@@ -162,8 +162,8 @@ class Helper
     }
 
     /**
-     * @param array $arrResultSpielplan
-     * @param array $arrResultTabelle
+     * @param array<mixed> $arrResultSpielplan
+     * @param array<mixed> $arrResultTabelle
      */
     public static function updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle): void
     {
@@ -215,7 +215,7 @@ class Helper
      * @param string $ligaID
      * @param string $gameNo
      *
-     * @return string
+     * @return string|null
      */
     public static function getReportNo($ligaID, $gameNo)
     {
@@ -260,7 +260,12 @@ class Helper
         return $sGID;
     }
 
-    public static function file_get_contents_ssl($url)
+    /**
+     * @param string $url
+     * @return string
+     */
+
+    public static function file_get_contents_ssl($url): string
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
