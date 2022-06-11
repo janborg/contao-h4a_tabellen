@@ -1,6 +1,11 @@
 #Composer
 /vendor/
 /composer.lock
-/.vscode/
 /var/
-.phpunit.result.cache
+
+#Phpunit
+/.phpunit.result.cache
+/phpunit.xml
+
+#tools
+/tools/*/vendor
