@@ -71,7 +71,7 @@ class H4aUpdateResultsCommand extends Command
             $this->io->text('Versuche Ergebnis für Spiel '.$objEvent->title.' ('.$objEvent->gGameNo.') abzurufen...');
 
             if ($objEvent->startTime > time() || '00:00' === date('H:i', (int) $objEvent->startTime)) {
-                $this->io->text('Spiel ', $objEvent->gGameNo.' ist noch nicht gestartet. Abruch ...');
+                $this->io->text('Spiel '. $objEvent->gGameNo.' ist noch nicht gestartet. Abruch ...');
 
                 continue;
             }
