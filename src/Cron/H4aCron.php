@@ -67,8 +67,10 @@ class H4aCron
 
             $objCalendar = CalendarModel::findById($objEvent->pid);
 
-            $arrResult = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
-
+            $h4a_team_ID = Helper::getH4ateamFromH4aSeasons($objCalendar, $objEvent);
+            
+            $arrResult = Helper::getJsonSpielplan($h4a_team_ID);
+            
             $games = $arrResult['dataList'];
 
             if (isset($games[0])) {
