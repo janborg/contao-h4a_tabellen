@@ -55,7 +55,8 @@
             "contao-components/installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "contao-community-alliance/composer-plugin": true,
-            "contao/manager-plugin": true
+            "contao/manager-plugin": true,
+            "bamarni/composer-bin-plugin": true
         }
     },
     "scripts": {
