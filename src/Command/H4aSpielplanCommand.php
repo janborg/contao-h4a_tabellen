@@ -15,16 +15,18 @@ namespace Janborg\H4aTabellen\Command;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Helper\Helper;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 class H4aSpielplanCommand extends Command
 {
-    private $io;
 
-    private $statusCode = 0;
+    protected static $defaultName = 'h4a:show:spielplan';
+
+    protected static $defaultDescription = 'Show H4a Spielplan for given teamID';
+
 
     /**
      * @var ContaoFramework
@@ -40,35 +42,75 @@ class H4aSpielplanCommand extends Command
 
     protected function configure(): void
     {
-        $commandHelp = 'Ruft die json Datei für den Spielplan einer Mannschaft ab';
-        $parameterLigaIDHelp = 'Id des Teams, für das die json Datei abgerufen werden soll';
+        $commandHelp = 'Zeigt den Spielplan und die Tabelle einer Mannschaft und speichert die json dazu in Contao ab';
+        $parameterLigaIDHelp = 'Id des Teams, für das die Daten angezeigt werden sollen';
 
-        $this->setName('h4a:spielplan')
-            ->addArgument('teamID', InputArgument::REQUIRED, $parameterLigaIDHelp)
-            ->setDescription($commandHelp)
-        ;
+        $this->setHelp($commandHelp)
+            ->addArgument('teamID', InputArgument::REQUIRED, $parameterLigaIDHelp);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $this->framework->initialize();
 
-        $this->io = new SymfonyStyle($input, $output);
-
         $teamID = $input->getArgument('teamID');
 
         $arrResultSpielplan = Helper::getJsonSpielplan($teamID);
 
-        $ligaID = $arrResultSpielplan['dataList'][0]['gClassID'];
+
+        $table = new Table($output);
+        $table->setHeaders(['Datum', 'Uhrzeit', 'Heim', 'Gast', 'Ergebnis']);
+
+        if (!isset($arrResultSpielplan['dataList'][0])) {
+            $output->writeln('<error>Keine Daten für Spielplan gefunden</error>');
+            return 0;
+        }
+        foreach ($arrResultSpielplan['dataList'] as $spiel) {
+            $spielplan[$spiel['gNo']] = [
+                'datum' => $spiel['gDate'],
+                'uhrzeit' => $spiel['gTime'],
+                'heim' => $spiel['gHomeTeam'],
+                'gast' => $spiel['gGuestTeam'],
+                'ergebnis' => $spiel['gHomeGoals'] . ':' . $spiel['gGuestGoals']
+            ];
+        }
+
+        $table->setRows($spielplan);
+        $table->render();
+
+        $ligaID = $arrResultSpielplan['dataList'][0]['gClassID'] ?? null;
 
         if (null !== $ligaID) {
             $arrResultTabelle = Helper::getJsonTabelle($ligaID);
-        } // else: ???
+        }  else {
+            $output->writeln('<error>Keine Daten für Tabelle gefunden</error>');
+            return 0;
+        }
+
+        $table = new Table($output);
+        $table->setHeaders(['Platz', 'Team', 'Spiele', 'Punkte', 'Tore']);
+
+        if (!isset($arrResultTabelle['dataList'][0])) {
+            $output->writeln('<error>Keine Daten für Spielplan gefunden</error>');
+            return 0;
+        }
+        foreach ($arrResultTabelle['dataList'] as $team) {
+            $liga[$team['tabScore']]=[
+                'platz' => $team['tabScore'],
+                'team' => $team['tabTeamname'],
+                'spiele' => $team['numPlayedGames'],
+                'punkte' => $team['pointsPlus'].' : '.$team['pointsMinus'],
+                'tore' => $team['numGoalsShot'].' : '.$team['numGoalsGot']
+            ];
+        }
+
+        $table->setRows($liga);
+        $table->render();
 
         Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
 
-        $this->io->text('Datenbankeintrag für team_id '.$teamID.' wurde erstellt!');
+        $output->writeln('Datenbankeinträge für team_id ' . $teamID . ' wurde erstellt!');
 
-        return $this->statusCode;
+        return 0;
     }
 }
