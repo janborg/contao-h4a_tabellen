@@ -18,13 +18,13 @@ use Janborg\H4aTabellen\Helper\Helper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+
 
 class H4aUpdateReportsCommand extends Command
 {
-    private $io;
+    protected static $defaultName = 'h4a:update:reports';
 
-    private $statusCode = 0;
+    protected static $defaultDescription = 'Update ReportNo in all Events from h4a';
 
     /**
      * @var ContaoFramework
@@ -40,18 +40,17 @@ class H4aUpdateReportsCommand extends Command
 
     protected function configure(): void
     {
-        $commandHelp = 'Update ReportNo in H4a-Events';
 
-        $this->setName('h4a:updatereports')
-            ->setDescription($commandHelp)
-        ;
+        $this->setHelp('With this command you can update the ReportNo for all H4a Events');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $this->framework->initialize();
 
-        $this->io = new SymfonyStyle($input, $output);
+        $output->writeln(
+            'Suche alle H4a-Events mitErgebnis und ohne ReportNo:'
+        );
 
         $objEvents = CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete = ?', 'sGID = ?'],
@@ -59,29 +58,47 @@ class H4aUpdateReportsCommand extends Command
         );
 
         if (null === $objEvents) {
-            $this->io->text('Es wurden keine Events mit Ergebnis, aber ohne ReportNo (sGID) gefunden.');
+            $output->writeln([
+                'Es wurden keine Events mit Ergebnis, aber ohne ReportNo (sGID) gefunden.',
+                '',
+                'Ende',
+                ''
+            ]);
 
-            return $this->statusCode;
+            return Command::SUCCESS;
         }
 
-        $this->io->text('Es wurden '.\count($objEvents).' H4a-Events mit Ergebnis, aber ohne ReportNo (sGID) gefunden. Versuche ReportNo abzurufen ...');
+        $output->writeln([
+            'Es wurden ' . \count($objEvents) . ' H4a-Events mit Ergebnis, aber ohne ReportNo (sGID) gefunden.',
+            'Versuche nun die ReportNo abzurufen ...',
+            '==============================================================',
+            ''
+        ]);
 
         foreach ($objEvents as $objEvent) {
-            $this->io->text('Versuche ReportNo für Spiel '.$objEvent->title.' ('.$objEvent->gGameNo.') abzurufen...');
-
+            $output->writeln([
+                '',
+                'Spiel ' . $objEvent->gGameNo . ' ' . $objEvent->title . ':',
+                '-----------------------------------------------------',
+            ]);
             $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
 
             if (isset($sGID) && null !== $sGID) {
                 $objEvent->sGID = $sGID;
                 $objEvent->save();
 
-                $this->io->text('ReportNo (sGID) '.$sGID.' für Spiel  '.$objEvent->title.' ('.$objEvent->gGameNo.') über Handball4all erhalten.');
-            }
-            else {
-                $this->io->text('ReportNo (sGID) für Spiel  '.$objEvent->title.' ('.$objEvent->gGameNo.') konnte nicht ermittelt werden.');
+                $output->writeln([
+                    'ReportNo (sGID) ' . $sGID . ' über Handball4all erhalten.',
+                    ''
+                ]);
+            } else {
+                $output->writeln([
+                    'ReportNo (sGID) konnte nicht ermittelt werden.',
+                    ''
+                ]);
             }
         }
 
-        return $this->statusCode;
+        return Command::SUCCESS;
     }
 }

@@ -19,13 +19,14 @@ use Janborg\H4aTabellen\Helper\Helper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+
 
 class H4aUpdateResultsCommand extends Command
 {
-    private $io;
+    protected static $defaultName = 'h4a:update:results';
 
-    private $statusCode = 0;
+    protected static $defaultDescription = 'Update results for all H4a-Events';
+
 
     /**
      * @var ContaoFramework
@@ -41,18 +42,16 @@ class H4aUpdateResultsCommand extends Command
 
     protected function configure(): void
     {
-        $commandHelp = 'Update Results in H4a-Events';
-
-        $this->setName('h4a:updateresults')
-            ->setDescription($commandHelp)
-        ;
+        $this->setHelp('With this command you can update the results for all H4a Events');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $this->framework->initialize();
 
-        $this->io = new SymfonyStyle($input, $output);
+        $output->writeln(
+            'Suche alle H4a-Events von heute oder früher ohne Ergebnis...'
+        );
 
         $objEvents = CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameNo != ?'],
@@ -60,28 +59,53 @@ class H4aUpdateResultsCommand extends Command
         );
 
         if (null === $objEvents) {
-            $this->io->text('Es wurden keine Events ohne Ergebnis gefunden.');
+            $output->writeln([
+                'Es wurden keine Events ohne Ergebnis gefunden.',
+                '',
+                'Ende',
+                ''
+            ]);
 
-            return $this->statusCode;
+            return Command::SUCCESS;
         }
 
-        $this->io->text('Es wurden '.\count($objEvents).' H4a-Events ohne Ergebnis gefunden. Versuche Ergebnisse abzurufen ...');
+        $output->writeln([
+            'Es wurden ' . \count($objEvents) . ' H4a-Events ohne Ergebnis gefunden. ',
+            '',
+            '===============================================================',
+            ''
+        ]);
 
         foreach ($objEvents as $objEvent) {
-            $this->io->text('Versuche Ergebnis für Spiel '.$objEvent->title.' ('.$objEvent->gGameNo.') abzurufen...');
+            $output->writeln([
+                'Spiel ' . $objEvent->gGameNo . ' ' . $objEvent->title . ':',
+                '-----------------------------------------------------',
+                'Versuche Ergebnis abzurufen...'
+            ]);
 
-            if ($objEvent->startTime > time() || '00:00' === date('H:i', (int) $objEvent->startTime)) {
-                $this->io->text('Spiel '. $objEvent->gGameNo.' ist noch nicht gestartet. Abruch ...');
+            $now = time();
+
+            if ($objEvent->startTime > $now || '00:00' === date('H:i', (int) $objEvent->startTime)) {
+                $output->writeln([
+                    'Spiel ist noch nicht gestartet. Abruch ...',
+                    ''
+                ]);
 
                 continue;
             }
 
             $objCalendar = CalendarModel::findById($objEvent->pid);
+            
+            $h4a_team_ID = Helper::getH4ateamFromH4aSeasons($objCalendar, $objEvent);
+            
+            $arrResult = Helper::getJsonSpielplan($h4a_team_ID);
 
-            $arrResult = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
-           
             if (!isset($arrResult['dataList'][0])) {
-                $this->io->text('Spielplan für Team'.$objCalendar->h4a_team_ID.' konnte nicht abgerufen werden. Abruch ...');
+                $output->writeln([
+                    'Spielplan für Team' . $objCalendar->h4a_team_ID . ' konnte nicht abgerufen werden.',
+                    'Abruch ...',
+                    ''
+                ]);
 
                 continue;
             }
@@ -98,14 +122,20 @@ class H4aUpdateResultsCommand extends Command
                 $objEvent->h4a_resultComplete = true;
                 $objEvent->save();
 
-                $this->io->text('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert');
+                $output->writeln([
+                    'Ergebnis (' . $games[$gameId]['gHomeGoals'] . ':' . $games[$gameId]['gGuestGoals'] . ' erhalten',
+                    ''
+                ]);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
-                $this->io->text('Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden');
+                $output->writeln([
+                    'Ergebnis über Handball4all geprüft, kein Ergebnis vorhanden',
+                    ''
+                ]);
             }
         }
 
-        return $this->statusCode;
+        return Command::SUCCESS;
     }
 }

@@ -18,13 +18,13 @@ use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+
 
 class H4aUpdateEventsCommand extends Command
 {
-    private $io;
+    protected static $defaultName = 'h4a:update:events';
 
-    private $statusCode = 0;
+    protected static $defaultDescription = 'Update all Events from h4a';
 
     /**
      * @var ContaoFramework
@@ -40,18 +40,14 @@ class H4aUpdateEventsCommand extends Command
 
     protected function configure(): void
     {
-        $commandHelp = 'Update H4a-Events';
-
-        $this->setName('h4a:updateevents')
-            ->setDescription($commandHelp)
-        ;
+        $this->setHelp('This command allows youto update all events that are linked to h4a');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): ?int
     {
         $this->framework->initialize();
 
-        $this->io = new SymfonyStyle($input, $output);
+        $output->writeln('Suche Kalender mit H4a-Events:');
 
         $objCalendars = CalendarModel::findby(
             ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
@@ -59,23 +55,42 @@ class H4aUpdateEventsCommand extends Command
         );
 
         if (null === $objCalendars) {
-            $this->io->text('Es wurden keine Kalender zum Update über H4a gefunden.');
+            $output->writeln([
+                'Es wurden keine Kalender zum Update über H4a gefunden.',
+                '',
+                'Ende!',
+                ''
+            ]);
 
-            return $this->statusCode;
+            return Command::SUCCESS;
         }
 
-        $this->io->text('Es wurden '.\count($objCalendars).' Kalender zum Update über H4a gefunden gefunden.');
+        $output->writeln([
+            'Es wurden ' . \count($objCalendars) . ' Kalender zum Update über H4a gefunden gefunden.',
+            'Versuche nun die Updates der Kalender durchzuführen',
+            '==========================================================',
+            ''
+        ]);
 
         foreach ($objCalendars as $objCalendar) {
-            $this->io->text('Versuche Events für Kalender'.$objCalendar->title.' (Id: '.$objCalendar->id.') abzurufen...');
+            $output->writeln([
+                '',
+                'Kalender: ' . $objCalendar->title,
+                '-----------------------------------------------------',
+                ''
+            ]);
+            $output->writeln('Starte Update...');
 
             $h4aeventautomator = new H4aEventAutomator();
 
             $h4aeventautomator->syncCalendars($objCalendar);
 
-            $this->io->text('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.');
+            $output->writeln([
+                'Update des Kalenders über Handball4all durchgeführt.',
+                ''
+            ]);
         }
 
-        return $this->statusCode;
+        return Command::SUCCESS;
     }
 }
