@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Helper;
 
+use Contao\CalendarEventsModel;
+use Contao\CalendarModel;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\System;
 use Janborg\H4aTabellen\Model\H4aJsonDataModel;
@@ -30,23 +32,23 @@ class Helper
     {
         switch ($type) {
             case 'class_table':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext='.$id;
+                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext=' . $id;
                 break;
 
             case 'class_games':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&lvIDNext='.$id;
+                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&lvIDNext=' . $id;
                 break;
 
             case 'team':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$id;
+                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext=' . $id;
                 break;
 
             case 'club':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=club&lvIDNext='.$id;
+                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=club&lvIDNext=' . $id;
                 break;
 
             case 'score':
-                $liga_url = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score='.$id;
+                $liga_url = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score=' . $id;
                 break;
         }
 
@@ -73,8 +75,7 @@ class Helper
         } catch (\Exception $e) {
             System::getContainer()
                 ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Json File für team_id '.$teamID.' konnte nicht erstellt werden!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)])
-            ;
+                ->log(LogLevel::INFO, 'Json File für team_id ' . $teamID . ' konnte nicht erstellt werden!', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_ERROR)]);
         }
 
         return $arrResult[0];
@@ -100,8 +101,7 @@ class Helper
         } catch (\Exception $e) {
             System::getContainer()
                 ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Json File für liga_id '.$ligaID.' konnte nicht erstellt werden!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)])
-            ;
+                ->log(LogLevel::INFO, 'Json File für liga_id ' . $ligaID . ' konnte nicht erstellt werden!', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_ERROR)]);
         }
 
         return $arrResult[0];
@@ -127,8 +127,7 @@ class Helper
         } catch (\Exception $e) {
             System::getContainer()
                 ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Json File für liga_id '.$ligaID.' konnte nicht abgerufen werden!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)])
-            ;
+                ->log(LogLevel::INFO, 'Json File für liga_id ' . $ligaID . ' konnte nicht abgerufen werden!', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_ERROR)]);
         }
 
         return $arrResult[0];
@@ -154,8 +153,7 @@ class Helper
         } catch (\Exception $e) {
             System::getContainer()
                 ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Json File für liga_id '.$vereinID.' konnte nicht abgerufen werden!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_ERROR)])
-            ;
+                ->log(LogLevel::INFO, 'Json File für liga_id ' . $vereinID . ' konnte nicht abgerufen werden!', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_ERROR)]);
         }
 
         return $arrResult[0];
@@ -193,11 +191,11 @@ class Helper
 
             switch (true) {
                 case $month < 4:
-                    $objH4aJsonData->season = date('Y', $Unixdate - 31536000).'/'.date('Y', $Unixdate);
+                    $objH4aJsonData->season = date('Y', $Unixdate - 31536000) . '/' . date('Y', $Unixdate);
                     break;
 
                 case $month >= 3:
-                    $objH4aJsonData->season = date('Y', $Unixdate).'/'.(date('Y', $Unixdate + 31536000));
+                    $objH4aJsonData->season = date('Y', $Unixdate) . '/' . (date('Y', $Unixdate + 31536000));
                     break;
             }
         }
@@ -280,5 +278,14 @@ class Helper
         curl_close($ch);
 
         return $result;
+    }
+
+    public static function getH4ateamFromH4aSeasons(CalendarModel $objCalendar, CalendarEventsModel $objEvent): string
+    {
+        $arrSeasons = unserialize($objCalendar->h4a_seasons);
+
+        $h4aTeam = $arrSeasons[array_search($objEvent->h4a_saison, array_column($arrSeasons, 'h4a_saison'))]['h4a_team'];
+
+        return $h4aTeam;
     }
 }
