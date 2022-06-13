@@ -70,13 +70,7 @@ class Helper
 
         $strJson = self::file_get_contents_ssl($liga_url);
 
-        try {
-            $arrResult = json_decode($strJson, true);
-        } catch (\Exception $e) {
-            System::getContainer()
-                ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Json File für team_id ' . $teamID . ' konnte nicht erstellt werden!', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_ERROR)]);
-        }
+        $arrResult = json_decode($strJson, true);
 
         return $arrResult[0];
     }
@@ -96,13 +90,7 @@ class Helper
 
         $strJson = self::file_get_contents_ssl($liga_url);
 
-        try {
-            $arrResult = json_decode($strJson, true);
-        } catch (\Exception $e) {
-            System::getContainer()
-                ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Json File für liga_id ' . $ligaID . ' konnte nicht erstellt werden!', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_ERROR)]);
-        }
+        $arrResult = json_decode($strJson, true);
 
         return $arrResult[0];
     }
@@ -122,13 +110,7 @@ class Helper
 
         $strJson = self::file_get_contents_ssl($liga_url);
 
-        try {
-            $arrResult = json_decode($strJson, true);
-        } catch (\Exception $e) {
-            System::getContainer()
-                ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Json File für liga_id ' . $ligaID . ' konnte nicht abgerufen werden!', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_ERROR)]);
-        }
+        $arrResult = json_decode($strJson, true);
 
         return $arrResult[0];
     }
@@ -148,14 +130,8 @@ class Helper
 
         $strJson = self::file_get_contents_ssl($liga_url);
 
-        try {
-            $arrResult = json_decode($strJson, true);
-        } catch (\Exception $e) {
-            System::getContainer()
-                ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Json File für liga_id ' . $vereinID . ' konnte nicht abgerufen werden!', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_ERROR)]);
-        }
-
+        $arrResult = json_decode($strJson, true);
+        
         return $arrResult[0];
     }
 
