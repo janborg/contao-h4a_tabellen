@@ -44,7 +44,7 @@
             "bin-links": false,
             "target-directory": "tools"
         },
-      "contao-manager-plugin": "Janborg\\H4aGamestats\\ContaoManager\\Plugin"
+      "contao-manager-plugin": "Janborg\\H4aTabellen\\ContaoManager\\Plugin"
     },
     "support": {
         "issues": "https://github.com/janborg/contao-h4a_tabellen/issues",
