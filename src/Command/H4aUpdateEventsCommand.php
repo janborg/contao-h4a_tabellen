@@ -56,7 +56,7 @@ class H4aUpdateEventsCommand extends Command
 
         if (null === $objCalendars) {
             $output->writeln([
-                'Es wurden keine Kalender zum Update über H4a gefunden.',
+                '<comment>Es wurden keine Kalender zum Update über H4a gefunden.</comment>',
                 '',
                 'Ende!',
                 ''
@@ -86,7 +86,7 @@ class H4aUpdateEventsCommand extends Command
             $h4aeventautomator->syncCalendars($objCalendar);
 
             $output->writeln([
-                'Update des Kalenders über Handball4all durchgeführt.',
+                '<info>Update des Kalenders über Handball4all durchgeführt.</info>',
                 ''
             ]);
         }

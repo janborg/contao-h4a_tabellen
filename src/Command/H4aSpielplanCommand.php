@@ -109,7 +109,7 @@ class H4aSpielplanCommand extends Command
 
         Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
 
-        $output->writeln('Datenbankeinträge für team_id ' . $teamID . ' wurde erstellt!');
+        $output->writeln('<info>Datenbankeinträge für team_id ' . $teamID . ' wurde erstellt!</info>');
 
         return 0;
     }

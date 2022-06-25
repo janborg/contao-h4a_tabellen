@@ -88,12 +88,12 @@ class H4aUpdateReportsCommand extends Command
                 $objEvent->save();
 
                 $output->writeln([
-                    'ReportNo (sGID) ' . $sGID . ' über Handball4all erhalten.',
+                    '<info>ReportNo (sGID) ' . $sGID . ' über Handball4all erhalten.</info>',
                     ''
                 ]);
             } else {
                 $output->writeln([
-                    'ReportNo (sGID) konnte nicht ermittelt werden.',
+                    '<error>ReportNo (sGID) konnte nicht ermittelt werden.</error>',
                     ''
                 ]);
             }

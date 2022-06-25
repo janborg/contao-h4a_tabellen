@@ -87,7 +87,7 @@ class H4aUpdateResultsCommand extends Command
 
             if ($objEvent->startTime > $now || '00:00' === date('H:i', (int) $objEvent->startTime)) {
                 $output->writeln([
-                    'Spiel ist noch nicht gestartet. Abruch ...',
+                    '<comment>Spiel ist noch nicht gestartet. Abruch ...</comment>',
                     ''
                 ]);
 
@@ -102,7 +102,7 @@ class H4aUpdateResultsCommand extends Command
 
             if (!isset($arrResult['dataList'][0])) {
                 $output->writeln([
-                    'Spielplan für Team' . $objCalendar->h4a_team_ID . ' konnte nicht abgerufen werden.',
+                    '<error>Spielplan für Team' . $objCalendar->h4a_team_ID . ' konnte nicht abgerufen werden.</error>',
                     'Abruch ...',
                     ''
                 ]);
@@ -123,14 +123,14 @@ class H4aUpdateResultsCommand extends Command
                 $objEvent->save();
 
                 $output->writeln([
-                    'Ergebnis (' . $games[$gameId]['gHomeGoals'] . ':' . $games[$gameId]['gGuestGoals'] . ' erhalten',
+                    '<info>Ergebnis (' . $games[$gameId]['gHomeGoals'] . ':' . $games[$gameId]['gGuestGoals'] . ' erhalten</info>',
                     ''
                 ]);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
                 $output->writeln([
-                    'Ergebnis über Handball4all geprüft, kein Ergebnis vorhanden',
+                    '<comment>Ergebnis über Handball4all geprüft, kein Ergebnis vorhanden</comment>',
                     ''
                 ]);
             }
