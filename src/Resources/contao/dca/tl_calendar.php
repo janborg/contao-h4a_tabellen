@@ -123,11 +123,11 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'inputType' => 'multiColumnWizard',
         'eval' => [
             'style' => 'width: 680px;',
-            'dragAndDrop'  => false,
+            'dragAndDrop'  => true,
             'buttons'      => [
                 'copy'   => false,
-                'up'     => false,
-                'down'   => false
+                'up'     => true,
+                'down'   => true
             ],
             'columnFields' => [
                 'h4a_saison' => [
