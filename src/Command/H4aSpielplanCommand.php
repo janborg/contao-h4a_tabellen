@@ -22,11 +22,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class H4aSpielplanCommand extends Command
 {
-
     protected static $defaultName = 'h4a:show:spielplan';
 
     protected static $defaultDescription = 'Show H4a Spielplan for given teamID';
-
 
     /**
      * @var ContaoFramework
@@ -46,10 +44,11 @@ class H4aSpielplanCommand extends Command
         $parameterLigaIDHelp = 'Id des Teams, für das die Daten angezeigt werden sollen';
 
         $this->setHelp($commandHelp)
-            ->addArgument('teamID', InputArgument::REQUIRED, $parameterLigaIDHelp);
+            ->addArgument('teamID', InputArgument::REQUIRED, $parameterLigaIDHelp)
+        ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         $this->framework->initialize();
 
@@ -57,21 +56,22 @@ class H4aSpielplanCommand extends Command
 
         $arrResultSpielplan = Helper::getJsonSpielplan($teamID);
 
-
         $table = new Table($output);
         $table->setHeaders(['Datum', 'Uhrzeit', 'Heim', 'Gast', 'Ergebnis']);
 
         if (!isset($arrResultSpielplan['dataList'][0])) {
             $output->writeln('<error>Keine Daten für Spielplan gefunden</error>');
+
             return 0;
         }
+
         foreach ($arrResultSpielplan['dataList'] as $spiel) {
             $spielplan[$spiel['gNo']] = [
                 'datum' => $spiel['gDate'],
                 'uhrzeit' => $spiel['gTime'],
                 'heim' => $spiel['gHomeTeam'],
                 'gast' => $spiel['gGuestTeam'],
-                'ergebnis' => $spiel['gHomeGoals'] . ':' . $spiel['gGuestGoals']
+                'ergebnis' => $spiel['gHomeGoals'].':'.$spiel['gGuestGoals'],
             ];
         }
 
@@ -82,8 +82,9 @@ class H4aSpielplanCommand extends Command
 
         if (null !== $ligaID) {
             $arrResultTabelle = Helper::getJsonTabelle($ligaID);
-        }  else {
+        } else {
             $output->writeln('<error>Keine Daten für Tabelle gefunden</error>');
+
             return 0;
         }
 
@@ -92,15 +93,17 @@ class H4aSpielplanCommand extends Command
 
         if (!isset($arrResultTabelle['dataList'][0])) {
             $output->writeln('<error>Keine Daten für Spielplan gefunden</error>');
+
             return 0;
         }
+
         foreach ($arrResultTabelle['dataList'] as $team) {
-            $liga[$team['tabScore']]=[
+            $liga[$team['tabScore']] = [
                 'platz' => $team['tabScore'],
                 'team' => $team['tabTeamname'],
                 'spiele' => $team['numPlayedGames'],
                 'punkte' => $team['pointsPlus'].' : '.$team['pointsMinus'],
-                'tore' => $team['numGoalsShot'].' : '.$team['numGoalsGot']
+                'tore' => $team['numGoalsShot'].' : '.$team['numGoalsGot'],
             ];
         }
 
@@ -109,7 +112,7 @@ class H4aSpielplanCommand extends Command
 
         Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
 
-        $output->writeln('<info>Datenbankeinträge für team_id ' . $teamID . ' wurde erstellt!</info>');
+        $output->writeln('<info>Datenbankeinträge für team_id '.$teamID.' wurde erstellt!</info>');
 
         return 0;
     }

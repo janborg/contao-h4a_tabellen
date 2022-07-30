@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 $GLOBALS['TL_LANG']['tl_h4a_seasons']['title_legend'] = 'Settings Saison';
 
 $GLOBALS['TL_LANG']['tl_h4a_seasons']['season']['0'] = 'Saison';

@@ -19,7 +19,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 class H4aUpdateReportsCommand extends Command
 {
     protected static $defaultName = 'h4a:update:reports';
@@ -40,11 +39,10 @@ class H4aUpdateReportsCommand extends Command
 
     protected function configure(): void
     {
-
         $this->setHelp('With this command you can update the ReportNo for all H4a Events');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         $this->framework->initialize();
 
@@ -62,23 +60,23 @@ class H4aUpdateReportsCommand extends Command
                 'Es wurden keine Events mit Ergebnis, aber ohne ReportNo (sGID) gefunden.',
                 '',
                 'Ende',
-                ''
+                '',
             ]);
 
             return Command::SUCCESS;
         }
 
         $output->writeln([
-            'Es wurden ' . \count($objEvents) . ' H4a-Events mit Ergebnis, aber ohne ReportNo (sGID) gefunden.',
+            'Es wurden '.\count($objEvents).' H4a-Events mit Ergebnis, aber ohne ReportNo (sGID) gefunden.',
             'Versuche nun die ReportNo abzurufen ...',
             '==============================================================',
-            ''
+            '',
         ]);
 
         foreach ($objEvents as $objEvent) {
             $output->writeln([
                 '',
-                'Spiel ' . $objEvent->gGameNo . ' ' . $objEvent->title . ':',
+                'Spiel '.$objEvent->gGameNo.' '.$objEvent->title.':',
                 '-----------------------------------------------------',
             ]);
             $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
@@ -88,13 +86,13 @@ class H4aUpdateReportsCommand extends Command
                 $objEvent->save();
 
                 $output->writeln([
-                    '<info>ReportNo (sGID) ' . $sGID . ' über Handball4all erhalten.</info>',
-                    ''
+                    '<info>ReportNo (sGID) '.$sGID.' über Handball4all erhalten.</info>',
+                    '',
                 ]);
             } else {
                 $output->writeln([
                     '<error>ReportNo (sGID) konnte nicht ermittelt werden.</error>',
-                    ''
+                    '',
                 ]);
             }
         }

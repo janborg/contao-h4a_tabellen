@@ -19,7 +19,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 class H4aUpdateEventsCommand extends Command
 {
     protected static $defaultName = 'h4a:update:events';
@@ -43,7 +42,7 @@ class H4aUpdateEventsCommand extends Command
         $this->setHelp('This command allows youto update all events that are linked to h4a');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         $this->framework->initialize();
 
@@ -59,25 +58,25 @@ class H4aUpdateEventsCommand extends Command
                 '<comment>Es wurden keine Kalender zum Update über H4a gefunden.</comment>',
                 '',
                 'Ende!',
-                ''
+                '',
             ]);
 
             return Command::SUCCESS;
         }
 
         $output->writeln([
-            'Es wurden ' . \count($objCalendars) . ' Kalender zum Update über H4a gefunden gefunden.',
+            'Es wurden '.\count($objCalendars).' Kalender zum Update über H4a gefunden gefunden.',
             'Versuche nun die Updates der Kalender durchzuführen',
             '==========================================================',
-            ''
+            '',
         ]);
 
         foreach ($objCalendars as $objCalendar) {
             $output->writeln([
                 '',
-                'Kalender: ' . $objCalendar->title,
+                'Kalender: '.$objCalendar->title,
                 '-----------------------------------------------------',
-                ''
+                '',
             ]);
             $output->writeln('Starte Update...');
 
@@ -87,7 +86,7 @@ class H4aUpdateEventsCommand extends Command
 
             $output->writeln([
                 '<info>Update des Kalenders über Handball4all durchgeführt.</info>',
-                ''
+                '',
             ]);
         }
 

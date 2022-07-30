@@ -20,13 +20,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
 class H4aUpdateResultsCommand extends Command
 {
     protected static $defaultName = 'h4a:update:results';
 
     protected static $defaultDescription = 'Update results for all H4a-Events';
-
 
     /**
      * @var ContaoFramework
@@ -45,7 +43,7 @@ class H4aUpdateResultsCommand extends Command
         $this->setHelp('With this command you can update the results for all H4a Events');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): ?int
+    protected function execute(InputInterface $input, OutputInterface $output): int|null
     {
         $this->framework->initialize();
 
@@ -63,24 +61,24 @@ class H4aUpdateResultsCommand extends Command
                 'Es wurden keine Events ohne Ergebnis gefunden.',
                 '',
                 'Ende',
-                ''
+                '',
             ]);
 
             return Command::SUCCESS;
         }
 
         $output->writeln([
-            'Es wurden ' . \count($objEvents) . ' H4a-Events ohne Ergebnis gefunden. ',
+            'Es wurden '.\count($objEvents).' H4a-Events ohne Ergebnis gefunden. ',
             '',
             '===============================================================',
-            ''
+            '',
         ]);
 
         foreach ($objEvents as $objEvent) {
             $output->writeln([
-                'Spiel ' . $objEvent->gGameNo . ' ' . $objEvent->title . ':',
+                'Spiel '.$objEvent->gGameNo.' '.$objEvent->title.':',
                 '-----------------------------------------------------',
-                'Versuche Ergebnis abzurufen...'
+                'Versuche Ergebnis abzurufen...',
             ]);
 
             $now = time();
@@ -88,23 +86,23 @@ class H4aUpdateResultsCommand extends Command
             if ($objEvent->startTime > $now || '00:00' === date('H:i', (int) $objEvent->startTime)) {
                 $output->writeln([
                     '<comment>Spiel ist noch nicht gestartet. Abruch ...</comment>',
-                    ''
+                    '',
                 ]);
 
                 continue;
             }
 
             $objCalendar = CalendarModel::findById($objEvent->pid);
-            
+
             $h4a_team_ID = Helper::getH4ateamFromH4aSeasons($objCalendar, $objEvent);
-            
+
             $arrResult = Helper::getJsonSpielplan($h4a_team_ID);
 
             if (!isset($arrResult['dataList'][0])) {
                 $output->writeln([
-                    '<error>Spielplan für Team' . $objCalendar->h4a_team_ID . ' konnte nicht abgerufen werden.</error>',
+                    '<error>Spielplan für Team'.$objCalendar->h4a_team_ID.' konnte nicht abgerufen werden.</error>',
                     'Abruch ...',
-                    ''
+                    '',
                 ]);
 
                 continue;
@@ -123,15 +121,15 @@ class H4aUpdateResultsCommand extends Command
                 $objEvent->save();
 
                 $output->writeln([
-                    '<info>Ergebnis (' . $games[$gameId]['gHomeGoals'] . ':' . $games[$gameId]['gGuestGoals'] . ' erhalten</info>',
-                    ''
+                    '<info>Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].' erhalten</info>',
+                    '',
                 ]);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
                 $output->writeln([
                     '<comment>Ergebnis über Handball4all geprüft, kein Ergebnis vorhanden</comment>',
-                    ''
+                    '',
                 ]);
             }
         }

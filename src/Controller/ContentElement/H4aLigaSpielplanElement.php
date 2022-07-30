@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class H4aLigaSpielplanElement extends AbstractContentElementController
 {
-    protected function getResponse(Template $template, ContentModel $model, Request $request): ?Response
+    protected function getResponse(Template $template, ContentModel $model, Request $request): Response|null
     {
         $arrResult = Helper::getJsonLigaSpielplan($model->h4a_liga_ID);
         $lastUpdate = time();

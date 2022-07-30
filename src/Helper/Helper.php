@@ -14,10 +14,7 @@ namespace Janborg\H4aTabellen\Helper;
 
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
-use Contao\CoreBundle\Monolog\ContaoContext;
-use Contao\System;
 use Janborg\H4aTabellen\Model\H4aJsonDataModel;
-use Psr\Log\LogLevel;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Helper
@@ -32,23 +29,23 @@ class Helper
     {
         switch ($type) {
             case 'class_table':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext=' . $id;
+                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext='.$id;
                 break;
 
             case 'class_games':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&lvIDNext=' . $id;
+                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&lvIDNext='.$id;
                 break;
 
             case 'team':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext=' . $id;
+                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$id;
                 break;
 
             case 'club':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=club&lvIDNext=' . $id;
+                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=club&lvIDNext='.$id;
                 break;
 
             case 'score':
-                $liga_url = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score=' . $id;
+                $liga_url = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score='.$id;
                 break;
         }
 
@@ -131,7 +128,7 @@ class Helper
         $strJson = self::file_get_contents_ssl($liga_url);
 
         $arrResult = json_decode($strJson, true);
-        
+
         return $arrResult[0];
     }
 
@@ -167,11 +164,11 @@ class Helper
 
             switch (true) {
                 case $month < 4:
-                    $objH4aJsonData->season = date('Y', $Unixdate - 31536000) . '/' . date('Y', $Unixdate);
+                    $objH4aJsonData->season = date('Y', $Unixdate - 31536000).'/'.date('Y', $Unixdate);
                     break;
 
                 case $month >= 3:
-                    $objH4aJsonData->season = date('Y', $Unixdate) . '/' . (date('Y', $Unixdate + 31536000));
+                    $objH4aJsonData->season = date('Y', $Unixdate).'/'.(date('Y', $Unixdate + 31536000));
                     break;
             }
         }
@@ -224,21 +221,16 @@ class Helper
 
         $game = array_filter(
             $allGames,
-            static function ($game) use ($gameNo) {
-                return $game[1]['text'] === $gameNo;
-            }
+            static fn ($game) => $game[1]['text'] === $gameNo
         );
         $game = array_values($game);
-        $sGID = $game[0][10]['sGID'] ?? null;
 
-        return $sGID;
+        return $game[0][10]['sGID'] ?? null;
     }
 
     /**
      * @param string $url
-     * @return string
      */
-
     public static function file_get_contents_ssl($url): string
     {
         $ch = curl_init();
@@ -260,8 +252,6 @@ class Helper
     {
         $arrSeasons = unserialize($objCalendar->h4a_seasons);
 
-        $h4aTeam = $arrSeasons[array_search($objEvent->h4a_saison, array_column($arrSeasons, 'h4a_saison'))]['h4a_team'];
-
-        return $h4aTeam;
+        return $arrSeasons[array_search($objEvent->h4a_saison, array_column($arrSeasons, 'h4a_saison'), true)]['h4a_team'];
     }
 }
