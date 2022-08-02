@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use Janborg\H4aTabellen\Controller\ContentElement\H4aAktuelleSpieleElement;
+use Janborg\H4aTabellen\Controller\ContentElement\H4aLigaSpielplanElement;
+use Janborg\H4aTabellen\Controller\ContentElement\H4aSpielplanElement;
+use Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement;
+
 /*
  * This file is part of contao-h4a_tabellen.
  *
@@ -14,10 +19,10 @@ declare(strict_types=1);
  * Palettes
  */
 
-$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_tabelle'] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{expert_legend:hide},cssID';
-$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_spiele'] = '{type_legend},type,headline;{h4a_legend},h4a_team_ID, my_team_name;{expert_legend:hide},cssID';
-$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_aktuellespiele'] = '{type_legend},type,headline;{h4a_legend},h4a_verein_ID, my_team_name;{expert_legend:hide},cssID';
-$GLOBALS['TL_DCA']['tl_content']['palettes']['h4a_ligaspiele'] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aTabelleElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aSpielplanElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_team_ID, my_team_name;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aAktuelleSpieleElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_verein_ID, my_team_name;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aLigaSpielplanElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{expert_legend:hide},cssID';
 /*
  * Fields
  */

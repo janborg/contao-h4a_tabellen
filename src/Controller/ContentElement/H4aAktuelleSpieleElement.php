@@ -21,13 +21,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @ContentElement("h4a_aktuellespiele",
+ * @ContentElement(type=H4aAktuelleSpieleElement::TYPE,
  *   category="handball4all",
  *   template="ce_h4a_aktuellespiele",
  * )
  */
 class H4aAktuelleSpieleElement extends AbstractContentElementController
 {
+
+    public const TYPE = 'h4a_aktuellespiele';
+
     protected function getResponse(Template $template, ContentModel $model, Request $request): Response|null
     {
         $arrResult = Helper::getJsonVerein($model->h4a_verein_ID);
