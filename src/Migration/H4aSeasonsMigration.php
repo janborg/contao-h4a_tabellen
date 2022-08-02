@@ -40,7 +40,7 @@ class H4aSeasonsMigration extends AbstractMigration
 
     public function shouldRun(): bool
     {
-        $schemaManager = $this->connection->getSchemaManager();
+        $schemaManager = $this->connection->createSchemaManager();
 
         // If the database table already itself exists we should do nothing
         if ($schemaManager->tablesExist(['tl_h4a_seasons'])) {
