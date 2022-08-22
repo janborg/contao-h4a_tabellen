@@ -23,8 +23,8 @@ $GLOBALS['TL_DCA']['tl_h4ajsondata'] =
     ],
     'list' => [
         'sorting' => [
-            'mode' => 1,
-            'flag' => 12,
+            'mode' => Contao\DataContainer::MODE_SORTED,
+            'flag' => Contao\DataContainer::SORT_DESC,
             'fields' => ['season'],
             'panelLayout' => 'search, sort;filter,limit',
         ],

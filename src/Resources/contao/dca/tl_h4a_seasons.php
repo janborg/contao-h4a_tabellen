@@ -23,8 +23,8 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] =
     ],
     'list' => [
         'sorting' => [
-            'mode' => 1,
-            'flag' => 1,
+            'mode' => Contao\DataContainer::MODE_SORTED,
+            'flag' => Contao\DataContainer::SORT_INITIAL_LETTER_ASC,
             'fields' => ['season'],
             'panelLayout' => 'search, sort;filter,limit',
         ],
