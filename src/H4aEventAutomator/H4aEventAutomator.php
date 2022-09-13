@@ -108,6 +108,10 @@ class H4aEventAutomator extends Backend
                     if (null !== $objEvent) {
                         $arrDate = explode('.', $arrSpiel['gDate']);
 
+                        if (!isset($arrDate[0])||!isset($arrDate[1])||!isset($arrDate[2])) {
+                            continue;
+                        }
+
                         if (!preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $arrSpiel['gTime'])) {
                             $arrSpiel['gTime'] = '00:00';
                         }
@@ -155,6 +159,10 @@ class H4aEventAutomator extends Backend
                         $objEvent = new CalendarEventsModel();
 
                         $arrDate = explode('.', $arrSpiel['gDate']);
+                    
+                        if (!isset($arrDate[0])||!isset($arrDate[1])||!isset($arrDate[2])) {
+                            continue;
+                        }
 
                         if (!preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $arrSpiel['gTime'])) {
                             $arrSpiel['gTime'] = '00:00';
