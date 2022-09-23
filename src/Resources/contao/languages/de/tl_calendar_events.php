@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license MIT
  */
 
-$GLOBALS['TL_LANG']['tl_calendar_events']['operationImportFromH4a'] = 'Update H4a-Events';
+$GLOBALS['TL_LANG']['tl_calendar_events']['update_h4a_events'] = 'Update H4a-Events';
 
 $GLOBALS['TL_LANG']['tl_calendar_events']['h4a_legend'] = 'Spiel-Nr. Klasse und Mannschaften';
 $GLOBALS['TL_LANG']['tl_calendar_events']['gymnasium_legend'] = 'Halleninformationen';
