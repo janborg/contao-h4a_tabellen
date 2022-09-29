@@ -85,13 +85,13 @@ class UpdateH4aResultsController extends Backend
 
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Ergebnis (' . $games[$gameId]['gHomeGoals'] . ':' . $games[$gameId]['gGuestGoals'] . ' für Spiel ' . $objEvent->gGameNo . ' ' . $objEvent->title . ' erhalten.', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_GENERAL)]);
+                    ->log(LogLevel::INFO, 'Ergebnis (' . $games[$gameId]['gHomeGoals'] . ':' . $games[$gameId]['gGuestGoals'] . ' für Spiel ' . $objEvent->gGameID . ' ' . $objEvent->title . ' erhalten.', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_GENERAL)]);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Ergebnis für Spiel ' . $objEvent->gGameNo . ' ' . $objEvent->title . ' über Handball4all geprüft, kein Ergebnis vorhanden.', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_GENERAL)]);
+                    ->log(LogLevel::INFO, 'Ergebnis für Spiel ' . $objEvent->gGameID . ' ' . $objEvent->title . ' über Handball4all geprüft, kein Ergebnis vorhanden.', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_GENERAL)]);
             }
         }
 

@@ -76,7 +76,7 @@ class H4aUpdateReportsCommand extends Command
         foreach ($objEvents as $objEvent) {
             $output->writeln([
                 '',
-                'Spiel '.$objEvent->gGameNo.' '.$objEvent->title.':',
+                'Spiel '.$objEvent->gGameID.' '.$objEvent->title.':',
                 '-----------------------------------------------------',
             ]);
             $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
