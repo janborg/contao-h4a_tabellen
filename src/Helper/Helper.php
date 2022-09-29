@@ -252,6 +252,13 @@ class Helper
     {
         $arrSeasons = unserialize($objCalendar->h4a_seasons);
 
-        return $arrSeasons[array_search($objEvent->h4a_saison, array_column($arrSeasons, 'h4a_saison'), true)]['h4a_team'];
+        $season = array_filter(
+            $arrSeasons,
+            static fn ($season) => $season['h4a_saison'] === $objEvent->h4a_season
+        );
+
+        $season = array_values($season);
+
+        return $season[0]['h4a_team'];
     }
 }
