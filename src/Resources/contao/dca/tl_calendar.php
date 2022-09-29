@@ -20,22 +20,20 @@ use Contao\StringUtil;
  */
 
 $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
-    ['h4a_update' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operationImportFromH4a'],
+    ['h4a_update_calendars' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_update_calendars'],
         'class' => 'header_h4a',
-        'href' => 'key=update_events',
+        'href' => 'key=h4a_update_calendars',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
-        'button_callback' => ['tl_calendar_h4a', 'h4a_update_events'],
     ]],
     ['h4a_update_results' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operationUpdateResultsFromH4a'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_update_results'],
         'class' => 'header_h4a',
-        'href' => 'key=update_results',
+        'href' => 'key=h4a_update_results',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
-        'button_callback' => ['tl_calendar_h4a', 'h4a_update_results'],
     ]],
     ['h4a_seasons' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operationSeasons'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_seasons'],
         'class' => 'header_h4a',
         'href' => 'table=tl_h4a_seasons',
         'icon' => 'bundles/janborgh4atabellen/seasons.svg',
@@ -199,50 +197,3 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
     ]],
     $GLOBALS['TL_DCA']['tl_calendar']['fields']
 );
-
-/**
- * Class tl_calendar_h4a.
- */
-class tl_calendar_h4a extends Backend
-{
-    /**
-     * tl_calendar_h4a constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->import('BackendUser', 'User');
-    }
-
-    /**
-     * @param $href
-     * @param $label
-     * @param $title
-     * @param $class
-     * @param $attributes
-     *
-     * @return string
-     */
-    public function h4a_update_events($href, $label, $title, $class, $attributes)
-    {
-        $href = 'key=update_events';
-
-        return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
-    }
-
-    /**
-     * @param $href
-     * @param $label
-     * @param $title
-     * @param $class
-     * @param $attributes
-     *
-     * @return string
-     */
-    public function h4a_update_results($href, $label, $title, $class, $attributes)
-    {
-        $href = 'key=update_results';
-
-        return '<a href="'.$this->addToUrl($href).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
-    }
-}

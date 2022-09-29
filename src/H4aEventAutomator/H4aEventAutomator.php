@@ -240,7 +240,7 @@ class H4aEventAutomator extends Backend
             $games = $arrResult['dataList'];
 
             if (isset($games[0])) {
-                $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
+                $gameId = array_search($objEvent->gGameID, array_column($games, 'gID'), true);
             } else {
                 continue;
             }
