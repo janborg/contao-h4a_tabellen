@@ -52,7 +52,7 @@ class H4aUpdateResultsCommand extends Command
         );
 
         $objEvents = CalendarEventsModel::findby(
-            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameNo != ?'],
+            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameID != ?'],
             [date('Y-m-d'), true, '']
         );
 
@@ -110,7 +110,7 @@ class H4aUpdateResultsCommand extends Command
 
             $games = $arrResult['dataList'];
 
-            $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
+            $gameId = array_search($objEvent->gGameID, array_column($games, 'gID'), true);
 
             if (' ' !== $games[$gameId]['gHomeGoals'] && ' ' !== $games[$gameId]['gGuestGoals']) {
                 $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
