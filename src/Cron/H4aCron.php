@@ -101,7 +101,7 @@ class H4aCron
 
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::DEBUG, 'Ergebnis für Spiel '.$objEvent->gGameID.' über Handball4all geprüft, kein Ergebnis vorhanden', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
+                    ->log(LogLevel::DEBUG, 'Ergebnis für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') über Handball4all geprüft, kein Ergebnis vorhanden', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
                 ;
             }
         }
