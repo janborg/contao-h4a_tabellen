@@ -254,11 +254,13 @@ class Helper
 
         $season = array_filter(
             $arrSeasons,
-            static fn ($season) => $season['h4a_saison'] === $objEvent->h4a_season
+            static fn ($season) => $season['h4a_saison'] == $objEvent->h4a_season
         );
 
         $season = array_values($season);
 
-        return $season[0]['h4a_team'];
+        $h4a_team_ID = $season[0]['h4a_team'];
+
+        return $h4a_team_ID;
     }
 }
