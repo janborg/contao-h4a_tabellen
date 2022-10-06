@@ -19,6 +19,7 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
                 'id' => 'primary',
             ],
         ],
+        'backlink' => 'do=calendar'
     ],
     'list' => [
         'sorting' => [
