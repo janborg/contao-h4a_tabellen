@@ -43,30 +43,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
 );
 
 /*
- * Operation(s)
- */
- $GLOBALS['TL_DCA']['tl_calendar']['list']['operations'] = array_merge(
-     $GLOBALS['TL_DCA']['tl_calendar']['list']['operations'],
-     ['toggle_ignore' => [
-         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['toggle_ignore'],
-         'attributes' => 'onclick="Backend.getScrollOffset();"',
-         'haste_ajax_operation' => [
-             'field' => 'h4a_ignore',
-             'options' => [
-                 [
-                     'value' => '',
-                     'icon' => 'visible.gif',
-                 ],
-                 [
-                     'value' => '1',
-                     'icon' => 'delete.gif',
-                 ],
-             ],
-         ],
-     ]]
- );
-
-/*
  * Extend palettes
  */
 PaletteManipulator::create()
@@ -105,14 +81,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'filter' => true,
         'inputType' => 'checkbox',
         'eval' => ['submitOnChange' => true],
-        'sql' => "char(1) NOT NULL default ''",
-    ]],
-    ['h4a_ignore' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_ignore'],
-        'exclude' => true,
-        'filter' => true,
-        'inputType' => 'checkbox',
-        'eval' => ['tl_class' => 'w50 m12'],
         'sql' => "char(1) NOT NULL default ''",
     ]],
     ['h4a_seasons' => [
