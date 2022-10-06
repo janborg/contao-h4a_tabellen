@@ -17,3 +17,7 @@ $GLOBALS['TL_LANG']['tl_h4a_seasons']['season']['1'] = 'Die Bezeichnung der Sais
 
 $GLOBALS['TL_LANG']['tl_h4a_season']['is_current_season']['0'] = 'Aktuelle Saison';
 $GLOBALS['TL_LANG']['tl_h4a_season']['is_current_season']['1'] = 'Häkchen setzen,wenn dies die aktuelle Saison ist';
+
+$GLOBALS['TL_LANG']['tl_h4a_season']['h4a_ignore']['0'] = 'Ignorieren';
+$GLOBALS['TL_LANG']['tl_h4a_season']['h4a_ignore']['1'] = 'Saison wird bei automatischen Updates über den Cron ignoriert';
+

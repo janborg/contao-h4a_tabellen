@@ -57,7 +57,11 @@ class H4aCron
     {
         $objEvents = CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameID != ?'],
-            [date('Y-m-d'), true, '']
+            [date('Y-m-d'), true, ''], 
+            [
+                'eager' => true,
+                'having' => "h4a_season__h4a_ignore = 0"
+            ]
         );
 
         foreach ($objEvents as $objEvent) {
