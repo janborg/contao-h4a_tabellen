@@ -15,7 +15,7 @@ namespace Janborg\H4aTabellen\Controller\ContentElement;
 use Contao\ContentModel;
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 use Contao\CoreBundle\ServiceAnnotation\ContentElement;
-use Contao\Template;
+use Contao\CoreBundle\Twig\FragmentTemplate;
 use Janborg\H4aTabellen\Helper\Helper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +31,7 @@ class H4aAktuelleSpieleElement extends AbstractContentElementController
 
     public const TYPE = 'h4a_aktuellespiele';
 
-    protected function getResponse(Template $template, ContentModel $model, Request $request): Response|null
+    protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
         $arrResult = Helper::getJsonVerein($model->h4a_verein_ID);
         $lastUpdate = time();
