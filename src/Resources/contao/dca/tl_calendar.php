@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 use Contao\BackendUser;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
 
 /*
  * Global Operation(s)

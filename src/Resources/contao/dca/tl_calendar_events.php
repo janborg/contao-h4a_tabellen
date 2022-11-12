@@ -10,10 +10,6 @@ declare(strict_types=1);
  * @license MIT
  */
 
-use Contao\Backend;
-use Contao\Input;
-use Contao\StringUtil;
-
 /*
  * Global Operation(s)
  */

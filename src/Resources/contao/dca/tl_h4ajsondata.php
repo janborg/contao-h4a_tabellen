@@ -10,11 +10,14 @@ declare(strict_types=1);
  * @license MIT
  */
 
+use Contao\DC_Table;
+use Contao\DataContainer;
+
 $GLOBALS['TL_DCA']['tl_h4ajsondata'] =
 [
     // Config
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => DC_Table::class,
         'sql' => [
             'keys' => [
                 'id' => 'primary',
@@ -23,8 +26,8 @@ $GLOBALS['TL_DCA']['tl_h4ajsondata'] =
     ],
     'list' => [
         'sorting' => [
-            'mode' => Contao\DataContainer::MODE_SORTED,
-            'flag' => Contao\DataContainer::SORT_DESC,
+            'mode' => DataContainer::MODE_SORTED,
+            'flag' => DataContainer::SORT_DESC,
             'fields' => ['season'],
             'panelLayout' => 'search, sort;filter,limit',
         ],
