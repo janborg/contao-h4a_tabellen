@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Backend;
 
+use Contao\BackendUser;
 use Contao\Backend;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
@@ -25,7 +26,7 @@ class UpdateH4aResultsController extends Backend
     public function __construct()
     {
         parent::__construct();
-        $this->import('BackendUser', 'User');
+        $this->import(BackendUser::class, 'User');
     }
 
     public function updateResults(): void
@@ -38,8 +39,9 @@ class UpdateH4aResultsController extends Backend
         if (null === $objEvents) {
 
             System::getContainer()
-                ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Es stehen für keine vergangenen Spiele die Ergebnisse aus.', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_GENERAL)]);
+                ->get('monolog.logger.contao.general')
+                ->info('Es stehen für keine vergangenen Spiele die Ergebnisse aus.')
+                ;
 
             $this->redirect($this->getReferer());
 
@@ -65,8 +67,9 @@ class UpdateH4aResultsController extends Backend
             if (!isset($arrResult['dataList'][0])) {
 
                 System::getContainer()
-                    ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Spielplan für Team' . $objCalendar->h4a_team_ID . ' (' . $objCalendar->title . ') konnte nicht abgerufen werden. Datalist in json ist leer.', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_GENERAL)]);
+                    ->get('monolog.logger.contao.general')
+                    ->info('Spielplan für Team' . $objCalendar->h4a_team_ID . ' (' . $objCalendar->title . ') konnte nicht abgerufen werden. Datalist in json ist leer.')
+                    ;
 
                 continue;
             }
@@ -84,14 +87,16 @@ class UpdateH4aResultsController extends Backend
                 $objEvent->save();
 
                 System::getContainer()
-                    ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Ergebnis (' . $games[$gameId]['gHomeGoals'] . ':' . $games[$gameId]['gGuestGoals'] . ' für Spiel ' . $objEvent->gGameID . ' ' . $objEvent->title . ' erhalten.', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_GENERAL)]);
+                    ->get('monolog.logger.contao.general')
+                    ->info('Ergebnis (' . $games[$gameId]['gHomeGoals'] . ':' . $games[$gameId]['gGuestGoals'] . ' für Spiel ' . $objEvent->gGameID . ' ' . $objEvent->title . ' erhalten.')
+                    ;
             } else {
                 $objEvent->h4a_resultComplete = false;
 
                 System::getContainer()
-                    ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Ergebnis für Spiel ' . $objEvent->gGameID . ' ' . $objEvent->title . ' über Handball4all geprüft, kein Ergebnis vorhanden.', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_GENERAL)]);
+                    ->get('monolog.logger.contao.general')
+                    ->info('Ergebnis für Spiel ' . $objEvent->gGameID . ' ' . $objEvent->title . ' über Handball4all geprüft, kein Ergebnis vorhanden.')
+                    ;
             }
         }
 

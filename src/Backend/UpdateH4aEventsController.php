@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Backend;
 
+use Contao\BackendUser;
 use Contao\Backend;
 use Contao\CalendarModel;
 use Contao\CoreBundle\Monolog\ContaoContext;
@@ -25,7 +26,7 @@ class UpdateH4aEventsController extends Backend
     public function __construct()
     {
         parent::__construct();
-        $this->import('BackendUser', 'User');
+        $this->import(BackendUser::class, 'User');
     }
 
     public function updateEvents(): void
@@ -39,8 +40,8 @@ class UpdateH4aEventsController extends Backend
         $h4aeventautomator->syncCalendars($objCalendar);
 
         System::getContainer()
-            ->get('monolog.logger.contao')
-            ->log(LogLevel::INFO, 'Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
+            ->get('monolog.logger.contao.general')
+            ->info('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.')
         ;
         
         $this->redirect($this->getReferer());
