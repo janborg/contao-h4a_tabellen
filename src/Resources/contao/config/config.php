@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 use Janborg\H4aTabellen\Model\H4aJsonDataModel;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
+use Janborg\H4aTabellen\Backend\UpdateH4aEventsController;
+use Janborg\H4aTabellen\Backend\UpdateH4aCalendarsController;
+use Janborg\H4aTabellen\Backend\UpdateH4aResultsController;
 
 /*
  * This file is part of contao-h4a_tabellen.
@@ -21,9 +24,9 @@ use Janborg\H4aTabellen\Model\H4aSeasonModel;
  * @license MIT
  */
 
-$GLOBALS['BE_MOD']['content']['calendar']['update_events'] = ['Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator', 'updateEvents'];
-$GLOBALS['BE_MOD']['content']['calendar']['update_calendar'] = ['Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator', 'updateArchive'];
-$GLOBALS['BE_MOD']['content']['calendar']['update_results'] = ['Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator', 'updateResults'];
+$GLOBALS['BE_MOD']['content']['calendar']['h4a_update_events'] = [UpdateH4aEventsController::class, 'updateEvents'];
+$GLOBALS['BE_MOD']['content']['calendar']['h4a_update_calendars'] = [UpdateH4aCalendarsController::class, 'updateCalendars'];
+$GLOBALS['BE_MOD']['content']['calendar']['h4a_update_results'] = [UpdateH4aResultsController::class, 'updateResults'];
 
 /*
  * tables

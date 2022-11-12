@@ -10,11 +10,14 @@ declare(strict_types=1);
  * @license MIT
  */
 
+use Contao\DC_Table;
+use Contao\DataContainer;
+
 $GLOBALS['TL_DCA']['tl_h4ajsondata'] =
 [
     // Config
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => DC_Table::class,
         'sql' => [
             'keys' => [
                 'id' => 'primary',
@@ -23,8 +26,8 @@ $GLOBALS['TL_DCA']['tl_h4ajsondata'] =
     ],
     'list' => [
         'sorting' => [
-            'mode' => 1,
-            'flag' => 12,
+            'mode' => DataContainer::MODE_SORTED,
+            'flag' => DataContainer::SORT_DESC,
             'fields' => ['season'],
             'panelLayout' => 'search, sort;filter,limit',
         ],
@@ -51,7 +54,7 @@ $GLOBALS['TL_DCA']['tl_h4ajsondata'] =
                 'label' => &$GLOBALS['TL_LANG']['tl_h4ajsondata']['delete'],
                 'href' => 'act=delete',
                 'icon' => 'delete.svg',
-				'attributes' => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"'
+                'attributes' => 'onclick="if(!confirm(\''.($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null).'\'))return false;Backend.getScrollOffset()"',
             ],
             'show' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_h4ajsondata']['show'],

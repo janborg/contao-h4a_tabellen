@@ -10,17 +10,14 @@ declare(strict_types=1);
  * @license MIT
  */
 
-$GLOBALS['TL_LANG']['tl_calendar']['operationImportFromH4a'] = 'Update H4a-Events';
-$GLOBALS['TL_LANG']['tl_calendar']['operationUpdateResultsFromH4a'] = 'Update H4a-Results';
-$GLOBALS['TL_LANG']['tl_calendar']['operationSeasons'] = 'Seasons pflegen';
+$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_update_calendars'] = 'Update H4a-Kalender';
+$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_update_results'] = 'Update H4a-Ergebnisse';
+$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_seasons'] = 'Seasons pflegen';
 
 $GLOBALS['TL_LANG']['tl_calendar']['h4a_legend'] = 'Handball4all Daten';
 
 $GLOBALS['TL_LANG']['tl_calendar']['h4a_imported']['0'] = 'Handball4all Update';
 $GLOBALS['TL_LANG']['tl_calendar']['h4a_imported']['1'] = 'Kalendereinträge für die Spiele einer Mansnchaft werden automatisch über Handball4all erstellt';
-
-$GLOBALS['TL_LANG']['tl_calendar']['h4a_ignore']['0'] = 'Ignorieren';
-$GLOBALS['TL_LANG']['tl_calendar']['h4a_ignore']['1'] = 'Kalender wird bei automatischen Updates ignoriert, bspw. für vergangene Saisons';
 
 $GLOBALS['TL_LANG']['tl_calendar']['h4a_liga_ID']['0'] = 'Liga ID';
 $GLOBALS['TL_LANG']['tl_calendar']['h4a_liga_ID']['1'] = 'Bitte geben Sie die 5-stellige ID der Liga (www.handball4all.de) ein';

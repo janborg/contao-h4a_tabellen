@@ -40,7 +40,7 @@ class H4aSeasonsMigration extends AbstractMigration
 
     public function shouldRun(): bool
     {
-        $schemaManager = $this->connection->getSchemaManager();
+        $schemaManager = $this->connection->createSchemaManager();
 
         // If the database table already itself exists we should do nothing
         if ($schemaManager->tablesExist(['tl_h4a_seasons'])) {
@@ -62,12 +62,12 @@ class H4aSeasonsMigration extends AbstractMigration
         // neue Tabelle tl_h4a_seasons anlegen
         $this->connection->executeQuery("
         CREATE TABLE tl_h4a_seasons (
-            id INT UNSIGNED AUTO_INCREMENT NOT NULL, 
-            tstamp INT UNSIGNED DEFAULT 0 NOT NULL, 
-            season VARCHAR(255) DEFAULT '', 
-            is_current_season CHAR(1) DEFAULT '' NOT NULL, 
+            id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+            tstamp INT UNSIGNED DEFAULT 0 NOT NULL,
+            season VARCHAR(255) DEFAULT '',
+            is_current_season CHAR(1) DEFAULT '' NOT NULL,
             PRIMARY KEY(id)
-        ) 
+        )
             DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB ROW_FORMAT = DYNAMIC
         ");
 
@@ -81,8 +81,8 @@ class H4aSeasonsMigration extends AbstractMigration
         // alle in Kalendern hinterlegten Saisons finden
         $seasons = $this->connection->fetchAllAssociative('
             SELECT DISTINCT
-                h4a_season 
-            FROM 
+                h4a_season
+            FROM
                 tl_calendar
             WHERE
                 h4a_imported = 1

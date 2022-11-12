@@ -1,0 +1,37 @@
+{% extends '@Contao/block_searchable' %}
+
+{% block content %}
+
+
+<section class="autospiele">
+    <table border="0" width="100%" cellspacing="0" cellpadding="3" class="matchtable">
+        <tbody>
+            <tr>
+                <th>Datum</th>
+                <th>Uhrzeit</th>
+                <th>Halle</th>
+                <th>Heim</th>
+                <th>Gast</th>
+                <th style="text-align:center">Ergebnis</th>
+            </tr>
+            {% for spiel in spiele %}
+            <tr>
+                <td>{{ spiel.gDate }}</td>
+                <td>{{ spiel.gTime }} Uhr</td>
+                <td>{{ spiel.gGymnasiumName }}</td>
+                <td {% if myTeam in spiel.gHomeTeam %} class="myteam" {% endif %} > {{ spiel.gHomeTeam }}</td>
+                <td {% if myTeam in spiel.gGuestTeam %} class="myteam" {% endif %} > {{ spiel.gGuestTeam }}</td>
+                <td style="text-align:center">
+                    
+                        {% if spiel.gHomeGoals != " " %}
+                             {{ spiel.gHomeGoals }} : {{ spiel.gGuestGoals }}
+                        {% endif %}
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+{% endblock %}

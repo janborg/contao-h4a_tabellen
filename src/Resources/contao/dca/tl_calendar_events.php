@@ -10,20 +10,15 @@ declare(strict_types=1);
  * @license MIT
  */
 
-use Contao\Backend;
-use Contao\Input;
-use Contao\StringUtil;
-
 /*
  * Global Operation(s)
  */
 $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] = array_merge(
-    ['h4a_update' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['operationImportFromH4a'],
+    ['h4a_update_events' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['update_h4a_events'],
         'class' => 'header_h4a',
-        'href' => 'key=update_calendar',
+        'href' => 'key=h4a_update_events',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
-        'button_callback' => ['tl_calendar_events_h4a', 'h4a_update'],
     ]],
     $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations']
 );
@@ -181,6 +176,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_season'],
         'inputType' => 'select',
         'foreignKey' => 'tl_h4a_seasons.season',
+        'relation' => ['type'=>'hasOne', 'load'=>'lazy'],
         'filter' => true,
         'exclude' => true,
         'eval' => [
@@ -192,35 +188,3 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
     ]],
     $GLOBALS['TL_DCA']['tl_calendar_events']['fields']
 );
-
-    /**
-     * Class tl_calendar_events_h4a.
-     */
-    class tl_calendar_events_h4a extends Backend
-    {
-        /**
-         * tl_calendar__events_h4a constructor.
-         */
-        public function __construct()
-        {
-            parent::__construct();
-            $this->import('BackendUser', 'User');
-        }
-
-        /**
-         * @param $href
-         * @param $label
-         * @param $title
-         * @param $class
-         * @param $attributes
-         *
-         * @return string
-         */
-        public function h4a_update($href, $label, $title, $class, $attributes)
-        {
-            $href = 'key=update_calendar';
-            $id = strlen(Input::get('id')) ? Input::get('id') : CURRENT_ID;
-
-            return '<a href="'.$this->addToUrl($href.'&amp;id='.$id).'" title="'.StringUtil::specialchars($title).'" class="'.$class.'"'.$attributes.'>'.$label.'</a> ';
-        }
-    }

@@ -43,8 +43,8 @@ class H4aEventAutomator extends Backend
         $intCalendars = \count($objCalendars);
 
         System::getContainer()
-            ->get('monolog.logger.contao')
-            ->log(LogLevel::INFO, 'Update für '.$intCalendars.' Kalender über Handball4all gestartet', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
+            ->get('monolog.logger.contao.general')
+            ->info('Update für '.$intCalendars.' Kalender über Handball4all gestartet')
         ;
 
         foreach ($objCalendars as $objCalendar) {
@@ -52,8 +52,8 @@ class H4aEventAutomator extends Backend
         }
 
         System::getContainer()
-            ->get('monolog.logger.contao')
-            ->log(LogLevel::INFO, 'Update der Kalender über Handball4all beendet', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
+            ->get('monolog.logger.contao.general')
+            ->info('Update der Kalender über Handball4all beendet')
         ;
 
         $this->redirect($this->getReferer());
@@ -68,8 +68,8 @@ class H4aEventAutomator extends Backend
         $this->syncCalendars($objCalendar);
 
         System::getContainer()
-            ->get('monolog.logger.contao')
-            ->log(LogLevel::INFO, 'Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
+            ->get('monolog.logger.contao.general')
+            ->info('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.')
         ;
 
         $this->redirect($this->getReferer());
@@ -83,7 +83,7 @@ class H4aEventAutomator extends Backend
         $arrSeasons = unserialize($objCalendar->h4a_seasons);
 
         foreach ($arrSeasons as $arrSeason) {
-            $seasonID = H4aSeasonModel::findById($arrSeason['h4a_saison'])->id;
+            $seasonID = H4aSeasonModel::findById($arrSeason['h4a_season'])->id;
 
             $arrResultSpielplan = Helper::getJsonSpielplan($arrSeason['h4a_team']);
             $arrResultTabelle = Helper::getJsonTabelle($arrResultSpielplan['dataList'][0]['gClassID']);
@@ -91,8 +91,8 @@ class H4aEventAutomator extends Backend
 
             if ('/ [error]' === $arrResultSpielplan['lvTypeLabelStr']) {
                 System::getContainer()
-                    ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Updateversuch des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') abgebrochen, prüfen Sie die Team ID!', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
+                    ->get('monolog.logger.contao.general')
+                    ->info('Updateversuch des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') abgebrochen, prüfen Sie die Team ID!')
                 ;
             } else {
                 $arrSpiele = $arrResultSpielplan['dataList'];
@@ -108,6 +108,10 @@ class H4aEventAutomator extends Backend
                     if (null !== $objEvent) {
                         $arrDate = explode('.', $arrSpiel['gDate']);
 
+                        if (!isset($arrDate[0])||!isset($arrDate[1])||!isset($arrDate[2])) {
+                            continue;
+                        }
+
                         if (!preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $arrSpiel['gTime'])) {
                             $arrSpiel['gTime'] = '00:00';
                         }
@@ -122,7 +126,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->source = 'default';
                         $objEvent->addTime = 1;
                         $objEvent->startTime = $dateTime;
-                        $objEvent->endTime = $dateTime+5400;
+                        $objEvent->endTime = $dateTime + 5400;
                         $objEvent->startDate = $dateDay;
                         $objEvent->gClassID = $arrSpiel['gClassID'];
                         $objEvent->gClassName = $arrSpiel['gClassSname'];
@@ -155,6 +159,10 @@ class H4aEventAutomator extends Backend
                         $objEvent = new CalendarEventsModel();
 
                         $arrDate = explode('.', $arrSpiel['gDate']);
+                    
+                        if (!isset($arrDate[0])||!isset($arrDate[1])||!isset($arrDate[2])) {
+                            continue;
+                        }
 
                         if (!preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $arrSpiel['gTime'])) {
                             $arrSpiel['gTime'] = '00:00';
@@ -180,7 +188,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->source = 'default';
                         $objEvent->addTime = 1;
                         $objEvent->startTime = $dateTime;
-                        $objEvent->endTime = $dateTime+5400;
+                        $objEvent->endTime = $dateTime + 5400;
                         $objEvent->startDate = $dateDay;
                         $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
                         $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
@@ -230,11 +238,10 @@ class H4aEventAutomator extends Backend
             $arrResult = Helper::getJsonLigaSpielplan($objEvent->gClassID);
 
             $games = $arrResult['dataList'];
-            
+
             if (isset($games[0])) {
-                $gameId = array_search($objEvent->gGameNo, array_column($games, 'gNo'), true);
-            }
-            else {
+                $gameId = array_search($objEvent->gGameID, array_column($games, 'gID'), true);
+            } else {
                 continue;
             }
 
@@ -247,18 +254,17 @@ class H4aEventAutomator extends Backend
                 $objEvent->save();
 
                 System::getContainer()
-                    ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameNo.' über Handball4all aktualisiert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
+                    ->get('monolog.logger.contao.general')
+                    ->info('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameID.' über Handball4all aktualisiert')
                 ;
-                
-                $this->updateReportIdForEvent($objEvent);
 
+                $this->updateReportIdForEvent($objEvent);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
                 System::getContainer()
-                    ->get('monolog.logger.contao')
-                    ->log(LogLevel::INFO, 'Ergebnis für Spiel '.$objEvent->gGameNo.' über Handball4all geprüft, kein Ergebnis vorhanden', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
+                    ->get('monolog.logger.contao.general')
+                    ->info('Ergebnis für Spiel '.$objEvent->gGameID.' über Handball4all geprüft, kein Ergebnis vorhanden')
                 ;
             }
         }
@@ -288,8 +294,6 @@ class H4aEventAutomator extends Backend
 
     /**
      * Update field sGID for a single calendarEvent.
-     *
-     * @param CalendarEventsModel $objEvent
      */
     public function updateReportIdForEvent(CalendarEventsModel $objEvent): void
     {
@@ -300,14 +304,13 @@ class H4aEventAutomator extends Backend
             $objEvent->save();
 
             System::getContainer()
-                ->get('monolog.logger.contao')
-                ->log(LogLevel::INFO, 'Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->gGameNo.' über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
+                ->get('monolog.logger.contao.general')
+                ->info('Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->gGameID.' über Handball4all gespeichert')
             ;
-        }
-        else {
+        } else {
             System::getContainer()
-                ->get('monolog.logger.contao')
-                ->log(LogLevel::DEBUG, 'Report Nr. für Spiel '.$objEvent->title.' ('.$objEvent->gGameNo.') konnte nicht ermittelt werden', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
+                ->get('monolog.logger.contao.general')
+                ->info('Report Nr. für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') konnte nicht ermittelt werden')
             ;
         }
     }
