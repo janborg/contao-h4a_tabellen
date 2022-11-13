@@ -15,11 +15,9 @@ namespace Janborg\H4aTabellen\Cron;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\System;
 use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
 use Janborg\H4aTabellen\Helper\Helper;
-use Psr\Log\LogLevel;
 
 class H4aCron
 {
@@ -57,10 +55,10 @@ class H4aCron
     {
         $objEvents = CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameID != ?'],
-            [date('Y-m-d'), true, ''], 
+            [date('Y-m-d'), true, ''],
             [
                 'eager' => true,
-                'having' => "h4a_season__h4a_ignore = 0"
+                'having' => 'h4a_season__h4a_ignore = 0',
             ]
         );
 
@@ -118,7 +116,7 @@ class H4aCron
             [date('Y-m-d'), true, ''],
             [
                 'eager' => true,
-                'having' => "h4a_season__h4a_ignore = 0"
+                'having' => 'h4a_season__h4a_ignore = 0',
             ]
         );
 

@@ -12,14 +12,11 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Backend;
 
-use Contao\BackendUser;
 use Contao\Backend;
+use Contao\BackendUser;
 use Contao\CalendarModel;
-use Contao\CoreBundle\Monolog\ContaoContext;
-use Contao\Input;
 use Contao\System;
 use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
-use Psr\Log\LogLevel;
 
 class UpdateH4aCalendarsController extends Backend
 {
@@ -37,7 +34,6 @@ class UpdateH4aCalendarsController extends Backend
         );
 
         if (null === $objCalendars) {
-
             System::getContainer()
                 ->get('monolog.logger.contao.general')
                 ->info('Es wurden keine Kalender zum Update über H4a gefunden.')
@@ -46,7 +42,6 @@ class UpdateH4aCalendarsController extends Backend
         }
 
         foreach ($objCalendars as $objCalendar) {
-
             $h4aeventautomator = new H4aEventAutomator();
 
             $h4aeventautomator->syncCalendars($objCalendar);

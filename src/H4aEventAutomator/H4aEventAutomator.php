@@ -15,13 +15,11 @@ namespace Janborg\H4aTabellen\H4aEventAutomator;
 use Contao\Backend;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
-use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
 use Janborg\H4aTabellen\Helper\Helper;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
-use Psr\Log\LogLevel;
 
 /**
  * Class H4aEventAutomator.
@@ -108,7 +106,7 @@ class H4aEventAutomator extends Backend
                     if (null !== $objEvent) {
                         $arrDate = explode('.', $arrSpiel['gDate']);
 
-                        if (!isset($arrDate[0])||!isset($arrDate[1])||!isset($arrDate[2])) {
+                        if (!isset($arrDate[0]) || !isset($arrDate[1]) || !isset($arrDate[2])) {
                             continue;
                         }
 
@@ -159,8 +157,8 @@ class H4aEventAutomator extends Backend
                         $objEvent = new CalendarEventsModel();
 
                         $arrDate = explode('.', $arrSpiel['gDate']);
-                    
-                        if (!isset($arrDate[0])||!isset($arrDate[1])||!isset($arrDate[2])) {
+
+                        if (!isset($arrDate[0]) || !isset($arrDate[1]) || !isset($arrDate[2])) {
                             continue;
                         }
 

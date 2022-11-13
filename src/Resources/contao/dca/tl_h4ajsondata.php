@@ -10,8 +10,8 @@ declare(strict_types=1);
  * @license MIT
  */
 
-use Contao\DC_Table;
 use Contao\DataContainer;
+use Contao\DC_Table;
 
 $GLOBALS['TL_DCA']['tl_h4ajsondata'] =
 [

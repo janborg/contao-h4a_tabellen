@@ -12,14 +12,12 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Backend;
 
-use Contao\BackendUser;
 use Contao\Backend;
+use Contao\BackendUser;
 use Contao\CalendarModel;
-use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\Input;
 use Contao\System;
 use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
-use Psr\Log\LogLevel;
 
 class UpdateH4aEventsController extends Backend
 {
@@ -43,8 +41,7 @@ class UpdateH4aEventsController extends Backend
             ->get('monolog.logger.contao.general')
             ->info('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.')
         ;
-        
-        $this->redirect($this->getReferer());
 
+        $this->redirect($this->getReferer());
     }
 }

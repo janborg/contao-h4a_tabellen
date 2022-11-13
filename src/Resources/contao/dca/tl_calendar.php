@@ -10,7 +10,6 @@ declare(strict_types=1);
  * @license MIT
  */
 
-
 use Contao\BackendUser;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
@@ -47,7 +46,8 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
 PaletteManipulator::create()
     ->addLegend('h4a_legend', 'title_legend', PaletteManipulator::POSITION_AFTER)
     ->addField('h4a_imported', 'h4a_legend', PaletteManipulator::POSITION_APPEND)
-    ->applyToPalette('default', 'tl_calendar');
+    ->applyToPalette('default', 'tl_calendar')
+;
 
 /*
  * Add Selector(s)
@@ -131,9 +131,8 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
                 ],
             ],
         ],
-        'sql' => "blob NULL",
+        'sql' => 'blob NULL',
     ]],
-    
     ['h4aEvents_author' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4aEvents_author'],
         'default' => BackendUser::getInstance()->id,

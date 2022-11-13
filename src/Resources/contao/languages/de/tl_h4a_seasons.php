@@ -20,4 +20,3 @@ $GLOBALS['TL_LANG']['tl_h4a_season']['is_current_season']['1'] = 'Häkchen setze
 
 $GLOBALS['TL_LANG']['tl_h4a_season']['h4a_ignore']['0'] = 'Ignorieren';
 $GLOBALS['TL_LANG']['tl_h4a_season']['h4a_ignore']['1'] = 'Saison wird bei automatischen Updates über den Cron ignoriert';
-
