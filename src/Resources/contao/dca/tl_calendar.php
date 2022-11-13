@@ -84,12 +84,12 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'sql' => "char(1) NOT NULL default ''",
     ]],
     ['h4a_seasons' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_season'],
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
         'exclude' => false,
         'inputType' => 'group',
-        'palette' => ['h4a_season', 'h4a_team', 'h4a_liga', 'my_team_name'],
+        'palette' => ['h4a_saison', 'h4a_team', 'h4a_liga', 'my_team_name'],
         'fields' => [
-            'h4a_season' => [
+            'h4a_saison' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
                 'inputType' => 'select',
                 'foreignKey' => 'tl_h4a_seasons.season',

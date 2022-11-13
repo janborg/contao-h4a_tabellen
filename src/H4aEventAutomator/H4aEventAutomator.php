@@ -83,7 +83,7 @@ class H4aEventAutomator extends Backend
         $arrSeasons = unserialize($objCalendar->h4a_seasons);
 
         foreach ($arrSeasons as $arrSeason) {
-            $seasonID = H4aSeasonModel::findById($arrSeason['h4a_season'])->id;
+            $seasonID = H4aSeasonModel::findById($arrSeason['h4a_saison'])->id;
 
             $arrResultSpielplan = Helper::getJsonSpielplan($arrSeason['h4a_team']);
             $arrResultTabelle = Helper::getJsonTabelle($arrResultSpielplan['dataList'][0]['gClassID']);
