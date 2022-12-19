@@ -26,6 +26,9 @@
     "conflict": {
          "contao/manager-plugin": "<2.0 || >=3.0"
     },
+    "suggest": {
+        "janborg/contao-h4a_gamestats": "to get scores and gamestats for all your games"
+      },
     "autoload": {
         "psr-4": {
             "Janborg\\H4aTabellen\\": "src/"
