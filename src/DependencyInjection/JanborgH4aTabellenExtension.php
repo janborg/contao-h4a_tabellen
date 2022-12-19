@@ -26,7 +26,7 @@ class JanborgH4aTabellenExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $fileLocator = new FileLocator(__DIR__.'/../Resources/config');
+        $fileLocator = new FileLocator(__DIR__.'/../../config');
         $loader = new YamlFileLoader($container, $fileLocator);
 
         $loader->load('commands.yml');
