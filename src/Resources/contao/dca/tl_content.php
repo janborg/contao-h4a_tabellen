@@ -19,10 +19,10 @@ use Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement;
  * Palettes
  */
 
-$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aTabelleElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{expert_legend:hide},cssID';
-$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aSpielplanElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_team_ID, my_team_name;{expert_legend:hide},cssID';
-$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aAktuelleSpieleElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_verein_ID, my_team_name;{expert_legend:hide},cssID';
-$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aLigaSpielplanElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aTabelleElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aSpielplanElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_team_ID, my_team_name;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aAktuelleSpieleElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_verein_ID, my_team_name;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aLigaSpielplanElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
 /*
  * Fields
  */
