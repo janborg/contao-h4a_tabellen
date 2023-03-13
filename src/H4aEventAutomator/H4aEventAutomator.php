@@ -122,7 +122,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->gGameID = $arrSpiel['gID'];
                         $objEvent->author = $objCalendar->h4aEvents_author;
                         $objEvent->source = 'default';
-                        $objEvent->addTime = 1;
+                        $objEvent->addTime = true;
                         $objEvent->startTime = $dateTime;
                         $objEvent->endTime = $dateTime + 5400;
                         $objEvent->startDate = $dateDay;
@@ -184,7 +184,7 @@ class H4aEventAutomator extends Backend
 
                         $objEvent->author = $objCalendar->h4aEvents_author;
                         $objEvent->source = 'default';
-                        $objEvent->addTime = 1;
+                        $objEvent->addTime = true;
                         $objEvent->startTime = $dateTime;
                         $objEvent->endTime = $dateTime + 5400;
                         $objEvent->startDate = $dateDay;

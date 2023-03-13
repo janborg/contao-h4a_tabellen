@@ -1,8 +1,8 @@
 includes:
-    - tools/phpstan/vendor/phpstan/phpstan-phpunit/extension.neon
-    - tools/phpstan/vendor/phpstan/phpstan-phpunit/rules.neon
-    - tools/phpstan/vendor/phpstan/phpstan-symfony/extension.neon
-    - tools/phpstan/vendor/phpstan/phpstan-symfony/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-symfony/rules.neon
 
 parameters:
     level: 6
@@ -20,7 +20,6 @@ parameters:
 
     ignoreErrors:
         - '#Call to an undefined static method Janborg\\H4aTabellen\\Model\\H4aSeasonModel::[a-zA-Z0-9\\_]()#'
-        - '#Call to function is_null\(\) with Janborg\\H4aTabellen\\Model\\H4aJsonDataModel will always evaluate to false#'
-
+        
     treatPhpDocTypesAsCertain: false
     checkMissingIterableValueType: false
