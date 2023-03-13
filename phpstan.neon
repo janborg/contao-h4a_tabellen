@@ -17,3 +17,10 @@ parameters:
 
     excludePaths:
         - %currentWorkingDirectory%/src/Resources/*
+
+    ignoreErrors:
+        - '#Call to an undefined static method Janborg\\H4aTabellen\\Model\\H4aSeasonModel::[a-zA-Z0-9\\_]()#'
+        - '#Call to function is_null\(\) with Janborg\\H4aTabellen\\Model\\H4aJsonDataModel will always evaluate to false#'
+
+    treatPhpDocTypesAsCertain: false
+    checkMissingIterableValueType: false

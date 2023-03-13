@@ -65,6 +65,8 @@ class H4aSpielplanCommand extends Command
             return 0;
         }
 
+        $spielplan = [];
+
         foreach ($arrResultSpielplan['dataList'] as $spiel) {
             $spielplan[$spiel['gNo']] = [
                 'datum' => $spiel['gDate'],
@@ -96,6 +98,8 @@ class H4aSpielplanCommand extends Command
 
             return 0;
         }
+
+        $liga = [];
 
         foreach ($arrResultTabelle['dataList'] as $team) {
             $liga[$team['tabScore']] = [

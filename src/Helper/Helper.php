@@ -25,7 +25,7 @@ class Helper
      *
      * @return string
      */
-    public static function getURL($type, $id)
+    public static function getURL($type, $id): string
     {
         switch ($type) {
             case 'class_table':
@@ -47,6 +47,9 @@ class Helper
             case 'score':
                 $liga_url = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score='.$id;
                 break;
+            
+            default:
+                $liga_url = "";
         }
 
         return $liga_url;
@@ -143,7 +146,7 @@ class Helper
             [$arrResultSpielplan['lvTypePathStr'], $arrResultSpielplan['lvIDPathStr']]
         );
 
-        if (null === $objH4aJsonData) {
+        if (is_null($objH4aJsonData)) {
             $objH4aJsonData = new H4aJsonDataModel();
         }
 
