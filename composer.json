@@ -71,7 +71,7 @@
             "@phpstan"
         ],
         "ecs": "@php vendor/bin/ecs check src tests --config ecs.php --fix --ansi",
-        "phpstan": "@php vendor/bin/phpstan analyze --ansi",
+        "phpstan": "@php vendor/bin/phpstan analyze --configuration phpstan.neon --no-progress --ansi",
         "unit-tests": "@php vendor/bin/phpunit --colors=always"
     }
 }
