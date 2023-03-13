@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - "*"
+      - "2.x"
     tags:
       - "*"
   schedule:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   ecs:
-    name: Coding Style
+    name: ECS
     runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
@@ -31,7 +31,7 @@ jobs:
         run: vendor/bin/ecs check src tests --no-progress-bar --ansi
 
   phpstan:
-    name: Coding Style
+    name: phpstan
     runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
