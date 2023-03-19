@@ -20,7 +20,7 @@ class HelperTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function typeProvider()
+    public static function typeProvider()
     {
         return [
             ['class_games', '0', 'class'],
@@ -33,7 +33,7 @@ class HelperTest extends TestCase
     /**
      * @return array<mixed>
      */
-    public function gamesReportProvider()
+    public static function gamesReportProvider()
     {
         return [
             ['49301', '10022', '1035145'],

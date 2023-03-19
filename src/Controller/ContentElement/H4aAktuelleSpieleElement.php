@@ -28,7 +28,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class H4aAktuelleSpieleElement extends AbstractContentElementController
 {
-
     public const TYPE = 'h4a_aktuellespiele';
 
     protected function getResponse(Template $template, ContentModel $model, Request $request): Response|null

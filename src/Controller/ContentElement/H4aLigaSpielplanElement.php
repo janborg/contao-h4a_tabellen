@@ -28,7 +28,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class H4aLigaSpielplanElement extends AbstractContentElementController
 {
-
     public const TYPE = 'h4a_ligaspiele';
 
     protected function getResponse(Template $template, ContentModel $model, Request $request): Response|null

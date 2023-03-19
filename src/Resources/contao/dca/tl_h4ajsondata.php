@@ -10,6 +10,16 @@ declare(strict_types=1);
  * @license MIT
  */
 
+use Contao\DataContainer;
+
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 $GLOBALS['TL_DCA']['tl_h4ajsondata'] =
 [
     // Config
@@ -23,8 +33,8 @@ $GLOBALS['TL_DCA']['tl_h4ajsondata'] =
     ],
     'list' => [
         'sorting' => [
-            'mode' => Contao\DataContainer::MODE_SORTED,
-            'flag' => Contao\DataContainer::SORT_DESC,
+            'mode' => DataContainer::MODE_SORTED,
+            'flag' => DataContainer::SORT_DESC,
             'fields' => ['season'],
             'panelLayout' => 'search, sort;filter,limit',
         ],

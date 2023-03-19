@@ -28,7 +28,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class H4aTabelleElement extends AbstractContentElementController
 {
-
     public const TYPE = 'h4a_tabelle';
 
     protected function getResponse(Template $template, ContentModel $model, Request $request): Response|null

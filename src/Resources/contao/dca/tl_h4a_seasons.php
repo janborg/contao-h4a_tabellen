@@ -10,6 +10,16 @@ declare(strict_types=1);
  * @license MIT
  */
 
+use Contao\DataContainer;
+
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
     // Config
     'config' => [
@@ -19,12 +29,12 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
                 'id' => 'primary',
             ],
         ],
-        'backlink' => 'do=calendar'
+        'backlink' => 'do=calendar',
     ],
     'list' => [
         'sorting' => [
-            'mode' => Contao\DataContainer::MODE_SORTED,
-            'flag' => Contao\DataContainer::SORT_INITIAL_LETTER_ASC,
+            'mode' => DataContainer::MODE_SORTED,
+            'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'fields' => ['season'],
             'panelLayout' => 'search, sort;filter,limit',
         ],
@@ -51,7 +61,7 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
                 'label' => &$GLOBALS['TL_LANG']['tl_h4a_seasons']['delete'],
                 'href' => 'act=delete',
                 'icon' => 'delete.svg',
-                'attributes' => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"',
+                'attributes' => 'onclick="if(!confirm(\''.($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null).'\'))return false;Backend.getScrollOffset()"',
             ],
             'show' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_h4a_seasons']['show'],

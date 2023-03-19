@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CalendarEventsListChildRecordsCallback
 {
+    public CalendarModel $objCalendar;
     private RequestStack $requestStack;
 
     public function __construct(RequestStack $requestStack)
@@ -30,6 +31,7 @@ class CalendarEventsListChildRecordsCallback
     }
 
     /**
+     * @param array<mixed> $arrRow
      * @Callback(table="tl_calendar_events", target="list.sorting.child_record")
      */
     public function __invoke($arrRow): string

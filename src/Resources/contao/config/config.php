@@ -10,11 +10,11 @@ declare(strict_types=1);
  * @license MIT
  */
 
+use Janborg\H4aTabellen\Backend\UpdateH4aCalendarsController;
+use Janborg\H4aTabellen\Backend\UpdateH4aEventsController;
+use Janborg\H4aTabellen\Backend\UpdateH4aResultsController;
 use Janborg\H4aTabellen\Model\H4aJsonDataModel;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
-use Janborg\H4aTabellen\Backend\UpdateH4aEventsController;
-use Janborg\H4aTabellen\Backend\UpdateH4aCalendarsController;
-use Janborg\H4aTabellen\Backend\UpdateH4aResultsController;
 
 /*
  * This file is part of contao-h4a_tabellen.

@@ -10,10 +10,8 @@ declare(strict_types=1);
  * @license MIT
  */
 
-use Contao\Backend;
 use Contao\BackendUser;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use Contao\StringUtil;
 
 /*
  * Global Operation(s)
@@ -89,18 +87,18 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'inputType' => 'multiColumnWizard',
         'eval' => [
             'style' => 'width: 680px;',
-            'dragAndDrop'  => true,
-            'buttons'      => [
-                'copy'   => false,
-                'up'     => true,
-                'down'   => true
+            'dragAndDrop' => true,
+            'buttons' => [
+                'copy' => false,
+                'up' => true,
+                'down' => true,
             ],
             'columnFields' => [
                 'h4a_saison' => [
                     'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
                     'inputType' => 'select',
                     'foreignKey' => 'tl_h4a_seasons.season',
-                    'relation' => ['type'=>'hasOne', 'load'=>'lazy'],
+                    'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
                     'eval' => [
                         'mandatory' => true,
                         'style' => 'width:150px;',

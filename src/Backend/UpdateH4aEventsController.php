@@ -42,8 +42,7 @@ class UpdateH4aEventsController extends Backend
             ->get('monolog.logger.contao')
             ->log(LogLevel::INFO, 'Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_GENERAL)])
         ;
-        
-        $this->redirect($this->getReferer());
 
+        $this->redirect($this->getReferer());
     }
 }

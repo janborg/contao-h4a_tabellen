@@ -49,8 +49,8 @@ class H4aUpdateEventsCommand extends Command
         $output->writeln('Suche Kalender mit H4a-Events:');
 
         $objCalendars = CalendarModel::findby(
-            ['tl_calendar.h4a_imported=?']
-            ,[ '1']
+            ['tl_calendar.h4a_imported=?'],
+            ['1']
         );
 
         if (null === $objCalendars) {
