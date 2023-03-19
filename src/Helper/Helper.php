@@ -47,6 +47,9 @@ class Helper
             case 'score':
                 $liga_url = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score='.$id;
                 break;
+
+            default:
+                $liga_url = '';
         }
 
         return $liga_url;

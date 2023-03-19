@@ -18,6 +18,8 @@ use Contao\Model;
  * add properties for IDE support.
  *
  * @property string $hash
+ *
+ * @method static H4aJsonDataModel|null findOneBy($id, $opt=array())
  */
 class H4aJsonDataModel extends Model
 {
