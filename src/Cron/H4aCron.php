@@ -37,8 +37,8 @@ class H4aCron
     public function updateEvents(): void
     {
         $objCalendars = CalendarModel::findby(
-            ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
-            ['1', '1']
+            ['tl_calendar.h4a_imported=?'],
+            ['1']
         );
 
         foreach ($objCalendars as $objCalendar) {
@@ -48,8 +48,7 @@ class H4aCron
 
             System::getContainer()
                 ->get('monolog.logger.contao')
-                ->log(LogLevel::DEBUG, 'Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
-            ;
+                ->log(LogLevel::DEBUG, 'Update des Kalenders "' . $objCalendar->title . '" (ID: ' . $objCalendar->id . ') über Handball4all durchgeführt.', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_CRON)]);
         }
     }
 
@@ -57,7 +56,7 @@ class H4aCron
     {
         $objEvents = CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameID != ?'],
-            [date('Y-m-d'), true, ''], 
+            [date('Y-m-d'), true, ''],
             [
                 'eager' => true,
                 'having' => "h4a_season__h4a_ignore = 0"
@@ -98,15 +97,13 @@ class H4aCron
 
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::DEBUG, 'Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameID.' über Handball4all aktualisiert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
-                ;
+                    ->log(LogLevel::DEBUG, 'Ergebnis (' . $games[$gameId]['gHomeGoals'] . ':' . $games[$gameId]['gGuestGoals'] . ') für Spiel ' . $objEvent->gGameID . ' über Handball4all aktualisiert', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_CRON)]);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::DEBUG, 'Ergebnis für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') über Handball4all geprüft, kein Ergebnis vorhanden', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
-                ;
+                    ->log(LogLevel::DEBUG, 'Ergebnis für Spiel ' . $objEvent->title . ' (' . $objEvent->gGameID . ') über Handball4all geprüft, kein Ergebnis vorhanden', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_CRON)]);
             }
         }
     }
@@ -135,13 +132,11 @@ class H4aCron
 
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::DEBUG, 'Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
-                ;
+                    ->log(LogLevel::DEBUG, 'Report Nr. ' . $objEvent->sGID . ' für Spiel ' . $objEvent->title . ' (' . $objEvent->gGameID . ') über Handball4all gespeichert', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_CRON)]);
             } else {
                 System::getContainer()
                     ->get('monolog.logger.contao')
-                    ->log(LogLevel::DEBUG, 'Report Nr. für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') konnte nicht ermittelt werden', ['contao' => new ContaoContext(__CLASS__.'::'.__FUNCTION__, TL_CRON)])
-                ;
+                    ->log(LogLevel::DEBUG, 'Report Nr. für Spiel ' . $objEvent->title . ' (' . $objEvent->gGameID . ') konnte nicht ermittelt werden', ['contao' => new ContaoContext(__CLASS__ . '::' . __FUNCTION__, TL_CRON)]);
             }
         }
     }

@@ -80,7 +80,7 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend}, season, is_current_season',
+        'default' => '{title_legend}, season, is_current_season, h4a_ignore',
     ],
     // Fields
     'fields' => [
