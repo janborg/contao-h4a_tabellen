@@ -18,8 +18,5 @@ parameters:
     excludePaths:
         - %currentWorkingDirectory%/src/Resources/*
 
-    ignoreErrors:
-        - '#Call to an undefined static method Janborg\\H4aTabellen\\Model\\H4aSeasonModel::[a-zA-Z0-9\\_]()#'
-        
     treatPhpDocTypesAsCertain: false
     checkMissingIterableValueType: false
