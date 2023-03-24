@@ -19,6 +19,16 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class Helper
 {
+    final public const CLASS_TABLE_URL = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext=';
+
+    final public const CLASS_GAMES_URL = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&lvIDNext=';
+
+    final public const TEAM_GAMES_URL = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext=';
+
+    final public const CLUB_GAMES_URL = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=club&lvIDNext=';
+
+    final public const GAME_SCORES_URL = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score=';
+
     /**
      * @param string $type 'class' oder 'team' oder 'club' oder 'score'
      * @param string $id
@@ -60,11 +70,9 @@ class Helper
      */
     public static function getJsonSpielplan($teamID)
     {
-        $type = 'team';
-
         $arrResult = null;
 
-        $liga_url = self::getURL($type, $teamID);
+        $liga_url = self::TEAM_GAMES_URL.$teamID;
 
         $strJson = self::file_get_contents_ssl($liga_url);
 
@@ -80,11 +88,9 @@ class Helper
      */
     public static function getJsonLigaSpielplan($ligaID)
     {
-        $type = 'class_games';
-
         $arrResult = null;
 
-        $liga_url = self::getURL($type, $ligaID);
+        $liga_url = self::CLASS_GAMES_URL.$ligaID;
 
         $strJson = self::file_get_contents_ssl($liga_url);
 
@@ -100,11 +106,9 @@ class Helper
      */
     public static function getJsonTabelle($ligaID)
     {
-        $type = 'class_table';
-
         $arrResult = null;
 
-        $liga_url = self::getURL($type, $ligaID);
+        $liga_url = self::CLASS_TABLE_URL.$ligaID;
 
         $strJson = self::file_get_contents_ssl($liga_url);
 
@@ -120,11 +124,9 @@ class Helper
      */
     public static function getJsonVerein($vereinID)
     {
-        $type = 'club';
-
         $arrResult = null;
 
-        $liga_url = self::getURL($type, $vereinID);
+        $liga_url = self::CLUB_GAMES_URL.$vereinID;
 
         $strJson = self::file_get_contents_ssl($liga_url);
 
@@ -191,7 +193,7 @@ class Helper
      */
     public static function getReportNo($ligaID, $gameNo)
     {
-        $url = self::getURL('score', $ligaID);
+        $url = self::GAME_SCORES_URL.$ligaID;
 
         $html = self::file_get_contents_ssl($url);
 

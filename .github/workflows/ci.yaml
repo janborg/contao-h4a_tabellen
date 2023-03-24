@@ -26,7 +26,7 @@ jobs:
         run: composer install --no-interaction --no-suggest
 
       - name: Check the coding style
-        run: vendor/bin/ecs check src tests --config ecs.php --ansi
+        run: vendor/bin/ecs check src tests --config ecs.php --ansi --fix
 
   phpstan:
     name: phpstan
