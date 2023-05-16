@@ -37,7 +37,7 @@ class UpdateH4aCalendarsController extends Backend
             System::getContainer()
                 ->get('monolog.logger.contao.general')
                 ->info('Es wurden keine Kalender zum Update über H4a gefunden.')
-                ;
+            ;
             $this->redirect($this->getReferer());
         }
 
@@ -50,7 +50,7 @@ class UpdateH4aCalendarsController extends Backend
         System::getContainer()
             ->get('monolog.logger.contao.general')
             ->info('Update der Kalender über Handball4all durchgeführt.')
-            ;
+        ;
 
         $this->redirect($this->getReferer());
     }

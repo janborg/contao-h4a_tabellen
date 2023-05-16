@@ -171,7 +171,7 @@ class Helper
                     break;
 
                 case $month >= 3:
-                    $objH4aJsonData->season = date('Y', $Unixdate).'/'.(date('Y', $Unixdate + 31536000));
+                    $objH4aJsonData->season = date('Y', $Unixdate).'/'.date('Y', $Unixdate + 31536000);
                     break;
             }
         }

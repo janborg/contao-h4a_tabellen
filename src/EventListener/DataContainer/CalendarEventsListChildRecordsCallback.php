@@ -32,6 +32,7 @@ class CalendarEventsListChildRecordsCallback
 
     /**
      * @param array<mixed> $arrRow
+     *
      * @Callback(table="tl_calendar_events", target="list.sorting.child_record")
      */
     public function __invoke($arrRow): string
@@ -39,7 +40,7 @@ class CalendarEventsListChildRecordsCallback
         $span = Calendar::calculateSpan($arrRow['startTime'], $arrRow['endTime']);
 
         if ($span > 0) {
-            $date = Date::parse(Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['startTime']).$GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'].Date::parse(Config::get(($arrRow['addTime'] ? 'datimFormat' : 'dateFormat')), $arrRow['endTime']);
+            $date = Date::parse(Config::get($arrRow['addTime'] ? 'datimFormat' : 'dateFormat'), $arrRow['startTime']).$GLOBALS['TL_LANG']['MSC']['cal_timeSeparator'].Date::parse(Config::get($arrRow['addTime'] ? 'datimFormat' : 'dateFormat'), $arrRow['endTime']);
         } elseif ($arrRow['startTime'] === $arrRow['endTime']) {
             $date = Date::parse(Config::get('dateFormat'), $arrRow['startTime']).($arrRow['addTime'] ? ' '.Date::parse(Config::get('timeFormat'), $arrRow['startTime']) : '');
         } else {
@@ -52,7 +53,7 @@ class CalendarEventsListChildRecordsCallback
             $result = $arrRow['gHomeGoals'].' : '.$arrRow['gGuestGoals'].' ('.$arrRow['gHomeGoals_1'].' : '.$arrRow['gGuestGoals_1'].')';
         }
 
-        //different listview with result for calendars, that are updated via h4a
+        // different listview with result for calendars, that are updated via h4a
         if ('1' === $this->objCalendar->h4a_imported) {
             return '<div class="tl_content_left"><span style="padding-right:3px">['.$date.']</span>'.$arrRow['title'].' <span style="color:#999;padding-left:3px">'.$result.'</span> </div>';
         }

@@ -95,14 +95,14 @@ class H4aEventAutomator extends Backend
             } else {
                 $arrSpiele = $arrResultSpielplan['dataList'];
 
-                //Update or Create Event
+                // Update or Create Event
                 foreach ($arrSpiele as $arrSpiel) {
                     $objEvent = CalendarEventsModel::findOneBy(
                         ['gGameNo=?', 'pid=?', 'gClassID=?'],
                         [$arrSpiel['gNo'], $objCalendar->id, $arrSeason['h4a_liga']]
                     );
 
-                    //Update, wenn ModelObjekt existiert
+                    // Update, wenn ModelObjekt existiert
                     if (null !== $objEvent) {
                         $arrDate = explode('.', $arrSpiel['gDate']);
 
@@ -115,8 +115,8 @@ class H4aEventAutomator extends Backend
                         }
                         $arrTime = explode(':', $arrSpiel['gTime']);
 
-                        $dateDay = mktime(0, 0, 0, (int) ($arrDate[1]), (int) ($arrDate[0]), (int) ($arrDate[2]));
-                        $dateTime = mktime((int) ($arrTime[0]), (int) ($arrTime[1]), 0, (int) ($arrDate[1]), (int) ($arrDate[0]), (int) ($arrDate[2]));
+                        $dateDay = mktime(0, 0, 0, (int) $arrDate[1], (int) $arrDate[0], (int) $arrDate[2]);
+                        $dateTime = mktime((int) $arrTime[0], (int) $arrTime[1], 0, (int) $arrDate[1], (int) $arrDate[0], (int) $arrDate[2]);
 
                         $objEvent->h4a_season = $seasonID;
                         $objEvent->gGameID = $arrSpiel['gID'];
@@ -152,7 +152,7 @@ class H4aEventAutomator extends Backend
 
                         $objEvent->save();
 
-                    //Create Event, wenn ModelObjekt existiert
+                    // Create Event, wenn ModelObjekt existiert
                     } else {
                         $objEvent = new CalendarEventsModel();
 
@@ -167,8 +167,8 @@ class H4aEventAutomator extends Backend
                         }
                         $arrTime = explode(':', $arrSpiel['gTime']);
 
-                        $dateDay = mktime(0, 0, 0, (int) ($arrDate[1]), (int) ($arrDate[0]), (int) ($arrDate[2]));
-                        $dateTime = mktime((int) ($arrTime[0]), (int) ($arrTime[1]), 0, (int) ($arrDate[1]), (int) ($arrDate[0]), (int) ($arrDate[2]));
+                        $dateDay = mktime(0, 0, 0, (int) $arrDate[1], (int) $arrDate[0], (int) $arrDate[2]);
+                        $dateTime = mktime((int) $arrTime[0], (int) $arrTime[1], 0, (int) $arrDate[1], (int) $arrDate[0], (int) $arrDate[2]);
 
                         $objEvent->pid = $objCalendar->id;
                         $objEvent->tstamp = time();

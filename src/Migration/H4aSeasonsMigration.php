@@ -51,8 +51,7 @@ class H4aSeasonsMigration extends AbstractMigration
 
         return
             isset($columns['h4a_team_id']) &&
-            isset($columns['h4a_season'], $columns['my_team_name'])
-            ;
+            isset($columns['h4a_season'], $columns['my_team_name']);
     }
 
     public function run(): MigrationResult
@@ -98,7 +97,7 @@ class H4aSeasonsMigration extends AbstractMigration
             $objNewSeason->save();
         }
 
-        //Bei allen tl_calendar mit update_h4a = 1 die Saison, ligaID, teamID, team name in h4a_seasons serialized eintragen
+        // Bei allen tl_calendar mit update_h4a = 1 die Saison, ligaID, teamID, team name in h4a_seasons serialized eintragen
         $objCalendars = CalendarModel::findBy(
             ['tl_calendar.h4a_imported=?'],
             ['1']
@@ -113,7 +112,7 @@ class H4aSeasonsMigration extends AbstractMigration
                 'h4a_saison' => $objSeason->id,
                 'h4a_team' => $objCalendar->h4a_team_ID,
                 'h4a_liga' => $arrH4aSpielplan['dataList'][0]['gClassID'],
-                'my_team_name' => $objCalendar->my_team_name, //$arrH4aSpielplan['dataList'][0]['lvTypeLabelStr], aber ohne "/ " am Anfang
+                'my_team_name' => $objCalendar->my_team_name, // $arrH4aSpielplan['dataList'][0]['lvTypeLabelStr], aber ohne "/ " am Anfang
             ];
             $objCalendar->h4a_seasons = serialize($h4aSaison);
             $objCalendar->save();

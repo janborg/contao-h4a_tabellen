@@ -38,7 +38,7 @@ class UpdateH4aResultsController extends Backend
             System::getContainer()
                 ->get('monolog.logger.contao.general')
                 ->info('Es stehen für keine vergangenen Spiele die Ergebnisse aus.')
-                ;
+            ;
 
             $this->redirect($this->getReferer());
 
@@ -48,7 +48,7 @@ class UpdateH4aResultsController extends Backend
         foreach ($objEvents as $objEvent) {
             $now = time();
 
-            //Continue, wenn Spiel noch nicht gestartet
+            // Continue, wenn Spiel noch nicht gestartet
             if ($objEvent->startTime > $now || '00:00' === date('H:i', (int) $objEvent->startTime)) {
                 continue;
             }
@@ -63,7 +63,7 @@ class UpdateH4aResultsController extends Backend
                 System::getContainer()
                     ->get('monolog.logger.contao.general')
                     ->info('Spielplan für Team'.$objCalendar->h4a_team_ID.' ('.$objCalendar->title.') konnte nicht abgerufen werden. Datalist in json ist leer.')
-                    ;
+                ;
 
                 continue;
             }
@@ -83,14 +83,14 @@ class UpdateH4aResultsController extends Backend
                 System::getContainer()
                     ->get('monolog.logger.contao.general')
                     ->info('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].' für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' erhalten.')
-                    ;
+                ;
             } else {
                 $objEvent->h4a_resultComplete = false;
 
                 System::getContainer()
                     ->get('monolog.logger.contao.general')
                     ->info('Ergebnis für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' über Handball4all geprüft, kein Ergebnis vorhanden.')
-                    ;
+                ;
             }
         }
 

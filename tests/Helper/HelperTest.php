@@ -36,13 +36,13 @@ class HelperTest extends TestCase
         $this->assertSame('team', $spielplan['lvTypePathStr']);
         $this->assertSame('551206', $spielplan['lvIDPathStr']);
 
-        //Basisdaten
+        // Basisdaten
         $this->assertArrayHasKey('lvTypePathStr', $spielplan);
         $this->assertArrayHasKey('lvIDPathStr', $spielplan);
         $this->assertArrayHasKey('lvTypeLabelStr', $spielplan);
         $this->assertArrayHasKey('dataList', $spielplan);
 
-        //Spielplaneinträge
+        // Spielplaneinträge
         $this->assertArrayHasKey('lvTypePathStr', $spielplan);
         $this->assertArrayHasKey('lvIDPathStr', $spielplan);
         $this->assertArrayHasKey('lvTypeLabelStr', $spielplan);
@@ -81,13 +81,13 @@ class HelperTest extends TestCase
         $this->assertSame('class', $spielplan['lvTypePathStr']);
         $this->assertSame('49301', $spielplan['lvIDPathStr']);
 
-        //Basisdaten
+        // Basisdaten
         $this->assertArrayHasKey('lvTypePathStr', $spielplan);
         $this->assertArrayHasKey('lvIDPathStr', $spielplan);
         $this->assertArrayHasKey('lvTypeLabelStr', $spielplan);
         $this->assertArrayHasKey('dataList', $spielplan);
 
-        //Spielplaneinträge
+        // Spielplaneinträge
         $this->assertArrayHasKey('gID', $spiel);
         $this->assertArrayHasKey('gNo', $spiel);
         $this->assertArrayHasKey('gClassID', $spiel);
@@ -121,14 +121,14 @@ class HelperTest extends TestCase
 
         $this->assertSame('class', $tabelle['lvTypePathStr']);
         $this->assertSame('69281', $tabelle['lvIDPathStr']);
-        //Basisdaten
+        // Basisdaten
         $this->assertArrayHasKey('lvTypePathStr', $tabelle);
         $this->assertArrayHasKey('lvIDPathStr', $tabelle);
         $this->assertArrayHasKey('lvTypeLabelStr', $tabelle);
         $this->assertArrayHasKey('dataList', $tabelle);
         $this->assertArrayHasKey('errCode', $tabelle);
 
-        //Tabelleneintrag
+        // Tabelleneintrag
         $this->assertArrayHasKey('tabScore', $team);
         $this->assertArrayHasKey('tabTeamname', $team);
         $this->assertArrayHasKey('numPlayedGames', $team);
@@ -144,19 +144,19 @@ class HelperTest extends TestCase
     public function testJsonVereinHasCorrectDataFields(): void
     {
         $spielplan = Helper::getJsonVerein('6201');
-        //$spiel = $spielplan['dataList']['0'];
+        // $spiel = $spielplan['dataList']['0'];
 
         $this->assertSame('club', $spielplan['lvTypePathStr']);
         $this->assertSame('6201', $spielplan['lvIDPathStr']);
 
-        //Basisdaten
+        // Basisdaten
         $this->assertArrayHasKey('lvTypePathStr', $spielplan);
         $this->assertArrayHasKey('lvIDPathStr', $spielplan);
         $this->assertArrayHasKey('lvTypeLabelStr', $spielplan);
         $this->assertArrayHasKey('dataList', $spielplan);
         $this->assertArrayHasKey('errCode', $spielplan);
 
-        //Spielplaneinträge
+        // Spielplaneinträge
         /*
         $this->assertArrayHasKey('gID', $spiel);
         $this->assertArrayHasKey('gNo', $spiel);
