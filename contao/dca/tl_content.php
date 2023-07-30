@@ -56,7 +56,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_team_ID'] = [
         'mandatory' => true,
         'rgxp' => 'digit',
         'minlenght' => 6,
-        'maxlength' => 6,
+        'maxlength' => 7,
         'tl_class' => 'w50',
     ],
     'sql' => "varchar(255) NOT NULL default ''",
