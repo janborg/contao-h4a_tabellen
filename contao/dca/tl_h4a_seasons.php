@@ -61,7 +61,7 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
                 'label' => &$GLOBALS['TL_LANG']['tl_h4a_seasons']['delete'],
                 'href' => 'act=delete',
                 'icon' => 'delete.svg',
-                'attributes' => 'onclick="if(!confirm(\''.($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null).'\'))return false;Backend.getScrollOffset()"',
+                'attributes' => 'onclick="if(!confirm(\'' . ($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null) . '\'))return false;Backend.getScrollOffset()"',
             ],
             'show' => [
                 'label' => &$GLOBALS['TL_LANG']['tl_h4a_seasons']['show'],
@@ -70,18 +70,18 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
             ],
 
             'toggle_ignore' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_calendar']['toggle_ignore'],
+                'label' => &$GLOBALS['TL_LANG']['tl_h4a_seasons']['toggle_ignore'],
                 'attributes' => 'onclick="Backend.getScrollOffset();"',
                 'haste_ajax_operation' => [
                     'field' => 'h4a_ignore',
                     'options' => [
                         [
                             'value' => '',
-                            'icon' => 'visible.gif',
+                            'icon' => 'visible.svg',
                         ],
                         [
                             'value' => '1',
-                            'icon' => 'delete.gif',
+                            'icon' => 'invisible.svg',
                         ],
                     ],
                 ],
@@ -121,6 +121,7 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
             'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_ignore'],
             'exclude' => true,
             'filter' => true,
+            'toggle' => true,
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
             'sql' => "char(1) NOT NULL default ''",
