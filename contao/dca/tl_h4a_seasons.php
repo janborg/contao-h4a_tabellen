@@ -63,18 +63,18 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
             ],
 
             'toggle_ignore' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_calendar']['toggle_ignore'],
+                'label' => &$GLOBALS['TL_LANG']['tl_h4a_seasons']['toggle_ignore'],
                 'attributes' => 'onclick="Backend.getScrollOffset();"',
                 'haste_ajax_operation' => [
                     'field' => 'h4a_ignore',
                     'options' => [
                         [
                             'value' => '',
-                            'icon' => 'visible.gif',
+                            'icon' => 'visible.svg',
                         ],
                         [
                             'value' => '1',
-                            'icon' => 'delete.gif',
+                            'icon' => 'invisible.svg',
                         ],
                     ],
                 ],
