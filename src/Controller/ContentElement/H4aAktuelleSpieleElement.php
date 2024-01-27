@@ -44,7 +44,6 @@ class H4aAktuelleSpieleElement extends AbstractContentElementController
 
     protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
-
         if ($this->scopeMatcher->isBackendRequest($request)) {
             $template = new BackendTemplate('be_wildcard');
             $template->wildcard = '## H4a Gamescores ##';
