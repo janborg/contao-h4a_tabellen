@@ -156,27 +156,28 @@ class HelperTest extends TestCase
         $this->assertArrayHasKey('dataList', $spielplan);
         $this->assertArrayHasKey('errCode', $spielplan);
 
-        //  Spielplaneinträge         $this->assertArrayHasKey('gID', $spiel); 
+        // Spielplaneinträge 
+        // $this->assertArrayHasKey('gID', $spiel);
         // $this->assertArrayHasKey('gNo', $spiel);  $this->assertArrayHasKey('gClassID',
-        // $spiel);  $this->assertArrayHasKey('gClassSname', $spiel); 
+        // $spiel);  $this->assertArrayHasKey('gClassSname', $spiel);
         // $this->assertArrayHasKey('gDate', $spiel);  $this->assertArrayHasKey('gTime',
-        // $spiel);  $this->assertArrayHasKey('gGymnasiumID', $spiel); 
-        // $this->assertArrayHasKey('gGymnasiumNo', $spiel); 
-        // $this->assertArrayHasKey('gGymnasiumName', $spiel); 
-        // $this->assertArrayHasKey('gGymnasiumPostal', $spiel); 
-        // $this->assertArrayHasKey('gGymnasiumTown', $spiel); 
-        // $this->assertArrayHasKey('gGymnasiumStreet', $spiel); 
-        // $this->assertArrayHasKey('gHomeTeam', $spiel); 
-        // $this->assertArrayHasKey('gGuestTeam', $spiel); 
-        // $this->assertArrayHasKey('gHomeGoals', $spiel); 
-        // $this->assertArrayHasKey('gLive', $spiel); 
-        // $this->assertArrayHasKey('gTickerToken', $spiel); 
-        // $this->assertArrayHasKey('gGuestGoals', $spiel); 
-        // $this->assertArrayHasKey('gHomeGoals_1', $spiel); 
-        // $this->assertArrayHasKey('gGuestGoals_1', $spiel); 
-        // $this->assertArrayHasKey('gHomePoints', $spiel); 
-        // $this->assertArrayHasKey('gGuestPoints', $spiel); 
-        // $this->assertArrayHasKey('gComment', $spiel); 
+        // $spiel);  $this->assertArrayHasKey('gGymnasiumID', $spiel);
+        // $this->assertArrayHasKey('gGymnasiumNo', $spiel);
+        // $this->assertArrayHasKey('gGymnasiumName', $spiel);
+        // $this->assertArrayHasKey('gGymnasiumPostal', $spiel);
+        // $this->assertArrayHasKey('gGymnasiumTown', $spiel);
+        // $this->assertArrayHasKey('gGymnasiumStreet', $spiel);
+        // $this->assertArrayHasKey('gHomeTeam', $spiel);
+        // $this->assertArrayHasKey('gGuestTeam', $spiel);
+        // $this->assertArrayHasKey('gHomeGoals', $spiel);
+        // $this->assertArrayHasKey('gLive', $spiel);
+        // $this->assertArrayHasKey('gTickerToken', $spiel);
+        // $this->assertArrayHasKey('gGuestGoals', $spiel);
+        // $this->assertArrayHasKey('gHomeGoals_1', $spiel);
+        // $this->assertArrayHasKey('gGuestGoals_1', $spiel);
+        // $this->assertArrayHasKey('gHomePoints', $spiel);
+        // $this->assertArrayHasKey('gGuestPoints', $spiel);
+        // $this->assertArrayHasKey('gComment', $spiel);
         // $this->assertArrayHasKey('gReferee', $spiel);
     }
 
