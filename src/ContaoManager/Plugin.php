@@ -21,9 +21,6 @@ use Janborg\H4aTabellen\JanborgH4aTabellenBundle;
 
 class Plugin implements BundlePluginInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getBundles(ParserInterface $parser)
     {
         return [
@@ -31,7 +28,7 @@ class Plugin implements BundlePluginInterface
                 [
                     ContaoCoreBundle::class,
                     ContaoCalendarBundle::class,
-                ]
+                ],
             ),
         ];
     }

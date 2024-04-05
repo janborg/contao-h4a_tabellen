@@ -36,7 +36,7 @@ class H4aCron
     {
         $objCalendars = CalendarModel::findby(
             ['tl_calendar.h4a_imported=?'],
-            ['1']
+            ['1'],
         );
 
         foreach ($objCalendars as $objCalendar) {
@@ -59,7 +59,7 @@ class H4aCron
             [
                 'eager' => true,
                 'having' => 'h4a_season__h4a_ignore = 0',
-            ]
+            ],
         );
 
         foreach ($objEvents as $objEvent) {
@@ -117,7 +117,7 @@ class H4aCron
             [
                 'eager' => true,
                 'having' => 'h4a_season__h4a_ignore = 0',
-            ]
+            ],
         );
 
         if (null === $objEvents) {

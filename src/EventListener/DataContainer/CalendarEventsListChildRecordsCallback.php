@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class CalendarEventsListChildRecordsCallback
 {
     private RequestStack $requestStack;
+
     private CalendarModel $objCalendar;
 
     public function __construct(RequestStack $requestStack)

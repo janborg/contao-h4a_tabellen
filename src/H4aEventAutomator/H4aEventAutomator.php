@@ -35,7 +35,7 @@ class H4aEventAutomator extends Backend
     {
         $objCalendars = CalendarModel::findby(
             ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
-            ['1', '1']
+            ['1', '1'],
         );
 
         $intCalendars = \count($objCalendars);
@@ -99,7 +99,7 @@ class H4aEventAutomator extends Backend
                 foreach ($arrSpiele as $arrSpiel) {
                     $objEvent = CalendarEventsModel::findOneBy(
                         ['gGameNo=?', 'pid=?', 'gClassID=?'],
-                        [$arrSpiel['gNo'], $objCalendar->id, $arrSeason['h4a_liga']]
+                        [$arrSpiel['gNo'], $objCalendar->id, $arrSeason['h4a_liga']],
                     );
 
                     // Update, wenn ModelObjekt existiert
@@ -152,7 +152,7 @@ class H4aEventAutomator extends Backend
 
                         $objEvent->save();
 
-                    // Create Event, wenn ModelObjekt existiert
+                        // Create Event, wenn ModelObjekt existiert
                     } else {
                         $objEvent = new CalendarEventsModel();
 
@@ -219,7 +219,7 @@ class H4aEventAutomator extends Backend
     {
         $objEvents = CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) = ?', 'h4a_resultComplete != ?'],
-            [date('Y-m-d'), true]
+            [date('Y-m-d'), true],
         );
 
         if (null === $objEvents) {
@@ -276,7 +276,7 @@ class H4aEventAutomator extends Backend
     {
         $objEvents = CalendarEventsModel::findBy(
             ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'sGID = ?', 'h4a_resultComplete = ?'],
-            [date('Y-m-d'), '', true]
+            [date('Y-m-d'), '', true],
         );
 
         if (null === $objEvents) {

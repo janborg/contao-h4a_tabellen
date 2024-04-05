@@ -50,7 +50,7 @@ class H4aUpdateEventsCommand extends Command
 
         $objCalendars = CalendarModel::findby(
             ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
-            ['1', '1']
+            ['1', '1'],
         );
 
         if (null === $objCalendars) {

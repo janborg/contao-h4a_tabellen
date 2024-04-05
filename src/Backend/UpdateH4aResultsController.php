@@ -31,7 +31,7 @@ class UpdateH4aResultsController extends Backend
     {
         $objEvents = CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameID != ?'],
-            [date('Y-m-d'), true, '']
+            [date('Y-m-d'), true, ''],
         );
 
         if (null === $objEvents) {

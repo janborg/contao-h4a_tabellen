@@ -143,7 +143,7 @@ class Helper
     {
         $objH4aJsonData = H4aJsonDataModel::findOneBy(
             ['lvTypePathStr=?', 'lvIDPathStr=?'],
-            [$arrResultSpielplan['lvTypePathStr'], $arrResultSpielplan['lvIDPathStr']]
+            [$arrResultSpielplan['lvTypePathStr'], $arrResultSpielplan['lvIDPathStr']],
         );
 
         if (null === $objH4aJsonData) {
@@ -217,14 +217,14 @@ class Helper
                         }
 
                         return $value;
-                    }
+                    },
                 );
-            }
+            },
         );
 
         $game = array_filter(
             $allGames,
-            static fn ($game) => $game[1]['text'] === $gameNo
+            static fn ($game) => $game[1]['text'] === $gameNo,
         );
         $game = array_values($game);
 
@@ -257,7 +257,7 @@ class Helper
 
         $season = array_filter(
             $arrSeasons,
-            static fn ($season) => $season['h4a_saison'] === $objEvent->h4a_season
+            static fn ($season) => $season['h4a_saison'] === $objEvent->h4a_season,
         );
 
         $season = array_values($season);
