@@ -156,8 +156,7 @@ class HelperTest extends TestCase
         $this->assertArrayHasKey('dataList', $spielplan);
         $this->assertArrayHasKey('errCode', $spielplan);
 
-        // Spielplaneinträge 
-        // $this->assertArrayHasKey('gID', $spiel);
+        // Spielplaneinträge; $this->assertArrayHasKey('gID', $spiel);
         // $this->assertArrayHasKey('gNo', $spiel);  $this->assertArrayHasKey('gClassID',
         // $spiel);  $this->assertArrayHasKey('gClassSname', $spiel);
         // $this->assertArrayHasKey('gDate', $spiel);  $this->assertArrayHasKey('gTime',

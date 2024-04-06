@@ -19,6 +19,9 @@ use Doctrine\DBAL\Connection;
 
 class MultiColumnWizardToContaoGroupWidgetWMigration extends AbstractMigration
 {
+    /**
+     * @var Connection
+     */
     private $db;
 
     public function __construct(Connection $db)
@@ -50,7 +53,7 @@ class MultiColumnWizardToContaoGroupWidgetWMigration extends AbstractMigration
 
             foreach (StringUtil::deserialize($field['h4a_seasons'], true) as $key => $template) {
                 if (is_numeric($key)) {
-                    $key = $key + 1;
+                    ++$key;
                 }
 
                 $templates[$key] = $template;
