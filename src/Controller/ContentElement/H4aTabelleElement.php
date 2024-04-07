@@ -17,7 +17,7 @@ use Contao\ContentModel;
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\ServiceAnnotation\ContentElement;
-use Contao\CoreBundle\Twig\FragmentTemplate;
+use Contao\Template;
 use Janborg\H4aTabellen\Helper\Helper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,7 +42,7 @@ class H4aTabelleElement extends AbstractContentElementController
         $this->scopeMatcher = $scopeMatcher;
     }
 
-    protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
+    protected function getResponse(Template $template, ContentModel $model, Request $request): Response
     {
         if ($this->scopeMatcher->isBackendRequest($request)) {
             $template = new BackendTemplate('be_wildcard');

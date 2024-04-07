@@ -5,9 +5,15 @@ services:
     _instanceof:
         Contao\CoreBundle\Framework\FrameworkAwareInterface:
             calls:
-                - ['setFramework', ['@contao.framework']]
+                - ["setFramework", ["@contao.framework"]]
 
-    Janborg\H4aTabellen\Migration\H4aSeasonsMigration:
+    janborg.h4atabellen.migration.h4aseasons:
+        class: Janborg\H4aTabellen\Migration\H4aSeasonsMigration
         arguments:
-            - '@database_connection'
-            - '@contao.framework'
+            - "@database_connection"
+            - "@contao.framework"
+
+    janborg.h4atabellen.migration.mcvtocgw:
+        class: Janborg\H4aTabellen\Migration\MultiColumnWizardToContaoGroupWidgetWMigration
+        arguments:
+            - "@database_connection"

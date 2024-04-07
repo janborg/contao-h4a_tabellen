@@ -48,12 +48,12 @@ class H4aUpdateResultsCommand extends Command
         $this->framework->initialize();
 
         $output->writeln(
-            'Suche alle H4a-Events von heute oder früher ohne Ergebnis...'
+            'Suche alle H4a-Events von heute oder früher ohne Ergebnis...',
         );
 
         $objEvents = CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameID != ?'],
-            [date('Y-m-d'), true, '']
+            [date('Y-m-d'), true, ''],
         );
 
         if (null === $objEvents) {
