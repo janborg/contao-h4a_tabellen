@@ -20,7 +20,7 @@ class HelperTest extends TestCase
     /**
      * @return array<int, array<int, string>>
      */
-    public static function gamesReportProvider()
+    public static function gamesReportProvider(): iterable
     {
         return [
             ['49301', '10022', '1035145'],

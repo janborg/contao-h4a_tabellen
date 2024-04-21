@@ -270,7 +270,8 @@ class H4aEventAutomator extends Backend
     }
 
     /**
-     * Update field sGID for all calendarEvents of today or earlier, where sGID is empty and h4a_resultComplete is true.
+     * Update field sGID for all calendarEvents of today or earlier, where sGID is
+     * empty and h4a_resultComplete is true.
      */
     public function updateReportIDs(): void
     {
