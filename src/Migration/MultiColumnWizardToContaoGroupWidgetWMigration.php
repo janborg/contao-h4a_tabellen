@@ -43,12 +43,12 @@ class MultiColumnWizardToContaoGroupWidgetWMigration extends AbstractMigration
             return false;
         }
 
-        return (int) $this->db->fetchOne("SELECT COUNT(*) FROM tl_calendar WHERE h4a_seasons LIKE 'a:1:{i:0;%'") > 0;
+        return (int) $this->db->fetchOne("SELECT COUNT(*) FROM tl_calendar WHERE h4a_seasons LIKE 'a:_:{i:0;%'") > 0;
     }
 
     public function run(): MigrationResult
     {
-        foreach ($this->db->fetchAllAssociative("SELECT * FROM tl_calendar WHERE h4a_seasons LIKE 'a:1:{i:0;%'") as $field) {
+        foreach ($this->db->fetchAllAssociative("SELECT * FROM tl_calendar WHERE h4a_seasons LIKE 'a:_:{i:0;%'") as $field) {
             $templates = [];
 
             foreach (StringUtil::deserialize($field['h4a_seasons'], true) as $key => $template) {
