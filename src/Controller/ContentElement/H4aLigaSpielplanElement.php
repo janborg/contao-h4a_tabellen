@@ -17,6 +17,7 @@ use Contao\ContentModel;
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\ServiceAnnotation\ContentElement;
+use Contao\System;
 use Contao\Template;
 use Janborg\H4aTabellen\Helper\Helper;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +59,6 @@ class H4aLigaSpielplanElement extends AbstractContentElementController
         $template->myTeam = $model->my_team_name;
         $template->lastUpdate = $lastUpdate;
 
-        return $template->getResponse();
+        return $template->getResponse()->setSharedMaxAge(System::getContainer()->getParameter('janborg_h4a_tabellen.LigaSpielplanCacheTime'));
     }
 }
