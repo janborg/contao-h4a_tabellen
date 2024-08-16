@@ -22,8 +22,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class H4aUpdateResultsCommand extends Command
 {
+    /**
+     * @var string
+     */
     protected static $defaultName = 'h4a:update:results';
 
+    /**
+     * @var string
+     */
     protected static $defaultDescription = 'Update results for all H4a-Events';
 
     /**
@@ -43,7 +49,7 @@ class H4aUpdateResultsCommand extends Command
         $this->setHelp('With this command you can update the results for all H4a Events');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int|null
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->framework->initialize();
 

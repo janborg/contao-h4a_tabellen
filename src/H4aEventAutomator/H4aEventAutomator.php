@@ -225,7 +225,7 @@ class H4aEventAutomator extends Backend
         if (null === $objEvents) {
             $this->redirect($this->getReferer());
 
-            return;
+            return; // @phpstan-ignore deadCode.unreachable
         }
 
         foreach ($objEvents as $objEvent) {
@@ -283,7 +283,7 @@ class H4aEventAutomator extends Backend
         if (null === $objEvents) {
             $this->redirect($this->getReferer());
 
-            return;
+            return; // @phpstan-ignore deadCode.unreachable
         }
 
         foreach ($objEvents as $objEvent) {

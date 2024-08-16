@@ -42,7 +42,7 @@ class UpdateH4aResultsController extends Backend
 
             $this->redirect($this->getReferer());
 
-            return;
+            return; // @phpstan-ignore deadCode.unreachable
         }
 
         foreach ($objEvents as $objEvent) {

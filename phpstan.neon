@@ -19,4 +19,5 @@ parameters:
         - %currentWorkingDirectory%/src/Resources/*
 
     treatPhpDocTypesAsCertain: false
-    checkMissingIterableValueType: false
+    
+    

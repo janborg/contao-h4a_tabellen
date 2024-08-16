@@ -21,8 +21,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class H4aUpdateEventsCommand extends Command
 {
+    /**
+     * @var string
+     */
     protected static $defaultName = 'h4a:update:events';
 
+    /**
+     * @var string
+     */
     protected static $defaultDescription = 'Update all Events from h4a';
 
     /**
@@ -42,7 +48,7 @@ class H4aUpdateEventsCommand extends Command
         $this->setHelp('This command allows youto update all events that are linked to h4a');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int|null
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->framework->initialize();
 

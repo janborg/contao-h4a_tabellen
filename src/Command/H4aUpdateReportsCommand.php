@@ -21,8 +21,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class H4aUpdateReportsCommand extends Command
 {
+    /**
+     * @var string
+     */
     protected static $defaultName = 'h4a:update:reports';
 
+    /**
+     * @var string
+     */
     protected static $defaultDescription = 'Update ReportNo in all Events from h4a';
 
     /**
@@ -42,7 +48,7 @@ class H4aUpdateReportsCommand extends Command
         $this->setHelp('With this command you can update the ReportNo for all H4a Events');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int|null
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->framework->initialize();
 
