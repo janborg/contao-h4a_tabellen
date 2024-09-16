@@ -1,55 +1,69 @@
 {
-    "name":"janborg/contao-h4a_tabellen",
-    "description":"Spielpläne und Tabellen von handball4all in Contao CMS integrieren",
-    "keywords":["Handball","H4a","Ergebnisse","Spielplan","Tabelle"],
-    "type":"contao-bundle",
-    "license":"MIT",
-    "authors":[
+    "name": "janborg/contao-h4a_tabellen",
+    "description": "Spielpläne und Tabellen von handball4all in Contao CMS integrieren",
+    "keywords": [
+        "Handball",
+        "H4a",
+        "Ergebnisse",
+        "Spielplan",
+        "Tabelle"
+    ],
+    "type": "contao-bundle",
+    "license": "MIT",
+    "authors": [
         {
-            "name":"Jan Lünborg",
-            "homepage":"https://github.com/janborg"
+            "name": "Jan Lünborg",
+            "homepage": "https://github.com/janborg"
         }
     ],
-    "require":{
-        "php":"^8.0",
+    "require": {
+        "php": "^8.0",
         "contao/core-bundle": "^4.13 || ^5.3",
         "contao/calendar-bundle": "^4.13 || ^5.3",
         "codefog/contao-haste": "^5.0",
-        "mvo/contao-group-widget": "^1.5"
+        "doctrine/dbal": "^3.6",
+        "mvo/contao-group-widget": "^1.5",
+        "symfony/config": "^5.4 || ^6.0",
+        "symfony/console": "^5.4 || ^6.0",
+        "symfony/dependency-injection": "^5.4 || ^6.0",
+        "symfony/dom-crawler": "^5.4 || ^6.0",
+        "symfony/http-foundation": "^5.4 || ^6.0",
+        "symfony/http-kernel": "^5.4 || ^6.0"
     },
     "require-dev": {
         "contao/easy-coding-standard": "^6.0",
+        "contao/manager-plugin": "^2.0",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-phpunit": "^1.3",
         "phpstan/phpstan-symfony": "^1.2",
         "phpunit/phpunit": "^9.5",
         "bamarni/composer-bin-plugin": "^1.5",
-        "contao/manager-plugin": "^2.0",
         "symfony/phpunit-bridge": "^7.1",
-        "contao/test-case": "^5.0"
+        "contao/test-case": "^5.0",
+        "shipmonk/composer-dependency-analyser": "^1.7"
     },
     "conflict": {
-         "contao/manager-plugin": "<2.0 || >=3.0"
+        "contao/manager-plugin": "<2.0 || >=3.0"
     },
     "suggest": {
         "janborg/contao-h4a_gamestats": "to get scores and gamestats for all your games"
-      },
+    },
     "autoload": {
         "psr-4": {
             "Janborg\\H4aTabellen\\": "src/"
-          }
-      },
+        }
+    },
     "autoload-dev": {
-      "psr-4": {
-          "Janborg\\H4aTabellen\\Tests\\": "tests/"
-          }
-      },
-      "extra":{
+        "psr-4": {
+            "Janborg\\H4aTabellen\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
         "bamarni-bin": {
             "bin-links": false,
             "target-directory": "tools"
         },
-      "contao-manager-plugin": "Janborg\\H4aTabellen\\ContaoManager\\Plugin"
+        "contao-manager-plugin": "Janborg\\H4aTabellen\\ContaoManager\\Plugin"
     },
     "support": {
         "issues": "https://github.com/janborg/contao-h4a_tabellen/issues",
@@ -69,10 +83,12 @@
         "all": [
             "@unit-tests",
             "@ecs",
-            "@phpstan"
+            "@phpstan",
+            "@depcheck"
         ],
-        "ecs": "@php vendor/bin/ecs check src tests --config ecs.php --fix --ansi",
-        "phpstan": "@php vendor/bin/phpstan analyze --configuration phpstan.neon --no-progress --ansi",
+        "depcheck": "@php vendor/bin/composer-dependency-analyser --config=composer-dependency-analyser.php",
+        "ecs": "@php vendor/bin/ecs check src tests config --config ecs.php --fix --ansi",
+        "phpstan": "@php vendor/bin/phpstan analyze src tests config --configuration phpstan.neon --no-progress --ansi",
         "unit-tests": "@php vendor/bin/phpunit --colors=always"
     }
 }
