@@ -9,7 +9,7 @@ on:
 
 jobs:
   ecs:
-    name: ECS
+    name: ecs
     runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
@@ -40,13 +40,33 @@ jobs:
           coverage: none
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install the dependencies
         run: composer install --no-interaction --no-suggest
 
       - name: Analyze the code
         run: vendor/bin/phpstan analyse src tests --configuration phpstan.neon --no-progress --ansi
+
+  depcheck:
+    name: depcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, mysqli, pcre, pdo_mysql, zlib
+          coverage: none
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install the dependencies
+        run: composer install --no-interaction --no-suggest
+
+      - name: Check the dependencies
+        run: vendor/bin/composer-dependency-analyser --config=depcheck.php"
 
   tests:
     name: PHP ${{ matrix.php }}
