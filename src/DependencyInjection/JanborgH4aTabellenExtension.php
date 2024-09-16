@@ -36,6 +36,7 @@ class JanborgH4aTabellenExtension extends Extension
         $configuration = new Configuration();
 
         $loader->load('commands.yml');
+        $loader->load('controller.yml');
         $loader->load('services.yml');
         $loader->load('migrations.yml');
         $loader->load('listener.yml');
