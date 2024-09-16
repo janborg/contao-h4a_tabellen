@@ -86,7 +86,7 @@
             "@phpstan",
             "@depcheck"
         ],
-        "depcheck": "@php vendor/bin/composer-dependency-analyser --config=depcheck.php",
+        "depcheck": "@php vendor/bin/composer-dependency-analyser --config=composer-dependency-analyser.php",
         "ecs": "@php vendor/bin/ecs check src tests config --config ecs.php --fix --ansi",
         "phpstan": "@php vendor/bin/phpstan analyze src tests config --configuration phpstan.neon --no-progress --ansi",
         "unit-tests": "@php vendor/bin/phpunit --colors=always"
