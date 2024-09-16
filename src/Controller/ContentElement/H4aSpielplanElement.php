@@ -33,14 +33,8 @@ class H4aSpielplanElement extends AbstractContentElementController
 {
     public const TYPE = 'h4a_spiele';
 
-    /**
-     * @var ScopeMatcher
-     */
-    private $scopeMatcher;
-
-    public function __construct(ScopeMatcher $scopeMatcher)
+    public function __construct(private ScopeMatcher $scopeMatcher)
     {
-        $this->scopeMatcher = $scopeMatcher;
     }
 
     protected function getResponse(Template $template, ContentModel $model, Request $request): Response

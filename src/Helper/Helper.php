@@ -35,32 +35,14 @@ class Helper
      */
     public static function getURL($type, $id): string
     {
-        switch ($type) {
-            case 'class_table':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext='.$id;
-                break;
-
-            case 'class_games':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&lvIDNext='.$id;
-                break;
-
-            case 'team':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$id;
-                break;
-
-            case 'club':
-                $liga_url = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=club&lvIDNext='.$id;
-                break;
-
-            case 'score':
-                $liga_url = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score='.$id;
-                break;
-
-            default:
-                $liga_url = '';
-        }
-
-        return $liga_url;
+        return match ($type) {
+            'class_table' => 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext='.$id,
+            'class_games' => 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&lvIDNext='.$id,
+            'team' => 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=team&lvIDNext='.$id,
+            'club' => 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=club&lvIDNext='.$id,
+            'score' => 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score='.$id,
+            default => '',
+        };
     }
 
     /**
@@ -202,24 +184,22 @@ class Helper
         $crawler = $crawler->filterXPath('//table[@class="gametable"]/tr[position() > 1]');
 
         $allGames = $crawler->filterXPath('//tr')->each(
-            static function ($tr, $i) {
-                return $tr->filterXPath('//td')->each(
-                    static function ($td, $i) {
-                        $value['text'] = $td->text();
+            static fn ($tr, $i) => $tr->filterXPath('//td')->each(
+                static function ($td, $i) {
+                    $value['text'] = $td->text();
 
-                        if ($td->filterXPath('//a')->count() > 0 && null !== $td->filterXPath('//a')->attr('href')) {
-                            $parts = parse_url($td->filterXPath('//a')->attr('href'));
-                            parse_str($parts['query'], $query);
+                    if ($td->filterXPath('//a')->count() > 0 && null !== $td->filterXPath('//a')->attr('href')) {
+                        $parts = parse_url($td->filterXPath('//a')->attr('href'));
+                        parse_str($parts['query'], $query);
 
-                            if (isset($query['sGID'])) {
-                                $value['sGID'] = $query['sGID'];
-                            }
+                        if (isset($query['sGID'])) {
+                            $value['sGID'] = $query['sGID'];
                         }
+                    }
 
-                        return $value;
-                    },
-                );
-            },
+                    return $value;
+                },
+            ),
         );
 
         $game = array_filter(

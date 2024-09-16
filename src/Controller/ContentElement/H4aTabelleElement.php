@@ -33,14 +33,8 @@ class H4aTabelleElement extends AbstractContentElementController
 {
     public const TYPE = 'h4a_tabelle';
 
-    /**
-     * @var ScopeMatcher
-     */
-    private $scopeMatcher;
-
-    public function __construct(ScopeMatcher $scopeMatcher)
+    public function __construct(private ScopeMatcher $scopeMatcher)
     {
-        $this->scopeMatcher = $scopeMatcher;
     }
 
     protected function getResponse(Template $template, ContentModel $model, Request $request): Response

@@ -21,14 +21,8 @@ use Janborg\H4aTabellen\Helper\Helper;
 
 class H4aCron
 {
-    /**
-     * @var ContaoFramework
-     */
-    private $framework;
-
-    public function __construct(ContaoFramework $framework)
+    public function __construct(private ContaoFramework $framework)
     {
-        $this->framework = $framework;
         $this->framework->initialize();
     }
 

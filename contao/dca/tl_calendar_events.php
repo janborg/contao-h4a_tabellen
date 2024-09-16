@@ -20,7 +20,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] = array_me
         'href' => 'key=h4a_update_events',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
     ]],
-    $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] ?? []
+    $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] ?? [],
 );
 
 /*
@@ -186,5 +186,5 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         ],
         'sql' => "varchar(9) NOT NULL default ''",
     ]],
-    $GLOBALS['TL_DCA']['tl_calendar_events']['fields']
+    $GLOBALS['TL_DCA']['tl_calendar_events']['fields'],
 );

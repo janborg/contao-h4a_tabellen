@@ -21,13 +21,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CalendarEventsListChildRecordsCallback
 {
-    private RequestStack $requestStack;
-
     private CalendarModel $objCalendar;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(private RequestStack $requestStack)
     {
-        $this->requestStack = $requestStack;
         $this->objCalendar = CalendarModel::findById($this->requestStack->getCurrentRequest()->query->get('id'));
     }
 

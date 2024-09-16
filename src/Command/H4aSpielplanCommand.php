@@ -32,15 +32,8 @@ class H4aSpielplanCommand extends Command
      */
     protected static $defaultDescription = 'Show H4a Spielplan for given teamID';
 
-    /**
-     * @var ContaoFramework
-     */
-    private $framework;
-
-    public function __construct(ContaoFramework $framework)
+    public function __construct(private ContaoFramework $framework)
     {
-        $this->framework = $framework;
-
         parent::__construct();
     }
 
@@ -68,7 +61,7 @@ class H4aSpielplanCommand extends Command
         if (!isset($arrResultSpielplan['dataList'][0])) {
             $output->writeln('<error>Keine Daten für Spielplan gefunden</error>');
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $spielplan = [];
@@ -93,7 +86,7 @@ class H4aSpielplanCommand extends Command
         } else {
             $output->writeln('<error>Keine Daten für Tabelle gefunden</error>');
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $table = new Table($output);
@@ -102,7 +95,7 @@ class H4aSpielplanCommand extends Command
         if (!isset($arrResultTabelle['dataList'][0])) {
             $output->writeln('<error>Keine Daten für Spielplan gefunden</error>');
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $liga = [];
@@ -124,6 +117,6 @@ class H4aSpielplanCommand extends Command
 
         $output->writeln('<info>Datenbankeinträge für team_id '.$teamID.' wurde erstellt!</info>');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

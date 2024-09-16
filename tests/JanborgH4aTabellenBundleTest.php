@@ -21,6 +21,6 @@ class JanborgH4aTabellenBundleTest extends TestCase
     {
         $bundle = new JanborgH4aTabellenBundle();
 
-        $this->assertInstanceOf('Janborg\H4aTabellen\JanborgH4aTabellenBundle', $bundle);
+        $this->assertInstanceOf(JanborgH4aTabellenBundle::class, $bundle);
     }
 }

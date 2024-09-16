@@ -37,7 +37,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
         'icon' => 'bundles/janborgh4atabellen/seasons.svg',
         'attr' => 'onclick="Backend.getScrollOffset()"',
     ]],
-    $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations']
+    $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'],
 );
 
 /*
@@ -57,7 +57,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'] = array_merge(
     [
         'h4a_imported',
     ],
-    $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__']
+    $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'],
 );
 
 /*
@@ -68,7 +68,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] = array_merge(
     [
         'h4a_imported' => 'h4a_seasons, h4aEvents_author',
     ],
-    $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']
+    $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'],
 );
 
 /*
@@ -156,5 +156,5 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
             'load' => 'eager',
         ],
     ]],
-    $GLOBALS['TL_DCA']['tl_calendar']['fields']
+    $GLOBALS['TL_DCA']['tl_calendar']['fields'],
 );

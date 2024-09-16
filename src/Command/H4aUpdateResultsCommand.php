@@ -32,15 +32,8 @@ class H4aUpdateResultsCommand extends Command
      */
     protected static $defaultDescription = 'Update results for all H4a-Events';
 
-    /**
-     * @var ContaoFramework
-     */
-    private $framework;
-
-    public function __construct(ContaoFramework $framework)
+    public function __construct(private ContaoFramework $framework)
     {
-        $this->framework = $framework;
-
         parent::__construct();
     }
 

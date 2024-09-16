@@ -8,23 +8,8 @@ services:
             calls:
                 - ['setFramework', ['@contao.framework']]
 
-        Symfony\Bundle\FrameworkBundle\Controller\AbstractController:
-            calls:
-                - ['setContainer', ['@Psr\Container\ContainerInterface']]
-
-        Symfony\Component\DependencyInjection\ContainerAwareInterface:
-            calls:
-                - ['setContainer', ['@service_container']]
-
-    Janborg\H4aTabellen\Controller\ContentElement\H4aSpielplanElement: ~
-
-    Janborg\H4aTabellen\Controller\ContentElement\H4aLigaSpielplanElement: ~
-
-    Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement: ~
-
-    Janborg\H4aTabellen\Controller\ContentElement\H4aAktuelleSpieleElement: ~
-
-    Janborg\H4aTabellen\Cron\H4aCron:
+    h4atabellen.cron.updates:
+        class: Janborg\H4aTabellen\Cron\H4aCron
         arguments:
             - '@contao.framework'
         tags:
@@ -40,5 +25,3 @@ services:
                 name: contao.cronjob
                 interval: "hourly"
                 method: updateEvents
-
-        
