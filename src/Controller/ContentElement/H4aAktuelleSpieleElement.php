@@ -33,14 +33,8 @@ class H4aAktuelleSpieleElement extends AbstractContentElementController
 {
     public const TYPE = 'h4a_aktuellespiele';
 
-    /**
-     * @var ScopeMatcher
-     */
-    private $scopeMatcher;
-
-    public function __construct(ScopeMatcher $scopeMatcher)
+    public function __construct(private ScopeMatcher $scopeMatcher)
     {
-        $this->scopeMatcher = $scopeMatcher;
     }
 
     protected function getResponse(Template $template, ContentModel $model, Request $request): Response

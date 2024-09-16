@@ -31,15 +31,8 @@ class H4aUpdateReportsCommand extends Command
      */
     protected static $defaultDescription = 'Update ReportNo in all Events from h4a';
 
-    /**
-     * @var ContaoFramework
-     */
-    private $framework;
-
-    public function __construct(ContaoFramework $framework)
+    public function __construct(private ContaoFramework $framework)
     {
-        $this->framework = $framework;
-
         parent::__construct();
     }
 

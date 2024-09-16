@@ -22,20 +22,8 @@ use Janborg\H4aTabellen\Model\H4aSeasonModel;
 
 class H4aSeasonsMigration extends AbstractMigration
 {
-    /**
-     * @var Connection
-     */
-    private $connection;
-
-    /**
-     * @var ContaoFramework
-     */
-    private $framework;
-
-    public function __construct(Connection $connection, ContaoFramework $framework)
+    public function __construct(private Connection $connection, private ContaoFramework $framework)
     {
-        $this->connection = $connection;
-        $this->framework = $framework;
     }
 
     public function shouldRun(): bool
