@@ -61,7 +61,7 @@ class H4aSpielplanCommand extends Command
         if (!isset($arrResultSpielplan['dataList'][0])) {
             $output->writeln('<error>Keine Daten für Spielplan gefunden</error>');
 
-            return \Symfony\Component\Console\Command\Command::SUCCESS;
+            return Command::SUCCESS;
         }
 
         $spielplan = [];
