@@ -29,7 +29,7 @@ class UpdateH4aEventsController extends Backend
 
     public function updateEvents(): void
     {
-        $id = [Input::get('id')];
+        $id = Input::get('id');
 
         $objCalendar = CalendarModel::findById($id);
 
