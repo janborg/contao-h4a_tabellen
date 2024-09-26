@@ -54,7 +54,6 @@ class CalendarEventsListChildRecordsCallback
         // different listview with result for calendars, that are updated via h4a
 
         if ('delete' !== $this->requestStack->getCurrentRequest()->query->get('act')) {
-
             $this->objCalendar = CalendarModel::findById($this->requestStack->getCurrentRequest()->query->get('id'));
 
             if ('1' === $this->objCalendar->h4a_imported) {
