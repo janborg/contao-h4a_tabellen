@@ -25,7 +25,7 @@ class CalendarEventsListChildRecordsCallback
 
     public function __construct(private RequestStack $requestStack)
     {
-        $this->objCalendar = CalendarModel::findById($this->requestStack->getCurrentRequest()->query->get('id'));
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -52,8 +52,14 @@ class CalendarEventsListChildRecordsCallback
         }
 
         // different listview with result for calendars, that are updated via h4a
-        if ('1' === $this->objCalendar->h4a_imported) {
-            return '<div class="tl_content_left"><span style="padding-right:3px">['.$date.']</span>'.$arrRow['title'].' <span style="color:#999;padding-left:3px">'.$result.'</span> </div>';
+
+        if ('delete' !== $this->requestStack->getCurrentRequest()->query->get('act')) {
+
+            $this->objCalendar = CalendarModel::findById($this->requestStack->getCurrentRequest()->query->get('id'));
+
+            if ('1' === $this->objCalendar->h4a_imported) {
+                return '<div class="tl_content_left"><span style="padding-right:3px">['.$date.']</span>'.$arrRow['title'].' <span style="color:#999;padding-left:3px">'.$result.'</span> </div>';
+            }
         }
 
         return '<div class="tl_content_left">'.$arrRow['title'].' <span style="color:#999;padding-left:3px">['.$date.']</span></div>';
