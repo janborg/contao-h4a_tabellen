@@ -98,9 +98,8 @@ class H4aEventAutomator extends Backend
                 // Update or Create Event
                 foreach ($arrSpiele as $arrSpiel) {
                     $objEvent = CalendarEventsModel::findOneBy(
-                        ['gGameNo=?', 'pid=?', 'gClassID=?'],
-                        [$arrSpiel['gNo'], $objCalendar->id, $arrSeason['h4a_liga']],
-                    );
+                        ['gGameNo=?', 'pid=?', 'gClassID=?', 'gGameID=?'],
+                        [$arrSpiel['gNo'], $objCalendar->id, $arrSeason['h4a_liga'], $arrSpiel['gID']],                    );
 
                     // Update, wenn ModelObjekt existiert
                     if (null !== $objEvent) {
@@ -173,7 +172,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->pid = $objCalendar->id;
                         $objEvent->tstamp = time();
                         $objEvent->title = $arrSpiel['gClassSname'].': '.$arrSpiel['gHomeTeam'].' - '.$arrSpiel['gGuestTeam'];
-                        $objEvent->alias = StringUtil::generateAlias($arrSpiel['gClassSname'].'_'.$arrSpiel['gHomeTeam'].'_'.$arrSpiel['gGuestTeam'].'_'.$arrSpiel['gNo']);
+                        $objEvent->alias = StringUtil::generateAlias($arrSpiel['gClassSname'].'_'.$arrSpiel['gHomeTeam'].'_'.$arrSpiel['gGuestTeam'].'_'.$arrSpiel['gID']);
                         $objEvent->h4a_season = $seasonID;
                         $objEvent->gGameID = $arrSpiel['gID'];
                         $objEvent->gGameNo = $arrSpiel['gNo'];
