@@ -207,7 +207,11 @@ class H4aEventAutomator extends Backend
                             $objEvent->h4a_resultComplete = false;
                         }
 
+                        //save new Event
                         $objEvent->save();
+
+                        // Invalidate CacheTag for Event 
+                        $this->entityCacheTags->invalidateTagsFor($objEvent);
                     }
                 }
             }
