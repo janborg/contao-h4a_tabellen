@@ -99,7 +99,7 @@ class H4aEventAutomator extends Backend
                 foreach ($arrSpiele as $arrSpiel) {
                     $objEvent = CalendarEventsModel::findOneBy(
                         ['gGameNo=?', 'pid=?', 'gClassID=?', 'gGameID=?'],
-                        [$arrSpiel['gNo'], $objCalendar->id, $arrSeason['h4a_liga'], $arrSpiel['gID']],                    );
+                        [$arrSpiel['gNo'], $objCalendar->id, $arrSeason['h4a_liga'], $arrSpiel['gID']], );
 
                     // Update, wenn ModelObjekt existiert
                     if (null !== $objEvent) {
@@ -123,12 +123,14 @@ class H4aEventAutomator extends Backend
                         $objEvent->author = $objCalendar->h4aEvents_author;
                         $objEvent->source = 'default';
                         $objEvent->addTime = true;
-                        
+
                         // Check, if class ID or name changed
-                        if ($arrSpiel['gClassID'] !== $objEvent->gClassID ||
-                            $arrSpiel['gClassSname'] !== $objEvent->gClassname) {
-                                $objEvent->gClassName = $arrSpiel['gClassSname'];
-                                $objEvent->gClassID = $arrSpiel['gClassID'];
+                        if (
+                            $arrSpiel['gClassID'] !== $objEvent->gClassID
+                            || $arrSpiel['gClassSname'] !== $objEvent->gClassname
+                        ) {
+                            $objEvent->gClassName = $arrSpiel['gClassSname'];
+                            $objEvent->gClassID = $arrSpiel['gClassID'];
                             $isChanged = true;
                         }
 
@@ -137,22 +139,24 @@ class H4aEventAutomator extends Backend
                             $objEvent->startTime = $dateTime;
                             $objEvent->endTime = $dateTime + 5400;
                             $isChanged = true;
-                        } 
+                        }
 
                         // Check, if Day changed
                         if ($dateDay !== $objEvent->startDate) {
                             $objEvent->startDate = $dateDay;
                             $isChanged = true;
                         }
-                        
+
                         // Check, if Teams changed
-                        if ($objEvent->gHomeTeam !== $arrSpiel['gHomeTeam'] ||
-                            $objEvent->gHomeTeam !== $arrSpiel['gHomeTeam']) {
-                                $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
-                                $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
-                                $isChanged = true;
+                        if (
+                            $objEvent->gHomeTeam !== $arrSpiel['gHomeTeam']
+                            || $objEvent->gHomeTeam !== $arrSpiel['gHomeTeam']
+                        ) {
+                            $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
+                            $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
+                            $isChanged = true;
                         }
-                        
+
                         // Check, if gGymnasiumNo changed
                         if ($objEvent->gGymnasiumNo !== $arrSpiel['gGymnasiumNo']) {
                             $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
@@ -164,7 +168,7 @@ class H4aEventAutomator extends Backend
                             $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
                             $isChanged = true;
                         }
-                        
+
                         // Check, if gComment changed
                         if ($objEvent->gComment !== $arrSpiel['gComment']) {
                             $objEvent->gComment = $arrSpiel['gComment'];
@@ -172,15 +176,17 @@ class H4aEventAutomator extends Backend
                         }
 
                         // Check, if result changed
-                        if ($objEvent->gHomeGoals = $arrSpiel['gHomeGoals'] || 
-                            $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'] || 
-                            $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1']  || 
-                            $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1']) {
-                                $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
-                                $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
-                                $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
-                                $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
-                                $isChanged = true;
+                        if (
+                            $objEvent->gHomeGoals = $arrSpiel['gHomeGoals']
+                            || $objEvent->gGuestGoals = $arrSpiel['gGuestGoals']
+                            || $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1']
+                            || $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1']
+                        ) {
+                            $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
+                            $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
+                            $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
+                            $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
+                            $isChanged = true;
                         }
 
                         if (' ' !== $arrSpiel['gHomeGoals'] && ' ' !== $arrSpiel['gGuestGoals']) {
@@ -188,19 +194,18 @@ class H4aEventAutomator extends Backend
                         } else {
                             $objEvent->h4a_resultComplete = false;
                         }
-                        
-                        if ($isChanged == true) {
 
-                            //save Event
+                        if (true === $isChanged) {
+                            // save Event
                             $objEvent->save();
 
                             // log, that event was changed
                             System::getContainer()
                                 ->get('monolog.logger.contao.cron')
-                                ->info('Event für Spiel '.$arrSpiel['gClassSname'].": ".$arrSpiel['gHomeTeam'].": ".$arrSpiel['gGuestTeam']." (gID: ".$objEvent->gGameID.') über Handball4all aktualisiert')
+                                ->info('Event für Spiel '.$arrSpiel['gClassSname'].': '.$arrSpiel['gHomeTeam'].': '.$arrSpiel['gGuestTeam'].' (gID: '.$objEvent->gGameID.') über Handball4all aktualisiert')
                             ;
 
-                            // Invalidate CacheTag for Event 
+                            // Invalidate CacheTag for Event
                             $this->entityCacheTags->invalidateTagsFor($objEvent);
                         }
 
@@ -260,10 +265,10 @@ class H4aEventAutomator extends Backend
                             $objEvent->h4a_resultComplete = false;
                         }
 
-                        //save new Event
+                        // save new Event
                         $objEvent->save();
 
-                        // Invalidate CacheTag for Event 
+                        // Invalidate CacheTag for Event
                         $this->entityCacheTags->invalidateTagsFor($objEvent);
                     }
                 }
