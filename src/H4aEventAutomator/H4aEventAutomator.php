@@ -120,7 +120,6 @@ class H4aEventAutomator extends Backend
                         $dateTime = mktime((int) $arrTime[0], (int) $arrTime[1], 0, (int) $arrDate[1], (int) $arrDate[0], (int) $arrDate[2]);
 
                         $objEvent->h4a_season = $seasonID;
-                        $objEvent->gGameID = $arrSpiel['gID'];
                         $objEvent->author = $objCalendar->h4aEvents_author;
                         $objEvent->source = 'default';
                         $objEvent->addTime = true;
