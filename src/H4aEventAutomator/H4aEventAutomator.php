@@ -103,6 +103,8 @@ class H4aEventAutomator extends Backend
 
                     // Update, wenn ModelObjekt existiert
                     if (null !== $objEvent) {
+                        $isChanged = false;
+
                         $arrDate = explode('.', $arrSpiel['gDate']);
 
                         if (!isset($arrDate[0]) || !isset($arrDate[1]) || !isset($arrDate[2])) {
@@ -148,8 +150,21 @@ class H4aEventAutomator extends Backend
                         } else {
                             $objEvent->h4a_resultComplete = false;
                         }
+                        
+                        if ($isChanged == true) {
 
-                        $objEvent->save();
+                            //save Event
+                            $objEvent->save();
+
+                            // log, that event was changed
+                            System::getContainer()
+                                ->get('monolog.logger.contao.cron')
+                                ->info('Event für Spiel '.$arrSpiel['gClassSname'].": ".$arrSpiel['gHomeTeam'].": ".$arrSpiel['gGuestTeam']." (gID: ".$objEvent->gGameID.') über Handball4all aktualisiert')
+                            ;
+
+                            // Invalidate CacheTag for Event 
+                            $this->entityCacheTags->invalidateTagsFor($objEvent);
+                        }
 
                         // Create Event, wenn ModelObjekt existiert
                     } else {
