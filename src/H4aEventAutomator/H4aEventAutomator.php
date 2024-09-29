@@ -123,7 +123,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->author = $objCalendar->h4aEvents_author;
                         $objEvent->source = 'default';
                         $objEvent->addTime = true;
-                        $objEvent->published = true;
+                        
                         // Check, if class ID or name changed
                         if ($arrSpiel['gClassID'] !== $objEvent->gClassID ||
                             $arrSpiel['gClassSname'] !== $objEvent->gClassname) {
