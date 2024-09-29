@@ -12,11 +12,12 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Command;
 
-use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
-use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CalendarEventsModel;
 use Janborg\H4aTabellen\Helper\Helper;
+use Contao\CoreBundle\Cache\EntityCacheTags;
 use Symfony\Component\Console\Command\Command;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -32,7 +33,7 @@ class H4aUpdateResultsCommand extends Command
      */
     protected static $defaultDescription = 'Update results for all H4a-Events';
 
-    public function __construct(private ContaoFramework $framework)
+    public function __construct(private ContaoFramework $framework, private EntityCacheTags $entityCacheTags)
     {
         parent::__construct();
     }
@@ -123,6 +124,10 @@ class H4aUpdateResultsCommand extends Command
                     '<info>Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].' erhalten</info>',
                     '',
                 ]);
+
+                // Invalidate CacheTag for Event 
+                $this->entityCacheTags->invalidateTagsFor($objEvent);
+
             } else {
                 $objEvent->h4a_resultComplete = false;
 
