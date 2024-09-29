@@ -12,16 +12,17 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Backend;
 
+use Contao\System;
 use Contao\Backend;
 use Contao\BackendUser;
-use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
-use Contao\System;
+use Contao\CalendarEventsModel;
 use Janborg\H4aTabellen\Helper\Helper;
+use Contao\CoreBundle\Cache\EntityCacheTags;
 
 class UpdateH4aResultsController extends Backend
 {
-    public function __construct()
+    public function __construct(private EntityCacheTags $entityCacheTags)
     {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
@@ -79,11 +80,16 @@ class UpdateH4aResultsController extends Backend
                 $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
                 $objEvent->h4a_resultComplete = true;
                 $objEvent->save();
-
+                
+                // Log the updated Event 
                 System::getContainer()
                     ->get('monolog.logger.contao.general')
                     ->info('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].' für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' erhalten.')
                 ;
+
+                // Invalidate CacheTag for Event 
+                $this->entityCacheTags->invalidateTagsFor($objEvent);
+
             } else {
                 $objEvent->h4a_resultComplete = false;
 
