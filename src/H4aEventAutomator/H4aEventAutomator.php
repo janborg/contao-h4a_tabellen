@@ -123,26 +123,65 @@ class H4aEventAutomator extends Backend
                         $objEvent->author = $objCalendar->h4aEvents_author;
                         $objEvent->source = 'default';
                         $objEvent->addTime = true;
-                        $objEvent->startTime = $dateTime;
-                        $objEvent->endTime = $dateTime + 5400;
-                        $objEvent->startDate = $dateDay;
-                        $objEvent->gClassID = $arrSpiel['gClassID'];
-                        $objEvent->gClassName = $arrSpiel['gClassSname'];
-                        $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
-                        $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
-                        $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
-                        $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
-                        $objEvent->location = $arrSpiel['gGymnasiumName'];
-                        $objEvent->address = $arrSpiel['gGymnasiumStreet'].', '.$arrSpiel['gGymnasiumPostal'].' '.$arrSpiel['gGymnasiumTown'];
-                        $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
-                        $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
-                        $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
-                        $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
-                        $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
-                        $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
-                        $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
-                        $objEvent->gComment = $arrSpiel['gComment'];
                         $objEvent->published = true;
+                        // Check, if class ID or name changed
+                        if ($arrSpiel['gClassID'] !== $objEvent->gClassID ||
+                            $arrSpiel['gClassSname'] !== $objEvent->gClassname) {
+                                $objEvent->gClassName = $arrSpiel['gClassSname'];
+                                $objEvent->gClassID = $arrSpiel['gClassID'];
+                            $isChanged = true;
+                        }
+
+                        // Check, if startTime changed
+                        if ($dateTime !== $objEvent->startTime) {
+                            $objEvent->startTime = $dateTime;
+                            $objEvent->endTime = $dateTime + 5400;
+                            $isChanged = true;
+                        } 
+
+                        // Check, if Day changed
+                        if ($dateDay !== $objEvent->startDate) {
+                            $objEvent->startDate = $dateDay;
+                            $isChanged = true;
+                        }
+                        
+                        // Check, if Teams changed
+                        if ($objEvent->gHomeTeam !== $arrSpiel['gHomeTeam'] ||
+                            $objEvent->gHomeTeam !== $arrSpiel['gHomeTeam']) {
+                                $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
+                                $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
+                                $isChanged = true;
+                        }
+                        
+                        // Check, if gGymnasiumNo changed
+                        if ($objEvent->gGymnasiumNo !== $arrSpiel['gGymnasiumNo']) {
+                            $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
+                            $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
+                            $objEvent->location = $arrSpiel['gGymnasiumName'];
+                            $objEvent->address = $arrSpiel['gGymnasiumStreet'].', '.$arrSpiel['gGymnasiumPostal'].' '.$arrSpiel['gGymnasiumTown'];
+                            $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
+                            $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
+                            $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
+                            $isChanged = true;
+                        }
+                        
+                        // Check, if gComment changed
+                        if ($objEvent->gComment !== $arrSpiel['gComment']) {
+                            $objEvent->gComment = $arrSpiel['gComment'];
+                            $isChanged = true;
+                        }
+
+                        // Check, if result changed
+                        if ($objEvent->gHomeGoals = $arrSpiel['gHomeGoals'] || 
+                            $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'] || 
+                            $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1']  || 
+                            $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1']) {
+                                $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
+                                $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
+                                $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
+                                $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
+                                $isChanged = true;
+                        }
 
                         if (' ' !== $arrSpiel['gHomeGoals'] && ' ' !== $arrSpiel['gGuestGoals']) {
                             $objEvent->h4a_resultComplete = true;
