@@ -17,6 +17,7 @@ services:
         class: Janborg\H4aTabellen\Command\H4aUpdateResultsCommand
         arguments:
             - '@contao.framework'
+            - '@contao.cache.entity_tags'
         tags: 
             - "console.command"
 
@@ -31,5 +32,6 @@ services:
         class: Janborg\H4aTabellen\Command\H4aUpdateEventsCommand
         arguments:
             - '@contao.framework'
+            - '@contao.cache.entity_tags'
         tags: 
             - "console.command"

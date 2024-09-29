@@ -31,7 +31,7 @@ class H4aUpdateEventsCommand extends Command
      */
     protected static $defaultDescription = 'Update all Events from h4a';
 
-    public function __construct(private ContaoFramework $framework)
+    public function __construct(private ContaoFramework $framework, private H4aEventAutomator $h4aEventAutomator)
     {
         parent::__construct();
     }
@@ -79,9 +79,7 @@ class H4aUpdateEventsCommand extends Command
             ]);
             $output->writeln('Starte Update...');
 
-            $h4aeventautomator = new H4aEventAutomator();
-
-            $h4aeventautomator->syncCalendars($objCalendar);
+            $this->h4aEventAutomator->syncCalendars($objCalendar);
 
             $output->writeln([
                 '<info>Update des Kalenders über Handball4all durchgeführt.</info>',

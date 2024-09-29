@@ -8,6 +8,10 @@ services:
             calls:
                 - ['setFramework', ['@contao.framework']]
 
+    Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator:
+        arguments:
+            - '@contao.cache.entity_tags'
+
     h4atabellen.cron.updates:
         class: Janborg\H4aTabellen\Cron\H4aCron
         arguments:

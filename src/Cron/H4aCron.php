@@ -25,6 +25,7 @@ class H4aCron
     public function __construct(
         private ContaoFramework $framework,
         private EntityCacheTags $entityCacheTags,
+        private H4aEventAutomator $h4aEventAutomator,
     ) {
         $this->framework->initialize();
     }
@@ -37,9 +38,8 @@ class H4aCron
         );
 
         foreach ($objCalendars as $objCalendar) {
-            $h4aeventautomator = new H4aEventAutomator();
-
-            $h4aeventautomator->syncCalendars($objCalendar);
+            
+            $this->h4aEventAutomator->syncCalendars($objCalendar);
 
             System::getContainer()
                 ->get('monolog.logger.contao.cron')

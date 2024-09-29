@@ -15,6 +15,7 @@ namespace Janborg\H4aTabellen\H4aEventAutomator;
 use Contao\Backend;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
+use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
@@ -26,7 +27,7 @@ use Janborg\H4aTabellen\Model\H4aSeasonModel;
  */
 class H4aEventAutomator extends Backend
 {
-    public function __construct()
+    public function __construct(private EntityCacheTags $entityCacheTags)
     {
         parent::__construct();
     }
