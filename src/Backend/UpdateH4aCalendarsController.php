@@ -20,7 +20,7 @@ use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
 
 class UpdateH4aCalendarsController extends Backend
 {
-    public function __construct()
+    public function __construct(private H4aEventAutomator $h4aEventAutomator)
     {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
@@ -42,9 +42,7 @@ class UpdateH4aCalendarsController extends Backend
         }
 
         foreach ($objCalendars as $objCalendar) {
-            $h4aeventautomator = new H4aEventAutomator();
-
-            $h4aeventautomator->syncCalendars($objCalendar);
+            $this->h4aEventAutomator->syncCalendars($objCalendar);
         }
 
         System::getContainer()

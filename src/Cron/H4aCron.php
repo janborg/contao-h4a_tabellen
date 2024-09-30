@@ -14,6 +14,7 @@ namespace Janborg\H4aTabellen\Cron;
 
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
+use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\System;
 use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
@@ -21,8 +22,11 @@ use Janborg\H4aTabellen\Helper\Helper;
 
 class H4aCron
 {
-    public function __construct(private ContaoFramework $framework)
-    {
+    public function __construct(
+        private ContaoFramework $framework,
+        private EntityCacheTags $entityCacheTags,
+        private H4aEventAutomator $h4aEventAutomator,
+    ) {
         $this->framework->initialize();
     }
 
@@ -34,9 +38,7 @@ class H4aCron
         );
 
         foreach ($objCalendars as $objCalendar) {
-            $h4aeventautomator = new H4aEventAutomator();
-
-            $h4aeventautomator->syncCalendars($objCalendar);
+            $this->h4aEventAutomator->syncCalendars($objCalendar);
 
             System::getContainer()
                 ->get('monolog.logger.contao.cron')
@@ -88,10 +90,14 @@ class H4aCron
                 $objEvent->h4a_resultComplete = true;
                 $objEvent->save();
 
+                // log new result
                 System::getContainer()
                     ->get('monolog.logger.contao.cron')
                     ->info('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameID.' über Handball4all aktualisiert')
                 ;
+
+                // Invalidate CacheTag for Event
+                $this->entityCacheTags->invalidateTagsFor($objEvent);
             } else {
                 $objEvent->h4a_resultComplete = false;
 

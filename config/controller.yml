@@ -10,3 +10,16 @@ services:
     Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement: ~
 
     Janborg\H4aTabellen\Controller\ContentElement\H4aAktuelleSpieleElement: ~
+
+    Janborg\H4aTabellen\Backend\UpdateH4aResultsController:
+        public: true
+
+    Janborg\H4aTabellen\Backend\UpdateH4aEventsController:
+        public: true
+        arguments:
+            - '@h4atabellen.h4aeventautomator'
+
+    Janborg\H4aTabellen\Backend\UpdateH4aCalendarsController:
+        public: true
+        arguments:
+            - '@h4atabellen.h4aeventautomator'

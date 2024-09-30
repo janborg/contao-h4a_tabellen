@@ -1,17 +1,24 @@
 services:
     _defaults:
         autoconfigure: true
-        autowire: true
 
     _instanceof:
         Contao\CoreBundle\Framework\FrameworkAwareInterface:
             calls:
                 - ['setFramework', ['@contao.framework']]
 
+    h4atabellen.h4aeventautomator:
+        class: Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator
+        public: true
+        arguments:
+            - '@contao.framework'
+            - '@contao.cache.entity_tags'
+
     h4atabellen.cron.updates:
         class: Janborg\H4aTabellen\Cron\H4aCron
         arguments:
             - '@contao.framework'
+            - '@h4atabellen.h4aeventautomator'
         tags:
             -
                 name: contao.cronjob
