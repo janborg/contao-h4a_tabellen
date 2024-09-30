@@ -16,6 +16,10 @@ services:
 
     Janborg\H4aTabellen\Backend\UpdateH4aEventsController:
         public: true
+        arguments:
+            - '@h4atabellen.h4aeventautomator'
 
     Janborg\H4aTabellen\Backend\UpdateH4aCalendarsController:
         public: true
+        arguments:
+            - '@h4atabellen.h4aeventautomator'
