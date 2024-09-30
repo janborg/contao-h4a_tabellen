@@ -123,7 +123,7 @@ class H4aUpdateResultsCommand extends Command
                 $objEvent->save();
 
                 $output->writeln([
-                    '<info>Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].' erhalten</info>',
+                    '<info>Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') erhalten</info>',
                     '',
                 ]);
 
