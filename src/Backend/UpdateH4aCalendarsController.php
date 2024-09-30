@@ -42,7 +42,6 @@ class UpdateH4aCalendarsController extends Backend
         }
 
         foreach ($objCalendars as $objCalendar) {
-            
             $this->h4aEventAutomator->syncCalendars($objCalendar);
         }
 

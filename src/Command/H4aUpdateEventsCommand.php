@@ -31,8 +31,10 @@ class H4aUpdateEventsCommand extends Command
      */
     protected static $defaultDescription = 'Update all Events from h4a';
 
-    public function __construct(private ContaoFramework $framework, private H4aEventAutomator $h4aEventAutomator)
-    {
+    public function __construct(
+        private ContaoFramework $framework,
+        private H4aEventAutomator $h4aEventAutomator,
+    ) {
         parent::__construct();
     }
 

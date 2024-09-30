@@ -38,7 +38,6 @@ class H4aCron
         );
 
         foreach ($objCalendars as $objCalendar) {
-            
             $this->h4aEventAutomator->syncCalendars($objCalendar);
 
             System::getContainer()
