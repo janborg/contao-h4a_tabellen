@@ -129,8 +129,8 @@ class H4aEventAutomator extends Backend
 
                         // Check, if class ID or name changed
                         if (
-                            $arrSpiel['gClassID'] !== $objEvent->gClassID
-                            || $arrSpiel['gClassSname'] !== $objEvent->gClassname
+                            $arrSpiel['gClassID'] != $objEvent->gClassID
+                            || $arrSpiel['gClassSname'] != $objEvent->gClassname
                         ) {
                             $objEvent->gClassName = $arrSpiel['gClassSname'];
                             $objEvent->gClassID = $arrSpiel['gClassID'];
@@ -138,22 +138,22 @@ class H4aEventAutomator extends Backend
                         }
 
                         // Check, if startTime changed
-                        if ($dateTime !== $objEvent->startTime) {
+                        if ($dateTime != $objEvent->startTime) {
                             $objEvent->startTime = $dateTime;
                             $objEvent->endTime = $dateTime + 5400;
                             $isChanged = true;
                         }
 
                         // Check, if Day changed
-                        if ($dateDay !== $objEvent->startDate) {
+                        if ($dateDay != $objEvent->startDate) {
                             $objEvent->startDate = $dateDay;
                             $isChanged = true;
                         }
 
                         // Check, if Teams changed
                         if (
-                            $objEvent->gHomeTeam !== $arrSpiel['gHomeTeam']
-                            || $objEvent->gHomeTeam !== $arrSpiel['gHomeTeam']
+                            $objEvent->gHomeTeam != $arrSpiel['gHomeTeam']
+                            || $objEvent->gGuestTeam != $arrSpiel['gGuestTeam']
                         ) {
                             $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
                             $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
@@ -161,7 +161,7 @@ class H4aEventAutomator extends Backend
                         }
 
                         // Check, if gGymnasiumNo changed
-                        if ($objEvent->gGymnasiumNo !== $arrSpiel['gGymnasiumNo']) {
+                        if ($objEvent->gGymnasiumNo != $arrSpiel['gGymnasiumNo']) {
                             $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
                             $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
                             $objEvent->location = $arrSpiel['gGymnasiumName'];
@@ -173,17 +173,17 @@ class H4aEventAutomator extends Backend
                         }
 
                         // Check, if gComment changed
-                        if ($objEvent->gComment !== $arrSpiel['gComment']) {
+                        if ($objEvent->gComment != $arrSpiel['gComment']) {
                             $objEvent->gComment = $arrSpiel['gComment'];
                             $isChanged = true;
                         }
 
                         // Check, if result changed
                         if (
-                            $objEvent->gHomeGoals = $arrSpiel['gHomeGoals']
-                            || $objEvent->gGuestGoals = $arrSpiel['gGuestGoals']
-                            || $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1']
-                            || $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1']
+                            $objEvent->gHomeGoals != $arrSpiel['gHomeGoals']
+                            || $objEvent->gGuestGoals != $arrSpiel['gGuestGoals']
+                            || $objEvent->gHomeGoals_1 != $arrSpiel['gHomeGoals_1']
+                            || $objEvent->gGuestGoals_1 != $arrSpiel['gGuestGoals_1']
                         ) {
                             $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
                             $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
@@ -192,7 +192,7 @@ class H4aEventAutomator extends Backend
                             $isChanged = true;
                         }
 
-                        if (' ' !== $arrSpiel['gHomeGoals'] && ' ' !== $arrSpiel['gGuestGoals']) {
+                        if (' ' != $arrSpiel['gHomeGoals'] && ' ' != $arrSpiel['gGuestGoals']) {
                             $objEvent->h4a_resultComplete = true;
                         } else {
                             $objEvent->h4a_resultComplete = false;
@@ -204,7 +204,7 @@ class H4aEventAutomator extends Backend
 
                             // log, that event was changed
                             System::getContainer()
-                                ->get('monolog.logger.contao.cron')
+                                ->get('monolog.logger.contao.general')
                                 ->info('Event für Spiel '.$arrSpiel['gClassSname'].': '.$arrSpiel['gHomeTeam'].': '.$arrSpiel['gGuestTeam'].' (gID: '.$objEvent->gGameID.') über Handball4all aktualisiert')
                             ;
 
@@ -262,7 +262,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->gComment = $arrSpiel['gComment'];
                         $objEvent->published = true;
 
-                        if (' ' !== $arrSpiel['gHomeGoals'] && ' ' !== $arrSpiel['gGuestGoals']) {
+                        if (' ' != $arrSpiel['gHomeGoals'] && ' ' != $arrSpiel['gGuestGoals']) {
                             $objEvent->h4a_resultComplete = true;
                         } else {
                             $objEvent->h4a_resultComplete = false;
@@ -307,7 +307,7 @@ class H4aEventAutomator extends Backend
                 continue;
             }
 
-            if (' ' !== $games[$gameId]['gHomeGoals'] && ' ' !== $games[$gameId]['gGuestGoals']) {
+            if (' ' != $games[$gameId]['gHomeGoals'] && ' ' != $games[$gameId]['gGuestGoals']) {
                 $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
                 $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
                 $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
