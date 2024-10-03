@@ -41,7 +41,7 @@ class H4aLigaSpielplanElement extends AbstractContentElementController
     {
         if ($this->scopeMatcher->isBackendRequest($request)) {
             $template = new BackendTemplate('be_wildcard');
-            $template->wildcard = '## H4a Spielplan Liga ##';
+            $template->wildcard = 'H4a Spielplan (Liga-ID:'.$model->h4a_liga_ID.')';
 
             return new Response($template->parse());
         }

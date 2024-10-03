@@ -41,7 +41,7 @@ class H4aTabelleElement extends AbstractContentElementController
     {
         if ($this->scopeMatcher->isBackendRequest($request)) {
             $template = new BackendTemplate('be_wildcard');
-            $template->wildcard = '## H4a Tabelle ##';
+            $template->wildcard = 'H4a Tabelle (Liga-ID: '.$model->h4a_liga_ID.')';
 
             return new Response($template->parse());
         }
