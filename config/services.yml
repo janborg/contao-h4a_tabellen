@@ -18,6 +18,7 @@ services:
         class: Janborg\H4aTabellen\Cron\H4aCron
         arguments:
             - '@contao.framework'
+            - '@contao.cache.entity_tags'
             - '@h4atabellen.h4aeventautomator'
         tags:
             -
