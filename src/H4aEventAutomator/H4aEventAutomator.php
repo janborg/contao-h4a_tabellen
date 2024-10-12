@@ -132,7 +132,7 @@ class H4aEventAutomator extends Backend
                         // Check, if class ID or name changed
                         if (
                             $arrSpiel['gClassID'] !== $objEvent->gClassID
-                            || $arrSpiel['gClassSname'] !== $objEvent->gClassname
+                            || $arrSpiel['gClassSname'] !== $objEvent->gClassName
                         ) {
                             $objEvent->gClassName = $arrSpiel['gClassSname'];
                             $objEvent->gClassID = $arrSpiel['gClassID'];
