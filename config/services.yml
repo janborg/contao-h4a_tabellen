@@ -14,22 +14,40 @@ services:
             - '@contao.framework'
             - '@contao.cache.entity_tags'
 
-    h4atabellen.cron.updates:
-        class: Janborg\H4aTabellen\Cron\H4aCron
+    h4atabellen.cron.updateresults:
+        class: Janborg\H4aTabellen\Cron\UpdateH4aResultsCron
         arguments:
             - '@contao.framework'
             - '@contao.cache.entity_tags'
-            - '@h4atabellen.h4aeventautomator'
+            - '@monolog.logger.contao.cron'
         tags:
             -
                 name: contao.cronjob
                 interval: 'hourly'
                 method: updateResults
+                priority: 50
+    
+    h4atabellen.cron.updateevents:
+        class: Janborg\H4aTabellen\Cron\UpdateH4aEventsCron
+        arguments:
+            - '@contao.framework'
+            - '@h4atabellen.h4aeventautomator'
+            - '@monolog.logger.contao.cron'
+        tags:
             -
                 name: contao.cronjob
                 interval: 'hourly'
-                method: updateReports
+                method: updateEvents
+                priority: 10
+
+    h4atabellen.cron.updatereportno:
+        class: Janborg\H4aTabellen\Cron\UpdateH4aReportNoCron
+        arguments:
+            - '@contao.framework'
+            - '@monolog.logger.contao.cron'
+        tags:
             -
                 name: contao.cronjob
-                interval: "hourly"
-                method: updateEvents
+                interval: 'hourly'
+                method: updateReportNo
+                priority: 40

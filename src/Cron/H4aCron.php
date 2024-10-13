@@ -16,7 +16,7 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\System;
+use Contao\CoreBundle\Monolog\SystemLogger;
 use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
 use Janborg\H4aTabellen\Helper\Helper;
 
@@ -26,6 +26,7 @@ class H4aCron
         private ContaoFramework $framework,
         private EntityCacheTags $entityCacheTags,
         private H4aEventAutomator $h4aEventAutomator,
+        private SystemLogger $systemLogger,
     ) {
         $this->framework->initialize();
     }
@@ -40,8 +41,7 @@ class H4aCron
         foreach ($objCalendars as $objCalendar) {
             $this->h4aEventAutomator->syncCalendars($objCalendar);
 
-            System::getContainer()
-                ->get('monolog.logger.contao.cron')
+            $this->systemLogger
                 ->info('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.')
             ;
         }
@@ -57,6 +57,10 @@ class H4aCron
                 'having' => 'h4a_season__h4a_ignore = 0',
             ],
         );
+
+        if (null === $objEvents) {
+            return;
+        }
 
         foreach ($objEvents as $objEvent) {
             if ($objEvent->startTime > time() || '00:00' === date('H:i', (int) $objEvent->startTime)) {
@@ -91,8 +95,7 @@ class H4aCron
                 $objEvent->save();
 
                 // log new result
-                System::getContainer()
-                    ->get('monolog.logger.contao.cron')
+                $this->systemLogger
                     ->info('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameID.' über Handball4all aktualisiert')
                 ;
 
@@ -101,8 +104,7 @@ class H4aCron
             } else {
                 $objEvent->h4a_resultComplete = false;
 
-                System::getContainer()
-                    ->get('monolog.logger.contao.cron')
+                $this->systemLogger
                     ->info('Ergebnis für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') über Handball4all geprüft, kein Ergebnis vorhanden')
                 ;
             }
@@ -131,13 +133,11 @@ class H4aCron
                 $objEvent->sGID = $sGID;
                 $objEvent->save();
 
-                System::getContainer()
-                    ->get('monolog.logger.contao.cron')
+                $this->systemLogger
                     ->info('Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') über Handball4all gespeichert')
                 ;
             } else {
-                System::getContainer()
-                    ->get('monolog.logger.contao.cron')
+                $this->systemLogger
                     ->info('Report Nr. für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') konnte nicht ermittelt werden')
                 ;
             }
