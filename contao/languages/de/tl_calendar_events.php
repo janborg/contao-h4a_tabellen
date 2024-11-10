@@ -12,14 +12,20 @@ declare(strict_types=1);
 
 $GLOBALS['TL_LANG']['tl_calendar_events']['update_h4a_events'] = 'Update H4a-Events';
 
-$GLOBALS['TL_LANG']['tl_calendar_events']['h4a_legend'] = 'Spiel-Nr. Klasse und Mannschaften';
+$GLOBALS['TL_LANG']['tl_calendar_events']['h4a_legend'] = 'Spiel Nr. Klasse und Mannschaften';
 $GLOBALS['TL_LANG']['tl_calendar_events']['gymnasium_legend'] = 'Halleninformationen';
 $GLOBALS['TL_LANG']['tl_calendar_events']['result_legend'] = 'Halbzeit- und Endergebnis';
 
-$GLOBALS['TL_LANG']['tl_calendar_events']['gGameNo']['0'] = 'Spielnummer';
+$GLOBALS['TL_LANG']['tl_calendar_events']['gGameNo']['0'] = 'Spiel Nr.';
 $GLOBALS['TL_LANG']['tl_calendar_events']['gGameNo']['1'] = 'Wird automatisch beim Update über handball4all gesetzt';
 
-$GLOBALS['TL_LANG']['tl_calendar_events']['gClassName']['0'] = 'Spielklasse';
+$GLOBALS['TL_LANG']['tl_calendar_events']['gGameID']['0'] = 'Spiel ID';
+$GLOBALS['TL_LANG']['tl_calendar_events']['gGameID']['1'] = 'Wird automatisch beim Update über handball4all gesetzt';
+
+$GLOBALS['TL_LANG']['tl_calendar_events']['gClassID']['0'] = 'ID Spielklasse';
+$GLOBALS['TL_LANG']['tl_calendar_events']['gClassID']['1'] = 'Wird automatisch beim Update über handball4all gesetzt';
+
+$GLOBALS['TL_LANG']['tl_calendar_events']['gClassName']['0'] = 'Name Spielklasse';
 $GLOBALS['TL_LANG']['tl_calendar_events']['gClassName']['1'] = 'Wird automatisch beim Update über handball4all gesetzt';
 
 $GLOBALS['TL_LANG']['tl_calendar_events']['gHomeTeam']['0'] = 'Heimmmannschaft';
