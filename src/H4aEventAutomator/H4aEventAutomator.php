@@ -100,11 +100,34 @@ class H4aEventAutomator extends Backend
             } else {
                 $arrSpiele = $arrResultSpielplan['dataList'];
 
+                // Delete events, when sGID does not exist in $arrSpiele
+                $objEvents = CalendarEventsModel::findBy(
+                    ['pid=?', 'gClassID=?'],
+                    [$objCalendar->id, $arrSeason['h4a_liga']],
+                );
+
+                foreach ($objEvents as $event) {
+                    // prüfen, ob GameID des Events in aktuellem Spielplan existiert
+                    $existingEvent = array_filter(
+                        $arrSpiele,
+                        static fn ($spiel) => $event->gGameID === $spiel['gID'],
+                    );
+                    if (empty($existingEvent)) {
+                        $event->delete();
+                        System::getContainer()
+                            ->get('monolog.logger.contao.general')
+                            ->info('Event '.$event->gClassname.': '.$event->gHomeTeam.': '.$event->gGuestTeam.' (gID: '.$event->gGameID.') wurde gelöscht')
+                        ;
+                    }
+                    unset($existingEvent);
+                }
+
                 // Update or Create Event
                 foreach ($arrSpiele as $arrSpiel) {
                     $objEvent = CalendarEventsModel::findOneBy(
                         ['gGameNo=?', 'pid=?', 'gClassID=?', 'gGameID=?'],
-                        [$arrSpiel['gNo'], $objCalendar->id, $arrSeason['h4a_liga'], $arrSpiel['gID']], );
+                        [$arrSpiel['gNo'], $objCalendar->id, $arrSeason['h4a_liga'], $arrSpiel['gID']],
+                    );
 
                     // Update, wenn ModelObjekt existiert
                     if (null !== $objEvent) {
