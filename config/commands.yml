@@ -18,20 +18,13 @@ services:
         arguments:
             - '@contao.framework'
             - '@contao.cache.entity_tags'
-        tags: 
-            - "console.command"
 
     h4a.command.updateReports:
         class: Janborg\H4aTabellen\Command\H4aUpdateReportsCommand
         arguments:
             - '@contao.framework'
-        tags: 
-            - "console.command"
-
     h4a.command.updateEvents:
         class: Janborg\H4aTabellen\Command\H4aUpdateEventsCommand
         arguments:
             - '@contao.framework'
             - '@h4atabellen.h4aeventautomator'
-        tags: 
-            - "console.command"
