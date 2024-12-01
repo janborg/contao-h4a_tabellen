@@ -76,7 +76,8 @@
             "contao-community-alliance/composer-plugin": true,
             "contao/manager-plugin": true,
             "bamarni/composer-bin-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "terminal42/contao-build-tools": true
         }
     },
     "scripts": {
