@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Command;
 
-use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
+use Contao\CalendarEventsModel;
+use Janborg\H4aTabellen\Helper\Helper;
 use Contao\CoreBundle\Cache\EntityCacheTags;
+use Symfony\Component\Console\Command\Command;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -22,6 +24,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'h4a:update:results',
+    description: 'Update results for all H4a-Events',
+)]
 #[AsCommand(
     name: 'h4a:update:results',
     description: 'Update results for all H4a-Events',
