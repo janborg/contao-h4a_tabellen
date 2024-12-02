@@ -18,6 +18,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "ext-curl": "*",
         "contao/core-bundle": "^4.13 || ^5.3",
         "contao/calendar-bundle": "^4.13 || ^5.3",
         "codefog/contao-haste": "^5.0",
