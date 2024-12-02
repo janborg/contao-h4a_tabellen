@@ -1,11 +1,10 @@
 name: CI
 
 on:
+  pull_request: ~
   push:
     branches:
       - '*.x'
-  schedule:
-    - cron: "0 18 15 * *"
 
 jobs:
   ecs:
@@ -26,7 +25,7 @@ jobs:
         run: composer install --no-interaction --no-suggest
 
       - name: Check the coding style
-        run: vendor/bin/ecs check src tests --config ecs.php --ansi --fix
+        run: vendor/bin/ecs check src tests --config ecs.php --ansi --no-progress-bar
 
   phpstan:
     name: phpstan
