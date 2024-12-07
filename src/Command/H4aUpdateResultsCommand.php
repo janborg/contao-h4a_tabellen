@@ -16,6 +16,7 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Janborg\H4aTabellen\Helper\Helper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,6 +37,7 @@ class H4aUpdateResultsCommand extends Command
     public function __construct(
         private ContaoFramework $framework,
         private EntityCacheTags $entityCacheTags,
+        private H4aApiHelper $h4aApiHelper,
     ) {
         parent::__construct();
     }
@@ -96,9 +98,9 @@ class H4aUpdateResultsCommand extends Command
 
             $objCalendar = CalendarModel::findById($objEvent->pid);
 
-            $h4a_team_ID = Helper::getH4ateamFromH4aSeasons($objCalendar, $objEvent);
+            $h4a_team_ID = $this->h4aApiHelper->getH4ateamFromH4aSeasons($objCalendar, $objEvent);
 
-            $arrResult = Helper::getJsonSpielplan($h4a_team_ID);
+            $arrResult = $this->h4aApiHelper->setLvIDNext($h4a_team_ID)->getSpielplanForTeamID();
 
             if (!isset($arrResult['dataList'][0])) {
                 $output->writeln([
