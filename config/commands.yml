@@ -12,12 +12,14 @@ services:
         arguments:
             - '@contao.framework'
             - '%kernel.project_dir%'
+            - '@h4atabellen.h4aapihelper'
     
     h4a.command.updateResults:
         class: Janborg\H4aTabellen\Command\H4aUpdateResultsCommand
         arguments:
             - '@contao.framework'
             - '@contao.cache.entity_tags'
+            - '@h4atabellen.h4aapihelper'
         tags: 
             - "console.command"
 
@@ -25,6 +27,7 @@ services:
         class: Janborg\H4aTabellen\Command\H4aUpdateReportsCommand
         arguments:
             - '@contao.framework'
+            - '@h4atabellen.h4aapihelper'
         tags: 
             - "console.command"
 

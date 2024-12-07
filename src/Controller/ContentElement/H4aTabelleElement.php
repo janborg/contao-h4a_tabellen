@@ -19,7 +19,7 @@ use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\ServiceAnnotation\ContentElement;
 use Contao\System;
 use Contao\Template;
-use Janborg\H4aTabellen\Helper\Helper;
+use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,8 +33,10 @@ class H4aTabelleElement extends AbstractContentElementController
 {
     public const TYPE = 'h4a_tabelle';
 
-    public function __construct(private ScopeMatcher $scopeMatcher)
-    {
+    public function __construct(
+        private ScopeMatcher $scopeMatcher,
+        private H4aApiHelper $h4aApiHelper,
+    ) {
     }
 
     protected function getResponse(Template $template, ContentModel $model, Request $request): Response
@@ -46,7 +48,7 @@ class H4aTabelleElement extends AbstractContentElementController
             return new Response($template->parse());
         }
 
-        $arrResult = Helper::getJsonTabelle($model->h4a_liga_ID);
+        $arrResult = $this->h4aApiHelper->setLvIDNext($model->h4a_liga_ID)->getTabelleForClassID();
         $lastUpdate = time();
 
         $template->teams = $arrResult['dataList'];
