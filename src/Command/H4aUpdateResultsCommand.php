@@ -17,7 +17,6 @@ use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
-use Janborg\H4aTabellen\Helper\Helper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

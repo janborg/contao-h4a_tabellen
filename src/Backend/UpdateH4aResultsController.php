@@ -19,12 +19,13 @@ use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\System;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
-use Janborg\H4aTabellen\Helper\Helper;
 
 class UpdateH4aResultsController extends Backend
 {
-    public function __construct(private EntityCacheTags $entityCacheTags, private H4aApiHelper $h4aApiHelper)
-    {
+    public function __construct(
+        private EntityCacheTags $entityCacheTags,
+        private H4aApiHelper $h4aApiHelper,
+    ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
     }
@@ -61,7 +62,7 @@ class UpdateH4aResultsController extends Backend
 
             $arrResult = $this->h4aApiHelper
                 ->setLvIDNext($h4a_team_ID)
-                ->getSpielplanForClassID
+                ->getSpielplanForClassID()
             ;
 
             if (!isset($arrResult['dataList'][0])) {

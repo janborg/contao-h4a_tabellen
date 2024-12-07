@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Helper;
 
+use Contao\CalendarEventsModel;
+use Contao\CalendarModel;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
 
@@ -28,7 +30,7 @@ final class H4aApiHelper
     private string $request_url;
 
     public function __construct(
-        private $baseUrl = 'https://api.h4a.mobi/spo/spo-proxy_public.php',
+        private string $baseUrl = 'https://api.h4a.mobi/spo/spo-proxy_public.php',
     ) {
     }
 
@@ -44,6 +46,9 @@ final class H4aApiHelper
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getSpielplanForTeamID()
     {
         $this->setLvTypeNext('team');
@@ -55,6 +60,9 @@ final class H4aApiHelper
         return $response[0];
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getSpielplanForClassID()
     {
         $this->setLvTypeNext('class');
@@ -66,6 +74,9 @@ final class H4aApiHelper
         return $response[0];
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getSpielplanForClubID()
     {
         $this->setLvTypeNext('club');
@@ -77,6 +88,9 @@ final class H4aApiHelper
         return $response[0];
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getTabelleForClassID()
     {
         $this->setLvTypeNext('class');
@@ -141,6 +155,20 @@ final class H4aApiHelper
         return $game[0][10]['sGID'] ?? null;
     }
 
+    public function getH4ateamFromH4aSeasons(CalendarModel $objCalendar, CalendarEventsModel $objEvent): string
+    {
+        $arrSeasons = unserialize($objCalendar->h4a_seasons);
+
+        $season = array_filter(
+            $arrSeasons,
+            static fn ($season) => $season['h4a_saison'] === $objEvent->h4a_season,
+        );
+
+        $season = array_values($season);
+
+        return $season[0]['h4a_team'];
+    }
+
     /**
      * @param string $baseUrl
      *
@@ -149,18 +177,6 @@ final class H4aApiHelper
     private function setbaseUrl($baseUrl)
     {
         $this->baseUrl = $baseUrl;
-
-        return $this;
-    }
-
-    /**
-     * @param string $cmd
-     *
-     * @return H4aApiHelper
-     */
-    private function setCmd($cmd)
-    {
-        $this->cmd = $cmd;
 
         return $this;
     }
@@ -178,17 +194,8 @@ final class H4aApiHelper
     }
 
     /**
-     * @param string $subType
-     *
-     * @return H4aApiHelper
+     * @return array<mixed>
      */
-    private function setSubType($subType)
-    {
-        $this->subType = $subType;
-
-        return $this;
-    }
-
     private function getResponse(): array
     {
         $httpClient = HttpClient::create();
@@ -198,24 +205,6 @@ final class H4aApiHelper
             $this->request_url,
         );
 
-        $statusCode = $response->getStatusCode();
-
-        $contentType = $response->getHeaders()['content-type'][0];
-
         return $response->toArray();
-    }
-
-    public function getH4ateamFromH4aSeasons(CalendarModel $objCalendar, CalendarEventsModel $objEvent): string
-    {
-        $arrSeasons = unserialize($objCalendar->h4a_seasons);
-
-        $season = array_filter(
-            $arrSeasons,
-            static fn ($season) => $season['h4a_saison'] === $objEvent->h4a_season,
-        );
-
-        $season = array_values($season);
-
-        return $season[0]['h4a_team'];
     }
 }
