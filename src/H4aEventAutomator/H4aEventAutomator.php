@@ -20,6 +20,7 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Input;
 use Contao\StringUtil;
 use Contao\System;
+use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Janborg\H4aTabellen\Helper\Helper;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
 
@@ -31,6 +32,7 @@ class H4aEventAutomator extends Backend
     public function __construct(
         private ContaoFramework $contaoFramework,
         private EntityCacheTags $entityCacheTags,
+        private H4aApiHelper $h4aApiHelper,
     ) {
         $this->contaoFramework->initialize();
         parent::__construct();
@@ -88,8 +90,16 @@ class H4aEventAutomator extends Backend
         foreach ($arrSeasons as $arrSeason) {
             $seasonID = H4aSeasonModel::findById($arrSeason['h4a_saison'])->id;
 
-            $arrResultSpielplan = Helper::getJsonSpielplan($arrSeason['h4a_team']);
-            $arrResultTabelle = Helper::getJsonTabelle($arrResultSpielplan['dataList'][0]['gClassID']);
+            $arrResultSpielplan = $this->h4aApiHelper
+                ->setLvIDNext($arrSeason['h4a_team'])
+                ->getSpielplanForTeamID()
+            ;
+
+            $arrResultTabelle = $this->h4aApiHelper
+                ->setLvIDNext($arrResultSpielplan['dataList'][0]['gClassID'])
+                ->getTabelleForClassID()
+            ;
+
             Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
 
             if ('/ [error]' === $arrResultSpielplan['lvTypeLabelStr']) {
@@ -322,7 +332,10 @@ class H4aEventAutomator extends Backend
                 continue;
             }
 
-            $arrResult = Helper::getJsonLigaSpielplan($objEvent->gClassID);
+            $arrResult = $this->h4aApiHelper
+                ->setLvIDNext($objEvent->gClassID)
+                ->getTabelleForClassID()
+            ;
 
             $games = $arrResult['dataList'];
 
@@ -385,7 +398,7 @@ class H4aEventAutomator extends Backend
      */
     public function updateReportIdForEvent(CalendarEventsModel $objEvent): void
     {
-        $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
+        $sGID = $this->h4aApiHelper->getReportNo($objEvent->gClassID, $objEvent->gGameNo);
 
         if (isset($sGID) && null !== $sGID) {
             $objEvent->sGID = $sGID;
