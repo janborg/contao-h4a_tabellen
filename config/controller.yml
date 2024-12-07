@@ -1,18 +1,36 @@
 services:
     _defaults:
         autoconfigure: true
-        autowire: true
 
-    Janborg\H4aTabellen\Controller\ContentElement\H4aSpielplanElement: ~
+    Janborg\H4aTabellen\Controller\ContentElement\H4aSpielplanElement: 
+        public: true
+        arguments:
+            - '@contao.routing.scope_matcher'
+            - '@h4atabellen.h4aapihelper'
 
-    Janborg\H4aTabellen\Controller\ContentElement\H4aLigaSpielplanElement: ~
+    Janborg\H4aTabellen\Controller\ContentElement\H4aLigaSpielplanElement: 
+        public: true    
+        arguments:
+            - '@contao.routing.scope_matcher'
+            - '@h4atabellen.h4aapihelper'
 
-    Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement: ~
+    Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement: 
+        public: true
+        arguments:
+            - '@contao.routing.scope_matcher'
+            - '@h4atabellen.h4aapihelper'
 
-    Janborg\H4aTabellen\Controller\ContentElement\H4aAktuelleSpieleElement: ~
+    Janborg\H4aTabellen\Controller\ContentElement\H4aAktuelleSpieleElement: 
+        public: true
+        arguments:
+            - '@contao.routing.scope_matcher'
+            - '@h4atabellen.h4aapihelper'
 
     Janborg\H4aTabellen\Backend\UpdateH4aResultsController:
         public: true
+        arguments:
+            - '@contao.cache.entity_tags'
+            - '@h4atabellen.h4aapihelper'
 
     Janborg\H4aTabellen\Backend\UpdateH4aEventsController:
         public: true

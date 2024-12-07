@@ -18,11 +18,12 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\System;
+use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Janborg\H4aTabellen\Helper\Helper;
 
 class UpdateH4aResultsController extends Backend
 {
-    public function __construct(private EntityCacheTags $entityCacheTags)
+    public function __construct(private EntityCacheTags $entityCacheTags, private H4aApiHelper $h4aApiHelper)
     {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
@@ -56,9 +57,12 @@ class UpdateH4aResultsController extends Backend
 
             $objCalendar = CalendarModel::findById($objEvent->pid);
 
-            $h4a_team_ID = Helper::getH4ateamFromH4aSeasons($objCalendar, $objEvent);
+            $h4a_team_ID = $this->h4aApiHelper->getH4ateamFromH4aSeasons($objCalendar, $objEvent);
 
-            $arrResult = Helper::getJsonSpielplan($h4a_team_ID);
+            $arrResult = $this->h4aApiHelper
+                ->setLvIDNext($h4a_team_ID)
+                ->getSpielplanForClassID
+            ;
 
             if (!isset($arrResult['dataList'][0])) {
                 System::getContainer()
