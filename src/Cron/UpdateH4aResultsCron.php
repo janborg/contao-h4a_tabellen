@@ -17,7 +17,7 @@ use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\SystemLogger;
-use Janborg\H4aTabellen\Helper\Helper;
+use Janborg\H4aTabellen\Helper\H4aApiHelper;
 
 class UpdateH4aResultsCron
 {
@@ -25,6 +25,7 @@ class UpdateH4aResultsCron
         private ContaoFramework $framework,
         private EntityCacheTags $entityCacheTags,
         private SystemLogger $systemLogger,
+        private H4aApiHelper $h4aApiHelper,
     ) {
         $this->framework->initialize();
     }
@@ -51,9 +52,9 @@ class UpdateH4aResultsCron
 
             $objCalendar = CalendarModel::findById($objEvent->pid);
 
-            $h4a_team_ID = Helper::getH4ateamFromH4aSeasons($objCalendar, $objEvent);
+            $h4a_team_ID = $this->h4aApiHelper->getH4ateamFromH4aSeasons($objCalendar, $objEvent);
 
-            $arrResult = Helper::getJsonSpielplan($h4a_team_ID);
+            $arrResult = $this->h4aApiHelper->setLvIDNext($h4a_team_ID)->getSpielplanForTeamID();
 
             $games = $arrResult['dataList'];
 

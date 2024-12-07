@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\Command;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Janborg\H4aTabellen\Helper\Helper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -37,8 +38,10 @@ class H4aSpielplanCommand extends Command
      */
     protected static $defaultDescription = 'Show H4a Spielplan for given teamID';
 
-    public function __construct(private ContaoFramework $framework)
-    {
+    public function __construct(
+        private ContaoFramework $framework,
+        private H4aApiHelper $h4aApiHelper,
+    ) {
         parent::__construct();
     }
 
@@ -58,7 +61,10 @@ class H4aSpielplanCommand extends Command
 
         $teamID = $input->getArgument('teamID');
 
-        $arrResultSpielplan = Helper::getJsonSpielplan($teamID);
+        $arrResultSpielplan = $this->h4aApiHelper
+            ->setLvIDNext($teamID)
+            ->getSpielplanForTeamID()
+        ;
 
         $table = new Table($output);
         $table->setHeaders(['Datum', 'Uhrzeit', 'Heim', 'Gast', 'Ergebnis']);
@@ -87,7 +93,10 @@ class H4aSpielplanCommand extends Command
         $ligaID = $arrResultSpielplan['dataList'][0]['gClassID'] ?? null;
 
         if (null !== $ligaID) {
-            $arrResultTabelle = Helper::getJsonTabelle($ligaID);
+            $arrResultTabelle = $this->h4aApiHelper
+                ->setLvIDNext($$ligaID)
+                ->getTabelleForClassID()
+            ;
         } else {
             $output->writeln('<error>Keine Daten für Tabelle gefunden</error>');
 

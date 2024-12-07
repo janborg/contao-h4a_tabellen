@@ -14,7 +14,7 @@ namespace Janborg\H4aTabellen\Command;
 
 use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Janborg\H4aTabellen\Helper\Helper;
+use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,8 +26,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class H4aUpdateReportsCommand extends Command
 {
-    public function __construct(private ContaoFramework $framework)
-    {
+    public function __construct(
+        private ContaoFramework $framework,
+        private H4aApiHelper $h4aApiHelper,
+    ) {
         parent::__construct();
     }
 
@@ -73,7 +75,7 @@ class H4aUpdateReportsCommand extends Command
                 'Spiel '.$objEvent->gGameID.' '.$objEvent->title.':',
                 '-----------------------------------------------------',
             ]);
-            $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
+            $sGID = $this->h4aApiHelper->getReportNo($objEvent->gClassID, $objEvent->gGameNo);
 
             if (isset($sGID) && null !== $sGID) {
                 $objEvent->sGID = $sGID;
