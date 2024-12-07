@@ -17,7 +17,7 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Migration\AbstractMigration;
 use Contao\CoreBundle\Migration\MigrationResult;
 use Doctrine\DBAL\Connection;
-use Janborg\H4aTabellen\Helper\Helper;
+use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
 
 class H4aSeasonsMigration extends AbstractMigration
@@ -25,6 +25,7 @@ class H4aSeasonsMigration extends AbstractMigration
     public function __construct(
         private Connection $connection,
         private ContaoFramework $framework,
+        private H4aApiHelper $h4aApiHelper,
     ) {
     }
 
@@ -95,7 +96,7 @@ class H4aSeasonsMigration extends AbstractMigration
         );
 
         foreach ($objCalendars as $objCalendar) {
-            $arrH4aSpielplan = Helper::getJsonSpielplan($objCalendar->h4a_team_ID);
+            $arrH4aSpielplan = $this->h4aApiHelper->setLvIDNext($objCalendar->h4a_team_ID)->getSpielplanForTeamID();
 
             $objSeason = H4aSeasonModel::findby(['season=?'], [$objCalendar->h4a_season]);
 
