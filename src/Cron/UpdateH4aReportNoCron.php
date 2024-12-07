@@ -15,13 +15,14 @@ namespace Janborg\H4aTabellen\Cron;
 use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\SystemLogger;
-use Janborg\H4aTabellen\Helper\Helper;
+use Janborg\H4aTabellen\Helper\H4aApiHelper;
 
 class UpdateH4aReportNoCron
 {
     public function __construct(
         private ContaoFramework $framework,
         private SystemLogger $systemLogger,
+        private H4aApiHelper $h4aApiHelper,
     ) {
         $this->framework->initialize();
     }
@@ -42,7 +43,7 @@ class UpdateH4aReportNoCron
         }
 
         foreach ($objEvents as $objEvent) {
-            $sGID = Helper::getReportNo($objEvent->gClassID, $objEvent->gGameNo);
+            $sGID = $this->h4aApiHelper->getReportNo($objEvent->gClassID, $objEvent->gGameNo);
 
             if (isset($sGID) && null !== $sGID) {
                 $objEvent->sGID = $sGID;

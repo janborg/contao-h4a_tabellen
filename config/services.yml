@@ -20,6 +20,7 @@ services:
             - '@contao.framework'
             - '@contao.cache.entity_tags'
             - '@monolog.logger.contao.cron'
+            - '@h4atabellen.h4aapihelper'
         tags:
             -
                 name: contao.cronjob
@@ -45,6 +46,7 @@ services:
         arguments:
             - '@contao.framework'
             - '@monolog.logger.contao.cron'
+            - '@h4atabellen.h4aapihelper'
         tags:
             -
                 name: contao.cronjob
