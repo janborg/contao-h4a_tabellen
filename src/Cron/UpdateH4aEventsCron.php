@@ -22,7 +22,7 @@ class UpdateH4aEventsCron
     public function __construct(
         private ContaoFramework $framework,
         private H4aEventAutomator $h4aEventAutomator,
-        private SystemLogger $systemLogger,
+        private SystemLogger|null $systemLogger,
     ) {
         $this->framework->initialize();
     }
@@ -37,9 +37,7 @@ class UpdateH4aEventsCron
         foreach ($objCalendars as $objCalendar) {
             $this->h4aEventAutomator->syncCalendars($objCalendar);
 
-            $this->systemLogger
-                ->info('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.')
-            ;
+            $this->systemLogger?->info('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.');
         }
     }
 }

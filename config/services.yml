@@ -14,6 +14,7 @@ services:
             - '@contao.framework'
             - '@contao.cache.entity_tags'
             - '@h4atabellen.h4aapihelper'
+            - '@monolog.logger.contao.general'
     
     h4atabellen.h4aapihelper:
         class: Janborg\H4aTabellen\Helper\H4aApiHelper
