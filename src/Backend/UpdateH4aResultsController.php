@@ -17,7 +17,7 @@ use Contao\BackendUser;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
-use Contao\System;
+use Contao\CoreBundle\Monolog\SystemLogger;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
 
 class UpdateH4aResultsController extends Backend
@@ -25,6 +25,7 @@ class UpdateH4aResultsController extends Backend
     public function __construct(
         private EntityCacheTags $entityCacheTags,
         private H4aApiHelper $h4aApiHelper,
+        private SystemLogger|null $systemLogger,
     ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
@@ -38,10 +39,7 @@ class UpdateH4aResultsController extends Backend
         );
 
         if (null === $objEvents) {
-            System::getContainer()
-                ->get('monolog.logger.contao.general')
-                ->info('Es stehen für keine vergangenen Spiele die Ergebnisse aus.')
-            ;
+            $this->systemLogger?->info('Es stehen für keine vergangenen Spiele die Ergebnisse aus.');
 
             $this->redirect($this->getReferer());
 
@@ -66,10 +64,7 @@ class UpdateH4aResultsController extends Backend
             ;
 
             if (!isset($arrResult['dataList'][0])) {
-                System::getContainer()
-                    ->get('monolog.logger.contao.general')
-                    ->info('Spielplan für Team'.$objCalendar->h4a_team_ID.' ('.$objCalendar->title.') konnte nicht abgerufen werden. Datalist in json ist leer.')
-                ;
+                $this->systemLogger?->info('Spielplan für Team'.$objCalendar->h4a_team_ID.' ('.$objCalendar->title.') konnte nicht abgerufen werden. Datalist in json ist leer.');
 
                 continue;
             }
@@ -87,20 +82,14 @@ class UpdateH4aResultsController extends Backend
                 $objEvent->save();
 
                 // Log the updated Event
-                System::getContainer()
-                    ->get('monolog.logger.contao.general')
-                    ->info('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].' für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' erhalten.')
-                ;
+                $this->systemLogger?->info('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].' für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' erhalten.');
 
                 // Invalidate CacheTag for Event
                 $this->entityCacheTags->invalidateTagsFor($objEvent);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
-                System::getContainer()
-                    ->get('monolog.logger.contao.general')
-                    ->info('Ergebnis für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' über Handball4all geprüft, kein Ergebnis vorhanden.')
-                ;
+                $this->systemLogger?->info('Ergebnis für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' über Handball4all geprüft, kein Ergebnis vorhanden.');
             }
         }
 
