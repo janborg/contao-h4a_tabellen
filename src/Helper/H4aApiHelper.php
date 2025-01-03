@@ -152,7 +152,7 @@ final class H4aApiHelper
         );
         $game = array_values($game);
 
-        return $game[0][10]['sGID'] ?? null;
+        return $game[0][10]['sGID'] ?? '';
     }
 
     public function getH4ateamFromH4aSeasons(CalendarModel $objCalendar, CalendarEventsModel $objEvent): string
