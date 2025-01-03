@@ -35,9 +35,8 @@ class UpdateH4aCalendarsController extends Backend
         );
 
         if (null === $objCalendars) {
-
             Message::addInfo('Es wurden keine Kalender zum Update über H4a gefunden.');
-            
+
             $this->redirect($this->getReferer());
         }
 
