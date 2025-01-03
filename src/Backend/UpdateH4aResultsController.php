@@ -38,7 +38,6 @@ class UpdateH4aResultsController extends Backend
         );
 
         if (null === $objEvents) {
-
             Message::addInfo('Es stehen für keine vergangenen Spiele die Ergebnisse aus.');
 
             $this->redirect($this->getReferer());
@@ -80,7 +79,7 @@ class UpdateH4aResultsController extends Backend
 
                 // Add message for the updated Event
                 Message::addConfirmation('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].' für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' erhalten.');
-                
+
                 // Invalidate CacheTag for Event
                 $this->entityCacheTags->invalidateTagsFor($objEvent);
             } else {
