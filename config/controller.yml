@@ -31,16 +31,13 @@ services:
         arguments:
             - '@contao.cache.entity_tags'
             - '@h4atabellen.h4aapihelper'
-            - '@monolog.logger.contao.general'
 
     Janborg\H4aTabellen\Backend\UpdateH4aEventsController:
         public: true
         arguments:
             - '@h4atabellen.h4aeventautomator'
-            - '@monolog.logger.contao.general'
 
     Janborg\H4aTabellen\Backend\UpdateH4aCalendarsController:
         public: true
         arguments:
             - '@h4atabellen.h4aeventautomator'
-            - '@monolog.logger.contao.general'

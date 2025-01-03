@@ -15,14 +15,13 @@ namespace Janborg\H4aTabellen\Backend;
 use Contao\Backend;
 use Contao\BackendUser;
 use Contao\CalendarModel;
-use Contao\CoreBundle\Monolog\SystemLogger;
+use Contao\Message;
 use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
 
 class UpdateH4aCalendarsController extends Backend
 {
     public function __construct(
         private H4aEventAutomator $h4aEventAutomator,
-        private SystemLogger|null $systemLogger,
     ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
@@ -36,7 +35,9 @@ class UpdateH4aCalendarsController extends Backend
         );
 
         if (null === $objCalendars) {
-            $this->systemLogger?->info('Es wurden keine Kalender zum Update über H4a gefunden.');
+
+            Message::addInfo('Es wurden keine Kalender zum Update über H4a gefunden.');
+            
             $this->redirect($this->getReferer());
         }
 
@@ -44,7 +45,7 @@ class UpdateH4aCalendarsController extends Backend
             $this->h4aEventAutomator->syncCalendars($objCalendar);
         }
 
-        $this->systemLogger?->info('Update der Kalender über Handball4all durchgeführt.');
+        Message::addConfirmation('Update der Kalender über Handball4all durchgeführt.');
 
         $this->redirect($this->getReferer());
     }
