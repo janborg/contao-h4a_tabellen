@@ -105,17 +105,21 @@ class H4aEventAutomator extends Backend
                     [$objCalendar->id, $arrSeason['h4a_liga']],
                 );
 
-                foreach ($objEvents as $event) {
-                    // prüfen, ob GameID des Events in aktuellem Spielplan existiert
-                    $existingEvent = array_filter(
-                        $arrSpiele,
-                        static fn ($spiel) => $event->gGameID === $spiel['gID'],
-                    );
-                    if (empty($existingEvent)) {
-                        $event->delete();
-                        $this->systemLogger?->info('Event '.$event->gClassname.': '.$event->gHomeTeam.': '.$event->gGuestTeam.' (gID: '.$event->gGameID.') wurde gelöscht');
+                // Wenn Events im Kalender existieren, auf h4a, nicht mehr existierende Spiele löschen
+                if (null !== $objEvents) {
+                    foreach ($objEvents as $event) {
+                        // prüfen, ob GameID des Events in aktuellem Spielplan existiert
+                        $existingEvent = array_filter(
+                            $arrSpiele,
+                            static fn ($spiel) => $event->gGameID === $spiel['gID'],
+                        );
+                        // wenn nicht, Event löschen
+                        if (empty($existingEvent)) {
+                            $event->delete();
+                            $this->systemLogger?->info('Event '.$event->gClassname.': '.$event->gHomeTeam.': '.$event->gGuestTeam.' (gID: '.$event->gGameID.') wurde gelöscht');
+                        }
+                        unset($existingEvent);
                     }
-                    unset($existingEvent);
                 }
 
                 // Update or Create Event
