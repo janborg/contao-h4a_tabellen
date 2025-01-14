@@ -11,8 +11,9 @@ services:
         class: Janborg\H4aTabellen\Command\H4aSpielplanCommand
         arguments:
             - '@contao.framework'
-            - '%kernel.project_dir%'
             - '@h4atabellen.h4aapihelper'
+        tags: 
+            - "console.command"
     
     h4a.command.updateResults:
         class: Janborg\H4aTabellen\Command\H4aUpdateResultsCommand
