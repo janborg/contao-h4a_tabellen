@@ -94,7 +94,7 @@ class H4aSpielplanCommand extends Command
 
         if (null !== $ligaID) {
             $arrResultTabelle = $this->h4aApiHelper
-                ->setLvIDNext($$ligaID)
+                ->setLvIDNext($ligaID)
                 ->getTabelleForClassID()
             ;
         } else {
