@@ -26,10 +26,6 @@ use Symfony\Component\Console\Output\OutputInterface;
     name: 'h4a:update:results',
     description: 'Update results for all H4a-Events',
 )]
-#[AsCommand(
-    name: 'h4a:update:results',
-    description: 'Update results for all H4a-Events',
-)]
 class H4aUpdateResultsCommand extends Command
 {
     public function __construct(
