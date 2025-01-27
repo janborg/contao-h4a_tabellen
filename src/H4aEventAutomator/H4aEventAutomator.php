@@ -106,9 +106,8 @@ class H4aEventAutomator extends Backend
                 );
 
                 if (null !== $objEvents) {
-                    // Wenn Events im Kalender existieren, auf h4a, nicht mehr existierende Spiele löschen  
+                    // Wenn Events im Kalender existieren, auf h4a, nicht mehr existierende Spiele löschen
                     foreach ($objEvents as $event) {
-                      
                         // prüfen, ob GameID des Events in aktuellem Spielplan existiert
                         $existingEvent = array_filter(
                             $arrSpiele,
