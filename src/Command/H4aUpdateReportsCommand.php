@@ -26,6 +26,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class H4aUpdateReportsCommand extends Command
 {
+    /**
+     * @var string
+     */
+    protected static $defaultName = 'h4a:update:reports';
+
+    /**
+     * @var string
+     */
+    protected static $defaultDescription = 'Update ReportNo in all Events from h4a';
+
     public function __construct(
         private ContaoFramework $framework,
         private H4aApiHelper $h4aApiHelper,
