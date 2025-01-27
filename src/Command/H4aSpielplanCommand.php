@@ -28,16 +28,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class H4aSpielplanCommand extends Command
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'h4a:show:spielplan';
-
-    /**
-     * @var string
-     */
-    protected static $defaultDescription = 'Show H4a Spielplan for given teamID';
-
     public function __construct(
         private ContaoFramework $framework,
         private H4aApiHelper $h4aApiHelper,
