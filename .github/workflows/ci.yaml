@@ -1,11 +1,10 @@
 name: CI
 
 on:
+  pull_request: ~
   push:
     branches:
       - '*.x'
-  schedule:
-    - cron: "0 18 15 * *"
 
 jobs:
   ecs:
@@ -20,13 +19,13 @@ jobs:
           coverage: none
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install the dependencies
         run: composer install --no-interaction --no-suggest
 
       - name: Check the coding style
-        run: vendor/bin/ecs check src tests --config ecs.php --ansi --fix
+        run: vendor/bin/ecs check src tests --config ecs.php --ansi --no-progress-bar
 
   phpstan:
     name: phpstan
@@ -74,7 +73,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.1, 8.2, 8.3]
+        php: [8.1, 8.2, 8.3, 8.4]
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -84,7 +83,7 @@ jobs:
           coverage: none
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Install the dependencies
         run: composer install --no-interaction --no-suggest

@@ -17,22 +17,17 @@ use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'h4a:update:results',
+    description: 'Update results for all H4a-Events',
+)]
 class H4aUpdateResultsCommand extends Command
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'h4a:update:results';
-
-    /**
-     * @var string
-     */
-    protected static $defaultDescription = 'Update results for all H4a-Events';
-
     public function __construct(
         private ContaoFramework $framework,
         private EntityCacheTags $entityCacheTags,
