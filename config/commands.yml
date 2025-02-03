@@ -31,3 +31,20 @@ services:
         arguments:
             - '@contao.framework'
             - '@h4atabellen.h4aeventautomator'
+
+    h4a.command.showteams:
+        class: Janborg\H4aTabellen\Command\ShowTeamsCommand
+        arguments:
+            - '@contao.framework'
+            - '@h4atabellen.crawler.teamscrawler'
+            - '@h4atabellen.crawler.verbandscrawler'
+        tags: 
+            - "console.command"
+
+    h4a.command.showverbaende:
+        class: Janborg\H4aTabellen\Command\ShowVerbaendeCommand
+        arguments:
+            - '@contao.framework'
+            - '@h4atabellen.crawler.verbandscrawler'
+        tags: 
+            - "console.command"
