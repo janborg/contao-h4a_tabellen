@@ -59,3 +59,11 @@ services:
                 interval: 'hourly'
                 method: updateReportNo
                 priority: 40
+
+    h4atabellen.crawler.teamscrawler:
+        class: Janborg\H4aTabellen\Crawler\TeamsCrawler
+        public: true
+
+    h4atabellen.crawler.verbandscrawler:
+        class: Janborg\H4aTabellen\Crawler\VerbandsCrawler
+        public: true
