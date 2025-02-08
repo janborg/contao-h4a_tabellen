@@ -54,8 +54,9 @@ class ShowTeamsCommand extends Command
     {
         $this->setHelp('This command allows you to show all Teams for a club from handball.net.')
             ->addOption('clubID', null, InputOption::VALUE_REQUIRED , 'clubID from handball.net')
-            ->addOption('verband', null, InputOption::VALUE_REQUIRED , 'verband from handball.net')
-            ->addOption('season', null, InputOption::VALUE_REQUIRED , 'season from handball.net')
+            ->addOption('provider', null, InputOption::VALUE_REQUIRED, 'handball4all, nuliga oder sportradar')
+            ->addOption('verband', null, InputOption::VALUE_REQUIRED , 'verband from handball.net, z.B. baden')
+            ->addOption('season', null, InputOption::VALUE_REQUIRED , 'season from handball.net, z.B. 2024')
         ;
     }
 
@@ -65,6 +66,7 @@ class ShowTeamsCommand extends Command
 
         $io = new SymfonyStyle($input, $output);
 
+        // clubID
         $clubID = $input->getOption('clubID');
 
         if (!$clubID) {
@@ -74,6 +76,24 @@ class ShowTeamsCommand extends Command
 
         $this->teamsCrawler->setClubID($clubID);
 
+        //provider
+        $provider = $input->getOption('provider');
+
+        if(!$provider) {
+            $question = new ChoiceQuestion(
+                'Bitte wählen Sie den Provider des Vereins:',
+                ['handball4all', 'nuliga', 'sportradar'],
+                null
+            );
+
+            $question->setErrorMessage('Bitte gültigen Provider angeben');
+
+            $provider = $io->askQuestion($question);
+        }
+
+        $this->teamsCrawler->setProvider($provider);
+
+        //verband
         $verband = $input->getOption('verband');
 
         if (!$verband) {    
@@ -96,6 +116,7 @@ class ShowTeamsCommand extends Command
 
         $this->teamsCrawler->setVerbandName($verband);        
 
+        // season
         $season = $input->getOption('season');
 
         if ($season) {
@@ -113,7 +134,7 @@ class ShowTeamsCommand extends Command
         $io->info('Teams for ClubID: '.$clubID.' (Verband: '.$verband.'in der Saison: '.$season.')');
 
         $tablehome = new Table($output);
-        $tablehome->setHeaders(['TeamUrl', 'Team', 'TeamID']);
+        $tablehome->setHeaders(['TeamUrl', 'Team', 'TeamID', 'Provider', 'Verband']);
         $tablehome->setRows($teams);
         $tablehome->render();
 

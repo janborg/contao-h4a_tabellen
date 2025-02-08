@@ -21,6 +21,8 @@ class TeamsCrawler
 
     private string $clubID;
 
+    private string $provider;
+
     private string $season;
 
     private string $verbandName;
@@ -35,6 +37,11 @@ class TeamsCrawler
     public function setClubID(string $clubID): void
     {
         $this->clubID = $clubID;
+    }
+
+    public function setProvider($provider): void
+    {
+        $this->provider = $provider;
     }
 
     public function setVerbandName(string $verbandName): void
@@ -64,7 +71,7 @@ class TeamsCrawler
 
     private function getClubUrl(): string
     {
-        $cluburl = $this->baseUrl.'/vereine/handball4all.'.$this->verbandName.'.'.$this->clubID;
+        $cluburl = $this->baseUrl.'/vereine/'.$this->provider.'.'.$this->verbandName.'.'.$this->clubID;
 
         if (isset($this->season)) {
             $cluburl .= '?season='.$this->season;
@@ -103,6 +110,8 @@ class TeamsCrawler
         // add teamID to array
         foreach ($arrTeams as &$team) {
             $team['teamID'] = $this->extractTeamID($team['teamUrl']);
+            $team['provider'] = $this->extractProvider($team['teamUrl']);
+            $team['verband'] = $this->extractVerband($team['teamUrl']);
         }
 
         $this->teams = $arrTeams;
@@ -110,7 +119,21 @@ class TeamsCrawler
 
     private function extractTeamID(string $url): string
     {
-        preg_match('/mannschaften\/\w+\.\w+\.(\d+)\//', $url, $matches);
+        preg_match('/mannschaften\/\w+\.\w+\.([0-9,-]+)\//', $url, $matches);
+
+        return $matches[1] ?? '';
+    }
+
+    private function extractProvider(string $url): string
+    {
+        preg_match('/mannschaften\/(\w+)\.\w+\.[0-9,-]+\//', $url, $matches);
+
+        return $matches[1] ?? '';
+    }
+
+    private function extractVerband(string $url): string
+    {
+        preg_match('/mannschaften\/\w+\.(\w+)\.[0-9,-]+\//', $url, $matches);
 
         return $matches[1] ?? '';
     }

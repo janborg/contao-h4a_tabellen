@@ -24,8 +24,26 @@ class TeamsCrawlerTest extends TestCase
     public static function clubProvider(): iterable
     {
         return [
-            ['6201', 'wuerttemberg', 'HSG Heilbronn'],
-            ['581', 'baden', 'TV Hemsbach'],
+            ['6201', 'wuerttemberg', 'HSG Heilbronn', 'handball4all'],
+            ['581', 'baden', 'TV Hemsbach', 'handball4all'],
+            ['1967', 'hamburg', 'SG Altona', 'handball4all'],
+            ['5056', 'pfalz', 'HSG Trifels', 'handball4all'],
+            ['2214', 'rheinhessen', 'TV Nierstein', 'handball4all'],
+            ['2601', 'saar', 'HF Köllertal', 'handball4all'],
+            ['1465', 'schleswig-holstein', 'SG Flensburg-Handewitt', 'handball4all'],
+            ['785', 'suedbaden', 'TV Todtnau', 'handball4all'],
+            ['4781', 'westfalen', 'TV Olpe', 'handball4all'],
+            ['30283', 'bhv', 'DJK Neumarkt', 'nuliga'], //bayern
+            ['201173', 'hvbr', 'SV Fortuna Prenzlau', 'nuliga'], //brandenburg
+            ['10443', 'hvberlin','Lichtenrader SV', 'nuliga'], //berlin
+            ['18134', 'hhv','HC VfL Heppenheim', 'nuliga'], //hessen
+            ['117', 'hvmv','HC Empor Rostock' , 'nuliga'], //mecklenburg-vorpommern
+            ['681', 'hvn','Handballverein Lüneburg', 'nuliga'], //niedersachsen-bremen
+            ['077', 'hvr','HSG Wittlich', 'nuliga'], //rheinland
+            ['490148', 'hvs','SHV Oschatz', 'nuliga'], //sachsen
+            ['420512', 'thv','HSC Erfurt', 'nuliga'], //thueringen
+            ['060015', 'hnr', '1.FC Köln', 'nuliga'], //nordrhein
+            ['2486', 'dhbdata', 'Handball Sport Verein Hamburg', 'sportradar'],
         ];
     }
 
@@ -35,12 +53,15 @@ class TeamsCrawlerTest extends TestCase
      * @param string $clubID
      * @param string $verbandName
      * @param string $clubName
+     * @param string $provider
      */
-    public function testgetAllTeams($clubID, $verbandName, $clubName): void
+    public function testGetAllTeams($clubID, $verbandName, $clubName, $provider): void
     {
         $crawler = new TeamsCrawler();
 
         $crawler->setClubID($clubID);
+
+        $crawler->setProvider($provider);
 
         $crawler->setVerbandName($verbandName);
 
@@ -49,11 +70,20 @@ class TeamsCrawlerTest extends TestCase
         $this->assertIsArray($teams);
 
         $this->assertArrayHasKey('teamID', $teams[0]);
+        $this->assertNotEmpty($teams[0]['teamID']);
 
         $this->assertArrayHasKey('teamName', $teams[0]);
+        $this->assertNotEmpty($teams[0]['teamName']);
+
+        $this->assertArrayHasKey('provider', $teams[0]);
+        $this->assertNotEmpty($teams[0]['provider']);
+
+        $this->assertArrayHasKey('verband', $teams[0]);
+        $this->assertNotEmpty($teams[0]['verband']);
 
         $this->assertArrayHasKey('teamUrl', $teams[0]);
+        $this->assertNotEmpty($teams[0]['teamUrl']);
 
-        $this->assertContainsEquals($clubName, $teams[0]);
+        $this->assertStringContainsString($clubName, $teams[0]['teamName']);
     }
 }
