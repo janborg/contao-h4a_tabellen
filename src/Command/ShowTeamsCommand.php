@@ -134,7 +134,13 @@ class ShowTeamsCommand extends Command
         $io->info('Teams for ClubID: '.$clubID.' (Verband: '.$verband.'in der Saison: '.$season.')');
 
         $tablehome = new Table($output);
-        $tablehome->setHeaders(['TeamUrl', 'Team', 'TeamID', 'Provider', 'Verband']);
+        $tablehome->setHeaders(['Team', 'className', 'TeamID',  'Provider', 'Verband', 'classID', 'classShortName']);
+        
+        //teamUrl nicht ausgeben
+        foreach ($teams as &$team) {
+            unset($team['teamUrl']);
+        }
+        
         $tablehome->setRows($teams);
         $tablehome->render();
 
