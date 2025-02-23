@@ -125,7 +125,6 @@ class TeamsCrawler
         $this->teams = $arrTeams;
     }
 
-    // Todo !! 
     private function crawlLigaInfosForTeam(array $team): array
     {
         $url = $this->baseUrl.$team['teamUrl'];
