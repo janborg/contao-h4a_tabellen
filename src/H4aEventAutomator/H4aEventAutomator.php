@@ -156,10 +156,14 @@ class H4aEventAutomator extends Backend
                         // Check, if class ID or name changed
                         if (
                             $arrSpiel['gClassID'] !== $objEvent->gClassID
-                            || $arrSpiel['gClassSname'] !== $objEvent->gClassName
+                            || $arrSeason['liga_shortname'] !== $objEvent->gClassName
+                            || $arrSeason['provider'] !== $objEvent->provider
+                            || $arrSeason['verband'] !== $objEvent->verband
                         ) {
-                            $objEvent->gClassName = $arrSpiel['gClassSname'];
+                            $objEvent->gClassName = $arrSeason['liga_shortname']; // für handballnet, shortname aus season
                             $objEvent->gClassID = $arrSpiel['gClassID'];
+                            $objEvent->provider = $arrSeason['provider'];
+                            $objEvent->verband = $arrSeason['verband'];
                             $isChanged = true;
                         }
 
@@ -261,7 +265,9 @@ class H4aEventAutomator extends Backend
                         $objEvent->gGameID = $arrSpiel['gID'];
                         $objEvent->gGameNo = $arrSpiel['gNo'];
                         $objEvent->gClassID = $arrSpiel['gClassID'];
-                        $objEvent->gClassName = $arrSpiel['gClassSname'];
+                        $objEvent->gClassName = $arrSeason['liga_shortname'];
+                        $objEvent->provider = $arrSeason['provider'];
+                        $objEvent->verband = $arrSeason['verband'];
                         $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
                         $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
 
