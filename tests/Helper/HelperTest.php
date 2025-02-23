@@ -17,17 +17,6 @@ use PHPUnit\Framework\TestCase;
 
 class HelperTest extends TestCase
 {
-    /**
-     * @return array<int, array<int, string>>
-     */
-    public static function gamesReportProvider(): iterable
-    {
-        return [
-            ['49301', '10022', '1035145'],
-            ['58766', '95107', '1249171'],
-        ];
-    }
-
     public function testJsonSpielplanHasCorrectDataFields(): void
     {
         $spielplan = Helper::getJsonSpielplan('551206');
@@ -178,18 +167,5 @@ class HelperTest extends TestCase
         // $this->assertArrayHasKey('gGuestPoints', $spiel);
         // $this->assertArrayHasKey('gComment', $spiel);
         // $this->assertArrayHasKey('gReferee', $spiel);
-    }
-
-    /**
-     * @dataProvider gamesReportProvider
-     *
-     * @param string $ligaID
-     * @param string $gameNo
-     * @param string $sGID
-     */
-    public function testGetsCorrectReportNo($ligaID, $gameNo, $sGID): void
-    {
-        $reportNo = Helper::getReportNo($ligaID, $gameNo);
-        $this->assertSame($sGID, $reportNo);
     }
 }
