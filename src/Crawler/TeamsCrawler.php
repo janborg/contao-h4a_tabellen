@@ -191,7 +191,7 @@ class TeamsCrawler
 
     private function extractLigaID(string $url): string
     {
-        preg_match('/spielplan\/spieltage\/\w+\.\w+\.([w,0-9,-,\.]+)\/spiele\//', $url, $matches);
+        preg_match('/spielplan\/spieltage\/\w+\.\w+\.([0-9]+)(?:\.[a-zA-Z0-9_-]+)?\/spiele\//', $url, $matches);
 
         return $matches[1] ?? '';
     }
