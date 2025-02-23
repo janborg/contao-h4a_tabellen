@@ -11,6 +11,8 @@ declare(strict_types=1);
  */
 
 use Contao\BackendUser;
+use Janborg\H4aTabellen\HandballNet\Verband;
+use Janborg\H4aTabellen\HandballNet\Provider;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 /*
@@ -87,51 +89,81 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
         'exclude' => false,
         'inputType' => 'group',
-        'palette' => ['h4a_saison', 'h4a_team', 'h4a_liga', 'my_team_name'],
-        'fields' => [
-            'h4a_saison' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
-                'inputType' => 'select',
-                'foreignKey' => 'tl_h4a_seasons.season',
-                'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
-                'eval' => [
-                    'mandatory' => true,
-                    'tl_class' => 'w50',
-                    'includeBlankOption' => true,
-                    'chosen' => true,
-                ],
-            ],
-            'h4a_team' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_team'],
-                'inputType' => 'text',
-                'eval' => [
-                    'mandatory' => true,
-                    'rgxp' => 'digit',
-                    'maxlength' => 7,
-                    'tl_class' => 'w50',
-                ],
-            ],
-            'h4a_liga' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga_ID'],
-                'inputType' => 'text',
-                'eval' => [
-                    'mandatory' => true,
-                    'rgxp' => 'digit',
-                    'maxlength' => 6,
-                    'tl_class' => 'w50',
-                ],
-            ],
-            'my_team_name' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_calendar']['my_team_name'],
-                'inputType' => 'text',
-                'eval' => [
-                    'mandatory' => true,
-                    'maxlength' => 255,
-                    'tl_class' => 'w50',
-                ],
-            ],
-        ],
+        'palette' => ['h4a_saison', 'h4a_team', 'h4a_liga','liga_shortname', 'provider', 'verband', 'my_team_name'],
         'sql' => 'blob NULL',
+    ]],
+    ['h4a_saison' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
+        'inputType' => 'select',
+        'foreignKey' => 'tl_h4a_seasons.season',
+        'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
+        'eval' => [
+            'mandatory' => true,
+            'tl_class' => 'w50',
+            'includeBlankOption' => true,
+            'chosen' => true,
+        ],
+    ]],
+    ['h4a_team' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_team'],
+        'inputType' => 'text',
+        'eval' => [
+            'mandatory' => true,
+            'rgxp' => 'digit',
+            'maxlength' => 7,
+            'tl_class' => 'w50',
+        ],
+    ]],
+    ['h4a_liga' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_liga_ID'],
+        'inputType' => 'text',
+        'eval' => [
+            'mandatory' => true,
+            'rgxp' => 'digit',
+            'maxlength' => 6,
+            'tl_class' => 'w50',
+        ],
+    ]],
+    ['liga_shortname' => [
+        'inputType' => 'text',
+        'eval' => [
+            'mandatory' => true,
+            'maxlength' => 20,
+            'tl_class' => 'w50',
+        ],
+    ]],
+    ['provider' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['provider'],
+        'inputType' => 'select',
+        'enum' => Provider::class,
+        'eval' => [
+            'mandatory' => true,
+            'maxlength' => 255,
+            'tl_class' => 'w50',
+            'includeBlankOption' => true,
+            'chosen' => true,
+        ],
+    ]],
+    ['verband' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['verband'],
+        'inputType' => 'select',
+        'enum' => Verband::class,
+        'eval' => [
+            'mandatory' => true,
+            'maxlength' => 255,
+            'tl_class' => 'w50',
+            'includeBlankOption' => true,
+            'chosen' => true,
+        ],
+    ]],
+    ['my_team_name' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['my_team_name'],
+        'inputType' => 'text',
+        'eval' => [
+            'mandatory' => true,
+            'maxlength' => 255,
+            'tl_class' => 'w50',
+        ],
     ]],
     ['h4aEvents_author' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4aEvents_author'],
