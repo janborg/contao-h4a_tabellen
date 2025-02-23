@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of contao-h4a_gamestats.
+ * This file is part of contao-h4a_tabellen.
  *
  * (c) Jan Lünborg
  *
@@ -12,9 +12,8 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Tests\Crawler;
 
-
-use PHPUnit\Framework\TestCase;
 use Janborg\H4aTabellen\Crawler\TeamsCrawler;
+use PHPUnit\Framework\TestCase;
 
 class TeamsCrawlerTest extends TestCase
 {
@@ -33,16 +32,16 @@ class TeamsCrawlerTest extends TestCase
             ['1465', 'schleswig-holstein', 'SG Flensburg-Handewitt', 'handball4all'],
             ['785', 'suedbaden', 'TV Todtnau', 'handball4all'],
             ['4781', 'westfalen', 'TV Olpe', 'handball4all'],
-            ['30283', 'bhv', 'DJK Neumarkt', 'nuliga'], //bayern
-            ['201173', 'hvbr', 'SV Fortuna Prenzlau', 'nuliga'], //brandenburg
-            ['10443', 'hvberlin','Lichtenrader SV', 'nuliga'], //berlin
-            ['18134', 'hhv','HC VfL Heppenheim', 'nuliga'], //hessen
-            ['117', 'hvmv','HC Empor Rostock' , 'nuliga'], //mecklenburg-vorpommern
-            ['681', 'hvn','Handballverein Lüneburg', 'nuliga'], //niedersachsen-bremen
-            ['077', 'hvr','HSG Wittlich', 'nuliga'], //rheinland
-            ['490148', 'hvs','SHV Oschatz', 'nuliga'], //sachsen
-            ['420512', 'thv','HSC Erfurt', 'nuliga'], //thueringen
-            ['060015', 'hnr', '1.FC Köln', 'nuliga'], //nordrhein
+            ['30283', 'bhv', 'DJK Neumarkt', 'nuliga'], // bayern
+            ['201173', 'hvbr', 'SV Fortuna Prenzlau', 'nuliga'], // brandenburg
+            ['10443', 'hvberlin', 'Lichtenrader SV', 'nuliga'], // berlin
+            ['18134', 'hhv', 'HC VfL Heppenheim', 'nuliga'], // hessen
+            ['117', 'hvmv', 'HC Empor Rostock', 'nuliga'], // mecklenburg-vorpommern
+            ['681', 'hvn', 'Handballverein Lüneburg', 'nuliga'], // niedersachsen-bremen
+            ['077', 'hvr', 'HSG Wittlich', 'nuliga'], // rheinland
+            ['490148', 'hvs', 'SHV Oschatz', 'nuliga'], // sachsen
+            ['420512', 'thv', 'HSC Erfurt', 'nuliga'], // thueringen
+            ['060015', 'hnr', '1.FC Köln', 'nuliga'], // nordrhein
             ['2486', 'dhbdata', 'Handball Sport Verein Hamburg', 'sportradar'],
         ];
     }

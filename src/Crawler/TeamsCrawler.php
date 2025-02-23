@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of contao-h4a_gamestats.
+ * This file is part of contao-h4a_tabellen.
  *
  * (c) Jan Lünborg
  *
@@ -42,7 +42,7 @@ class TeamsCrawler
         $this->clubID = $clubID;
     }
 
-    public function setProvider($provider): void
+    public function setProvider(string $provider): void
     {
         $this->provider = $provider;
     }
@@ -108,7 +108,7 @@ class TeamsCrawler
 
                 $arrTeams[$i]['teamName'] = $node->filterXPath('//div[contains(@class, "list-item-title")]')->text();
 
-                $arrTeams[$i]['ligaName'] = $node->filterXPath('//div[contains(@class, "list-item-text")]')->text();                
+                $arrTeams[$i]['ligaName'] = $node->filterXPath('//div[contains(@class, "list-item-text")]')->text();
             },
         );
 
@@ -121,10 +121,16 @@ class TeamsCrawler
             $team = $this->crawlLigaInfosForTeam($team);
         }
 
-
         $this->teams = $arrTeams;
     }
 
+    /**
+     * Undocumented function.
+     *
+     * @param array<mixed> $team
+     *
+     * @return array<mixed>
+     */
     private function crawlLigaInfosForTeam(array $team): array
     {
         $url = $this->baseUrl.$team['teamUrl'];
@@ -133,6 +139,10 @@ class TeamsCrawler
 
         $response = $httpClient->request('GET', $url);
 
+        if (200 !== $response->getStatusCode()) {
+            return $team;
+        }
+
         $html = $response->getContent();
 
         $crawler = new Crawler($html);
@@ -140,24 +150,23 @@ class TeamsCrawler
         $links = [];
 
         $crawler->filterXPath('//a[contains(@class, "schedule-list-item")]')->each(
-            function (Crawler $link) use(&$links) {
+            static function (Crawler $link) use (&$links): void {
                 $links[] = $link->attr('href');
-            }
+            },
         );
 
         if (isset($links[0])) {
             // add ligaUrl to team
             $ligaUrl = $links[0];
         }
-            // add ligaID to team
-            $team['classID'] = isset($ligaUrl) ?  $this->extractLigaID($ligaUrl) : '' ;
+        // add ligaID to team
+        $team['classID'] = isset($ligaUrl) ? $this->extractLigaID($ligaUrl) : '';
 
-            // add ligaShortName to team
-            $team['classShortName'] = isset($ligaUrl) ? $this->extractLigaShortName($ligaUrl) : '';
+        // add ligaShortName to team
+        $team['classShortName'] = isset($ligaUrl) ? $this->extractLigaShortName($ligaUrl) : '';
 
         return $team;
     }
-   
 
     private function extractTeamID(string $url): string
     {

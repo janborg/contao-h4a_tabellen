@@ -1,11 +1,19 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
+
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
 
 namespace Janborg\H4aTabellen\HandballNet;
 
-use Symfony\Component\Translation\TranslatableMessage;
 use Contao\CoreBundle\Translation\TranslatableLabelInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 
 enum Verband: string implements TranslatableLabelInterface
 {
@@ -32,7 +40,7 @@ enum Verband: string implements TranslatableLabelInterface
     public function label(): TranslatableMessage
     {
         return new TranslatableMessage(
-            'verband.label.' . $this->value,
+            'verband.label.'.$this->value,
             [],
             'handballnet',
         );

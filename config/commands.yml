@@ -37,7 +37,6 @@ services:
         arguments:
             - '@contao.framework'
             - '@h4atabellen.crawler.teamscrawler'
-            - '@h4atabellen.crawler.verbandscrawler'
         tags: 
             - "console.command"
 

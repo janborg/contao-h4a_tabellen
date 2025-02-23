@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of contao-h4a_gamestats.
+ * This file is part of contao-h4a_tabellen.
  *
  * (c) Jan Lünborg
  *
@@ -12,9 +12,8 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Tests\Crawler;
 
-
-use PHPUnit\Framework\TestCase;
 use Janborg\H4aTabellen\Crawler\VerbandsCrawler;
+use PHPUnit\Framework\TestCase;
 
 class VerbandsCrawlerTest extends TestCase
 {
