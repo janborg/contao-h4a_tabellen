@@ -13,7 +13,9 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\Command;
 
 use Symfony\Component\Console\Helper\Table;
+use Janborg\H4aTabellen\HandballNet\Verband;
 use Janborg\H4aTabellen\Crawler\TeamsCrawler;
+use Janborg\H4aTabellen\HandballNet\Provider;
 use Symfony\Component\Console\Command\Command;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Crawler\VerbandsCrawler;
@@ -82,7 +84,7 @@ class ShowTeamsCommand extends Command
         if(!$provider) {
             $question = new ChoiceQuestion(
                 'Bitte wählen Sie den Provider des Vereins:',
-                ['handball4all', 'nuliga', 'sportradar'],
+                array_column(Provider::cases(), 'value'),
                 null
             );
 
@@ -97,15 +99,10 @@ class ShowTeamsCommand extends Command
         $verband = $input->getOption('verband');
 
         if (!$verband) {    
-            $verbaende = $this->verbandsCrawler->getAllVerbaende();
-
-            $verbaendeShorts = array_map(function ($verband) {
-                return $verband['verbandShortName'];
-            }, $verbaende);
 
             $question = new ChoiceQuestion(
                 'Bitte wählen Sie den Verband aus, in dem der verein spielt:',
-                $verbaendeShorts,
+                array_column(Verband::cases(), 'value'),
                 null
             );
 
