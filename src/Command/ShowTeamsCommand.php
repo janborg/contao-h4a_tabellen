@@ -12,17 +12,18 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Command;
 
-use Contao\CoreBundle\Framework\ContaoFramework;
+use Symfony\Component\Console\Helper\Table;
+use Janborg\H4aTabellen\HandballNet\Verband;
 use Janborg\H4aTabellen\Crawler\TeamsCrawler;
 use Janborg\H4aTabellen\HandballNet\Provider;
-use Janborg\H4aTabellen\HandballNet\Verband;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\InputInterface;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class UpdateLineupCommand.
@@ -30,18 +31,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * @property SymfonyStyle $io
  * @property int          $statusCode
  */
+#[AsCommand(
+    name: 'h4a:show:teams',
+    description: 'Show teams of a given club from handballnet',
+)]
 class ShowTeamsCommand extends Command
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'h4a:show:teams';
-
-    /**
-     * @var string
-     */
-    protected static $defaultDescription = 'Show teams of a given club from handballnet';
-
     public function __construct(
         private ContaoFramework $framework,
         private TeamsCrawler $teamsCrawler,

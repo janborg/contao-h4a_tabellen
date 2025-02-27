@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Command;
 
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Command\Command;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Crawler\VerbandsCrawler;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -25,18 +26,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @property SymfonyStyle $io
  * @property int          $statusCode
  */
+#[AsCommand(
+    name: 'h4a:show:verbaende',
+    description: 'Show all verbaende from handballnet',
+)]
 class ShowVerbaendeCommand extends Command
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'h4a:show:verbaende';
-
-    /**
-     * @var string
-     */
-    protected static $defaultDescription = 'Show all verbaende from handballnet';
-
     public function __construct(
         private ContaoFramework $framework,
         private VerbandsCrawler $verbandsCrawler,
