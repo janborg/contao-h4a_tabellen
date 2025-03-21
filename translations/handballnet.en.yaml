@@ -1,0 +1,26 @@
+provider:
+  label:
+    handball4all: Handball4All
+    nuliga: NuLiga
+    sportradar: Sportradar
+verband:
+  label:
+    baden: Badischer Handball-Verband
+    hamburg: Hamurger Handball-Verband
+    pfalz: Pfälzer Handball-Verband
+    rheinhessen: Handball-Verband Rheinhessen
+    saar: Handball-Verband Saar
+    schleswig-holstein: Handball-Verband Schleswig-Holstein
+    suedbaden: Südbadischer Handball-Verband
+    westfalen: Handball-Verband Westfalen
+    wuerttemberg: Handball-Verband Württemberg
+    bhv: Bayrischer Handball-Verband
+    hvbr: Handball-Verband Brandenburg
+    hvberlin: Handball-Verband Berlin
+    hhv: Hessischer Handball-Verband
+    hvmv: Handball-Verband Mecklenburg-Vorpommern
+    hvn: Handball-Verband Niedersachsen-Bremen
+    hvr: Handball-Verband Rheinland
+    hvs: Handball-Verband Sachsen
+    thv: Thüringer Handball-Verband
+    hnr: Handball Nordrhein
