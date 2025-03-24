@@ -18,10 +18,13 @@ use Janborg\H4aTabellen\Crawler\TeamsCrawler;
 use Janborg\H4aTabellen\HandballNet\Provider;
 use Symfony\Component\Console\Command\Command;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Janborg\H4aTabellen\Model\HandballnetModel;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 
@@ -51,6 +54,7 @@ class ShowTeamsCommand extends Command
             ->addOption('provider', null, InputOption::VALUE_REQUIRED, 'handball4all, nuliga oder sportradar')
             ->addOption('verband', null, InputOption::VALUE_REQUIRED, 'verband from handball.net, z.B. baden')
             ->addOption('season', null, InputOption::VALUE_REQUIRED, 'season from handball.net, z.B. 2024')
+            ->addOption('save-teams', null, InputOption::VALUE_NONE, 'Save Teams to Database')
         ;
     }
 
@@ -58,13 +62,13 @@ class ShowTeamsCommand extends Command
     {
         $this->framework->initialize();
 
-        $io = new SymfonyStyle($input, $output);
+        $this->io = new SymfonyStyle($input, $output);
 
         // clubID
         $clubID = $input->getOption('clubID');
 
         if (!$clubID) {
-            $io->error('Bitte die Club ID (--clubID) angeben');
+            $this->io->error('Bitte die Club ID (--clubID) angeben');
 
             return Command::FAILURE;
         }
@@ -83,7 +87,7 @@ class ShowTeamsCommand extends Command
 
             $question->setErrorMessage('Bitte gültigen Provider angeben');
 
-            $provider = $io->askQuestion($question);
+            $provider = $this->io->askQuestion($question);
         }
 
         $this->teamsCrawler->setProvider($provider);
@@ -100,7 +104,7 @@ class ShowTeamsCommand extends Command
 
             $question->setErrorMessage('Verband %s ist ungültig.');
 
-            $verband = $io->askQuestion($question);
+            $verband = $this->io->askQuestion($question);
         }
 
         $this->teamsCrawler->setVerbandName($verband);
@@ -108,19 +112,23 @@ class ShowTeamsCommand extends Command
         // season
         $season = $input->getOption('season');
 
-        if ($season) {
-            $this->teamsCrawler->setSeason($season);
-        }
-
+        if (!$season) {
+            $question = new Question('Bitte geben Sie die Saison im Format "YYYY" an', '2024');
+            
+            $season = $this->io->askQuestion($question);   
+        }    
+        
+        $this->teamsCrawler->setSeason($season);
+         
         try {
             $teams = $this->teamsCrawler->getAllTeams();
         } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->io->error($e->getMessage());
 
             return Command::FAILURE;
         }
 
-        $io->info('Teams for ClubID: '.$clubID.' (Verband: '.$verband.'in der Saison: '.$season.')');
+        $this->io->info('Teams for ClubID: '.$clubID.' (Verband: '.$verband.' in der Saison: '.$season.')');
 
         $tablehome = new Table($output);
         $tablehome->setHeaders(['Team', 'className', 'TeamID', 'Provider', 'Verband', 'classID', 'classShortName']);
@@ -133,6 +141,42 @@ class ShowTeamsCommand extends Command
         $tablehome->setRows($teams);
         $tablehome->render();
 
+        if ($input->getOption('save-teams')) {
+            $this->saveTeams($teams, $season);
+        }
+
         return Command::SUCCESS;
+    }
+
+    // save temas to database into tl_handballnet_teams
+    protected function saveTeams(array $teams, string $season): void
+    {
+        foreach ($teams as $team) {
+
+            $handballnetTeam = HandballnetTeamsModel::findBy(
+                ['team_id=?', 'liga_id=?', 'liga_shortname=?'], 
+                [$team['teamID'], $team['classID'], $team['classShortName']]
+            );
+
+            if ($handballnetTeam) {
+                $this->io->info('Team '.$team['teamID'].' ('.$team['classID'].', '.$team['classShortName'].') already exists in Database');
+                continue;
+            }
+
+            $handballnetTeamsModel = new HandballnetTeamsModel();
+
+            $handballnetTeamsModel->saison = $season ?? null;
+            $handballnetTeamsModel->team_id = $team['teamID'] ?? null;
+            $handballnetTeamsModel->liga_id = $team['classID'] ?? null;
+            $handballnetTeamsModel->provider = $team['provider'] ?? null;
+            $handballnetTeamsModel->verband = $team['verband'] ?? null;
+            $handballnetTeamsModel->liga_shortname = $team['classShortName'] ?? null;
+            $handballnetTeamsModel->liga_name = isset($team['ligaName']) ? trim(str_replace($team['teamName'], '', $team['ligaName'])) : null;
+            $handballnetTeamsModel->my_team_name = $team['teamName'] ?? null;
+
+            $handballnetTeamsModel->save();
+        
+            $this->io->info('Team '.$team['teamID'].' ('.$team['classID'].', '.$team['classShortName'].') saved to Database');
+        }
     }
 }

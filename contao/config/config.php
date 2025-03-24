@@ -10,11 +10,12 @@ declare(strict_types=1);
  * @license MIT
  */
 
-use Janborg\H4aTabellen\Backend\UpdateH4aCalendarsController;
+use Janborg\H4aTabellen\Model\H4aSeasonModel;
+use Janborg\H4aTabellen\Model\H4aJsonDataModel;
+use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Janborg\H4aTabellen\Backend\UpdateH4aEventsController;
 use Janborg\H4aTabellen\Backend\UpdateH4aResultsController;
-use Janborg\H4aTabellen\Model\H4aJsonDataModel;
-use Janborg\H4aTabellen\Model\H4aSeasonModel;
+use Janborg\H4aTabellen\Backend\UpdateH4aCalendarsController;
 
 /*
  * This file is part of contao-h4a_tabellen.
@@ -33,7 +34,10 @@ $GLOBALS['BE_MOD']['content']['calendar']['h4a_update_results'] = [UpdateH4aResu
  */
 
 $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_h4a_seasons';
+$GLOBALS['BE_MOD']['content']['handballnet_teams']['tables'] = ['tl_handballnet_teams'];
+
 
 // Register Models
 $GLOBALS['TL_MODELS']['tl_h4ajsondata'] = H4aJsonDataModel::class;
 $GLOBALS['TL_MODELS']['tl_h4a_seasons'] = H4aSeasonModel::class;
+$GLOBALS['TL_MODELS']['tl_handballnet_teams'] = HandballnetTeamsModel::class;
