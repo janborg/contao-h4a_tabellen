@@ -1,0 +1,92 @@
+tl_calendar_events:
+  update_h4a_events: Update H4a-Events
+  
+  h4a_legend: Spiel Nr. Klasse und Mannschaften
+  
+  gymnasium_legend: Halleninformationen
+  
+  result_legend: Halbzeit- und Endergebnis
+  
+  gGameNo:
+    0: Spiel Nr.
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gGameID:
+    0: Spiel ID
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gClassID:
+    0: ID Spielklasse
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gClassName:
+    0: Name Spielklasse
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gHomeTeam:
+    0: Heimmmannschaft
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gGuestTeam:
+    0: Gastmannschaft
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gGymnasiumNo:
+    0: Hallennummer
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gGymnasiumName:
+    0: Hallenname
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gGymnasiumStreet:
+    0: Straße
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gGymnasiumTown:
+    0: Stadt
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gGymnasiumPostal:
+    0: Postleitzahl
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gHomeGoals:
+    0: Heimtore
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gGuestGoals:
+    0: Gasttore
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gHomeGoals_1:
+    0: Heimtore Halbzeit
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  gGuestGoals_1:
+    0: Gasttore Halbzeit
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  h4a_resultComplete:
+    0: Ergebnis vorhanden
+    1: Wird automatisch beim Update über handball4all gesetzt
+  
+  sGID:
+    0: Spielberichtsnummer
+    1: Die ID des Spielberichts auf handball4all
+  
+  h4a_season:
+    0: Saison
+    1: Die Saison in der das Spiel stattfindet
+
+  provider:
+      0: Provider
+      1: Provider für die Daten der Liga bereitstellt
+  
+  verband:
+      0: Verband
+      1: Verband in dem die Liga organisiert ist
+
+  liga_shortname:
+      0: Liga Kurzbezeichnung
+      1: Kurzname der Liga
