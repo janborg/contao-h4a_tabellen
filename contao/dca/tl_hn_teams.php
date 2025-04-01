@@ -1,0 +1,203 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
+use Contao\DC_Table;
+use Contao\DataContainer;
+use Janborg\H4aTabellen\HandballNet\Verband;
+use Janborg\H4aTabellen\HandballNet\Provider;
+
+$GLOBALS['TL_DCA']['tl_hn_teams'] = [
+    // Config
+    'config' => [
+        'dataContainer' => DC_Table::class,
+        'sql' => [
+            'keys' => [
+                'id' => 'primary',
+            ],
+        ],
+    ],
+    'list' => [
+        'sorting' => [
+            'mode' => DataContainer::MODE_SORTED,
+            'flag' => DataContainer::SORT_DESC,
+            'fields' => ['saison', 'team_id'],
+            'panelLayout' => 'search;filter;limit',
+        ],
+        'label' => [
+            'fields' => ['my_team_name', 'liga_name', 'team_id', 'liga_id'],
+            'format' => '%s - %s (%s, %s)',
+        ],
+
+        'global_operations' => [
+            'all' => [
+                'href' => 'act=select',
+                'class' => 'header_edit_all',
+                'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
+            ],
+            'edit_hn_seasons' => [
+                'href' => 'table=tl_hn_seasons',
+                'class' => 'header_edit_hn_seasons',
+                'icon' => 'bundles/janborgh4atabellen/seasons.svg',
+                'attributes' => 'onclick="Backend.getScrollOffset()"',
+            ],
+            'update_hn_teams' => [
+                'href' => 'key=update_hn_teams',
+                'class' => 'header_update_hn_teams',
+                'icon' => 'bundles/janborgh4atabellen/update.svg',
+                'attributes' => 'onclick="Backend.getScrollOffset()"',
+            ]
+        ],
+        'operations' => [
+            'edit' => [
+                'href' => 'act=edit',
+                'icon' => 'edit.svg',
+            ],
+            'delete' => [
+                'href' => 'act=delete',
+                'icon' => 'delete.svg',
+                'attributes' => 'onclick="if(!confirm(\''.($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null).'\'))return false;Backend.getScrollOffset()"',
+            ],
+            'show' => [
+                'href' => 'act=show',
+                'icon' => 'show.svg',
+            ],
+        ],
+    ],
+    // Palettes
+    'palettes' => [
+        'default' => '{title_legend}, saison, team_id, liga_id, liga_shortname, liga_name, provider, verband, my_team_name, is',
+    ],
+    // Fields
+    'fields' => [
+        'id' => [
+            'sql' => 'int(10) unsigned NOT NULL auto_increment',
+        ],
+        'tstamp' => [
+            'sql' => "int(10) unsigned NOT NULL default '0'",
+        ],
+        'saison' => [
+            'inputType' => 'text',
+            'exclude' => true,
+            'sorting' => true,
+            'filter' => true,
+            'eval' => [
+                'mandatory' => true,
+                'rgxp' => 'digit',
+                'maxlength' => 4,
+                'tl_class' => 'w50',
+            ],
+            'sql' => "varchar(4) unsigned NOT NULL default '0'",
+        ],
+        'team_id' => [
+            'inputType' => 'text',
+            'exclude' => true,
+            'sorting' => true,
+            'search' => true,
+            'eval' => [
+                'mandatory' => true,
+                'rgxp' => 'digit',
+                'maxlength' => 7,
+                'tl_class' => 'w50',
+            ],
+            'sql' => "varchar(10) unsigned NOT NULL default ''",
+        ],
+        'liga_id' => [
+            'inputType' => 'text',
+            'exclude' => true,
+            'sorting' => true,
+            'search' => true,
+            'eval' => [
+                'mandatory' => true,
+                'rgxp' => 'digit',
+                'maxlength' => 6,
+                'tl_class' => 'w50',
+            ],
+            'sql' => "varchar(10) unsigned NOT NULL default ''",
+        ],
+        'liga_shortname' => [
+            'inputType' => 'text',
+            'exclude' => true,
+            'sorting' => true,
+            'filter' => true,
+            'search' => true,
+            'eval' => [
+                'mandatory' => true,
+                'maxlength' => 20,
+                'tl_class' => 'w50',
+            ],
+            'sql' => "varchar(20) NOT NULL default ''",
+        ],
+        'liga_name' => [
+            'inputType' => 'text',
+            'exclude' => true,
+            'sorting' => true,
+            'filter' => true,
+            'search' => true,
+            'eval' => [
+                'mandatory' => true,
+                'maxlength' => 255,
+                'tl_class' => 'w50',
+            ],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'provider' => [
+            'inputType' => 'select',
+            'exclude' => true,
+            'sorting' => true,
+            'filter' => true,
+            'enum' => Provider::class,
+            'eval' => [
+                'mandatory' => true,
+                'maxlength' => 255,
+                'tl_class' => 'w50',
+                'includeBlankOption' => true,
+                'chosen' => true,
+            ],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'verband' => [
+            'inputType' => 'select',
+            'exclude' => true,
+            'sorting' => true,
+            'filter' => true,
+            'enum' => Verband::class,
+            'eval' => [
+                'mandatory' => true,
+                'maxlength' => 255,
+                'tl_class' => 'w50',
+                'includeBlankOption' => true,
+                'chosen' => true,
+            ],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'my_team_name' => [
+            'inputType' => 'text',
+            'exclude' => true,
+            'sorting' => true,
+            'filter' => true,
+            'eval' => [
+                'mandatory' => true,
+                'maxlength' => 255,
+                'tl_class' => 'w50',
+            ],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ], 
+        'is_active' => [
+            'exclude' => true,
+            'filter' => true,
+            'inputType' => 'checkbox',
+            'eval' => ['tl_class' => 'w50 m12'],
+            'sql' => "char(1) NOT NULL default ''",
+        ],
+   
+    ],
+];

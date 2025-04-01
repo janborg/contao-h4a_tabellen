@@ -83,7 +83,7 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend}, season, is_current_season',
+        'default' => '{title_legend}, season, h4a_ignore',
     ],
     // Fields
     'fields' => [
@@ -107,7 +107,7 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
             'unique' => true,
             'exclude' => true,
             'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50'],
+            'eval' => ['tl_class' => 'w50 m12'],
             'sql' => "char(1) NOT NULL default ''",
         ],
         'h4a_ignore' => [

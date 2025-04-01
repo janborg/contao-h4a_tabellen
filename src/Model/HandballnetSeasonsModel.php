@@ -7,12 +7,12 @@ namespace Janborg\H4aTabellen\Model;
 
 use Contao\Model;
 
-class HandballnetTeamsModel extends Model
+class HandballnetSeasonsModel extends Model
 {
     /**
      * Table name.
      *
      * @var string
      */
-    protected static $strTable = 'tl_hn_teams';
+    protected static $strTable = 'tl_hn_seasons';
 }
