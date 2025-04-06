@@ -14,6 +14,7 @@ namespace Janborg\H4aTabellen\Command;
 
 use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Janborg\H4aTabellen\Crawler\H4aReportNoCrawler;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -38,8 +39,7 @@ class H4aUpdateReportsCommand extends Command
 
     public function __construct(
         private ContaoFramework $framework,
-        private H4aApiHelper $h4aApiHelper,
-    ) {
+        private H4aReportNoCrawler $h4aReportNoCrawler,   ) {
         parent::__construct();
     }
 
@@ -85,9 +85,25 @@ class H4aUpdateReportsCommand extends Command
                 'Spiel '.$objEvent->gGameID.' '.$objEvent->title.':',
                 '-----------------------------------------------------',
             ]);
-            $sGID = $this->h4aApiHelper->getReportNo($objEvent->gClassID, $objEvent->gGameNo);
 
-            if (isset($sGID) && null !== $sGID) {
+            if (null == $objEvent->provider || null == $objEvent->verband || null == $objEvent->gClassName) {
+                $output->writeln([
+                    '<error>Provider, Verband und/oder LigaShortName ist nicht gesetzt.</error>',
+                    '',
+                ]);
+
+                continue;
+            }
+            $this->h4aReportNoCrawler->setProvider($objEvent->provider);
+            $this->h4aReportNoCrawler->setClassID($objEvent->gClassID);
+            $this->h4aReportNoCrawler->setClassShortName($objEvent->gClassName);
+            $this->h4aReportNoCrawler->setgGameID($objEvent->gGameID);
+            $this->h4aReportNoCrawler->setVerbandName($objEvent->verband);
+            $this->h4aReportNoCrawler->crawlReportNo();
+
+            $sGID = $this->h4aReportNoCrawler->getSGid();
+
+            if (isset($sGID) && null !== $sGID && '' !== $sGID) {
                 $objEvent->sGID = $sGID;
                 $objEvent->save();
 

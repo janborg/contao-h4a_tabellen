@@ -67,3 +67,7 @@ services:
     h4atabellen.crawler.verbandscrawler:
         class: Janborg\H4aTabellen\Crawler\VerbandsCrawler
         public: true
+    
+    h4atabellen.crawler.reportnocrawler:
+        class: Janborg\H4aTabellen\Crawler\H4aReportNoCrawler
+        public: true

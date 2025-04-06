@@ -24,7 +24,7 @@ services:
         class: Janborg\H4aTabellen\Command\H4aUpdateReportsCommand
         arguments:
             - '@contao.framework'
-            - '@h4atabellen.h4aapihelper'
+            - '@h4atabellen.crawler.reportnocrawler'
 
     h4a.command.updateEvents:
         class: Janborg\H4aTabellen\Command\H4aUpdateEventsCommand
