@@ -30,14 +30,14 @@ use Janborg\H4aTabellen\Backend\UpdateHandballnetTeamsController;
 $GLOBALS['BE_MOD']['content']['calendar']['h4a_update_events'] = [UpdateH4aEventsController::class, 'updateEvents'];
 $GLOBALS['BE_MOD']['content']['calendar']['h4a_update_calendars'] = [UpdateH4aCalendarsController::class, 'updateCalendars'];
 $GLOBALS['BE_MOD']['content']['calendar']['h4a_update_results'] = [UpdateH4aResultsController::class, 'updateResults'];
-$GLOBALS['BE_MOD']['content']['handballnet_teams']['update_hn_teams'] = [UpdateHandballnetTeamsController::class, 'updateTeams'];
+$GLOBALS['BE_MOD']['content']['hn_teams']['update_hn_teams'] = [UpdateHandballnetTeamsController::class, 'updateTeams'];
 
 /*
  * tables
  */
 
 $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_h4a_seasons';
-$GLOBALS['BE_MOD']['content']['handballnet_teams']['tables'] = ['tl_hn_teams', 'tl_hn_seasons'];
+$GLOBALS['BE_MOD']['content']['hn_teams']['tables'] = ['tl_hn_teams', 'tl_hn_seasons'];
 
 
 // Register Models
