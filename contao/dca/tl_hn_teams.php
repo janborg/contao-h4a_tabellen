@@ -57,24 +57,19 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             ]
         ],
         'operations' => [
-            'edit' => [
-                'href' => 'act=edit',
-                'icon' => 'edit.svg',
-            ],
-            'delete' => [
-                'href' => 'act=delete',
-                'icon' => 'delete.svg',
-                'attributes' => 'onclick="if(!confirm(\''.($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null).'\'))return false;Backend.getScrollOffset()"',
-            ],
-            'show' => [
-                'href' => 'act=show',
-                'icon' => 'show.svg',
-            ],
+            'edit',
+            'delete',
+            'toggle' => [
+				'href'                => 'act=toggle&amp;field=is_active',
+				'icon'                => 'visible.svg',
+				'showInHeader'        => true
+			],
+            'show',
         ],
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend}, saison, team_id, liga_id, liga_shortname, liga_name, provider, verband, my_team_name, is',
+        'default' => '{title_legend}, saison, team_id, liga_id, liga_shortname, liga_name, provider, verband, my_team_name, is_active',
     ],
     // Fields
     'fields' => [
@@ -192,6 +187,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             'sql' => "varchar(255) NOT NULL default ''",
         ], 
         'is_active' => [
+            'toggle' => true,
             'exclude' => true,
             'filter' => true,
             'inputType' => 'checkbox',
