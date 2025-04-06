@@ -36,16 +36,15 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             'fields' => ['my_team_name', 'team_id', 'liga_name', 'liga_id'],
             'format' => '%s (%s) | %s (%s)',
         ],
-
         'global_operations' => [
             'all' => [
                 'href' => 'act=select',
                 'class' => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
             ],
-            'edit_hn_seasons' => [
-                'href' => 'table=tl_hn_seasons',
-                'class' => 'header_edit_hn_seasons',
+            'edit_h4a_seasons' => [
+                'href' => 'table=tl_h4a_seasons',
+                'class' => 'header_edit_h4a_seasons',
                 'icon' => 'bundles/janborgh4atabellen/seasons.svg',
                 'attributes' => 'onclick="Backend.getScrollOffset()"',
             ],

@@ -20,6 +20,7 @@ use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Janborg\H4aTabellen\Crawler\TeamsCrawler;
+use Janborg\H4aTabellen\Model\H4aSeasonModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 
@@ -35,7 +36,7 @@ class UpdateHandballnetTeamsController extends Backend
 
     public function updateTeams(): void
     {
-        $objSeasons = HandballnetSeasonsModel::findBy(
+        $objSeasons = H4aSeasonModel::findBy(
             ['is_active = ?'],
             [true],
         );
@@ -44,7 +45,7 @@ class UpdateHandballnetTeamsController extends Backend
             $this->teamsCrawler->setClubID($season->club_id);
             $this->teamsCrawler->setProvider($season->provider);
             $this->teamsCrawler->setVerbandName($season->verband);
-            $this->teamsCrawler->setSeason($season->season);
+            $this->teamsCrawler->setSeason($season->hn_season);
             
             $teams = $this->teamsCrawler->getAllTeams();
 
@@ -63,7 +64,7 @@ class UpdateHandballnetTeamsController extends Backend
         
                     $handballnetTeamsModel = new HandballnetTeamsModel();
         
-                    $handballnetTeamsModel->saison = $season->season ?? null;
+                    $handballnetTeamsModel->saison = $season->hn_season ?? null;
                     $handballnetTeamsModel->team_id = $team['teamID'] ?? null;
                     $handballnetTeamsModel->liga_id = $team['classID'] ?? null;
                     $handballnetTeamsModel->provider = $team['provider'] ?? null;
