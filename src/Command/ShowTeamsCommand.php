@@ -148,7 +148,7 @@ class ShowTeamsCommand extends Command
         return Command::SUCCESS;
     }
 
-    // save temas to database into tl_handballnet_teams
+    // save temas to database into tl_hn_teams
     protected function saveTeams(array $teams, string $season): void
     {
         foreach ($teams as $team) {
