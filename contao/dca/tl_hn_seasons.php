@@ -24,7 +24,7 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
                 'id' => 'primary',
             ],
         ],
-        'backlink' => 'do=handballnet_teams',
+        'backlink' => 'do=hn_teams',
     ],
     'list' => [
         'sorting' => [
@@ -59,22 +59,11 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
                 'href' => 'act=show',
                 'icon' => 'show.svg',
             ],
-            'toggle_active' => [
-                'attributes' => 'onclick="Backend.getScrollOffset();"',
-                'haste_ajax_operation' => [
-                    'field' => 'is_active',
-                    'options' => [
-                        [
-                            'value' => '1',
-                            'icon' => 'visible.svg',
-                        ],
-                        [
-                            'value' => '',
-                            'icon' => 'invisible.svg',
-                        ],
-                    ],
-                ],
-            ],
+            'toggle' => [
+				'href'                => 'act=toggle&amp;field=is_active',
+				'icon'                => 'visible.svg',
+				'showInHeader'        => true
+			],
         ],
     ],
     // Palettes
@@ -155,6 +144,7 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'is_active' => [
+            'toggle' => true,
             'exclude' => true,
             'filter' => true,
             'inputType' => 'checkbox',
