@@ -45,6 +45,12 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
                 'class' => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
             ],
+            'edit_hn_teams' => [
+                'href' => 'table=tl_hn_teams',
+                'class' => 'header_edit_hn_teams',
+                'icon' => 'bundles/janborgh4atabellen/teams.svg',
+                'attributes' => 'onclick="Backend.getScrollOffset()"',
+            ],
         ],
         'operations' => [
             'edit' => [
