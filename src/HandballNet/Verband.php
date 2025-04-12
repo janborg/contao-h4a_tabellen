@@ -27,16 +27,10 @@ enum Verband: string implements TranslatableLabelInterface
     case SUEDBADEN = 'suedbaden';
     case WESTFALEN = 'westfalen';
     case WUERTTEMBERG = 'wuerttemberg';
-    // case BAYERN = 'bhv';
-    // case BRANDENBURG = 'hvbr';
-    // case BERLIN = 'hvberlin';
-    // case HESSEN = 'hhv';
-    // case MECKLENBURG = 'hvmv';
-    // case NIEDERSACHSEN = 'hvn';
-    // case RHEINLAND = 'hvr';
-    // case SACHSEN = 'hvs';
-    // case THUERINGEN = 'thv';
-    // case NORDRHEIN = 'hnr';
+    // case BAYERN = 'bhv'; case BRANDENBURG = 'hvbr'; case BERLIN = 'hvberlin'; case
+    // HESSEN = 'hhv'; case MECKLENBURG = 'hvmv'; case NIEDERSACHSEN = 'hvn'; case
+    // RHEINLAND = 'hvr'; case SACHSEN = 'hvs'; case THUERINGEN = 'thv'; case
+    // NORDRHEIN = 'hnr';
 
     public function label(): TranslatableMessage
     {

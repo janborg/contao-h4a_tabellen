@@ -33,7 +33,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * @property SymfonyStyle $io
  * @property int          $statusCode
  */
-
 #[AsCommand(
     name: 'h4a:show:teams',
     description: 'Show teams of a given club from handballnet',
