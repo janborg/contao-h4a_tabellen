@@ -58,7 +58,7 @@ class UpdateHandballnetTeamsController extends Backend
                     );
         
                     if ($handballnetTeam) {
-                    //     $this->io->info('Team '.$team['teamID'].' ('.$team['classID'].', '.$team['classShortName'].') already exists in Database');
+                        Message::addInfo('Team '.$team['teamID'].' ('.$team['classID'].', '.$team['classShortName'].') already exists in Database');
                         continue;
                     }
         
