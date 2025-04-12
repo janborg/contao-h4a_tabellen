@@ -72,6 +72,8 @@ class UpdateHandballnetTeamsController extends Backend
                     $handballnetTeamsModel->liga_shortname = $team['classShortName'] ?? null;
                     $handballnetTeamsModel->liga_name = isset($team['ligaName']) ? trim(str_replace($team['teamName'], '', $team['ligaName'])) : null;
                     $handballnetTeamsModel->my_team_name = $team['teamName'] ?? null;
+                    $handballnetTeamsModel->is_active = true;
+                    $handballnetTeamsModel->tstamp = time();
         
                     $handballnetTeamsModel->save();
                 }        
