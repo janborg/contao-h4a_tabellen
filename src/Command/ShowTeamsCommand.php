@@ -33,6 +33,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * @property SymfonyStyle $io
  * @property int          $statusCode
  */
+
 #[AsCommand(
     name: 'h4a:show:teams',
     description: 'Show teams of a given club from handballnet',
@@ -42,6 +43,7 @@ class ShowTeamsCommand extends Command
     public function __construct(
         private ContaoFramework $framework,
         private TeamsCrawler $teamsCrawler,
+        private SymfonyStyle $io,
     ) {
         parent::__construct();
     }
@@ -147,8 +149,12 @@ class ShowTeamsCommand extends Command
         return Command::SUCCESS;
     }
 
-    // save temas to database into tl_hn_teams
-    protected function saveTeams(array $teams, string $season): void
+    /* save temas to database into tl_hn_teams
+     *
+     * @param mixed $teams
+     * @param string $season
+     */
+    protected function saveTeams(mixed $teams, string $season): void
     {
         foreach ($teams as $team) {
             $handballnetTeam = HandballnetTeamsModel::findBy(
@@ -163,7 +169,7 @@ class ShowTeamsCommand extends Command
 
             $handballnetTeamsModel = new HandballnetTeamsModel();
 
-            $handballnetTeamsModel->saison = $season ?? null;
+            $handballnetTeamsModel->saison = $season;
             $handballnetTeamsModel->team_id = $team['teamID'] ?? null;
             $handballnetTeamsModel->liga_id = $team['classID'] ?? null;
             $handballnetTeamsModel->provider = $team['provider'] ?? null;

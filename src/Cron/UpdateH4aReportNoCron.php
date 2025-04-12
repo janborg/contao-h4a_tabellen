@@ -55,7 +55,7 @@ class UpdateH4aReportNoCron
 
             $sGID = $this->h4aReportNoCrawler->getSGid();
 
-            if (isset($sGID) && null !== $sGID) {
+            if ('' !== $sGID) {
                 $objEvent->sGID = $sGID;
                 $objEvent->save();
 

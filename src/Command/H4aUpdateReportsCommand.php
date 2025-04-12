@@ -103,7 +103,7 @@ class H4aUpdateReportsCommand extends Command
 
             $sGID = $this->h4aReportNoCrawler->getSGid();
 
-            if (isset($sGID) && null !== $sGID && '' !== $sGID) {
+            if ('' !== $sGID) {
                 $objEvent->sGID = $sGID;
                 $objEvent->save();
 
