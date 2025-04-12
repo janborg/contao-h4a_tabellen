@@ -28,6 +28,8 @@ class UpdateHandballnetTeamsController extends Backend
 {
     public function __construct(
         private TeamsCrawler $teamsCrawler,
+        private int $new_teams = 0,
+        private int $existing_teams = 0,
     ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
@@ -57,7 +59,7 @@ class UpdateHandballnetTeamsController extends Backend
                     );
         
                     if ($handballnetTeam) {
-                        Message::addInfo('Team '.$team['teamID'].' ('.$team['classID'].', '.$team['classShortName'].') already exists in Database');
+                        $this->existing_teams++;
                         continue;
                     }
         
@@ -75,8 +77,17 @@ class UpdateHandballnetTeamsController extends Backend
                     $handballnetTeamsModel->tstamp = time();
         
                     $handballnetTeamsModel->save();
+
+                    $this->new_teams++;
                 }        
             }
+        }
+
+        if ($this->new_teams > 0) {
+            Message::addConfirmation($this->new_teams.' neue(s) Team(s) erstellt.');
+        }
+        if ($this->existing_teams > 0) {
+            Message::addInfo($this->existing_teams.' existierende(s) Team(s) übersprungen.');
         }
 
         $this->redirect($this->getReferer());
