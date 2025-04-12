@@ -35,7 +35,7 @@ class UpdateH4aReportNoCron
             [date('Y-m-d'), true, ''],
             [
                 'eager' => true,
-                'having' => 'h4a_season__h4a_ignore = 0',
+                'having' => 'h4a_season__is_active = 1',
             ],
         );
 

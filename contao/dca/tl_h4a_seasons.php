@@ -78,7 +78,7 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend}, season, h4a_ignore;    
+        'default' => '{title_legend}, season;    
                     {handballnet_legend},hn_season, club_id, club_name, provider, verband;
                     {status_legend}, is_active',
     ],
@@ -97,14 +97,6 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
             'inputType' => 'text',
             'eval' => ['maxlength' => 9, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NULL default ''",
-        ],
-        'h4a_ignore' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_ignore'],
-            'exclude' => true,
-            'filter' => true,
-            'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50 m12'],
-            'sql' => "char(1) NOT NULL default ''",    
         ],
         'hn_season' => [
             'exclude' => true,
