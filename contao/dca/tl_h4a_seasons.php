@@ -30,12 +30,12 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
         'sorting' => [
             'mode' => DataContainer::MODE_SORTED,
             'flag' => DataContainer::SORT_ASC,
-            'fields' => ['season'],
+            'fields' => ['club_id'],
             'panelLayout' => 'search, sort;filter,limit',
         ],
         'label' => [
-            'fields' => ['season', 'club_name', 'club_id'],
-            'format' => '%s - %s (%s)',
+            'fields' => ['season', 'club_name', 'verband', 'provider'],
+            'format' => '%s - %s (%s, %s)',
         ],
 
         'global_operations' => [
