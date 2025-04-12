@@ -68,7 +68,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend}, saison, team_id, liga_id, liga_shortname, liga_name, provider, verband, my_team_name, is_active',
+        'default' => '{title_legend}, saison, team_id, liga_id, liga_shortname, liga_name, provider, verband, my_team_name; {status_legend}, is_active',
     ],
     // Fields
     'fields' => [
