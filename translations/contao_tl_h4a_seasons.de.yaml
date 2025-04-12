@@ -1,16 +1,44 @@
 tl_h4a_seasons:
-  title_legend: Saison Einstellungen
+  # Global Operations
+  edit_hn_teams: 
+    0: Teams bearbeiten
+    1: Daten der Teams von handball.net bearbeiten
+  
+  # Operations
+  edit: Saison bearbeiten
+  delete: Saison löschen
+  show: Saison anzeigen
+  toggle: Saison bei automatischen Updates berücksichtigen
 
+  # Legends
+  title_legend: Saison Settings
+  status_legend: Status Settings
+  # Fields
   season:
-    0: Saison
+    0: Saison Name
     1: Bezeichnung der Saison, z.Bsp. "2019/2020"
 
-  is_current_season:
-    0: Aktuelle Saison
-    1: Häkchen setzen, wenn dies die aktuelle Saison ist
+  hn_season:
+    0: Saison (handball.net)
+    1: Jahr der Saison auf handball.net (2024 für 2024/2025)
+  
+  club_id:
+    0: Club ID
+    1: ID des Clubs auf handball.net (z.Bsp. 1234 für den Club mit der ID 1234)
 
-  h4a_ignore:
-    0: Ignorieren
-    1: Saison wird nicht automnatisch über den cronjob aktualisiert
+  club_name:
+    0: Club Name
+    1: Name des Clubs auf (z.Bsp. "TSV Handball")
 
-  toggle_ignore: Saison bei automatischen Updates Ignorieren
+  provider:
+    0: Provider
+    1: Provider der Daten  (z.Bsp. "handball4all")
+
+  verband:
+    0: Verband
+    1: Verband des Clubs (z.Bsp. "Badischer Handballverband")
+  
+  is_active:
+    0: Aktive Saison
+    1: Saison wird beim automnatischen Update über handball.net berücksichtigt
+
