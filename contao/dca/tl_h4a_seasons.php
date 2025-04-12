@@ -29,8 +29,8 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
     'list' => [
         'sorting' => [
             'mode' => DataContainer::MODE_SORTED,
-            'flag' => DataContainer::SORT_ASC,
-            'fields' => ['club_id'],
+            'flag' => DataContainer::SORT_DESC,
+            'fields' => ['club_id', 'season'],
             'panelLayout' => 'search, sort;filter,limit',
         ],
         'label' => [
