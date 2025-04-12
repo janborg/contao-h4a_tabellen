@@ -45,5 +45,4 @@ services:
     Janborg\H4aTabellen\Backend\UpdateHandballnetTeamsController:
         public: true
         arguments:
-            - '@contao.cache.entity_tags'
             - '@h4atabellen.crawler.teamscrawler'

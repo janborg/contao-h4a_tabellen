@@ -27,7 +27,6 @@ use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 class UpdateHandballnetTeamsController extends Backend
 {
     public function __construct(
-        private EntityCacheTags $entityCacheTags,
         private TeamsCrawler $teamsCrawler,
     ) {
         parent::__construct();
