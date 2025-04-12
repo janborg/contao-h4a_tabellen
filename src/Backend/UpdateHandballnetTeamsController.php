@@ -23,6 +23,7 @@ use Janborg\H4aTabellen\Crawler\TeamsCrawler;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UpdateHandballnetTeamsController extends Backend
 {
@@ -30,6 +31,7 @@ class UpdateHandballnetTeamsController extends Backend
         private TeamsCrawler $teamsCrawler,
         private int $new_teams = 0,
         private int $existing_teams = 0,
+        private int $active_seasons = 0,
     ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
@@ -41,6 +43,13 @@ class UpdateHandballnetTeamsController extends Backend
             ['is_active = ?'],
             [true],
         );
+
+        if ($objSeasons === null) {
+            Message::addError('Es sind keine aktiven Saisons vorhanden.');
+            $this->redirect($this->getReferer());
+        }
+        
+        $this->active_seasons = $objSeasons->count();
 
         foreach ($objSeasons as $season) {
             $this->teamsCrawler->setClubID($season->club_id);
@@ -83,11 +92,16 @@ class UpdateHandballnetTeamsController extends Backend
             }
         }
 
+
+        if ($this->active_seasons > 0) {
+            Message::addConfirmation($this->active_seasons.' aktive Saison(s) gefunden und aktualisiert.');
+        }
+
         if ($this->new_teams > 0) {
             Message::addConfirmation($this->new_teams.' neue(s) Team(s) erstellt.');
         }
         if ($this->existing_teams > 0) {
-            Message::addInfo($this->existing_teams.' existierende(s) Team(s) übersprungen.');
+            Message::addInfo($this->existing_teams.' existierende(s) Team(s) geprüft.');
         }
 
         $this->redirect($this->getReferer());
