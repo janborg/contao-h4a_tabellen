@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
 
 namespace Janborg\H4aTabellen\Model;
 

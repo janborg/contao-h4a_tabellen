@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of contao-h4a_gamestats.
+ * This file is part of contao-h4a_tabellen.
  *
  * (c) Jan Lünborg
  *
@@ -100,6 +100,7 @@ class H4aReportNoCrawler
             $reportUrl = $this->crawler->filterXPath('//a[contains(@href, "sGID")]')->attr('href');
         } catch (\InvalidArgumentException $e) {
             $this->sGID = '';
+
             return;
         }
 

@@ -83,6 +83,6 @@ class VerbandsCrawlerTest extends TestCase
 
         $this->assertIsArray($verbaende);
 
-        $this->assertCount(23, $verbaende);
+        $this->assertCount(25, $verbaende);
     }
 }

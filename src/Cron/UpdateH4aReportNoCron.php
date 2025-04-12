@@ -16,7 +16,6 @@ use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\SystemLogger;
 use Janborg\H4aTabellen\Crawler\H4aReportNoCrawler;
-use Janborg\H4aTabellen\Helper\H4aApiHelper;
 
 class UpdateH4aReportNoCron
 {
@@ -44,8 +43,7 @@ class UpdateH4aReportNoCron
         }
 
         foreach ($objEvents as $objEvent) {
-
-            if (null == $objEvent->provider || null == $objEvent->verband || null == $objEvent->gClassName) {
+            if (null === $objEvent->provider || null === $objEvent->verband || null === $objEvent->gClassName) {
                 continue;
             }
             $this->h4aReportNoCrawler->setProvider($objEvent->provider);

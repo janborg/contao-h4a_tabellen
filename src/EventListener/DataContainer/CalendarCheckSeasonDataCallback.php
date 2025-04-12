@@ -12,14 +12,12 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\EventListener\DataContainer;
 
-use Contao\StringUtil;
 use Contao\CalendarModel;
-use Contao\DataContainer;
-use Contao\CalendarEventsModel;
 use Contao\CoreBundle\ServiceAnnotation\Callback;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Contao\DataContainer;
+use Contao\StringUtil;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
-use Contao\CoreBundle\DataContainer\PaletteManipulator;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class CalendarCheckSeasonDataCallback
 {
@@ -44,7 +42,7 @@ class CalendarCheckSeasonDataCallback
             foreach ($seasons as &$season) {
                 $team = HandballnetTeamsModel::findby(
                     ['team_id=?'],
-                    [$season['h4a_team']]
+                    [$season['h4a_team']],
                 );
                 if (null !== $team) {
                     $season['provider'] = $team->provider;

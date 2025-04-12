@@ -12,21 +12,20 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Command;
 
-use Symfony\Component\Console\Helper\Table;
-use Janborg\H4aTabellen\HandballNet\Verband;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Crawler\TeamsCrawler;
 use Janborg\H4aTabellen\HandballNet\Provider;
-use Symfony\Component\Console\Command\Command;
-use Contao\CoreBundle\Framework\ContaoFramework;
-use Janborg\H4aTabellen\Model\HandballnetModel;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Input\InputInterface;
+use Janborg\H4aTabellen\HandballNet\Verband;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class UpdateLineupCommand.
@@ -114,12 +113,12 @@ class ShowTeamsCommand extends Command
 
         if (!$season) {
             $question = new Question('Bitte geben Sie die Saison im Format "YYYY" an', '2024');
-            
-            $season = $this->io->askQuestion($question);   
-        }    
-        
+
+            $season = $this->io->askQuestion($question);
+        }
+
         $this->teamsCrawler->setSeason($season);
-         
+
         try {
             $teams = $this->teamsCrawler->getAllTeams();
         } catch (\Exception $e) {
@@ -152,10 +151,9 @@ class ShowTeamsCommand extends Command
     protected function saveTeams(array $teams, string $season): void
     {
         foreach ($teams as $team) {
-
             $handballnetTeam = HandballnetTeamsModel::findBy(
-                ['team_id=?', 'liga_id=?', 'liga_shortname=?'], 
-                [$team['teamID'], $team['classID'], $team['classShortName']]
+                ['team_id=?', 'liga_id=?', 'liga_shortname=?'],
+                [$team['teamID'], $team['classID'], $team['classShortName']],
             );
 
             if ($handballnetTeam) {
@@ -175,7 +173,7 @@ class ShowTeamsCommand extends Command
             $handballnetTeamsModel->my_team_name = $team['teamName'] ?? null;
 
             $handballnetTeamsModel->save();
-        
+
             $this->io->info('Team '.$team['teamID'].' ('.$team['classID'].', '.$team['classShortName'].') saved to Database');
         }
     }

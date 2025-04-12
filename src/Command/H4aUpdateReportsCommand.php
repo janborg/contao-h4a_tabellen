@@ -15,7 +15,6 @@ namespace Janborg\H4aTabellen\Command;
 use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Crawler\H4aReportNoCrawler;
-use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,7 +38,8 @@ class H4aUpdateReportsCommand extends Command
 
     public function __construct(
         private ContaoFramework $framework,
-        private H4aReportNoCrawler $h4aReportNoCrawler,   ) {
+        private H4aReportNoCrawler $h4aReportNoCrawler,
+    ) {
         parent::__construct();
     }
 
@@ -86,7 +86,7 @@ class H4aUpdateReportsCommand extends Command
                 '-----------------------------------------------------',
             ]);
 
-            if (null == $objEvent->provider || null == $objEvent->verband || null == $objEvent->gClassName) {
+            if (null === $objEvent->provider || null === $objEvent->verband || null === $objEvent->gClassName) {
                 $output->writeln([
                     '<error>Provider, Verband und/oder LigaShortName ist nicht gesetzt.</error>',
                     '',

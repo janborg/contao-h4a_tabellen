@@ -160,10 +160,10 @@ class H4aEventAutomator extends Backend
                             || isset($arrSeason['provider']) !== $objEvent->provider
                             || isset($arrSeason['verband']) !== $objEvent->verband
                         ) {
-                            $objEvent->gClassName = isset($arrSeason['liga_shortname']) ? $arrSeason['liga_shortname'] : "" ; // für handballnet, shortname aus season
+                            $objEvent->gClassName = $arrSeason['liga_shortname'] ?? ''; // für handballnet, shortname aus season
                             $objEvent->gClassID = $arrSpiel['gClassID'];
-                            $objEvent->provider = isset($arrSeason['provider']) ? $arrSeason['provider'] : "";
-                            $objEvent->verband = isset($arrSeason['verband']) ? $arrSeason['verband'] : "";
+                            $objEvent->provider = $arrSeason['provider'] ?? '';
+                            $objEvent->verband = $arrSeason['verband'] ?? '';
                             $isChanged = true;
                         }
 
