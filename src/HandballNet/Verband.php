@@ -40,4 +40,9 @@ enum Verband: string implements TranslatableLabelInterface
             'handballnet',
         );
     }
+
+    public function toString(): string
+    {
+        return $this->value;
+    }
 }

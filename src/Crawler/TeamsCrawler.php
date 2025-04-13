@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Crawler;
 
+use Janborg\H4aTabellen\HandballNet\HandballNetTeam;
+use Janborg\H4aTabellen\HandballNet\Provider;
+use Janborg\H4aTabellen\HandballNet\Verband;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
 
@@ -31,7 +34,7 @@ class TeamsCrawler
     private string $verbandName;
 
     /**
-     * @var array<mixed>
+     * @var array<HandballNetTeam>
      */
     private array $teams;
 
@@ -61,7 +64,7 @@ class TeamsCrawler
      * creates a Crawler and crawls all the teams for a club. Relevant inputs must be
      * set upfront.
      *
-     * @return array<mixed>
+     * @return array<HandballNetTeam>
      */
     public function getAllTeams(): array
     {
@@ -104,19 +107,24 @@ class TeamsCrawler
 
         $divMain->filterXPath('//a[contains(@class, "list-item")]')->each(
             static function (Crawler $node, $i) use (&$arrTeams): void {
-                $arrTeams[$i]['teamUrl'] = $node->attr('href');
 
-                $arrTeams[$i]['teamName'] = $node->filterXPath('//div[contains(@class, "list-item-title")]')->text();
+                $handballnetTeam = new HandballNetTeam();
 
-                $arrTeams[$i]['ligaName'] = $node->filterXPath('//div[contains(@class, "list-item-text")]')->text();
+                $handballnetTeam->team_url = $node->attr('href');
+
+                $handballnetTeam->team_name = $node->filterXPath('//div[contains(@class, "list-item-title")]')->text();
+
+                // replace the team name in the liga name
+                $handballnetTeam->liga_name = trim(str_replace($handballnetTeam->team_name, '', $node->filterXPath('//div[contains(@class, "list-item-text")]')->text()));
+                
+                $arrTeams[$i] = $handballnetTeam;
             },
         );
 
-        // add teamID to array
         foreach ($arrTeams as &$team) {
-            $team['teamID'] = $this->extractTeamID($team['teamUrl']);
-            $team['provider'] = $this->extractProvider($team['teamUrl']);
-            $team['verband'] = $this->extractVerband($team['teamUrl']);
+            $team->team_id = $this->extractTeamID($team->team_url);
+            $team->provider = $this->extractProvider($team->team_url);
+            $team->verband = $this->extractVerband($team->team_url);
 
             $team = $this->crawlLigaInfosForTeam($team);
         }
@@ -124,16 +132,14 @@ class TeamsCrawler
         $this->teams = $arrTeams;
     }
 
-    /**
-     * Undocumented function.
+    /** 
+     * @param HandballNetTeam $team
      *
-     * @param array<mixed> $team
-     *
-     * @return array<mixed>
+     * @return HandballNetTeam
      */
-    private function crawlLigaInfosForTeam(array $team): array
+    private function crawlLigaInfosForTeam(HandballNetTeam $team): HandballNetTeam
     {
-        $url = $this->baseUrl.$team['teamUrl'];
+        $url = $this->baseUrl.$team->team_url;
 
         $httpClient = HttpClient::create();
 
@@ -160,10 +166,10 @@ class TeamsCrawler
             $ligaUrl = $links[0];
         }
         // add ligaID to team
-        $team['classID'] = isset($ligaUrl) ? $this->extractLigaID($ligaUrl) : '';
+        $team->liga_id = isset($ligaUrl) ? $this->extractLigaID($ligaUrl) : '';
 
         // add ligaShortName to team
-        $team['classShortName'] = isset($ligaUrl) ? $this->extractLigaShortName($ligaUrl) : '';
+        $team->liga_short_name = isset($ligaUrl) ? $this->extractLigaShortName($ligaUrl) : '';
 
         return $team;
     }
@@ -175,18 +181,24 @@ class TeamsCrawler
         return $matches[1] ?? '';
     }
 
-    private function extractProvider(string $url): string
+    private function extractProvider(string $url): Provider
     {
         preg_match('/mannschaften\/(\w+)\.\w+\.[0-9,-]+\//', $url, $matches);
 
-        return $matches[1] ?? '';
+        if (isset($matches[1])) {
+            return Provider::from($matches[1]);
+        }
+        throw new \InvalidArgumentException('Provider not found in URL');
     }
 
-    private function extractVerband(string $url): string
+    private function extractVerband(string $url): Verband
     {
         preg_match('/mannschaften\/\w+\.(\w+)\.[0-9,-]+\//', $url, $matches);
 
-        return $matches[1] ?? '';
+        if (isset($matches[1])) {
+            return Verband::from($matches[1]);
+        }
+        throw new \InvalidArgumentException('Verband not found in URL');
     }
 
     private function extractLigaID(string $url): string

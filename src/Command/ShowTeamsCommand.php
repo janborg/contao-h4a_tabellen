@@ -42,7 +42,6 @@ class ShowTeamsCommand extends Command
     public function __construct(
         private ContaoFramework $framework,
         private TeamsCrawler $teamsCrawler,
-        private SymfonyStyle $io,
     ) {
         parent::__construct();
     }
@@ -130,16 +129,19 @@ class ShowTeamsCommand extends Command
 
         $this->io->info('Teams for ClubID: '.$clubID.' (Verband: '.$verband.' in der Saison: '.$season.')');
 
-        $tablehome = new Table($output);
-        $tablehome->setHeaders(['Team', 'className', 'TeamID', 'Provider', 'Verband', 'classID', 'classShortName']);
+        $tableTeams = new Table($output);
+        $tableTeams->setHeaders(['Team', 'team_id', 'liga_name', 'liga_id', 'liga_short_name', 'provider', 'verband']);
 
         // teamUrl nicht ausgeben
         foreach ($teams as &$team) {
-            unset($team['teamUrl']);
+            unset($team->team_url);
+            $team = (array) $team;
+            $team['provider'] = $team['provider']->toString();
+            $team['verband'] = $team['verband']->toString();
         }
 
-        $tablehome->setRows($teams);
-        $tablehome->render();
+        $tableTeams->setRows($teams);
+        $tableTeams->render();
 
         if ($input->getOption('save-teams')) {
             $this->saveTeams($teams, $season);

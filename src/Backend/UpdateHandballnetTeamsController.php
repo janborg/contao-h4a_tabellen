@@ -57,7 +57,7 @@ class UpdateHandballnetTeamsController extends Backend
                 foreach ($teams as $team) {
                     $handballnetTeam = HandballnetTeamsModel::findBy(
                         ['team_id=?', 'liga_id=?', 'liga_shortname=?'],
-                        [$team['teamID'], $team['classID'], $team['classShortName']],
+                        [$team->team_id, $team->liga_id, $team->liga_short_name],
                     );
 
                     if ($handballnetTeam) {
@@ -67,14 +67,14 @@ class UpdateHandballnetTeamsController extends Backend
 
                     $handballnetTeamsModel = new HandballnetTeamsModel();
 
-                    $handballnetTeamsModel->saison = $season->hn_season ?? null;
-                    $handballnetTeamsModel->team_id = $team['teamID'] ?? null;
-                    $handballnetTeamsModel->liga_id = $team['classID'] ?? null;
-                    $handballnetTeamsModel->provider = $team['provider'] ?? null;
-                    $handballnetTeamsModel->verband = $team['verband'] ?? null;
-                    $handballnetTeamsModel->liga_shortname = $team['classShortName'] ?? null;
-                    $handballnetTeamsModel->liga_name = isset($team['ligaName']) ? trim(str_replace($team['teamName'], '', $team['ligaName'])) : null;
-                    $handballnetTeamsModel->my_team_name = $team['teamName'] ?? null;
+                    $handballnetTeamsModel->saison = $season->hn_season;
+                    $handballnetTeamsModel->team_id = $team->team_id;
+                    $handballnetTeamsModel->liga_id = $team->liga_id;
+                    $handballnetTeamsModel->provider = $team->provider;
+                    $handballnetTeamsModel->verband = $team->verband;
+                    $handballnetTeamsModel->liga_shortname = $team->liga_short_name;
+                    $handballnetTeamsModel->liga_name = $team->liga_name;
+                    $handballnetTeamsModel->my_team_name = $team->team_name;
                     $handballnetTeamsModel->is_active = true;
                     $handballnetTeamsModel->tstamp = time();
 

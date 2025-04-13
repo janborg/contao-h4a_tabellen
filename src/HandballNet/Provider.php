@@ -28,4 +28,9 @@ enum Provider: string implements TranslatableLabelInterface
             'handballnet',
         );
     }
+    public function toString(): string
+    {
+        return $this->value;
+    }
 }
+
