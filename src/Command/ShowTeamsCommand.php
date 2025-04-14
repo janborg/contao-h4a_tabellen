@@ -39,6 +39,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class ShowTeamsCommand extends Command
 {
+    private SymfonyStyle $io;
+
     public function __construct(
         private ContaoFramework $framework,
         private TeamsCrawler $teamsCrawler,
