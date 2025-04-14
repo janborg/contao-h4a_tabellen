@@ -107,7 +107,6 @@ class TeamsCrawler
 
         $divMain->filterXPath('//a[contains(@class, "list-item")]')->each(
             static function (Crawler $node, $i) use (&$arrTeams): void {
-
                 $handballnetTeam = new HandballNetTeam();
 
                 $handballnetTeam->team_url = $node->attr('href');
@@ -116,7 +115,7 @@ class TeamsCrawler
 
                 // replace the team name in the liga name
                 $handballnetTeam->liga_name = trim(str_replace($handballnetTeam->team_name, '', $node->filterXPath('//div[contains(@class, "list-item-text")]')->text()));
-                
+
                 $arrTeams[$i] = $handballnetTeam;
             },
         );
@@ -132,11 +131,6 @@ class TeamsCrawler
         $this->teams = $arrTeams;
     }
 
-    /** 
-     * @param HandballNetTeam $team
-     *
-     * @return HandballNetTeam
-     */
     private function crawlLigaInfosForTeam(HandballNetTeam $team): HandballNetTeam
     {
         $url = $this->baseUrl.$team->team_url;
@@ -188,6 +182,7 @@ class TeamsCrawler
         if (isset($matches[1])) {
             return Provider::from($matches[1]);
         }
+
         throw new \InvalidArgumentException('Provider not found in URL');
     }
 
@@ -198,6 +193,7 @@ class TeamsCrawler
         if (isset($matches[1])) {
             return Verband::from($matches[1]);
         }
+
         throw new \InvalidArgumentException('Verband not found in URL');
     }
 

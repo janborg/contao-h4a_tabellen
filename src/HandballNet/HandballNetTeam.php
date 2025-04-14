@@ -12,9 +12,6 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\HandballNet;
 
-use Janborg\H4aTabellen\HandballNet\Verband;
-use Janborg\H4aTabellen\HandballNet\Provider;
-
 class HandballNetTeam
 {
     public string $team_name;
@@ -22,7 +19,7 @@ class HandballNetTeam
     public string $team_url;
 
     public string $team_id;
-    
+
     public string $liga_name;
 
     public string $liga_id;

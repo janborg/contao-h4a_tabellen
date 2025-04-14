@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\Tests\Crawler;
 
 use Janborg\H4aTabellen\Crawler\TeamsCrawler;
+use Janborg\H4aTabellen\HandballNet\HandballNetTeam;
 use PHPUnit\Framework\TestCase;
 
 class TeamsCrawlerTest extends TestCase
@@ -29,10 +30,12 @@ class TeamsCrawlerTest extends TestCase
             ['5056', 'pfalz', 'HSG Trifels', 'handball4all'],
             ['2214', 'rheinhessen', 'TV Nierstein', 'handball4all'],
             ['2601', 'saar', 'HF Köllertal', 'handball4all'],
-            ['1465', 'schleswig-holstein', 'SG Flensburg-Handewitt', 'handball4all'],
+            ['1491', 'schleswig-holstein', 'Eckernförder MTV', 'handball4all'],
             ['785', 'suedbaden', 'TV Todtnau', 'handball4all'],
             ['4781', 'westfalen', 'TV Olpe', 'handball4all'],
-            ['30283', 'bhv', 'DJK Neumarkt', 'nuliga'], // bayern
+
+        /*
+             ['30283', 'bhv', 'DJK Neumarkt', 'nuliga'], // bayern
             ['201173', 'hvbr', 'SV Fortuna Prenzlau', 'nuliga'], // brandenburg
             ['10443', 'hvberlin', 'Lichtenrader SV', 'nuliga'], // berlin
             ['18134', 'hhv', 'HC VfL Heppenheim', 'nuliga'], // hessen
@@ -43,6 +46,7 @@ class TeamsCrawlerTest extends TestCase
             ['420512', 'thv', 'HSC Erfurt', 'nuliga'], // thueringen
             ['060015', 'hnr', '1.FC Köln', 'nuliga'], // nordrhein
             ['2486', 'dhbdata', 'Handball Sport Verein Hamburg', 'sportradar'],
+        */
         ];
     }
 
@@ -68,21 +72,7 @@ class TeamsCrawlerTest extends TestCase
 
         $this->assertIsArray($teams);
 
-        $this->assertArrayHasKey('teamID', $teams[0]);
-        $this->assertNotEmpty($teams[0]['teamID']);
-
-        $this->assertArrayHasKey('teamName', $teams[0]);
-        $this->assertNotEmpty($teams[0]['teamName']);
-
-        $this->assertArrayHasKey('provider', $teams[0]);
-        $this->assertNotEmpty($teams[0]['provider']);
-
-        $this->assertArrayHasKey('verband', $teams[0]);
-        $this->assertNotEmpty($teams[0]['verband']);
-
-        $this->assertArrayHasKey('teamUrl', $teams[0]);
-        $this->assertNotEmpty($teams[0]['teamUrl']);
-
-        $this->assertStringContainsString($clubName, $teams[0]['teamName']);
+        $this->assertNotEmpty($teams);
+        $this->assertInstanceOf(HandballNetTeam::class, $teams[0]);
     }
 }

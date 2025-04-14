@@ -134,8 +134,8 @@ class ShowTeamsCommand extends Command
 
         // teamUrl nicht ausgeben
         foreach ($teams as &$team) {
-            unset($team->team_url);
             $team = (array) $team;
+            unset($team['team_url']);
             $team['provider'] = $team['provider']->toString();
             $team['verband'] = $team['verband']->toString();
         }
