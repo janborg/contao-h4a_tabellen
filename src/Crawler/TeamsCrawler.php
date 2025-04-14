@@ -183,7 +183,7 @@ class TeamsCrawler
 
     private function extractProvider(string $url): Provider
     {
-        preg_match('/mannschaften\/(\w+)\.\w+\.[0-9,-]+\//', $url, $matches);
+        preg_match('/mannschaften\/(\w+)\.[\w,-]+\.[0-9,-]+\//', $url, $matches);
 
         if (isset($matches[1])) {
             return Provider::from($matches[1]);
@@ -193,7 +193,7 @@ class TeamsCrawler
 
     private function extractVerband(string $url): Verband
     {
-        preg_match('/mannschaften\/\w+\.(\w+)\.[0-9,-]+\//', $url, $matches);
+        preg_match('/mannschaften\/\w+\.([\w,-]+)\.[0-9,-]+\//', $url, $matches);
 
         if (isset($matches[1])) {
             return Verband::from($matches[1]);
