@@ -18,7 +18,9 @@ use Symfony\Component\Translation\TranslatableMessage;
 enum Provider: string implements TranslatableLabelInterface
 {
     case HANDBALL4ALL = 'handball4all';
-    // case NULIGA = 'nuliga'; case SPORTRADAR = 'sportradar';
+    /*  case NULIGA = 'nuliga';
+        case SPORTRADAR = 'sportradar';
+    */
 
     public function label(): TranslatableMessage
     {

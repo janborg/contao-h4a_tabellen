@@ -33,9 +33,8 @@ class TeamsCrawlerTest extends TestCase
             ['1491', 'schleswig-holstein', 'Eckernförder MTV', 'handball4all'],
             ['785', 'suedbaden', 'TV Todtnau', 'handball4all'],
             ['4781', 'westfalen', 'TV Olpe', 'handball4all'],
-
             /*
-             ['30283', 'bhv', 'DJK Neumarkt', 'nuliga'], // bayern
+            ['30283', 'bhv', 'DJK Neumarkt', 'nuliga'], // bayern
             ['201173', 'hvbr', 'SV Fortuna Prenzlau', 'nuliga'], // brandenburg
             ['10443', 'hvberlin', 'Lichtenrader SV', 'nuliga'], // berlin
             ['18134', 'hhv', 'HC VfL Heppenheim', 'nuliga'], // hessen
