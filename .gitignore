@@ -9,3 +9,4 @@
 
 #tools
 /tools/*/vendor
+.DS_Store

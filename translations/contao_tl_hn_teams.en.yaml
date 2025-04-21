@@ -1,0 +1,57 @@
+tl_hn_teams:
+
+  # Global operations
+  edit_h4a_seasons: 
+    0: Edit Seasons
+    1: Edit season data
+
+  update_hn_teams: 
+    0: Update Teams
+    1: Update teams via handball.net
+
+  # Operations
+  edit: Edit Team
+  delete: Delete Team
+  show: Show Team Data
+  toggle: Activate Team
+
+  # Legends
+  title_legend: Handball.net Team Settings
+  status_legend: Status Settings
+
+  # Fields
+  saison: 
+    0: Season (handball.net)
+    1: Year of the season on handball.net (2024 for 2024/2025)
+
+  team_id:
+    0: Team ID
+    1: Team ID at the provider
+
+  liga_id:
+    0: League ID
+    1: League ID at the provider
+
+  liga_shortname:
+    0: League Short Name
+    1: Short name of the league on handball.net (e.g., "m-bol_hf")
+
+  liga_name:
+    0: League Name
+    1: Name of the league, will not be overwritten during update
+
+  provider:
+    0: Provider
+    1: Data provider (e.g., "handball4all")
+
+  verband:
+    0: Association
+    1: Club association (e.g., "Baden Handball Association")
+  
+  is_active:
+    0: Active Season
+    1: Season is considered during automatic updates via handball.net
+
+  my_team_name:
+    0: My Team
+    1: Name of the team to highlight it via CSS

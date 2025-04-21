@@ -60,6 +60,26 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
+    ['provider' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['provider'],
+        'inputType' => 'text',
+        'eval' => [
+            'mandatory' => true,
+            'maxlength' => 255,
+            'tl_class' => 'w50',
+        ],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ]],
+    ['verband' => [
+        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['verband'],
+        'inputType' => 'text',
+        'eval' => [
+            'mandatory' => true,
+            'maxlength' => 255,
+            'tl_class' => 'w50',
+        ],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ]],
     ['gHomeTeam' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gHomeTeam'],
         'exclude' => true,

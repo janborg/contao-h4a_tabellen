@@ -1,0 +1,92 @@
+tl_calendar_events:
+  update_h4a_events: Update H4a-Events
+  
+  h4a_legend: Game No. Class and Teams
+  
+  gymnasium_legend: Gym information
+  
+  result_legend: Half-time and final result
+  
+  gGameNo:
+    0: Game No.
+    1: Automatically set during update via handball4all
+  
+  gGameID:
+    0: Game ID
+    1: Automatically set during update via handball4all
+  
+  gClassID:
+    0: ID class
+    1: Automatically set during update via handball4all
+  
+  gClassName:
+    0: Name class
+    1: Automatically set during update via handball4all
+  
+  gHomeTeam:
+    0: Home team
+    1: Automatically set during update via handball4all
+  
+  gGuestTeam:
+    0: Guest team
+    1: Automatically set during update via handball4all
+  
+  gGymnasiumNo:
+    0: Gym number
+    1: Automatically set during update via handball4all
+  
+  gGymnasiumName:
+    0: Gym name
+    1: Automatically set during update via handball4all
+  
+  gGymnasiumStreet:
+    0: Street
+    1: Automatically set during update via handball4all
+  
+  gGymnasiumTown:
+    0: City
+    1: Automatically set during update via handball4all
+  
+  gGymnasiumPostal:
+    0: Postal code
+    1: Automatically set during update via handball4all
+  
+  gHomeGoals:
+    0: Home goals
+    1: Automatically set during update via handball4all
+  
+  gGuestGoals:
+    0: Guest goals
+    1: Automatically set during update via handball4all
+  
+  gHomeGoals_1:
+    0: Home goals half-time
+    1: Automatically set during update via handball4all
+  
+  gGuestGoals_1:
+    0: Guest goals half-time
+    1: Automatically set during update via handball4all
+  
+  h4a_resultComplete:
+    0: Result complete
+    1: Automatically set during update via handball4all
+  
+  sGID:
+    0: report ID
+    1: Automatically set during update via handball4all
+  
+  h4a_season:
+    0: Season
+    1: Season of the H4a data
+
+  provider:
+      0: Provider
+      1: Provider that supplies the league's data
+      
+  verband:
+      0: Association
+      1: Association in which the league is organized
+
+  liga_shortname:
+      0: League Short Name
+      1: Short name of the league

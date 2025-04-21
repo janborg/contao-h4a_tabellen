@@ -1,0 +1,56 @@
+tl_calendar:
+    operation_h4a_update_calendars: Update H4a Calendars
+
+    operation_h4a_update_results: Update H4a Results
+    
+    operation_h4a_seasons: Manage Seasons
+    
+    h4a_legend: Handball4all Data
+    
+    h4a_imported:
+        0: Handball4all Update
+        1: Calendar entries for a team's games are automatically created via Handball4all
+    
+    h4a_liga_ID:
+        0: League ID
+        1: Please enter the 5-digit ID of the league (www.handball4all.de)
+    
+    h4a_team_ID:
+        0: Team ID
+        1: Please enter the 6-digit ID of the team (www.handball4all.de)
+    
+    my_team_name:
+        0: My Team
+        1: Exact name of the team to be highlighted
+    
+    h4aEvents_author:
+        0: Author
+        1: User to be set as the author for automatically generated events
+    
+    h4a_seasons:
+        0: H4a Season Settings
+        1: The seasons in which the games of this calendar take place
+    
+    h4a_saison:
+        0: Season
+        1: Season of the H4a data
+    
+    h4a_liga:
+        0: League ID
+        1: H4a ID for the league
+    
+    h4a_team:
+        0: Team ID
+        1: H4a ID for the team
+
+    provider:
+        0: Provider
+        1: Provider that supplies the league's data
+        
+    verband:
+        0: Association
+        1: Association in which the league is organized
+
+    liga_shortname:
+        0: League Short Name
+        1: Short name of the league

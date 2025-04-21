@@ -41,3 +41,8 @@ services:
         public: true
         arguments:
             - '@h4atabellen.h4aeventautomator'
+
+    Janborg\H4aTabellen\Backend\UpdateHandballnetTeamsController:
+        public: true
+        arguments:
+            - '@h4atabellen.crawler.teamscrawler'

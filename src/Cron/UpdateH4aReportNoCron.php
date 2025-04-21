@@ -15,14 +15,14 @@ namespace Janborg\H4aTabellen\Cron;
 use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\SystemLogger;
-use Janborg\H4aTabellen\Helper\H4aApiHelper;
+use Janborg\H4aTabellen\Crawler\H4aReportNoCrawler;
 
 class UpdateH4aReportNoCron
 {
     public function __construct(
         private ContaoFramework $framework,
         private SystemLogger $systemLogger,
-        private H4aApiHelper $h4aApiHelper,
+        private H4aReportNoCrawler $h4aReportNoCrawler,
     ) {
         $this->framework->initialize();
     }
@@ -34,7 +34,7 @@ class UpdateH4aReportNoCron
             [date('Y-m-d'), true, ''],
             [
                 'eager' => true,
-                'having' => 'h4a_season__h4a_ignore = 0',
+                'having' => 'h4a_season__is_active = 1',
             ],
         );
 
@@ -43,9 +43,19 @@ class UpdateH4aReportNoCron
         }
 
         foreach ($objEvents as $objEvent) {
-            $sGID = $this->h4aApiHelper->getReportNo($objEvent->gClassID, $objEvent->gGameNo);
+            if (null === $objEvent->provider || null === $objEvent->verband || null === $objEvent->gClassName) {
+                continue;
+            }
+            $this->h4aReportNoCrawler->setProvider($objEvent->provider);
+            $this->h4aReportNoCrawler->setClassID($objEvent->gClassID);
+            $this->h4aReportNoCrawler->setClassShortName($objEvent->gClassName);
+            $this->h4aReportNoCrawler->setgGameID($objEvent->gGameID);
+            $this->h4aReportNoCrawler->setVerbandName($objEvent->verband);
+            $this->h4aReportNoCrawler->crawlReportNo();
 
-            if (isset($sGID) && null !== $sGID) {
+            $sGID = $this->h4aReportNoCrawler->getSGid();
+
+            if ('' !== $sGID) {
                 $objEvent->sGID = $sGID;
                 $objEvent->save();
 

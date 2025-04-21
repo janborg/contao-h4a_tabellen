@@ -17,3 +17,8 @@ services:
         class: Janborg\H4aTabellen\EventListener\DataContainer\CalendarEventsListChildRecordsCallback   
         arguments:
             - '@request_stack'
+
+    h4atabellen.calendar.cheackseasondata.onload.callback: 
+        class: Janborg\H4aTabellen\EventListener\DataContainer\CalendarCheckSeasonDataCallback
+        arguments:
+            - '@request_stack'
