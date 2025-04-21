@@ -6,6 +6,7 @@ provider:
 verband:
   label:
     baden: Badischer Handball-Verband
+    baden-wuerttemberg: Baden-Württembergischer Handball-Verband
     hamburg: Hamurger Handball-Verband
     pfalz: Pfälzer Handball-Verband
     rheinhessen: Handball-Verband Rheinhessen
