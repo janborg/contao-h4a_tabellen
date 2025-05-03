@@ -54,6 +54,7 @@ services:
             - '@contao.framework'
             - '@monolog.logger.contao.cron'
             - '@h4atabellen.crawler.reportnocrawler'
+            - '@event_dispatcher'
         tags:
             -
                 name: contao.cronjob

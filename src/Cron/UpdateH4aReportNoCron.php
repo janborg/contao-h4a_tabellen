@@ -13,9 +13,11 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\Cron;
 
 use Contao\CalendarEventsModel;
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\SystemLogger;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Crawler\H4aReportNoCrawler;
+use Janborg\H4aTabellen\Event\H4aReportUpdatedEvent;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UpdateH4aReportNoCron
 {
@@ -23,6 +25,7 @@ class UpdateH4aReportNoCron
         private ContaoFramework $framework,
         private SystemLogger $systemLogger,
         private H4aReportNoCrawler $h4aReportNoCrawler,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
         $this->framework->initialize();
     }
@@ -59,6 +62,10 @@ class UpdateH4aReportNoCron
                 $objEvent->sGID = $sGID;
                 $objEvent->save();
 
+                // Dispatch Event
+                $event = new H4aReportUpdatedEvent($objEvent);
+                $this->eventDispatcher->dispatch($event);
+                
                 $this->systemLogger
                     ->info('Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') über Handball4all gespeichert')
                 ;
