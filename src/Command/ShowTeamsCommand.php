@@ -129,6 +129,11 @@ class ShowTeamsCommand extends Command
             return Command::FAILURE;
         }
 
+        // save teams (optional)
+        if ($input->getOption('save-teams')) {
+            $this->saveTeams($teams, $season);
+        }
+
         $this->io->info('Teams for ClubID: '.$clubID.' (Verband: '.$verband.' in der Saison: '.$season.')');
 
         $tableTeams = new Table($output);
@@ -145,26 +150,23 @@ class ShowTeamsCommand extends Command
         $tableTeams->setRows($teams);
         $tableTeams->render();
 
-        if ($input->getOption('save-teams')) {
-            $this->saveTeams($teams, $season);
-        }
-
         return Command::SUCCESS;
     }
 
     /* save temas to database into tl_hn_teams
      *
-     * @param mixed $teams
+     * @param array<HandballNetTeam>  $teams
      * @param string $season
      */
-    protected function saveTeams(mixed $teams, string $season): void
+    protected function saveTeams(array $teams, string $season): void
     {
         foreach ($teams as $team) {
             $handballnetTeam = HandballnetTeamsModel::findBy(
                 ['team_id=?', 'liga_id=?', 'liga_shortname=?'],
-                [$team['teamID'], $team['classID'], $team['classShortName']],
+                [$team->team_id, $team->liga_id, $team->liga_short_name],
             );
 
+            // skip already existing teams
             if ($handballnetTeam) {
                 $this->io->info('Team '.$team->team_id.' ('.$team->liga_id.', '.$team->liga_short_name.') already exists in Database');
                 continue;
@@ -176,20 +178,23 @@ class ShowTeamsCommand extends Command
                 continue;
             }
 
+            // create new teams
             $handballnetTeamsModel = new HandballnetTeamsModel();
 
             $handballnetTeamsModel->saison = $season;
-            $handballnetTeamsModel->team_id = $team['teamID'] ?? null;
-            $handballnetTeamsModel->liga_id = $team['classID'] ?? null;
-            $handballnetTeamsModel->provider = $team['provider'] ?? null;
-            $handballnetTeamsModel->verband = $team['verband'] ?? null;
-            $handballnetTeamsModel->liga_shortname = $team['classShortName'] ?? null;
-            $handballnetTeamsModel->liga_name = isset($team['ligaName']) ? trim(str_replace($team['teamName'], '', $team['ligaName'])) : null;
-            $handballnetTeamsModel->my_team_name = $team['teamName'] ?? null;
+            $handballnetTeamsModel->team_id = $team->team_id;
+            $handballnetTeamsModel->liga_id = $team->liga_id;
+            $handballnetTeamsModel->provider = $team->provider->toString();
+            $handballnetTeamsModel->verband = $team->verband->toString();
+            $handballnetTeamsModel->liga_shortname = $team->liga_short_name;
+            $handballnetTeamsModel->liga_name = $team->liga_name;
+            $handballnetTeamsModel->my_team_name = $team->team_name;
+            $handballnetTeamsModel->is_active = true;
+            $handballnetTeamsModel->tstamp = time();
 
             $handballnetTeamsModel->save();
 
-            $this->io->info('Team '.$team['teamID'].' ('.$team['classID'].', '.$team['classShortName'].') saved to Database');
+            $this->io->info('Team '.$handballnetTeamsModel->team_id.' ('.$handballnetTeamsModel->liga_id.', '.$handballnetTeamsModel->liga_shortname.') saved to Database');
         }
     }
 }

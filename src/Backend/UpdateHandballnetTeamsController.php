@@ -26,6 +26,7 @@ class UpdateHandballnetTeamsController extends Backend
         private int $new_teams = 0,
         private int $existing_teams = 0,
         private int $active_seasons = 0,
+        private int $teams_without_id = 0,
     ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
@@ -60,6 +61,7 @@ class UpdateHandballnetTeamsController extends Backend
                         [$team->team_id, $team->liga_id, $team->liga_short_name],
                     );
 
+                    // skip teams that already exist
                     if ($handballnetTeam) {
                         ++$this->existing_teams;
                         continue;
@@ -77,8 +79,8 @@ class UpdateHandballnetTeamsController extends Backend
                     $handballnetTeamsModel->saison = $season->hn_season;
                     $handballnetTeamsModel->team_id = $team->team_id;
                     $handballnetTeamsModel->liga_id = $team->liga_id;
-                    $handballnetTeamsModel->provider = $team->provider;
-                    $handballnetTeamsModel->verband = $team->verband;
+                    $handballnetTeamsModel->provider = $team->provider->toString();
+                    $handballnetTeamsModel->verband = $team->verband->toString();
                     $handballnetTeamsModel->liga_shortname = $team->liga_short_name;
                     $handballnetTeamsModel->liga_name = $team->liga_name;
                     $handballnetTeamsModel->my_team_name = $team->team_name;
