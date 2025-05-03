@@ -13,12 +13,12 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\Command;
 
 use Contao\CalendarEventsModel;
-use Symfony\Component\Console\Command\Command;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Janborg\H4aTabellen\Crawler\H4aReportNoCrawler;
-use Symfony\Component\Console\Input\InputInterface;
 use Janborg\H4aTabellen\Event\H4aReportUpdatedEvent;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -113,7 +113,7 @@ class H4aUpdateReportsCommand extends Command
                 // Dispatch Event
                 $event = new H4aReportUpdatedEvent($objEvent);
                 $this->eventDispatcher->dispatch($event);
-                
+
                 $output->writeln([
                     '<info>ReportNo (sGID) '.$sGID.' über Handball4all erhalten.</info>',
                     '',

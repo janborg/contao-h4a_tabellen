@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Cron;
 
-use Contao\CalendarModel;
 use Contao\CalendarEventsModel;
-use Contao\CoreBundle\Monolog\SystemLogger;
+use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
-use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CoreBundle\Monolog\SystemLogger;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
+use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UpdateH4aResultsCron
@@ -83,7 +83,7 @@ class UpdateH4aResultsCron
                 // Dispatch Event
                 $event = new H4aResultUpdatedEvent($objEvent);
                 $this->eventDispatcher->dispatch($event);
-                
+
                 // log new result
                 $this->systemLogger
                     ->info('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameID.' über Handball4all aktualisiert')
