@@ -64,7 +64,14 @@ class UpdateHandballnetTeamsController extends Backend
                         ++$this->existing_teams;
                         continue;
                     }
+                    
+                    // skip teams without team_id or liga_id
+                    if (empty($team->team_id) || empty($team->liga_id)) {
+                        ++$this->teams_without_id;
+                        continue;
+                    }       
 
+                    // create new teams
                     $handballnetTeamsModel = new HandballnetTeamsModel();
 
                     $handballnetTeamsModel->saison = $season->hn_season;
@@ -93,7 +100,10 @@ class UpdateHandballnetTeamsController extends Backend
             Message::addConfirmation($this->new_teams.' neue(s) Team(s) erstellt.');
         }
         if ($this->existing_teams > 0) {
-            Message::addInfo($this->existing_teams.' existierende(s) Team(s) geprüft.');
+            Message::addInfo($this->existing_teams.' existierende(s) Team(s) gefunden.');
+        }
+        if ($this->teams_without_id > 0) {
+            Message::addError($this->teams_without_id.' Team(s) ohne ID nicht angelegt.');
         }
 
         $this->redirect($this->getReferer());

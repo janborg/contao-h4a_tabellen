@@ -166,7 +166,13 @@ class ShowTeamsCommand extends Command
             );
 
             if ($handballnetTeam) {
-                $this->io->info('Team '.$team['teamID'].' ('.$team['classID'].', '.$team['classShortName'].') already exists in Database');
+                $this->io->info('Team '.$team->team_id.' ('.$team->liga_id.', '.$team->liga_short_name.') already exists in Database');
+                continue;
+            }
+
+            // skip teams without team_id or liga_id
+            if (empty($team->team_id) || empty($team->liga_id)) {
+                $this->io->error('Team '.$team->team_name.' ('.$team->liga_short_name.') has no team_id or liga_id');
                 continue;
             }
 
