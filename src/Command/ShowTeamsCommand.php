@@ -14,6 +14,7 @@ namespace Janborg\H4aTabellen\Command;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Crawler\TeamsCrawler;
+use Janborg\H4aTabellen\HandballNet\HandballNetTeam;
 use Janborg\H4aTabellen\HandballNet\Provider;
 use Janborg\H4aTabellen\HandballNet\Verband;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
@@ -153,10 +154,10 @@ class ShowTeamsCommand extends Command
         return Command::SUCCESS;
     }
 
-    /* save temas to database into tl_hn_teams
+    /**
+     * Save teams to database into tl_hn_teams.
      *
-     * @param array<HandballNetTeam>  $teams
-     * @param string $season
+     * @param array<int, HandballNetTeam> $teams
      */
     protected function saveTeams(array $teams, string $season): void
     {

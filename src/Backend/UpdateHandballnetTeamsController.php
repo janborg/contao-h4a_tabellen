@@ -66,12 +66,12 @@ class UpdateHandballnetTeamsController extends Backend
                         ++$this->existing_teams;
                         continue;
                     }
-                    
+
                     // skip teams without team_id or liga_id
                     if (empty($team->team_id) || empty($team->liga_id)) {
                         ++$this->teams_without_id;
                         continue;
-                    }       
+                    }
 
                     // create new teams
                     $handballnetTeamsModel = new HandballnetTeamsModel();
