@@ -12,15 +12,17 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Command;
 
-use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
+use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Contao\CoreBundle\Framework\ContaoFramework;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[AsCommand(
     name: 'h4a:update:results',
@@ -32,6 +34,7 @@ class H4aUpdateResultsCommand extends Command
         private ContaoFramework $framework,
         private EntityCacheTags $entityCacheTags,
         private H4aApiHelper $h4aApiHelper,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
         parent::__construct();
     }
@@ -123,6 +126,10 @@ class H4aUpdateResultsCommand extends Command
                     '',
                 ]);
 
+                // Dispatch Event
+                $event = new H4aResultUpdatedEvent($objEvent);
+                $this->eventDispatcher->dispatch($event);
+                
                 // Invalidate CacheTag for Event
                 $this->entityCacheTags->invalidateTagsFor($objEvent);
             } else {
