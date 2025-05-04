@@ -18,13 +18,16 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\Message;
+use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UpdateH4aResultsController extends Backend
 {
     public function __construct(
         private EntityCacheTags $entityCacheTags,
         private H4aApiHelper $h4aApiHelper,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
@@ -76,6 +79,10 @@ class UpdateH4aResultsController extends Backend
                 $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
                 $objEvent->h4a_resultComplete = true;
                 $objEvent->save();
+
+                // Dispatch Event
+                $event = new H4aResultUpdatedEvent($objEvent);
+                $this->eventDispatcher->dispatch($event);
 
                 // Add message for the updated Event
                 Message::addConfirmation('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].' für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' erhalten.');

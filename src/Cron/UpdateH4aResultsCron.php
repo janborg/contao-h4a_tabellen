@@ -17,7 +17,9 @@ use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\SystemLogger;
+use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UpdateH4aResultsCron
 {
@@ -26,6 +28,7 @@ class UpdateH4aResultsCron
         private EntityCacheTags $entityCacheTags,
         private SystemLogger $systemLogger,
         private H4aApiHelper $h4aApiHelper,
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
         $this->framework->initialize();
     }
@@ -76,6 +79,10 @@ class UpdateH4aResultsCron
                 $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
                 $objEvent->h4a_resultComplete = true;
                 $objEvent->save();
+
+                // Dispatch Event
+                $event = new H4aResultUpdatedEvent($objEvent);
+                $this->eventDispatcher->dispatch($event);
 
                 // log new result
                 $this->systemLogger

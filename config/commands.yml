@@ -19,12 +19,14 @@ services:
             - '@contao.framework'
             - '@contao.cache.entity_tags'
             - '@h4atabellen.h4aapihelper'
+            - '@event_dispatcher'
 
     h4a.command.updateReports:
         class: Janborg\H4aTabellen\Command\H4aUpdateReportsCommand
         arguments:
             - '@contao.framework'
             - '@h4atabellen.crawler.reportnocrawler'
+            - '@event_dispatcher'
 
     h4a.command.updateEvents:
         class: Janborg\H4aTabellen\Command\H4aUpdateEventsCommand
