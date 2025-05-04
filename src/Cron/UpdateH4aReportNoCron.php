@@ -49,12 +49,18 @@ class UpdateH4aReportNoCron
             if (null === $objEvent->provider || null === $objEvent->verband || null === $objEvent->gClassName) {
                 continue;
             }
+
             $this->h4aReportNoCrawler->setProvider($objEvent->provider);
             $this->h4aReportNoCrawler->setClassID($objEvent->gClassID);
             $this->h4aReportNoCrawler->setClassShortName($objEvent->gClassName);
             $this->h4aReportNoCrawler->setgGameID($objEvent->gGameID);
             $this->h4aReportNoCrawler->setVerbandName($objEvent->verband);
-            $this->h4aReportNoCrawler->crawlReportNo();
+
+            try {
+                $this->h4aReportNoCrawler->crawlReportNo();
+            } catch (\Exception $e) {
+                continue;
+            }
 
             $sGID = $this->h4aReportNoCrawler->getSGid();
 
