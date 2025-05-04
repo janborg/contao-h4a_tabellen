@@ -24,4 +24,9 @@ final class H4aResultUpdatedEvent extends Event
         public readonly CalendarEventsModel $calendarEvent,
     ) {
     }
+
+    public function getCalendarEvent(): CalendarEventsModel
+    {
+        return $this->calendarEvent;
+    }
 }
