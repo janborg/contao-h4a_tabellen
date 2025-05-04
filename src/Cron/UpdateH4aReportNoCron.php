@@ -75,11 +75,7 @@ class UpdateH4aReportNoCron
                 $this->systemLogger
                     ->info('Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') über Handball4all gespeichert')
                 ;
-            } else {
-                $this->systemLogger
-                    ->info('Report Nr. für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') konnte nicht ermittelt werden')
-                ;
-            }
+            } 
         }
     }
 }
