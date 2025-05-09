@@ -27,6 +27,7 @@ enum Verband: string implements TranslatableLabelInterface
     case SUEDBADEN = 'suedbaden';
     case WESTFALEN = 'westfalen';
     case WUERTTEMBERG = 'wuerttemberg';
+    case OL_BADEN_WUERTTENBERG = 'ol-baden-wuerttemberg';
     /*  case BAYERN = 'bhv';
         case BRANDENBURG = 'hvbr';
         case BERLIN = 'hvberlin';
