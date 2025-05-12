@@ -23,6 +23,7 @@ use Contao\StringUtil;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Janborg\H4aTabellen\Helper\Helper;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class H4aEventAutomator.
@@ -33,7 +34,7 @@ class H4aEventAutomator extends Backend
         private ContaoFramework $contaoFramework,
         private EntityCacheTags $entityCacheTags,
         private H4aApiHelper $h4aApiHelper,
-        private SystemLogger|null $systemLogger,
+        private readonly LoggerInterface|null $systemLogger,
     ) {
         $this->contaoFramework->initialize();
         parent::__construct();

@@ -17,13 +17,14 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\SystemLogger;
 use Janborg\H4aTabellen\Crawler\H4aReportNoCrawler;
 use Janborg\H4aTabellen\Event\H4aReportUpdatedEvent;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UpdateH4aReportNoCron
 {
     public function __construct(
         private ContaoFramework $framework,
-        private SystemLogger $systemLogger,
+        private readonly LoggerInterface|null $logger,
         private H4aReportNoCrawler $h4aReportNoCrawler,
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {
@@ -72,7 +73,7 @@ class UpdateH4aReportNoCron
                 $event = new H4aReportUpdatedEvent($objEvent);
                 $this->eventDispatcher->dispatch($event);
 
-                $this->systemLogger
+                $this->logger
                     ->info('Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') über Handball4all gespeichert')
                 ;
             }
