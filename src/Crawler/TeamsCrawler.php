@@ -183,7 +183,7 @@ class TeamsCrawler
 
     private function extractTeamID(string $url): string
     {
-        preg_match('/mannschaften\/\w+\.\w+\.([0-9,-]+)\//', $url, $matches);
+        preg_match('/mannschaften\/\w+\.[\w,-]+\.([0-9,-]+)\//', $url, $matches);
 
         return $matches[1] ?? '';
     }
@@ -212,14 +212,14 @@ class TeamsCrawler
 
     private function extractLigaID(string $url): string
     {
-        preg_match('/spielplan\/spieltage\/\w+\.\w+\.([0-9]+)(?:\.[a-zA-Z0-9_-]+)?\/spiele\//', $url, $matches);
+        preg_match('/spielplan\/spieltage\/\w+\.[\w,-]+\.([0-9]+)(?:\.[a-zA-Z0-9_-]+)?\/spiele\//', $url, $matches);
 
         return $matches[1] ?? '';
     }
 
     private function extractLigaShortName(string $url): string
     {
-        preg_match('/ligen\/\w+\.\w+\.([a-zA-Z0-9_,-]+)\/spielplan\/spieltage\//', $url, $matches);
+        preg_match('/(ligen|wettbewerbe)\/\w+\.[\w,-]+\.([a-zA-Z0-9_,-]+)\/spielplan\/spieltage\//', $url, $matches);
 
         return $matches[1] ?? '';
     }
