@@ -185,7 +185,11 @@ class TeamsCrawler
     {
         preg_match('/mannschaften\/\w+\.[\w,-]+\.([0-9,-]+)\//', $url, $matches);
 
-        return $matches[1] ?? '';
+        if (isset($matches[1])) {
+            return $matches[1];
+        }
+
+        throw new \InvalidArgumentException('Team ID not found in URL');
     }
 
     private function extractProvider(string $url): Provider
@@ -214,13 +218,21 @@ class TeamsCrawler
     {
         preg_match('/spielplan\/spieltage\/\w+\.[\w,-]+\.([0-9]+)(?:\.[a-zA-Z0-9_-]+)?\/spiele\//', $url, $matches);
 
-        return $matches[1] ?? '';
+        if (isset($matches[1])) {
+            return $matches[1];
+        }
+
+        throw new \InvalidArgumentException('Liga ID not found in URL');
     }
 
     private function extractLigaShortName(string $url): string
     {
         preg_match('/(ligen|wettbewerbe)\/\w+\.[\w,-]+\.([a-zA-Z0-9_,-]+)\/spielplan\/spieltage\//', $url, $matches);
 
-        return $matches[1] ?? '';
+        if (isset($matches[2])) {
+            return $matches[2];
+        }
+
+        throw new \InvalidArgumentException('Liga short name not found in URL');
     }
 }
