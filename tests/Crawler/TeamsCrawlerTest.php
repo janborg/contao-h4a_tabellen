@@ -59,7 +59,7 @@ class TeamsCrawlerTest extends TestCase
      */
     public function testGetAllTeams($clubID, $verbandName, $clubName, $provider): void
     {
-        $crawler = new TeamsCrawler();
+        $crawler = new TeamsCrawler(null);
 
         $crawler->setClubID($clubID);
 
