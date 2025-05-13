@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 use Janborg\H4aTabellen\Crawler\H4aReportNoCrawler;
 use PHPUnit\Framework\TestCase;
 
@@ -13,8 +21,8 @@ class H4aReportNoCrawlerTest extends TestCase
     public static function gamesProvider(): iterable
     {
         return [
-            ['handball4all', 'wuerttemberg', '126171', 'm-bol_hf','7762911', '2651371'],
-            ['handball4all', 'baden', '118076', 'f-olb_bhv','7448846', '2985786'],
+            ['handball4all', 'wuerttemberg', '126171', 'm-bol_hf', '7762911', '2651371'],
+            ['handball4all', 'baden', '118076', 'f-olb_bhv', '7448846', '2985786'],
         ];
     }
 
@@ -42,6 +50,6 @@ class H4aReportNoCrawlerTest extends TestCase
 
         $this->assertIsString($reportNo);
         $this->assertNotEmpty($reportNo);
-        $this->assertEquals($sGID, $reportNo);
+        $this->assertSame($sGID, $reportNo);
     }
 }
