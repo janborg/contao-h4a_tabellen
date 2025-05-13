@@ -15,6 +15,7 @@ namespace Janborg\H4aTabellen\Crawler;
 use Janborg\H4aTabellen\HandballNet\HandballNetTeam;
 use Janborg\H4aTabellen\HandballNet\Provider;
 use Janborg\H4aTabellen\HandballNet\Verband;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
 
@@ -39,6 +40,10 @@ class TeamsCrawler
     private array $teams;
 
     private Crawler $crawler;
+
+    public function __construct(private readonly LoggerInterface|null $errorLogger)
+    {
+    }
 
     public function setClubID(string $clubID): void
     {
@@ -120,12 +125,20 @@ class TeamsCrawler
             },
         );
 
-        foreach ($arrTeams as &$team) {
-            $team->team_id = $this->extractTeamID($team->team_url);
-            $team->provider = $this->extractProvider($team->team_url);
-            $team->verband = $this->extractVerband($team->team_url);
-
-            $team = $this->crawlLigaInfosForTeam($team);
+        foreach ($arrTeams as $k => &$team) {
+            try {
+                $team->team_id = $this->extractTeamID($team->team_url);
+                $team->provider = $this->extractProvider($team->team_url);
+                $team->verband = $this->extractVerband($team->team_url);
+                $team = $this->crawlLigaInfosForTeam($team);
+            } catch (\Throwable $th) {
+                $this->errorLogger->error(
+                    'Teamcrawler failed for '.$team->team_url.' ('.$th->getMessage().')',
+                    ['exception' => $th->getMessage()],
+                );
+                unset($arrTeams[$k]);
+                continue;
+            }
         }
 
         $this->teams = $arrTeams;
@@ -170,9 +183,13 @@ class TeamsCrawler
 
     private function extractTeamID(string $url): string
     {
-        preg_match('/mannschaften\/\w+\.\w+\.([0-9,-]+)\//', $url, $matches);
+        preg_match('/mannschaften\/\w+\.[\w,-]+\.([0-9,-]+)\//', $url, $matches);
 
-        return $matches[1] ?? '';
+        if (isset($matches[1])) {
+            return $matches[1];
+        }
+
+        throw new \InvalidArgumentException('Team ID not found in URL');
     }
 
     private function extractProvider(string $url): Provider
@@ -199,15 +216,23 @@ class TeamsCrawler
 
     private function extractLigaID(string $url): string
     {
-        preg_match('/spielplan\/spieltage\/\w+\.\w+\.([0-9]+)(?:\.[a-zA-Z0-9_-]+)?\/spiele\//', $url, $matches);
+        preg_match('/spielplan\/spieltage\/\w+\.[\w,-]+\.([0-9]+)(?:\.[a-zA-Z0-9_-]+)?\/spiele\//', $url, $matches);
 
-        return $matches[1] ?? '';
+        if (isset($matches[1])) {
+            return $matches[1];
+        }
+
+        throw new \InvalidArgumentException('Liga ID not found in URL');
     }
 
     private function extractLigaShortName(string $url): string
     {
-        preg_match('/ligen\/\w+\.\w+\.([a-zA-Z0-9_,-]+)\/spielplan\/spieltage\//', $url, $matches);
+        preg_match('/(ligen|wettbewerbe)\/\w+\.[\w,-]+\.([a-zA-Z0-9_,-]+)\/spielplan\/spieltage\//', $url, $matches);
 
-        return $matches[1] ?? '';
+        if (isset($matches[2])) {
+            return $matches[2];
+        }
+
+        throw new \InvalidArgumentException('Liga short name not found in URL');
     }
 }

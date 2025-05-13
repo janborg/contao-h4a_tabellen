@@ -64,6 +64,8 @@ services:
 
     h4atabellen.crawler.teamscrawler:
         class: Janborg\H4aTabellen\Crawler\TeamsCrawler
+        arguments:
+            - '@?monolog.logger.contao.error'
         public: true
 
     h4atabellen.crawler.verbandscrawler:
