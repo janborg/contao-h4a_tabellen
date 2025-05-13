@@ -157,9 +157,9 @@ class H4aEventAutomator extends Backend
                         // Check, if class ID or name changed
                         if (
                             $arrSpiel['gClassID'] !== $objEvent->gClassID
-                            || isset($arrSeason['liga_shortname']) !== $objEvent->gClassName
-                            || isset($arrSeason['provider']) !== $objEvent->provider
-                            || isset($arrSeason['verband']) !== $objEvent->verband
+                            || $arrSeason['liga_shortname'] !== $objEvent->gClassName
+                            || $arrSeason['provider'] !== $objEvent->provider
+                            || $arrSeason['verband'] !== $objEvent->verband
                         ) {
                             $objEvent->gClassName = $arrSeason['liga_shortname'] ?? ''; // für handballnet, shortname aus season
                             $objEvent->gClassID = $arrSpiel['gClassID'];
