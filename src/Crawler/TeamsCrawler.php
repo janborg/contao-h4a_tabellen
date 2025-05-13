@@ -129,7 +129,7 @@ class TeamsCrawler
             try {
                 $team->team_id = $this->extractTeamID($team->team_url);
                 $team->provider = $this->extractProvider($team->team_url);
-                $team->verband = $this->extractVerband($team->team_url);            
+                $team->verband = $this->extractVerband($team->team_url);
                 $team = $this->crawlLigaInfosForTeam($team);
             } catch (\Throwable $th) {
                 $this->errorLogger->error(
