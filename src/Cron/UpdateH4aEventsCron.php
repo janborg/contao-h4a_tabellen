@@ -14,7 +14,6 @@ namespace Janborg\H4aTabellen\Cron;
 
 use Contao\CalendarModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\Monolog\SystemLogger;
 use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
 use Psr\Log\LoggerInterface;
 
