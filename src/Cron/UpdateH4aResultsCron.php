@@ -16,9 +16,9 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\CoreBundle\Monolog\SystemLogger;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UpdateH4aResultsCron
@@ -26,7 +26,7 @@ class UpdateH4aResultsCron
     public function __construct(
         private ContaoFramework $framework,
         private EntityCacheTags $entityCacheTags,
-        private SystemLogger $systemLogger,
+        private readonly LoggerInterface|null $logger,
         private H4aApiHelper $h4aApiHelper,
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {
@@ -85,7 +85,7 @@ class UpdateH4aResultsCron
                 $this->eventDispatcher->dispatch($event);
 
                 // log new result
-                $this->systemLogger
+                $this->logger
                     ->info('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameID.' über Handball4all aktualisiert')
                 ;
 
@@ -94,7 +94,7 @@ class UpdateH4aResultsCron
             } else {
                 $objEvent->h4a_resultComplete = false;
 
-                $this->systemLogger
+                $this->logger
                     ->info('Ergebnis für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') über Handball4all geprüft, kein Ergebnis vorhanden')
                 ;
             }
