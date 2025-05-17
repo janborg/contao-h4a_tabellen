@@ -62,6 +62,14 @@ services:
                 method: updateReportNo
                 priority: 40
 
+    h4atabellen.cron.updatehandballnetteams:
+        class: Janborg\H4aTabellen\Cron\UpdateHandballnetTeamsCron
+        arguments:
+            - '@contao.framework'
+            - '@h4atabellen.crawler.teamscrawler'
+            - '@event_dispatcher'
+            - '@?monolog.logger.contao.cron'
+
     h4atabellen.crawler.teamscrawler:
         class: Janborg\H4aTabellen\Crawler\TeamsCrawler
         arguments:
