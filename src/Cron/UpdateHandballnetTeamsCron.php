@@ -31,6 +31,7 @@ class UpdateHandballnetTeamsCron
         $objSeasons = H4aSeasonModel::findBy(
             ['is_active=?'],
             [true],
+            ['order' => 'hn_season ASC'],
         );
 
         if (null === $objSeasons) {
