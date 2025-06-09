@@ -5,10 +5,13 @@ tl_h4a_seasons:
     1: Daten der Teams von handball.net bearbeiten
   
   # Operations
-  edit: Edit season
-  delete: Delete season
-  show: Show season
-  toggle: Update Season from handball.net
+  edit: Edit season %s
+  delete: Delete season %s
+  show: Show season %s 
+  toggle: 
+    0: Activate/Deactivate automatic updates for Season %s
+    1: Deactivate automatic updates for Season %s
+    2: Activate automatic updates for Season %s
 
   # Legends
   title_legend: Season Settings
