@@ -49,8 +49,8 @@ tl_hn_teams:
       1: Verband des Clubs (z.Bsp. "Badischer Handballverband")
     
     is_active:
-      0: Aktive Saison
-      1: Saison wird beim automnatischen Update über handball.net berücksichtigt
+      0: Aktives Team
+      1: Team wird beim automatischen Update berücksichtigt
 
     my_team_name:
       0: Mein Team

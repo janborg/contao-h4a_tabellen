@@ -49,8 +49,8 @@ tl_hn_teams:
     1: Club association (e.g., "Baden Handball Association")
   
   is_active:
-    0: Active Season
-    1: Season is considered during automatic updates via handball.net
+    0: Active Team
+    1: Team is considered during automatic updates 
 
   my_team_name:
     0: My Team
