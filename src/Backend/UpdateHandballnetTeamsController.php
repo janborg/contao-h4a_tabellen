@@ -76,6 +76,7 @@ class UpdateHandballnetTeamsController extends Backend
                     // create new teams
                     $handballnetTeamsModel = new HandballnetTeamsModel();
 
+                    $handballnetTeamsModel->pid = $season->id;
                     $handballnetTeamsModel->saison = $season->hn_season;
                     $handballnetTeamsModel->team_id = $team->team_id;
                     $handballnetTeamsModel->liga_id = $team->liga_id;
