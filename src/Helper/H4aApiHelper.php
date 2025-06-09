@@ -16,7 +16,6 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
@@ -39,7 +38,7 @@ final class H4aApiHelper
         private string $baseUrl,
         private readonly HttpClientInterface $httpClient,
         private readonly CacheInterface $appCache,
-        private readonly LoggerInterface $contaoLogger
+        private readonly LoggerInterface $contaoLogger,
     ) {
     }
 
@@ -57,6 +56,7 @@ final class H4aApiHelper
 
     /**
      * @param bool $cache
+     *
      * @return array<mixed>
      */
     public function getSpielplanForTeamID($cache = true)
@@ -72,6 +72,7 @@ final class H4aApiHelper
 
     /**
      * @param bool $cache
+     *
      * @return array<mixed>
      */
     public function getSpielplanForClassID($cache = true)
@@ -87,6 +88,7 @@ final class H4aApiHelper
 
     /**
      * @param bool $cache
+     *
      * @return array<mixed>
      */
     public function getSpielplanForClubID($cache = true)
@@ -102,6 +104,7 @@ final class H4aApiHelper
 
     /**
      * @param bool $cache
+     *
      * @return array<mixed>
      */
     public function getTabelleForClassID($cache = true)
@@ -215,20 +218,23 @@ final class H4aApiHelper
             $this->appCache->delete($cacheKey);
         }
 
-        return $this->appCache->get($cacheKey, function (ItemInterface $item) {
-            $item->expiresAfter(3600);
+        return $this->appCache->get(
+            $cacheKey,
+            function (ItemInterface $item) {
+                $item->expiresAfter(3600);
 
-            try {
-                return $this->httpClient->request(
-                    'GET',
-                    $this->request_url
-                )->toArray();
-            } catch (TransportExceptionInterface | HttpExceptionInterface $e) {
-                $this->contaoLogger->error(sprintf('Unable to get data from "%s": %s', $this->request_url, $e->getMessage()));
-                $item->expiresAfter(0);
+                try {
+                    return $this->httpClient->request(
+                        'GET',
+                        $this->request_url,
+                    )->toArray();
+                } catch (TransportExceptionInterface|HttpExceptionInterface $e) {
+                    $this->contaoLogger->error(\sprintf('Unable to get data from "%s": %s', $this->request_url, $e->getMessage()));
+                    $item->expiresAfter(0);
 
-                return [];
-            }
-        });
+                    return [];
+                }
+            },
+        );
     }
 }

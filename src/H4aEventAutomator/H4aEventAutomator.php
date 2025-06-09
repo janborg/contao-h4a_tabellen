@@ -75,7 +75,7 @@ class H4aEventAutomator extends Backend
     /**
      * Update Calendars via json from H4a.
      */
-    public function syncCalendars(CalendarModel $objCalendar, $cache = true): void
+    public function syncCalendars(CalendarModel $objCalendar, bool $cache = true): void
     {
         $arrSeasons = unserialize($objCalendar->h4a_seasons);
 
