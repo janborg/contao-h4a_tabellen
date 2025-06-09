@@ -40,12 +40,12 @@ class HandballnetTeamsListModeMigration extends AbstractMigration
 
         // find all tl_hn_teams with empty pid
         $teamsWithoutPid = $this->connection->executeQuery('
-                SELECT * FROM tl_hn_teams WHERE pid = NULL
+                SELECT * FROM tl_hn_teams WHERE pid = 0
             ')
             ->fetchAllAssociative()
         ;
 
-        return empty($teamsWithoutPid) ? true : false;
+        return !empty($teamsWithoutPid) ? true : false;
     }
 
     public function run(): MigrationResult
@@ -57,7 +57,8 @@ class HandballnetTeamsListModeMigration extends AbstractMigration
 
         foreach ($seasons as $season) {
             $hn_teams = HandballnetTeamsModel::findBy(
-                'saison', $season->hn_season,
+                ['saison=?'],
+                [$season->hn_season],
             );
 
             foreach ($hn_teams as $hn_team) {
