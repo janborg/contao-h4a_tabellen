@@ -30,7 +30,7 @@ use Janborg\H4aTabellen\Backend\UpdateHandballnetTeamsController;
 $GLOBALS['BE_MOD']['content']['calendar']['h4a_update_events'] = [UpdateH4aEventsController::class, 'updateEvents'];
 $GLOBALS['BE_MOD']['content']['calendar']['h4a_update_calendars'] = [UpdateH4aCalendarsController::class, 'updateCalendars'];
 $GLOBALS['BE_MOD']['content']['calendar']['h4a_update_results'] = [UpdateH4aResultsController::class, 'updateResults'];
-$GLOBALS['BE_MOD']['content']['calendar']['update_hn_teams'] = [UpdateHandballnetTeamsController::class, 'updateTeams'];
+$GLOBALS['BE_MOD']['content']['handballnet_teams']['update_hn_teams'] = [UpdateHandballnetTeamsController::class, 'updateTeams'];
 
 /*
  * tables
@@ -40,6 +40,7 @@ $GLOBALS['BE_MOD']['content']['calendar']['tables'] = array_merge(
     $GLOBALS['BE_MOD']['content']['calendar']['tables'],
     ['tl_h4a_seasons', 'tl_hn_teams']
 );
+$GLOBALS['BE_MOD']['content']['handballnet_teams']['tables'] = ['tl_h4a_seasons', 'tl_hn_teams'];
 
 // Register Models
 $GLOBALS['TL_MODELS']['tl_h4ajsondata'] = H4aJsonDataModel::class;
