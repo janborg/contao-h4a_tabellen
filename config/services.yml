@@ -18,6 +18,11 @@ services:
     
     h4atabellen.h4aapihelper:
         class: Janborg\H4aTabellen\Helper\H4aApiHelper
+        arguments:
+            - 'https://api.h4a.mobi/spo/spo-proxy_public.php'
+            - '@http_client'
+            - '@cache.app'
+            - '@?monolog.logger.contao.general'
         public: true
     
     h4atabellen.cron.updateresults:

@@ -76,7 +76,7 @@ class H4aUpdateEventsCommand extends Command
             ]);
             $output->writeln('Starte Update...');
 
-            $this->h4aEventAutomator->syncCalendars($objCalendar);
+            $this->h4aEventAutomator->syncCalendars($objCalendar, false);
 
             $output->writeln([
                 '<info>Update des Kalenders über Handball4all durchgeführt.</info>',

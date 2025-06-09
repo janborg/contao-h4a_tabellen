@@ -51,7 +51,7 @@ class H4aEventAutomator extends Backend
         $this->logger?->info('Update für '.$intCalendars.' Kalender über Handball4all gestartet');
 
         foreach ($objCalendars as $objCalendar) {
-            $this->syncCalendars($objCalendar);
+            $this->syncCalendars($objCalendar, false);
         }
 
         $this->logger?->info('Update der Kalender über Handball4all beendet');
@@ -65,7 +65,7 @@ class H4aEventAutomator extends Backend
 
         $objCalendar = CalendarModel::findById($id);
 
-        $this->syncCalendars($objCalendar);
+        $this->syncCalendars($objCalendar, false);
 
         $this->logger?->info('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.');
 
@@ -75,7 +75,7 @@ class H4aEventAutomator extends Backend
     /**
      * Update Calendars via json from H4a.
      */
-    public function syncCalendars(CalendarModel $objCalendar): void
+    public function syncCalendars(CalendarModel $objCalendar, bool $cache = true): void
     {
         $arrSeasons = unserialize($objCalendar->h4a_seasons);
 
@@ -84,12 +84,12 @@ class H4aEventAutomator extends Backend
 
             $arrResultSpielplan = $this->h4aApiHelper
                 ->setLvIDNext($arrSeason['h4a_team'])
-                ->getSpielplanForTeamID()
+                ->getSpielplanForTeamID($cache)
             ;
 
             $arrResultTabelle = $this->h4aApiHelper
                 ->setLvIDNext($arrResultSpielplan['dataList'][0]['gClassID'])
-                ->getTabelleForClassID()
+                ->getTabelleForClassID($cache)
             ;
 
             Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);

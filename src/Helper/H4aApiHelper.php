@@ -14,8 +14,13 @@ namespace Janborg\H4aTabellen\Helper;
 
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class H4aApiHelper
 {
@@ -30,7 +35,10 @@ final class H4aApiHelper
     private string $request_url;
 
     public function __construct(
-        private string $baseUrl = 'https://api.h4a.mobi/spo/spo-proxy_public.php',
+        private string $baseUrl,
+        private readonly HttpClientInterface $httpClient,
+        private readonly CacheInterface $appCache,
+        private readonly LoggerInterface $contaoLogger,
     ) {
     }
 
@@ -47,57 +55,65 @@ final class H4aApiHelper
     }
 
     /**
+     * @param bool $cache
+     *
      * @return array<mixed>
      */
-    public function getSpielplanForTeamID()
+    public function getSpielplanForTeamID($cache = true)
     {
         $this->setLvTypeNext('team');
 
         $this->request_url = $this->baseUrl.'?cmd='.$this->cmd.'&lvTypeNext='.$this->lvTypeNext.'&lvIDNext='.$this->lvIDNext;
 
-        $response = $this->getResponse();
+        $response = $this->getResponse($cache);
 
         return $response[0];
     }
 
     /**
+     * @param bool $cache
+     *
      * @return array<mixed>
      */
-    public function getSpielplanForClassID()
+    public function getSpielplanForClassID($cache = true)
     {
         $this->setLvTypeNext('class');
 
         $this->request_url = $this->baseUrl.'?cmd='.$this->cmd.'&lvTypeNext='.$this->lvTypeNext.'&lvIDNext='.$this->lvIDNext;
 
-        $response = $this->getResponse();
+        $response = $this->getResponse($cache);
 
         return $response[0];
     }
 
     /**
+     * @param bool $cache
+     *
      * @return array<mixed>
      */
-    public function getSpielplanForClubID()
+    public function getSpielplanForClubID($cache = true)
     {
         $this->setLvTypeNext('club');
 
         $this->request_url = $this->baseUrl.'?cmd='.$this->cmd.'&lvTypeNext='.$this->lvTypeNext.'&lvIDNext='.$this->lvIDNext;
 
-        $response = $this->getResponse();
+        $response = $this->getResponse($cache);
 
         return $response[0];
     }
 
     /**
+     * @param bool $cache
+     *
      * @return array<mixed>
      */
-    public function getTabelleForClassID()
+    public function getTabelleForClassID($cache = true)
     {
         $this->setLvTypeNext('class');
 
         $this->request_url = $this->baseUrl.'?cmd='.$this->cmd.'&lvTypeNext='.$this->lvTypeNext.'&subType='.$this->subType.'&lvIDNext='.$this->lvIDNext;
 
-        $response = $this->getResponse();
+        $response = $this->getResponse($cache);
 
         return $response[0];
     }
@@ -114,9 +130,7 @@ final class H4aApiHelper
     {
         $this->setbaseUrl('https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score=');
 
-        $httpClient = HttpClient::create();
-
-        $response = $httpClient->request(
+        $response = $this->httpClient->request(
             'GET',
             $this->baseUrl.$ligaID,
         )
@@ -196,15 +210,31 @@ final class H4aApiHelper
     /**
      * @return array<mixed>
      */
-    private function getResponse(): array
+    private function getResponse(bool $cache): array
     {
-        $httpClient = HttpClient::create();
+        $cacheKey = md5($this->request_url);
 
-        $response = $httpClient->request(
-            'GET',
-            $this->request_url,
+        if (!$cache) {
+            $this->appCache->delete($cacheKey);
+        }
+
+        return $this->appCache->get(
+            $cacheKey,
+            function (ItemInterface $item) {
+                $item->expiresAfter(3600);
+
+                try {
+                    return $this->httpClient->request(
+                        'GET',
+                        $this->request_url,
+                    )->toArray();
+                } catch (TransportExceptionInterface|HttpExceptionInterface $e) {
+                    $this->contaoLogger->error(\sprintf('Unable to get data from "%s": %s', $this->request_url, $e->getMessage()));
+                    $item->expiresAfter(0);
+
+                    return [];
+                }
+            },
         );
-
-        return $response->toArray();
     }
 }

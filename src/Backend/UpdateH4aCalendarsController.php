@@ -41,7 +41,7 @@ class UpdateH4aCalendarsController extends Backend
         }
 
         foreach ($objCalendars as $objCalendar) {
-            $this->h4aEventAutomator->syncCalendars($objCalendar);
+            $this->h4aEventAutomator->syncCalendars($objCalendar, false);
         }
 
         Message::addConfirmation('Update der Kalender über Handball4all durchgeführt.');
