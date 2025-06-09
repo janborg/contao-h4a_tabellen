@@ -34,7 +34,7 @@ class HandballnetTeamsListModeMigration extends AbstractMigration
         $columns = $schemaManager->listTableColumns('tl_hn_teams');
 
         // If the field pid does not exist in tl_hn_teams we should do nothing
-        return (!isset($columns['pid'])) ? true : false;
+        return !isset($columns['pid']) ? true : false;
     }
 
     public function run(): MigrationResult
@@ -43,7 +43,7 @@ class HandballnetTeamsListModeMigration extends AbstractMigration
 
         $this->connection->executeQuery('
            ALTER TABLE tl_hn_teams ADD COLUMN pid INT(10) NOT NULL DEFAULT 0
-        ');  
+        ');
 
         // foreach tl_h4a_season, find all tl_hn_teams where hn_season equals saison
         $seasons = H4aSeasonModel::findAll();
