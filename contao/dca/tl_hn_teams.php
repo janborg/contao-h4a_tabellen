@@ -66,7 +66,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             'sql' => 'int(10) unsigned NOT NULL auto_increment',
         ],
         'pid' => array(
-            'sql' => "int(10) unsigned NOT NULL"
+            'sql' => "int(10) unsigned NOT NULL default '0"
         ),
         'tstamp' => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
