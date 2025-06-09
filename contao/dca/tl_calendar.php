@@ -32,13 +32,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
         'href' => 'key=h4a_update_results',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
     ]],
-    ['h4a_seasons' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_seasons'],
-        'class' => 'header_h4a',
-        'href' => 'table=tl_h4a_seasons',
-        'icon' => 'bundles/janborgh4atabellen/seasons.svg',
-        'attr' => 'onclick="Backend.getScrollOffset()"',
-    ]],
     $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'],
 );
 

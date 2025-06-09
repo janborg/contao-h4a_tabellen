@@ -17,6 +17,7 @@ use Janborg\H4aTabellen\Crawler\TeamsCrawler;
 use Janborg\H4aTabellen\HandballNet\HandballNetTeam;
 use Janborg\H4aTabellen\HandballNet\Provider;
 use Janborg\H4aTabellen\HandballNet\Verband;
+use Janborg\H4aTabellen\Model\H4aSeasonModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -161,6 +162,11 @@ class ShowTeamsCommand extends Command
      */
     protected function saveTeams(array $teams, string $season): void
     {
+        $h4aSeason = H4aSeasonModel::findBy(
+            'hn_season',
+            $season,
+        );
+
         foreach ($teams as $team) {
             $handballnetTeam = HandballnetTeamsModel::findBy(
                 ['team_id=?', 'liga_id=?', 'liga_shortname=?'],
@@ -182,6 +188,7 @@ class ShowTeamsCommand extends Command
             // create new teams
             $handballnetTeamsModel = new HandballnetTeamsModel();
 
+            $handballnetTeamsModel->pid = $h4aSeason->id;
             $handballnetTeamsModel->saison = $season;
             $handballnetTeamsModel->team_id = $team->team_id;
             $handballnetTeamsModel->liga_id = $team->liga_id;

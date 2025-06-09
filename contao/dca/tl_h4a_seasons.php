@@ -24,7 +24,7 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
                 'id' => 'primary',
             ],
         ],
-        'backlink' => 'do=calendar',
+        'ctable' => ['tl_hn_teams'],
     ],
     'list' => [
         'sorting' => [
@@ -37,7 +37,6 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
             'fields' => ['season', 'club_name', 'verband', 'provider'],
             'format' => '%s - %s (%s, %s)',
         ],
-
         'global_operations' => [
             'all' => [
                 'label' => &$GLOBALS['TL_LANG']['MSC']['all'],
@@ -45,30 +44,18 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
                 'class' => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
             ],
-            'edit_hn_teams' => [
-                'href' => 'table=tl_hn_teams',
-                'class' => 'header_edit_hn_teams',
-                'icon' => 'bundles/janborgh4atabellen/teams.svg',
+            'update_hn_teams' => [
+                'href' => 'key=update_hn_teams',
+                'class' => 'header_update_hn_teams',
+                'icon' => 'bundles/janborgh4atabellen/update.svg',
                 'attributes' => 'onclick="Backend.getScrollOffset()"',
-            ],
+            ]
         ],
         'operations' => [
-            'edit' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_h4a_seasons']['edit'],
-                'href' => 'act=edit',
-                'icon' => 'edit.svg',
-            ],
-            'delete' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_h4a_seasons']['delete'],
-                'href' => 'act=delete',
-                'icon' => 'delete.svg',
-                'attributes' => 'onclick="if(!confirm(\''.($GLOBALS['TL_LANG']['MSC']['deleteConfirm'] ?? null).'\'))return false;Backend.getScrollOffset()"',
-            ],
-            'show' => [
-                'label' => &$GLOBALS['TL_LANG']['tl_h4a_seasons']['show'],
-                'href' => 'act=show',
-                'icon' => 'show.svg',
-            ],
+            'edit',
+            'children',
+            'delete',
+            'show',
             'toggle' => [
 				'href'                => 'act=toggle&amp;field=is_active',
 				'icon'                => 'visible.svg',

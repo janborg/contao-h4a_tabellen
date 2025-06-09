@@ -18,3 +18,9 @@ services:
         class: Janborg\H4aTabellen\Migration\MultiColumnWizardToContaoGroupWidgetWMigration
         arguments:
             - "@database_connection"
+
+    janborg.h4atabellen.migration.hnteams:
+        class: Janborg\H4aTabellen\Migration\HandballnetTeamsListModeMigration
+        arguments:
+            - "@database_connection"
+            - "@contao.framework"
