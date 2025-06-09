@@ -45,7 +45,7 @@ class HandballnetTeamsListModeMigration extends AbstractMigration
             ->fetchAllAssociative()
         ;
 
-        return !empty($teamsWithoutPid) ? true : false;
+        return empty($teamsWithoutPid) ? true : false;
     }
 
     public function run(): MigrationResult
