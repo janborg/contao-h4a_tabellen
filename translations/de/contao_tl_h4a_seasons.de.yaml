@@ -1,14 +1,18 @@
 tl_h4a_seasons:
   # Global Operations
-  edit_hn_teams: 
-    0: Teams bearbeiten
-    1: Daten der Teams von handball.net bearbeiten
-  
+  update_hn_teams: 
+    0: Update Teams
+    1: Update Teams über handball.net
+
   # Operations
-  edit: Saison bearbeiten
-  delete: Saison löschen
-  show: Saison anzeigen
-  toggle: Saison bei automatischen Updates berücksichtigen
+  edit: Saison %s bearbeiten
+  children: Teams der Saison %s verwalten
+  delete: Saison %s löschen
+  show: Saison %s anzeigen
+  toggle: 
+    0: Automatische Updates für Saison %s aktivieren/deaktivieren
+    1: Automatische Updates für Saison %s deaktivieren
+    2: Automatische Updates für Saison %s aktivieren
 
   # Legends
   title_legend: Saison Settings
@@ -16,7 +20,7 @@ tl_h4a_seasons:
   # Fields
   season:
     0: Saison Name
-    1: Bezeichnung der Saison, z.Bsp. "2019/2020"
+    1: Bezeichnung der Saison, z.Bsp. "2024/2025"
 
   hn_season:
     0: Saison (handball.net)
@@ -40,5 +44,5 @@ tl_h4a_seasons:
   
   is_active:
     0: Aktive Saison
-    1: Saison wird beim automnatischen Update über handball.net berücksichtigt
+    1: Saison wird beim automatischen Update über handball.net berücksichtigt
 

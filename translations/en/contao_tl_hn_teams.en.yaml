@@ -10,10 +10,13 @@ tl_hn_teams:
     1: Update teams via handball.net
 
   # Operations
-  edit: Edit Team
-  delete: Delete Team
-  show: Show Team Data
-  toggle: Activate Team
+  edit: Edit Team %s 
+  delete: Delete Team %s 
+  show: Show Data for Team %s
+  toggle: 
+    0: Activate/Deactivate automatic Updates for Team %s
+    1: Deactivate automatic Updates for Teams %s
+    2: Activate automatic Updates for Team %s
 
   # Legends
   title_legend: Handball.net Team Settings
@@ -22,7 +25,7 @@ tl_hn_teams:
   # Fields
   saison: 
     0: Season (handball.net)
-    1: Year of the season on handball.net (2024 for 2024/2025)
+    1: Year of the season on handball.net (i.e. 2024 for 2024/2025)
 
   team_id:
     0: Team ID
@@ -49,8 +52,8 @@ tl_hn_teams:
     1: Club association (e.g., "Baden Handball Association")
   
   is_active:
-    0: Active Season
-    1: Season is considered during automatic updates via handball.net
+    0: Active Team
+    1: Team is considered during automatic updates 
 
   my_team_name:
     0: My Team

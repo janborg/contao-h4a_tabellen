@@ -1,19 +1,15 @@
 tl_hn_teams:
 
     # Global operations
-    edit_h4a_seasons: 
-      0: Saisons bearbeiten
-      1: Daten der Saisons bearbeiten
-
-    update_hn_teams: 
-      0: Update Teams
-      1: Update Teams über handball.net
 
     # Operations
-    edit: Team bearbeiten
-    delete: Team löschen
-    show: Team Daten anzeigen
-    toggle: Team aktivieren 
+    edit: Team %s bearbeiten
+    delete: Team %s löschen
+    show: Team %s - Daten anzeigen
+    toggle: 
+      0: Automatische Updates für Team %s aktivieren/deaktivieren
+      1: Automatische Updates für Team %s Team deaktivieren
+      2: Automatische Updates für Team %s Team aktivieren 
 
     # Legends
     title_legend: Handball.net Team Einstellungen 
@@ -49,8 +45,8 @@ tl_hn_teams:
       1: Verband des Clubs (z.Bsp. "Badischer Handballverband")
     
     is_active:
-      0: Aktive Saison
-      1: Saison wird beim automnatischen Update über handball.net berücksichtigt
+      0: Aktives Team
+      1: Team wird beim automatischen Update berücksichtigt
 
     my_team_name:
       0: Mein Team

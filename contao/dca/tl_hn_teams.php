@@ -19,6 +19,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
     // Config
     'config' => [
         'dataContainer' => DC_Table::class,
+        'ptable' => 'tl_h4a_seasons',
         'sql' => [
             'keys' => [
                 'id' => 'primary',
@@ -27,13 +28,14 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
     ],
     'list' => [
         'sorting' => [
-            'mode' => DataContainer::MODE_SORTED,
-            'flag' => DataContainer::SORT_DESC,
-            'fields' => ['saison', 'team_id'],
+            'mode' => DataContainer::MODE_PARENT,
+            'flag' => DataContainer::SORT_INITIAL_LETTER_DESC,
+            'headerFields' => ['hn_season', 'club_name', 'club_id'],
+            'fields' => ['liga_shortname'],
             'panelLayout' => 'search;filter;limit',
         ],
         'label' => [
-            'fields' => ['my_team_name', 'team_id', 'liga_name', 'liga_id'],
+            'fields' => ['liga_shortname', 'team_id', 'liga_name', 'liga_id'],
             'format' => '%s (%s) | %s (%s)',
         ],
         'global_operations' => [
@@ -42,18 +44,6 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
                 'class' => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
             ],
-            'edit_h4a_seasons' => [
-                'href' => 'table=tl_h4a_seasons',
-                'class' => 'header_edit_h4a_seasons',
-                'icon' => 'bundles/janborgh4atabellen/seasons.svg',
-                'attributes' => 'onclick="Backend.getScrollOffset()"',
-            ],
-            'update_hn_teams' => [
-                'href' => 'key=update_hn_teams',
-                'class' => 'header_update_hn_teams',
-                'icon' => 'bundles/janborgh4atabellen/update.svg',
-                'attributes' => 'onclick="Backend.getScrollOffset()"',
-            ]
         ],
         'operations' => [
             'edit',
@@ -75,6 +65,9 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
         'id' => [
             'sql' => 'int(10) unsigned NOT NULL auto_increment',
         ],
+        'pid' => array(
+            'sql' => "int(10) unsigned NOT NULL"
+        ),
         'tstamp' => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
         ],
@@ -82,7 +75,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             'inputType' => 'text',
             'exclude' => true,
             'sorting' => true,
-            'filter' => true,
+            'filter' => false,
             'eval' => [
                 'mandatory' => true,
                 'rgxp' => 'digit',

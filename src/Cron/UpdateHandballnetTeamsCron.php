@@ -69,6 +69,7 @@ class UpdateHandballnetTeamsCron
                 // create new team
                 $handballnetTeam = new HandballnetTeamsModel();
 
+                $handballnetTeam->pid = $season->id;
                 $handballnetTeam->saison = $season->hn_season;
                 $handballnetTeam->team_id = $team->team_id;
                 $handballnetTeam->liga_id = $team->liga_id;
