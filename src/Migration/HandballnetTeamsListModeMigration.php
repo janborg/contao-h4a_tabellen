@@ -33,17 +33,23 @@ class HandballnetTeamsListModeMigration extends AbstractMigration
 
         $columns = $schemaManager->listTableColumns('tl_hn_teams');
 
-        // If the field pid does not exist in tl_hn_teams we should do nothing
-        return !isset($columns['pid']) ? true : false;
+        if (!isset($columns['pid'])) {
+            return false;
+        }
+
+        // find all tl_hn_teams with empty pid
+        $teamsWithoutPid = $this->connection->executeQuery('
+                SELECT * FROM tl_hn_teams WHERE pid = 0
+            ')
+            ->fetchAllAssociative()
+        ;
+
+        return !empty($teamsWithoutPid) ? true : false;
     }
 
     public function run(): MigrationResult
     {
         $this->framework->initialize();
-
-        $this->connection->executeQuery('
-           ALTER TABLE tl_hn_teams ADD COLUMN pid INT(10) NOT NULL DEFAULT 0
-        ');
 
         // foreach tl_h4a_season, find all tl_hn_teams where hn_season equals saison
         $seasons = H4aSeasonModel::findAll();
@@ -53,6 +59,10 @@ class HandballnetTeamsListModeMigration extends AbstractMigration
                 ['saison=?'],
                 [$season->hn_season],
             );
+            
+            if (empty($hn_teams)) {
+                continue;
+            }
 
             foreach ($hn_teams as $hn_team) {
                 $hn_team->pid = $season->id;
