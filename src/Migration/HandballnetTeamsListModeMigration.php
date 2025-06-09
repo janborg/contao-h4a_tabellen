@@ -57,7 +57,8 @@ class HandballnetTeamsListModeMigration extends AbstractMigration
 
         foreach ($seasons as $season) {
             $hn_teams = HandballnetTeamsModel::findBy(
-                'saison', $season->hn_season,
+                ['saison=?'], 
+                [$season->hn_season],
             );
 
             foreach ($hn_teams as $hn_team) {
