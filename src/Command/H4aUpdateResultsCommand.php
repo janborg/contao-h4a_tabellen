@@ -97,7 +97,7 @@ class H4aUpdateResultsCommand extends Command
 
             $h4a_team_ID = $this->h4aApiHelper->getH4ateamFromH4aSeasons($objCalendar, $objEvent);
 
-            $arrResult = $this->h4aApiHelper->setLvIDNext($h4a_team_ID)->getSpielplanForTeamID();
+            $arrResult = $this->h4aApiHelper->setLvIDNext($h4a_team_ID)->getSpielplanForTeamID(false); // do not use cache
 
             if (!isset($arrResult['dataList'][0])) {
                 $output->writeln([

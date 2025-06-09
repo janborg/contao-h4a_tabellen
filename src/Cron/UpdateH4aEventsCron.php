@@ -35,7 +35,7 @@ class UpdateH4aEventsCron
         );
 
         foreach ($objCalendars as $objCalendar) {
-            $this->h4aEventAutomator->syncCalendars($objCalendar);
+            $this->h4aEventAutomator->syncCalendars($objCalendar, false);
 
             $this->logger?->info('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.');
         }
