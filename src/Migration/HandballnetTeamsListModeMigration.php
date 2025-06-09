@@ -12,13 +12,10 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Migration;
 
-use Contao\CalendarModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Migration\AbstractMigration;
 use Contao\CoreBundle\Migration\MigrationResult;
 use Doctrine\DBAL\Connection;
-use Janborg\H4aTabellen\HandballNet\HandballNetTeam;
-use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 
@@ -45,10 +42,10 @@ class HandballnetTeamsListModeMigration extends AbstractMigration
         $teamsWithoutPid = $this->connection->executeQuery('
                 SELECT * FROM tl_hn_teams WHERE pid = NULL
             ')
-            ->fetchAllAssociative(); 
+            ->fetchAllAssociative()
+        ;
 
-        return
-            (!empty($teamsWithoutPid)) ? true : false;
+        return !empty($teamsWithoutPid) ? true : false;
     }
 
     public function run(): MigrationResult
@@ -60,7 +57,7 @@ class HandballnetTeamsListModeMigration extends AbstractMigration
 
         foreach ($seasons as $season) {
             $hn_teams = HandballnetTeamsModel::findBy(
-                'saison', $season->hn_season
+                'saison', $season->hn_season,
             );
 
             foreach ($hn_teams as $hn_team) {

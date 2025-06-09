@@ -166,7 +166,7 @@ class ShowTeamsCommand extends Command
             'hn_season',
             $season,
         );
-        
+
         foreach ($teams as $team) {
             $handballnetTeam = HandballnetTeamsModel::findBy(
                 ['team_id=?', 'liga_id=?', 'liga_shortname=?'],
