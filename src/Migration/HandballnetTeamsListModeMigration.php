@@ -59,7 +59,7 @@ class HandballnetTeamsListModeMigration extends AbstractMigration
                 ['saison=?'],
                 [$season->hn_season],
             );
-            
+
             if (empty($hn_teams)) {
                 continue;
             }
