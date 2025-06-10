@@ -37,6 +37,9 @@ class Configuration implements ConfigurationInterface
             ->integerNode('TabellenCacheTime')
             ->defaultValue(1800)
             ->end()
+            ->integerNode('h4aCacheTtl')
+            ->defaultValue(3600)
+            ->end()
             ->end()
         ;
 

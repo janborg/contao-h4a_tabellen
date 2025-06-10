@@ -39,6 +39,7 @@ final class H4aApiHelper
         private readonly HttpClientInterface $httpClient,
         private readonly CacheInterface $appCache,
         private readonly LoggerInterface $contaoLogger,
+        private int $h4aCacheTtl,
     ) {
     }
 
@@ -221,7 +222,7 @@ final class H4aApiHelper
         return $this->appCache->get(
             $cacheKey,
             function (ItemInterface $item) {
-                $item->expiresAfter(3600);
+                $item->expiresAfter($this->h4aCacheTtl);
 
                 try {
                     return $this->httpClient->request(
