@@ -49,5 +49,6 @@ class JanborgH4aTabellenExtension extends Extension
         $container->setParameter($rootKey.'.LigaSpielplanCacheTime', $config['LigaSpielplanCacheTime']);
         $container->setParameter($rootKey.'.SpielplanCacheTime', $config['SpielplanCacheTime']);
         $container->setParameter($rootKey.'.TabellenCacheTime', $config['TabellenCacheTime']);
+        $container->setParameter($rootKey.'.h4aCacheTtl', (int) $config['h4aCacheTtl']);
     }
 }

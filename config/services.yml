@@ -23,6 +23,7 @@ services:
             - '@http_client'
             - '@cache.app'
             - '@?monolog.logger.contao.general'
+            - '%janborg_h4a_tabellen.h4aCacheTtl%'
         public: true
     
     h4atabellen.cron.updateresults:
