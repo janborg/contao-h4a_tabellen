@@ -67,6 +67,8 @@ class TeamsCrawlerTest extends TestCase
 
         $crawler->setVerbandName($verbandName);
 
+        $crawler->setSeason('2024');
+
         $teams = $crawler->getAllTeams();
 
         $this->assertIsArray($teams);
