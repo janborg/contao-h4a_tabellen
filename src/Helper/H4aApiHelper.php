@@ -225,10 +225,23 @@ final class H4aApiHelper
                 $item->expiresAfter($this->h4aCacheTtl);
 
                 try {
-                    return $this->httpClient->request(
+                    $response = $this->httpClient->request(
                         'GET',
                         $this->request_url,
-                    )->toArray();
+                    );
+
+                    if (empty($response->getContent())) {
+                        // Handle the empty response body
+                        $item->expiresAfter(0);
+
+                        return [
+                            0 => [
+                                'dataList' => '',
+                            ],
+                        ];
+                    }
+
+                    return $response->toArray();
                 } catch (TransportExceptionInterface|HttpExceptionInterface $e) {
                     $this->contaoLogger->error(\sprintf('Unable to get data from "%s": %s', $this->request_url, $e->getMessage()));
                     $item->expiresAfter(0);
