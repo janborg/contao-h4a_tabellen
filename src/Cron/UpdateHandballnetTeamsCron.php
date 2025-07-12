@@ -21,6 +21,10 @@ class UpdateHandballnetTeamsCron
         private TeamsCrawler $teamsCrawler,
         private EventDispatcherInterface $eventDispatcher,
         private readonly LoggerInterface|null $contaoCronLogger,
+        private int $active_seasons = 0,
+        private int $total_teams_checked = 0,
+        private int $existing_teams = 0,
+        private int $new_teams_created = 0,
     ) {
         $this->contaoFramework->initialize();
     }
@@ -39,6 +43,8 @@ class UpdateHandballnetTeamsCron
         }
 
         foreach ($objSeasons as $season) {
+            ++$this->active_seasons;
+
             $this->teamsCrawler->setClubID($season->club_id);
             $this->teamsCrawler->setProvider($season->provider);
             $this->teamsCrawler->setVerbandName($season->verband);
@@ -51,6 +57,8 @@ class UpdateHandballnetTeamsCron
             }
 
             foreach ($teams as $team) {
+                ++$this->total_teams_checked;
+
                 $handballnetTeam = HandballnetTeamsModel::findBy(
                     ['team_id=?', 'liga_id=?', 'liga_shortname=?'],
                     [$team->team_id, $team->liga_id, $team->liga_short_name],
@@ -58,6 +66,7 @@ class UpdateHandballnetTeamsCron
 
                 // Continue, if team already exists
                 if ($handballnetTeam) {
+                    ++$this->existing_teams;
                     continue;
                 }
 
@@ -82,6 +91,7 @@ class UpdateHandballnetTeamsCron
                 $handballnetTeam->tstamp = time();
 
                 $handballnetTeam->save();
+                ++$this->new_teams_created;
 
                 // Dispatch Event for every created Event
                 $this->eventDispatcher->dispatch(
@@ -94,5 +104,10 @@ class UpdateHandballnetTeamsCron
                 );
             }
         }
+
+        // Log sum_up
+        $this->contaoCronLogger->info(
+            'HandballnetTeams Update: '.$this->active_seasons.' aktive Saisons, '.$this->total_teams_checked.' Teams geprüft, '.$this->existing_teams.' existierende Teams, '.$this->new_teams_created.' neue Teams.',
+        );
     }
 }
