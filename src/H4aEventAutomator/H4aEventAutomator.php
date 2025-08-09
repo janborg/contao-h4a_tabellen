@@ -88,7 +88,7 @@ class H4aEventAutomator extends Backend
             ;
 
             // continue if no matches are given
-            if (!isset($arrResultSpielplan['dataList']) || !is_array(!isset($arrResultSpielplan['dataList']))) {
+            if (!isset($arrResultSpielplan['dataList']) || !\is_array($arrResultSpielplan['dataList'])) {
                 continue;
             }
 
