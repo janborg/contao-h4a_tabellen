@@ -87,6 +87,11 @@ class H4aEventAutomator extends Backend
                 ->getSpielplanForTeamID($cache)
             ;
 
+            // continue if no matches are given
+            if (!isset($arrResultSpielplan['dataList']) || !is_array(!isset($arrResultSpielplan['dataList']))) {
+                continue;
+            }
+
             $arrResultTabelle = $this->h4aApiHelper
                 ->setLvIDNext($arrResultSpielplan['dataList'][0]['gClassID'])
                 ->getTabelleForClassID($cache)
