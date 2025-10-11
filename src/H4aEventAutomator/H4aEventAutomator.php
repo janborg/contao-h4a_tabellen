@@ -92,13 +92,6 @@ class H4aEventAutomator extends Backend
                 continue;
             }
 
-            $arrResultTabelle = $this->h4aApiHelper
-                ->setLvIDNext($arrResultSpielplan['dataList'][0]['gClassID'])
-                ->getTabelleForClassID($cache)
-            ;
-
-            Helper::updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle);
-
             if ('/ [error]' === $arrResultSpielplan['lvTypeLabelStr']) {
                 $this->logger?->info('Updateversuch des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') abgebrochen, prüfen Sie die Team ID!');
             } else {
