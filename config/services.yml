@@ -89,3 +89,15 @@ services:
     h4atabellen.crawler.reportnocrawler:
         class: Janborg\H4aTabellen\Crawler\H4aReportNoCrawler
         public: true
+
+    h4atabellen.handballnet.apiclient:
+        class: Janborg\H4aTabellen\HandballnetApiClient
+        public: true
+        arguments:
+            - '@cache.app'
+            - '@contao.framework'
+            - '@http_client'
+            - '@?monolog.logger.contao.general'
+            - 'https://www.handball.net/a/sportdata/1/'
+            - '%kernel.project_dir'
+            - '900'
