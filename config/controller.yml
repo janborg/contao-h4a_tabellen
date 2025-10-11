@@ -46,4 +46,4 @@ services:
     Janborg\H4aTabellen\Backend\UpdateHandballnetTeamsController:
         public: true
         arguments:
-            - '@h4atabellen.crawler.teamscrawler'
+            - '@h4atabellen.handballnet.apiclient'
