@@ -14,8 +14,6 @@ use Janborg\H4aTabellen\HandballNet\Verband;
 use Janborg\H4aTabellen\HandballNet\Provider;
 use Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement;
 use Janborg\H4aTabellen\Controller\ContentElement\H4aSpielplanElement;
-use Janborg\H4aTabellen\Controller\ContentElement\H4aLigaSpielplanElement;
-use Janborg\H4aTabellen\Controller\ContentElement\H4aAktuelleSpieleElement;
 use Janborg\H4aTabellen\Controller\ContentElement\HandballnetSpielplanElement;
 
 /*
@@ -84,6 +82,57 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['my_team_name'] = [
     'eval' => [
         'mandatory' => true,
         'unique' => false,
+        'maxlength' => 255,
+        'tl_class' => 'w50',
+    ],
+    'sql' => "varchar(255) NOT NULL default ''",
+];
+$GLOBALS['TL_DCA']['tl_content']['fields']['provider'] = [
+    'inputType' => 'select',
+    'exclude' => true,
+    'sorting' => true,
+    'filter' => true,
+    'enum' => Provider::class,
+    'eval' => [
+        'mandatory' => true,
+        'maxlength' => 255,
+        'tl_class' => 'w50',
+        'includeBlankOption' => true,
+        'chosen' => true,
+    ],
+    'sql' => "varchar(255) NOT NULL default ''",
+];
+$GLOBALS['TL_DCA']['tl_content']['fields']['verband'] = [
+    'inputType' => 'select',
+    'exclude' => true,
+    'sorting' => true,
+    'filter' => true,
+    'enum' => Verband::class,
+    'eval' => [
+        'mandatory' => true,
+        'maxlength' => 255,
+        'tl_class' => 'w50',
+        'includeBlankOption' => true,
+        'chosen' => true,
+    ],
+    'sql' => "varchar(255) NOT NULL default ''",
+];
+$GLOBALS['TL_DCA']['tl_content']['fields']['team_id'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['team_id'],
+    'inputType' => 'text',
+    'eval' => [
+        'mandatory' => true,
+        'rgxp' => 'digit',
+        'maxlength' => 7,
+        'tl_class' => 'w50',
+    ],
+    'sql' => "varchar(10) NOT NULL default ''",
+];
+$GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_id'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['handballnet_id'],
+    'inputType' => 'text',
+    'eval' => [
+        'mandatory' => false,
         'maxlength' => 255,
         'tl_class' => 'w50',
     ],
