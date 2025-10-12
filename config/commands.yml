@@ -7,25 +7,12 @@ services:
             calls:
                 - ['setFramework', ['@contao.framework']]
 
-    h4a.command.getSpielplan:
-        class: Janborg\H4aTabellen\Command\H4aSpielplanCommand
-        arguments:
-            - '@contao.framework'
-            - '@h4atabellen.h4aapihelper'
-    
     h4a.command.updateResults:
         class: Janborg\H4aTabellen\Command\H4aUpdateResultsCommand
         arguments:
             - '@contao.framework'
             - '@contao.cache.entity_tags'
-            - '@h4atabellen.h4aapihelper'
-            - '@event_dispatcher'
-
-    h4a.command.updateReports:
-        class: Janborg\H4aTabellen\Command\H4aUpdateReportsCommand
-        arguments:
-            - '@contao.framework'
-            - '@h4atabellen.crawler.reportnocrawler'
+            - '@h4atabellen.handballnet.apiclient'
             - '@event_dispatcher'
 
     h4a.command.updateEvents:
@@ -34,18 +21,26 @@ services:
             - '@contao.framework'
             - '@h4atabellen.h4aeventautomator'
 
-    h4a.command.showteams:
-        class: Janborg\H4aTabellen\Command\ShowTeamsCommand
+    h4a.command.showgamesdata:
+        class: Janborg\H4aTabellen\Command\ShowGamesDataCommand
         arguments:
             - '@contao.framework'
-            - '@h4atabellen.crawler.teamscrawler'
+            - '@h4atabellen.handballnet.apiclient'
         tags: 
             - "console.command"
 
-    h4a.command.showverbaende:
-        class: Janborg\H4aTabellen\Command\ShowVerbaendeCommand
+    h4a.command.showclubteams:
+        class: Janborg\H4aTabellen\Command\ShowClubTeamsCommand
         arguments:
             - '@contao.framework'
-            - '@h4atabellen.crawler.verbandscrawler'
+            - '@h4atabellen.handballnet.apiclient'
+        tags: 
+            - "console.command"
+
+    h4a.command.showteamschedule:
+        class: Janborg\H4aTabellen\Command\ShowTeamScheduleCommand
+        arguments:
+            - '@contao.framework'
+            - '@h4atabellen.handballnet.apiclient'
         tags: 
             - "console.command"

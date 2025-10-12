@@ -12,20 +12,27 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Command;
 
-use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
+use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
-use Contao\CoreBundle\Framework\ContaoFramework;
-use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
-use Janborg\H4aTabellen\Helper\H4aApiHelper;
-use Symfony\Component\Console\Attribute\AsCommand;
+use Janborg\H4aTabellen\HandballnetApiClient;
 use Symfony\Component\Console\Command\Command;
+use Contao\CoreBundle\Framework\ContaoFramework;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * Class ShowTeamSceduleCommand.
+ *
+ * @property SymfonyStyle $io
+ * @property int          $statusCode
+ */
 #[AsCommand(
-    name: 'h4a:update:results',
+    name: 'handballnet:update:results',
     description: 'Update results for all H4a-Events',
 )]
 class H4aUpdateResultsCommand extends Command
@@ -33,7 +40,7 @@ class H4aUpdateResultsCommand extends Command
     public function __construct(
         private ContaoFramework $framework,
         private EntityCacheTags $entityCacheTags,
-        private H4aApiHelper $h4aApiHelper,
+        private HandballnetApiClient $handballnetApiClient,
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {
         parent::__construct();
@@ -48,9 +55,9 @@ class H4aUpdateResultsCommand extends Command
     {
         $this->framework->initialize();
 
-        $output->writeln(
-            'Suche alle H4a-Events von heute oder früher ohne Ergebnis...',
-        );
+        $this->io = new SymfonyStyle($input, $output);
+
+        $this->io->info('Suche alle H4a-Events von heute oder früher ohne Ergebnis...');
 
         $objEvents = CalendarEventsModel::findby(
             ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameID != ?'],
@@ -93,36 +100,24 @@ class H4aUpdateResultsCommand extends Command
                 continue;
             }
 
-            $objCalendar = CalendarModel::findById($objEvent->pid);
+            $id = $objEvent->provider.'.'.$objEvent->verband.'.'.$objEvent->gGameID;
 
-            $h4a_team_ID = $this->h4aApiHelper->getH4ateamFromH4aSeasons($objCalendar, $objEvent);
-
-            $arrResult = $this->h4aApiHelper->setLvIDNext($h4a_team_ID)->getSpielplanForTeamID(false); // do not use cache
-
-            if (!isset($arrResult['dataList'][0])) {
-                $output->writeln([
-                    '<error>Spielplan für Team'.$objCalendar->h4a_team_ID.' konnte nicht abgerufen werden.</error>',
-                    'Abruch ...',
-                    '',
-                ]);
-
-                continue;
+            try {
+                $data = json_decode($this->handballnetApiClient->getGameSummaryData($id, false), true);
+            } catch (\Exception $e) {
+                $this->io->error($e->getMessage());
             }
 
-            $games = $arrResult['dataList'];
-
-            $gameId = array_search($objEvent->gGameID, array_column($games, 'gID'), true);
-
-            if (' ' !== $games[$gameId]['gHomeGoals'] && ' ' !== $games[$gameId]['gGuestGoals']) {
-                $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
-                $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
-                $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
-                $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
+            if ( null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {
+                $objEvent->gHomeGoals = $data['data']['homeGoals'];
+                $objEvent->gGuestGoals = $data['data']['awayGoals'];
+                $objEvent->gHomeGoals_1 = $data['data']['homeGoalsHalf'];
+                $objEvent->gGuestGoals_1 = $data['data']['awayGoalsHalf'];
                 $objEvent->h4a_resultComplete = true;
                 $objEvent->save();
 
                 $output->writeln([
-                    '<info>Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') erhalten</info>',
+                    '<info>Ergebnis ('.$data['data']['homeGoals'].':'.$data['data']['awayGoals'].') erhalten</info>',
                     '',
                 ]);
 

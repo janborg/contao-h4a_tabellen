@@ -21,7 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
-    name: 'h4a:update:events',
+    name: 'handballnet:update:events',
     description: 'Update all Events from h4a',
 )]
 class H4aUpdateEventsCommand extends Command
@@ -35,7 +35,7 @@ class H4aUpdateEventsCommand extends Command
 
     protected function configure(): void
     {
-        $this->setHelp('This command allows youto update all events that are linked to h4a');
+        $this->setHelp('This command allows youto update all events that are linked to handballnet');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -51,7 +51,7 @@ class H4aUpdateEventsCommand extends Command
 
         if (null === $objCalendars) {
             $output->writeln([
-                '<comment>Es wurden keine Kalender zum Update über H4a gefunden.</comment>',
+                '<comment>Es wurden keine Kalender zum Update über Handballnet gefunden.</comment>',
                 '',
                 'Ende!',
                 '',
@@ -61,7 +61,7 @@ class H4aUpdateEventsCommand extends Command
         }
 
         $output->writeln([
-            'Es wurden '.\count($objCalendars).' Kalender zum Update über H4a gefunden gefunden.',
+            'Es wurden '.\count($objCalendars).' Kalender zum Update über Handballnet gefunden gefunden.',
             'Versuche nun die Updates der Kalender durchzuführen',
             '==========================================================',
             '',
@@ -79,7 +79,7 @@ class H4aUpdateEventsCommand extends Command
             $this->h4aEventAutomator->syncCalendars($objCalendar, false);
 
             $output->writeln([
-                '<info>Update des Kalenders über Handball4all durchgeführt.</info>',
+                '<info>Update des Kalenders über Handballnet durchgeführt.</info>',
                 '',
             ]);
         }
