@@ -317,7 +317,6 @@ class H4aEventAutomator extends Backend
 
                 $this->logger?->info('Ergebnis ('.$data['data']['homeGoals'].':'.$data['data']['awayGoals'].') für Spiel '.$objEvent->gGameID.' über Handball4all aktualisiert');
 
-                $this->updateReportIdForEvent($objEvent);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
@@ -325,44 +324,5 @@ class H4aEventAutomator extends Backend
             }
         }
         $this->redirect($this->getReferer());
-    }
-
-    /**
-     * Update field sGID for all calendarEvents of today or earlier, where sGID is
-     * empty and h4a_resultComplete is true.
-     */
-    public function updateReportIDs(): void
-    {
-        $objEvents = CalendarEventsModel::findBy(
-            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'sGID = ?', 'h4a_resultComplete = ?'],
-            [date('Y-m-d'), '', true],
-        );
-
-        if (null === $objEvents) {
-            $this->redirect($this->getReferer());
-
-            return; // @phpstan-ignore deadCode.unreachable
-        }
-
-        foreach ($objEvents as $objEvent) {
-            $this->updateReportIdForEvent($objEvent);
-        }
-    }
-
-    /**
-     * Update field sGID for a single calendarEvent.
-     */
-    public function updateReportIdForEvent(CalendarEventsModel $objEvent): void
-    {
-        $sGID = $this->h4aApiHelper->getReportNo($objEvent->gClassID, $objEvent->gGameNo);
-
-        if (isset($sGID) && null !== $sGID) {
-            $objEvent->sGID = $sGID;
-            $objEvent->save();
-
-            $this->logger?->info('Report Nr. '.$objEvent->sGID.' für Spiel '.$objEvent->gGameID.' über Handball4all gespeichert');
-        } else {
-            $this->logger?->info('Report Nr. für Spiel '.$objEvent->title.' ('.$objEvent->gGameID.') konnte nicht ermittelt werden');
-        }
     }
 }
