@@ -13,20 +13,22 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\Backend;
 
 use Contao\Backend;
-use Contao\BackendUser;
-use Contao\CalendarEventsModel;
-use Contao\CalendarModel;
-use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\Message;
-use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
+use Contao\BackendUser;
+use Contao\CalendarModel;
+use Contao\CalendarEventsModel;
+use Contao\CoreBundle\Cache\EntityCacheTags;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
+use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
+use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
+use Janborg\H4aTabellen\HandballnetApiClient;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UpdateH4aResultsController extends Backend
 {
     public function __construct(
         private EntityCacheTags $entityCacheTags,
-        private H4aApiHelper $h4aApiHelper,
+        private HandballnetApiClient $handballnetApiClient,
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {
         parent::__construct();
@@ -54,29 +56,19 @@ class UpdateH4aResultsController extends Backend
                 continue;
             }
 
-            $objCalendar = CalendarModel::findById($objEvent->pid);
+            $id = $objEvent->provider.'.'.$objEvent->verband.'.'.$objEvent->gGameID;
 
-            $h4a_team_ID = $this->h4aApiHelper->getH4ateamFromH4aSeasons($objCalendar, $objEvent);
-
-            $arrResult = $this->h4aApiHelper
-                ->setLvIDNext($h4a_team_ID)
-                ->getSpielplanForClassID()
-            ;
-
-            if (!isset($arrResult['dataList'][0])) {
-                Message::addError('Spielplan für Team'.$objCalendar->h4a_team_ID.' ('.$objCalendar->title.') konnte nicht abgerufen werden. Datalist in json ist leer.');
-                continue;
+            try {
+                $data = json_decode($this->handballnetApiClient->getGameSummaryData($id, false), true);
+            } catch (\Exception $e) {
+                $this->io->error($e->getMessage());
             }
 
-            $games = $arrResult['dataList'];
-
-            $gameId = array_search($objEvent->gGameID, array_column($games, 'gID'), true);
-
-            if (' ' !== $games[$gameId]['gHomeGoals'] && ' ' !== $games[$gameId]['gGuestGoals']) {
-                $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
-                $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
-                $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
-                $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
+            if ( null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {
+                $objEvent->gHomeGoals = $data['data']['homeGoals'];
+                $objEvent->gGuestGoals = $data['data']['awayGoals'];
+                $objEvent->gHomeGoals_1 = $data['data']['homeGoalsHalf'];
+                $objEvent->gGuestGoals_1 = $data['data']['awayGoalsHalf'];
                 $objEvent->h4a_resultComplete = true;
                 $objEvent->save();
 
@@ -85,7 +77,7 @@ class UpdateH4aResultsController extends Backend
                 $this->eventDispatcher->dispatch($event);
 
                 // Add message for the updated Event
-                Message::addConfirmation('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].' für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' erhalten.');
+                Message::addConfirmation('Ergebnis ('.$data['data']['homeGoals'].':'.$data['data']['awayGoals'].' für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' erhalten.');
 
                 // Invalidate CacheTag for Event
                 $this->entityCacheTags->invalidateTagsFor($objEvent);

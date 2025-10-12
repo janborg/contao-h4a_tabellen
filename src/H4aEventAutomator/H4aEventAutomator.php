@@ -299,28 +299,23 @@ class H4aEventAutomator extends Backend
                 continue;
             }
 
-            $arrResult = $this->h4aApiHelper
-                ->setLvIDNext($objEvent->gClassID)
-                ->getTabelleForClassID()
-            ;
+            $id = $objEvent->provider.'.'.$objEvent->verband.'.'.$objEvent->gGameID;
 
-            $games = $arrResult['dataList'];
-
-            if (isset($games[0])) {
-                $gameId = array_search($objEvent->gGameID, array_column($games, 'gID'), true);
-            } else {
-                continue;
+            try {
+                $data = json_decode($this->handballnetApiClient->getGameSummaryData($id, false), true);
+            } catch (\Exception $e) {
+                $this->io->error($e->getMessage());
             }
 
-            if (' ' !== $games[$gameId]['gHomeGoals'] && ' ' !== $games[$gameId]['gGuestGoals']) {
-                $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
-                $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
-                $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
-                $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
+            if ( null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {
+                $objEvent->gHomeGoals = $data['data']['homeGoals'];
+                $objEvent->gGuestGoals = $data['data']['awayGoals'];
+                $objEvent->gHomeGoals_1 = $data['data']['homeGoalsHalf'];
+                $objEvent->gGuestGoals_1 = $data['data']['awayGoalsHalf'];
                 $objEvent->h4a_resultComplete = true;
                 $objEvent->save();
 
-                $this->logger?->info('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameID.' über Handball4all aktualisiert');
+                $this->logger?->info('Ergebnis ('.$data['data']['homeGoals'].':'.$data['data']['awayGoals'].') für Spiel '.$objEvent->gGameID.' über Handball4all aktualisiert');
 
                 $this->updateReportIdForEvent($objEvent);
             } else {
