@@ -54,20 +54,6 @@ services:
                 method: updateEvents
                 priority: 10
 
-    h4atabellen.cron.updatereportno:
-        class: Janborg\H4aTabellen\Cron\UpdateH4aReportNoCron
-        arguments:
-            - '@contao.framework'
-            - '@?monolog.logger.contao.cron'
-            - '@h4atabellen.crawler.reportnocrawler'
-            - '@event_dispatcher'
-        tags:
-            -
-                name: contao.cronjob
-                interval: 'hourly'
-                method: updateReportNo
-                priority: 40
-
     h4atabellen.cron.updatehandballnetteams:
         class: Janborg\H4aTabellen\Cron\UpdateHandballnetTeamsCron
         arguments:
@@ -75,16 +61,6 @@ services:
             - '@h4atabellen.crawler.teamscrawler'
             - '@event_dispatcher'
             - '@?monolog.logger.contao.cron'
-
-    h4atabellen.crawler.teamscrawler:
-        class: Janborg\H4aTabellen\Crawler\TeamsCrawler
-        arguments:
-            - '@?monolog.logger.contao.error'
-        public: true
-
-    h4atabellen.crawler.verbandscrawler:
-        class: Janborg\H4aTabellen\Crawler\VerbandsCrawler
-        public: true
     
     h4atabellen.crawler.reportnocrawler:
         class: Janborg\H4aTabellen\Crawler\H4aReportNoCrawler
