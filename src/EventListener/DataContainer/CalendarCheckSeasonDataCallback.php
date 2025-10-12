@@ -48,6 +48,8 @@ class CalendarCheckSeasonDataCallback
                     $season['provider'] = $team->provider;
                     $season['verband'] = $team->verband;
                     $season['liga_shortname'] = $team->liga_shortname;
+                    $season['my_team_name'] = $team->my_team_name;
+                    $season['handballnet_id'] = $team->handballnet_id;
                 }
             }
             $objCalendar->h4a_seasons = serialize($seasons);

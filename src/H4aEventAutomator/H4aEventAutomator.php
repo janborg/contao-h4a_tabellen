@@ -19,8 +19,7 @@ use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Input;
 use Contao\StringUtil;
-use Janborg\H4aTabellen\Helper\H4aApiHelper;
-use Janborg\H4aTabellen\Helper\Helper;
+use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
 use Psr\Log\LoggerInterface;
 
@@ -32,7 +31,7 @@ class H4aEventAutomator extends Backend
     public function __construct(
         private ContaoFramework $contaoFramework,
         private EntityCacheTags $entityCacheTags,
-        private H4aApiHelper $h4aApiHelper,
+        private HandballnetApiClient $handballnetApiClient,
         private readonly LoggerInterface|null $logger,
     ) {
         $this->contaoFramework->initialize();
@@ -82,225 +81,201 @@ class H4aEventAutomator extends Backend
         foreach ($arrSeasons as $arrSeason) {
             $seasonID = H4aSeasonModel::findById($arrSeason['h4a_saison'])->id;
 
-            $arrResultSpielplan = $this->h4aApiHelper
-                ->setLvIDNext($arrSeason['h4a_team'])
-                ->getSpielplanForTeamID($cache)
-            ;
+            try {
+                $data = json_decode($this->handballnetApiClient->getTeamScheduleData($arrSeason['handballnet_id'], false), true);
+            } catch (\Exception $e) {
+                $this->io->error($e->getMessage());
+        }
 
             // continue if no matches are given
-            if (!isset($arrResultSpielplan['dataList']) || !\is_array($arrResultSpielplan['dataList'])) {
+            if (!isset($data['data']) || !\is_array($data['data'])) {
                 continue;
             }
 
-            if ('/ [error]' === $arrResultSpielplan['lvTypeLabelStr']) {
-                $this->logger?->info('Updateversuch des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') abgebrochen, prüfen Sie die Team ID!');
-            } else {
-                $arrSpiele = $arrResultSpielplan['dataList'];
+            if (isset($data['code']) && '400' === $data['code']) {
+                $this->logger?->info('Updateversuch des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') abgebrochen, prüfen Sie die handballnet ID!');
+                continue;
+            } 
+            
+            $arrSpiele = $data['data'];
 
-                // Delete events, when sGID does not exist in $arrSpiele
-                $objEvents = CalendarEventsModel::findBy(
-                    ['pid=?', 'gClassID=?'],
-                    [$objCalendar->id, $arrSeason['h4a_liga']],
-                );
+            // Delete events, when sGID does not exist in $arrSpiele
+            $objEvents = CalendarEventsModel::findBy(
+                ['pid=?', 'h4a_season=?', 'gClassName=?'],
+                [$objCalendar->id, $arrSeason['h4a_saison'], $arrSeason['liga_shortname']],
+            );
 
-                if (null !== $objEvents) {
-                    // Wenn Events im Kalender existieren, auf h4a, nicht mehr existierende Spiele löschen
-                    foreach ($objEvents as $event) {
-                        // prüfen, ob GameID des Events in aktuellem Spielplan existiert
-                        $existingEvent = array_filter(
-                            $arrSpiele,
-                            static fn ($spiel) => $event->gGameID === $spiel['gID'],
-                        );
-
-                        // wenn nicht, Event löschen
-                        if (empty($existingEvent)) {
-                            $event->delete();
-                            $this->logger?->info('Event '.$event->gClassname.': '.$event->gHomeTeam.': '.$event->gGuestTeam.' (gID: '.$event->gGameID.') wurde gelöscht');
-                        }
-                        unset($existingEvent);
-                    }
-                }
-
-                // Update or Create Event
-                foreach ($arrSpiele as $arrSpiel) {
-                    $objEvent = CalendarEventsModel::findOneBy(
-                        ['gGameNo=?', 'pid=?', 'gClassID=?', 'gGameID=?'],
-                        [$arrSpiel['gNo'], $objCalendar->id, $arrSeason['h4a_liga'], $arrSpiel['gID']],
+            if (null !== $objEvents) {
+                // Wenn Events im Kalender existieren, aber nicht auf h4a, dann nicht mehr existierende Spiele löschen
+                foreach ($objEvents as $event) {
+                    // prüfen, ob handballnet_id des Events in aktuellem Spielplan existiert (handball4all.wuerttemberg.1234567)
+                    $existingEvent = array_filter(
+                        $arrSpiele,
+                        static fn ($spiel) => $event->provider.'.'.$event->verband.'.'.$event->gGameID == $spiel['id'],
                     );
 
-                    // Update, wenn ModelObjekt existiert
-                    if (null !== $objEvent) {
-                        $isChanged = false;
+                    // wenn nicht, Event löschen
+                    if (empty($existingEvent)) {
+                        $event->delete();
+                        $this->logger?->info('Event '.$event->gClassname.': '.$event->gHomeTeam.': '.$event->gGuestTeam.' (gID: '.$event->gGameID.') wurde gelöscht');
+                    }
+                    unset($existingEvent);
+                }
+            }
+ 
+            // Update or Create Event
+            foreach ($arrSpiele as $arrSpiel) {
+                $handballnetIdParts = explode('.', $arrSpiel['id']);
 
-                        $arrDate = explode('.', $arrSpiel['gDate']);
+                $objEvent = CalendarEventsModel::findOneBy(
+                    ['pid=?', 'provider=?', 'verband=?', 'gGameID=?'],
+                    [$objCalendar->id, $handballnetIdParts[0], $handballnetIdParts[1], $handballnetIdParts[2]],
+                );
 
-                        if (!isset($arrDate[0]) || !isset($arrDate[1]) || !isset($arrDate[2])) {
-                            continue;
-                        }
+                // Update, wenn ModelObjekt existiert
+                if (null !== $objEvent) {
+                    $isChanged = false;
 
-                        if (!preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $arrSpiel['gTime'])) {
-                            $arrSpiel['gTime'] = '00:00';
-                        }
-                        $arrTime = explode(':', $arrSpiel['gTime']);
+                    $objEvent->h4a_season = $seasonID;
+                    $objEvent->author = $objCalendar->h4aEvents_author;
+                    $objEvent->source = 'default';
+                    $objEvent->addTime = true;
 
-                        $dateDay = mktime(0, 0, 0, (int) $arrDate[1], (int) $arrDate[0], (int) $arrDate[2]);
-                        $dateTime = mktime((int) $arrTime[0], (int) $arrTime[1], 0, (int) $arrDate[1], (int) $arrDate[0], (int) $arrDate[2]);
+                    // Check, if class ID or name changed
+                    if (
+                        //$arrSpiel['gClassID'] !== $objEvent->gClassID
+                        $arrSeason['liga_shortname'] !== $objEvent->gClassName
+                        || $handballnetIdParts[0] !== $objEvent->provider
+                        || $handballnetIdParts[1] !== $objEvent->verband
+                    ) {
+                        $objEvent->gClassName = $arrSeason['liga_shortname'] ?? ''; // für handballnet, shortname aus season
+                        //$objEvent->gClassID = $arrSpiel['gClassID'];
+                        $objEvent->provider = $handballnetIdParts[0] ?? '';
+                        $objEvent->verband = $handballnetIdParts[1] ?? '';
+                        $isChanged = true;
+                    }
 
-                        $objEvent->h4a_season = $seasonID;
-                        $objEvent->author = $objCalendar->h4aEvents_author;
-                        $objEvent->source = 'default';
-                        $objEvent->addTime = true;
+                    // Check, if startTime changed
+                    if ($arrSpiel['startsAt']/1000 !== $objEvent->startTime) {
+                        $objEvent->startTime = $arrSpiel['startsAt']/1000;
+                        $objEvent->endTime = $arrSpiel['startsAt']/1000 + 5400;
+                        $isChanged = true;
+                    }
 
-                        // Check, if class ID or name changed
-                        if (
-                            $arrSpiel['gClassID'] !== $objEvent->gClassID
-                            || $arrSeason['liga_shortname'] !== $objEvent->gClassName
-                            || $arrSeason['provider'] !== $objEvent->provider
-                            || $arrSeason['verband'] !== $objEvent->verband
-                        ) {
-                            $objEvent->gClassName = $arrSeason['liga_shortname'] ?? ''; // für handballnet, shortname aus season
-                            $objEvent->gClassID = $arrSpiel['gClassID'];
-                            $objEvent->provider = $arrSeason['provider'] ?? '';
-                            $objEvent->verband = $arrSeason['verband'] ?? '';
-                            $isChanged = true;
-                        }
+                    // Check, if Day changed
+                    if ($arrSpiel['startsAt']/1000 !== $objEvent->startDate) {
+                        $objEvent->startDate = $arrSpiel['startsAt']/1000;
+                        $isChanged = true;
+                    }
 
-                        // Check, if startTime changed
-                        if ($dateTime !== $objEvent->startTime) {
-                            $objEvent->startTime = $dateTime;
-                            $objEvent->endTime = $dateTime + 5400;
-                            $isChanged = true;
-                        }
+                    // Check, if Teams changed
+                    if (
+                        $objEvent->gHomeTeam !== $arrSpiel['homeTeam']['name']
+                        || $objEvent->gGuestTeam !== $arrSpiel['awayTeam']['name']
+                    ) {
+                        $objEvent->gHomeTeam = $arrSpiel['homeTeam']['name'];
+                        $objEvent->gGuestTeam = $arrSpiel['awayTeam']['name'];
+                        $isChanged = true;
+                    }
 
-                        // Check, if Day changed
-                        if ($dateDay !== $objEvent->startDate) {
-                            $objEvent->startDate = $dateDay;
-                            $isChanged = true;
-                        }
+                    // Check, if gGymnasiumNo changed
+                    if ($objEvent->gGymnasiumNo !== $arrSpiel['field']['fieldNumber']) {
+                        $objEvent->gGymnasiumNo = $arrSpiel['field']['fieldNumber'];
+                        $objEvent->gGymnasiumName = $arrSpiel['field']['name'];
+                        $objEvent->location = $arrSpiel['field']['name'];
+                        $objEvent->address = $arrSpiel['field']['city']; // TODO Field Adresseüber Api
+                        //$objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
+                        $objEvent->gGymnasiumTown = ['field']['city'];
+                        //$objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
+                        $isChanged = true;
+                    }
 
-                        // Check, if Teams changed
-                        if (
-                            $objEvent->gHomeTeam !== $arrSpiel['gHomeTeam']
-                            || $objEvent->gGuestTeam !== $arrSpiel['gGuestTeam']
-                        ) {
-                            $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
-                            $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
-                            $isChanged = true;
-                        }
+                    // Check, if gComment changed
+//                    if ($objEvent->gComment !== $arrSpiel['remarks']) {
+//                        $objEvent->gComment = $arrSpiel['remarks'] ?? '';
+//                        $isChanged = true;
+//                    }
 
-                        // Check, if gGymnasiumNo changed
-                        if ($objEvent->gGymnasiumNo !== $arrSpiel['gGymnasiumNo']) {
-                            $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
-                            $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
-                            $objEvent->location = $arrSpiel['gGymnasiumName'];
-                            $objEvent->address = $arrSpiel['gGymnasiumStreet'].', '.$arrSpiel['gGymnasiumPostal'].' '.$arrSpiel['gGymnasiumTown'];
-                            $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
-                            $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
-                            $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
-                            $isChanged = true;
-                        }
+                    // Check, if result changed
+                    if (
+                        $objEvent->gHomeGoals != $arrSpiel['homeGoals']
+                        || $objEvent->gGuestGoals != $arrSpiel['awayGoals']
+                        //|| $objEvent->gHomeGoals_1 != $arrSpiel['homeGoalsHalf']
+                        //|| $objEvent->gGuestGoals_1 != $arrSpiel['awayGoalsHalf']
+                    ) {
+                        $objEvent->gHomeGoals = $arrSpiel['homeGoals'];
+                        $objEvent->gGuestGoals = $arrSpiel['awayGoals'];
+                        //$objEvent->gHomeGoals_1 = $arrSpiel['homeGoalsHalf'] ?? '';
+                        //$objEvent->gGuestGoals_1 = $arrSpiel['awayGoalsHalf'] ?? '';
+                        $isChanged = true;
+                    }
 
-                        // Check, if gComment changed
-                        if ($objEvent->gComment !== $arrSpiel['gComment']) {
-                            $objEvent->gComment = $arrSpiel['gComment'];
-                            $isChanged = true;
-                        }
-
-                        // Check, if result changed
-                        if (
-                            $objEvent->gHomeGoals !== $arrSpiel['gHomeGoals']
-                            || $objEvent->gGuestGoals !== $arrSpiel['gGuestGoals']
-                            || $objEvent->gHomeGoals_1 !== $arrSpiel['gHomeGoals_1']
-                            || $objEvent->gGuestGoals_1 !== $arrSpiel['gGuestGoals_1']
-                        ) {
-                            $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
-                            $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
-                            $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
-                            $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
-                            $isChanged = true;
-                        }
-
-                        if (' ' !== $arrSpiel['gHomeGoals'] && ' ' !== $arrSpiel['gGuestGoals']) {
-                            $objEvent->h4a_resultComplete = true;
-                        } else {
-                            $objEvent->h4a_resultComplete = false;
-                        }
-
-                        if (true === $isChanged) {
-                            // save Event
-                            $objEvent->save();
-
-                            // log, that event was changed
-                            $this->logger?->info('Event für Spiel '.$arrSpiel['gClassSname'].': '.$arrSpiel['gHomeTeam'].': '.$arrSpiel['gGuestTeam'].' (gID: '.$objEvent->gGameID.') über Handball4all aktualisiert');
-
-                            // Invalidate CacheTag for Event
-                            $this->entityCacheTags->invalidateTagsFor($objEvent);
-                        }
-
-                        // Create Event, wenn ModelObjekt existiert
+                    if (null !== $arrSpiel['homeGoals'] && null !== $arrSpiel['awayGoals']) {
+                        $objEvent->h4a_resultComplete = true;
                     } else {
-                        $objEvent = new CalendarEventsModel();
+                        $objEvent->h4a_resultComplete = false;
+                    }
 
-                        $arrDate = explode('.', $arrSpiel['gDate']);
-
-                        if (!isset($arrDate[0]) || !isset($arrDate[1]) || !isset($arrDate[2])) {
-                            continue;
-                        }
-
-                        if (!preg_match('/^(?:2[0-3]|[01][0-9]):[0-5][0-9]$/', $arrSpiel['gTime'])) {
-                            $arrSpiel['gTime'] = '00:00';
-                        }
-                        $arrTime = explode(':', $arrSpiel['gTime']);
-
-                        $dateDay = mktime(0, 0, 0, (int) $arrDate[1], (int) $arrDate[0], (int) $arrDate[2]);
-                        $dateTime = mktime((int) $arrTime[0], (int) $arrTime[1], 0, (int) $arrDate[1], (int) $arrDate[0], (int) $arrDate[2]);
-
-                        $objEvent->pid = $objCalendar->id;
-                        $objEvent->tstamp = time();
-                        $objEvent->title = $arrSpiel['gClassSname'].': '.$arrSpiel['gHomeTeam'].' - '.$arrSpiel['gGuestTeam'];
-                        $objEvent->alias = StringUtil::generateAlias($arrSpiel['gClassSname'].'_'.$arrSpiel['gHomeTeam'].'_'.$arrSpiel['gGuestTeam'].'_'.$arrSpiel['gID']);
-                        $objEvent->h4a_season = $seasonID;
-                        $objEvent->gGameID = $arrSpiel['gID'];
-                        $objEvent->gGameNo = $arrSpiel['gNo'];
-                        $objEvent->gClassID = $arrSpiel['gClassID'];
-                        $objEvent->gClassName = $arrSeason['liga_shortname'];
-                        $objEvent->provider = $arrSeason['provider'];
-                        $objEvent->verband = $arrSeason['verband'];
-                        $objEvent->gHomeTeam = $arrSpiel['gHomeTeam'];
-                        $objEvent->gGuestTeam = $arrSpiel['gGuestTeam'];
-
-                        $objEvent->author = $objCalendar->h4aEvents_author;
-                        $objEvent->source = 'default';
-                        $objEvent->addTime = true;
-                        $objEvent->startTime = $dateTime;
-                        $objEvent->endTime = $dateTime + 5400;
-                        $objEvent->startDate = $dateDay;
-                        $objEvent->gGymnasiumNo = $arrSpiel['gGymnasiumNo'];
-                        $objEvent->gGymnasiumName = $arrSpiel['gGymnasiumName'];
-                        $objEvent->location = $arrSpiel['gGymnasiumName'];
-                        $objEvent->address = $arrSpiel['gGymnasiumStreet'].', '.$arrSpiel['gGymnasiumPostal'].' '.$arrSpiel['gGymnasiumTown'];
-                        $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
-                        $objEvent->gGymnasiumTown = $arrSpiel['gGymnasiumTown'];
-                        $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
-                        $objEvent->gHomeGoals = $arrSpiel['gHomeGoals'];
-                        $objEvent->gGuestGoals = $arrSpiel['gGuestGoals'];
-                        $objEvent->gHomeGoals_1 = $arrSpiel['gHomeGoals_1'];
-                        $objEvent->gGuestGoals_1 = $arrSpiel['gGuestGoals_1'];
-                        $objEvent->gComment = $arrSpiel['gComment'];
-                        $objEvent->published = true;
-
-                        if (' ' !== $arrSpiel['gHomeGoals'] && ' ' !== $arrSpiel['gGuestGoals']) {
-                            $objEvent->h4a_resultComplete = true;
-                        } else {
-                            $objEvent->h4a_resultComplete = false;
-                        }
-
-                        // save new Event
+                    if (true === $isChanged) {
+                        // save Event
                         $objEvent->save();
+
+                        // log, that event was changed
+                        $this->logger?->info('Event für Spiel '.$arrSpiel['tournament']['acronym'].': '.$arrSpiel['homeTeam']['name'].': '.$arrSpiel['awayTeam']['name'].' (gID: '.$objEvent->gGameID.') über Handball4all aktualisiert');
 
                         // Invalidate CacheTag for Event
                         $this->entityCacheTags->invalidateTagsFor($objEvent);
                     }
+
+                    // Create Event, wenn ModelObjekt existiert
+                } else {
+                    $objEvent = new CalendarEventsModel();
+
+                    $objEvent->pid = $objCalendar->id;
+                    $objEvent->tstamp = time();
+                    $objEvent->title = $arrSpiel['tournament']['acronym'].': '.$arrSpiel['homeTeam']['name'].' - '.$arrSpiel['awayTeam']['name'];
+                    $objEvent->alias = StringUtil::generateAlias($arrSpiel['homeTeam']['name'].'_'.$arrSpiel['awayTeam']['name'].'_'.$arrSpiel['gameNumber']);
+                    $objEvent->h4a_season = $seasonID;
+                    $objEvent->gGameID = $handballnetIdParts[2];
+                    $objEvent->gGameNo = $arrSpiel['gameNumber'];
+                    //$objEvent->gClassID = $arrSpiel['gClassID'];
+                    $objEvent->gClassName = $arrSpiel['tournament']['acronym'];
+                    $objEvent->provider = $handballnetIdParts[0];
+                    $objEvent->verband = $handballnetIdParts[1];
+                    $objEvent->gHomeTeam = $arrSpiel['homeTeam']['name'];
+                    $objEvent->gGuestTeam = $arrSpiel['awayTeam']['name'];
+
+                    $objEvent->author = $objCalendar->h4aEvents_author;
+                    $objEvent->source = 'default';
+                    $objEvent->addTime = true;
+                    $objEvent->startTime = $arrSpiel['startsAt']/1000;
+                    $objEvent->endTime = $arrSpiel['startsAt']/1000 + 5400;
+                    $objEvent->startDate = $arrSpiel['startsAt']/1000;
+                    $objEvent->gGymnasiumNo = $arrSpiel['field']['fieldNumber'];
+                    $objEvent->gGymnasiumName = $arrSpiel['field']['name'];
+                    $objEvent->location = $arrSpiel['field']['name'];
+                    $objEvent->address = $arrSpiel['field']['city']; // TODO adress from api
+                    //$objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
+                    $objEvent->gGymnasiumTown = $arrSpiel['field']['city'];
+                    //$objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
+                    $objEvent->gHomeGoals = $arrSpiel['homeGoals'] ?? '';
+                    $objEvent->gGuestGoals = $arrSpiel['awayGoals'] ?? '';
+                    $objEvent->gHomeGoals_1 = $arrSpiel['homeGoalsHalf'] ?? '';
+                    $objEvent->gGuestGoals_1 = $arrSpiel['awayGoalsHalf'] ?? '';
+                    //$objEvent->gComment = $arrSpiel['remark'] ?? '';
+                    $objEvent->published = true;
+
+                    if (null !== $arrSpiel['homeGoals'] && null !== $arrSpiel['awayGoals']) {
+                        $objEvent->h4a_resultComplete = true;
+                    } else {
+                        $objEvent->h4a_resultComplete = false;
+                    }
+
+                    // save new Event
+                    $objEvent->save();
+
+                    // Invalidate CacheTag for Event
+                    $this->entityCacheTags->invalidateTagsFor($objEvent);
                 }
             }
         }

@@ -33,7 +33,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'exclude' => true,
         'search' => true,
         'inputType' => 'text',
-        'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
     ['gGameNo' => [
@@ -41,7 +41,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'exclude' => true,
         'search' => true,
         'inputType' => 'text',
-        'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
     ['gClassID' => [
@@ -49,7 +49,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'exclude' => true,
         'search' => true,
         'inputType' => 'text',
-        'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
     ['gClassName' => [
@@ -57,7 +57,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'exclude' => true,
         'search' => true,
         'inputType' => 'text',
-        'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
     ['provider' => [
@@ -142,7 +142,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'search' => false,
         'inputType' => 'text',
         'eval' => ['mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
+        'sql' => "varchar(255) NULL default ''",
     ]],
     ['gGuestGoals' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGuestGoals'],
@@ -150,7 +150,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'search' => false,
         'inputType' => 'text',
         'eval' => ['mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
+        'sql' => "varchar(255) NULL default ''",
     ]],
     ['gHomeGoals_1' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gHomeGoals_1'],
@@ -158,7 +158,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'search' => false,
         'inputType' => 'text',
         'eval' => ['mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
+        'sql' => "varchar(255) NULL default ''",
     ]],
     ['gGuestGoals_1' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGuestGoals_1'],
@@ -166,7 +166,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'search' => false,
         'inputType' => 'text',
         'eval' => ['mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
+        'sql' => "varchar(255) NULL default ''",
     ]],
     ['h4a_resultComplete' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['h4a_resultComplete'],

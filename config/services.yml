@@ -13,7 +13,7 @@ services:
         arguments:
             - '@contao.framework'
             - '@contao.cache.entity_tags'
-            - '@h4atabellen.h4aapihelper'
+            - '@h4atabellen.handballnet.apiclient'
             - '@?monolog.logger.contao.general'
     
     h4atabellen.h4aapihelper:
