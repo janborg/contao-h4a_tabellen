@@ -58,7 +58,7 @@ services:
         class: Janborg\H4aTabellen\Cron\UpdateHandballnetTeamsCron
         arguments:
             - '@contao.framework'
-            - '@h4atabellen.crawler.teamscrawler'
+            - '@h4atabellen.handballnet.apiclient'
             - '@event_dispatcher'
             - '@?monolog.logger.contao.cron'
     

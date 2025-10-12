@@ -8,6 +8,7 @@ use Contao\CoreBundle\DependencyInjection\Attribute\AsCronJob;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Crawler\TeamsCrawler;
 use Janborg\H4aTabellen\Event\HandballnetTeamCreatedEvent;
+use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Psr\Log\LoggerInterface;
@@ -18,7 +19,7 @@ class UpdateHandballnetTeamsCron
 {
     public function __construct(
         private ContaoFramework $contaoFramework,
-        private TeamsCrawler $teamsCrawler,
+        private HandballnetApiClient $handballnetApiClient,
         private EventDispatcherInterface $eventDispatcher,
         private readonly LoggerInterface|null $contaoCronLogger,
         private int $active_seasons = 0,
@@ -45,23 +46,24 @@ class UpdateHandballnetTeamsCron
         foreach ($objSeasons as $season) {
             ++$this->active_seasons;
 
-            $this->teamsCrawler->setClubID($season->club_id);
-            $this->teamsCrawler->setProvider($season->provider);
-            $this->teamsCrawler->setVerbandName($season->verband);
-            $this->teamsCrawler->setSeason($season->hn_season);
+            $id = $season->provider.'.'.$season->verband.'.'.$season->club_id;
+            
+            try {
+                $data = json_decode($this->handballnetApiClient->getClubTeamsData($id, $season->hn_season, false), true);
+            } catch (\Exception $e) {
+                $this->contaoCronLogger->error('Fehler beim Abruf über die handballnetApi', [$e->getMessage()]);
+            }
 
-            $teams = $this->teamsCrawler->getAllTeams();
-
-            if (empty($teams) || !\is_array($teams)) {
+            if (empty($data['data']) || !\is_array($data['data'])) {
                 continue;
             }
 
-            foreach ($teams as $team) {
+            foreach ($data['data'] as $team) {
                 ++$this->total_teams_checked;
 
                 $handballnetTeam = HandballnetTeamsModel::findBy(
-                    ['team_id=?', 'liga_id=?', 'liga_shortname=?'],
-                    [$team->team_id, $team->liga_id, $team->liga_short_name],
+                    ['handballnet_id=?'],
+                    [$team['id']],
                 );
 
                 // Continue, if team already exists
@@ -70,27 +72,25 @@ class UpdateHandballnetTeamsCron
                     continue;
                 }
 
-                // skip teams without team_id or liga_id
-                if (empty($team->team_id) || empty($team->liga_id)) {
-                    continue;
-                }
+                $teamIdParts = explode('.', $team['id']);
 
-                // create new team
+                // create new teams
                 $handballnetTeam = new HandballnetTeamsModel();
 
                 $handballnetTeam->pid = $season->id;
                 $handballnetTeam->saison = $season->hn_season;
-                $handballnetTeam->team_id = $team->team_id;
-                $handballnetTeam->liga_id = $team->liga_id;
-                $handballnetTeam->provider = $team->provider->toString();
-                $handballnetTeam->verband = $team->verband->toString();
-                $handballnetTeam->liga_shortname = $team->liga_short_name;
-                $handballnetTeam->liga_name = $team->liga_name;
-                $handballnetTeam->my_team_name = $team->team_name;
+                $handballnetTeam->team_id = $teamIdParts[2];
+                $handballnetTeam->provider = $teamIdParts[0];
+                $handballnetTeam->verband = $teamIdParts[1];
+                $handballnetTeam->handballnet_id = $team['id'];
+                $handballnetTeam->liga_shortname = $team['defaultTournament']['acronym'];
+                $handballnetTeam->liga_name = $team['defaultTournament']['name'];
+                $handballnetTeam->my_team_name = $team['name'];
                 $handballnetTeam->is_active = true;
                 $handballnetTeam->tstamp = time();
 
                 $handballnetTeam->save();
+                
                 ++$this->new_teams_created;
 
                 // Dispatch Event for every created Event
@@ -100,7 +100,7 @@ class UpdateHandballnetTeamsCron
 
                 // Log created Event
                 $this->contaoCronLogger->info(
-                    'Neues Team in der Saison '.$season->hn_season.' erstellt ('.$team->team_name.', '.$team->liga_name.').',
+                    'Neues Team in der Saison '.$season->hn_season.' erstellt ('.$team['name'].', '.$team['defaultTournament']['acronym'].').',
                 );
             }
         }
