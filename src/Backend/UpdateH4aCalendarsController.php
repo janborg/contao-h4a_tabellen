@@ -35,7 +35,7 @@ class UpdateH4aCalendarsController extends Backend
         );
 
         if (null === $objCalendars) {
-            Message::addInfo('Es wurden keine Kalender zum Update über H4a gefunden.');
+            Message::addInfo('Es wurden keine Kalender zum Update über Handballnet gefunden.');
 
             $this->redirect($this->getReferer());
         }
@@ -44,7 +44,7 @@ class UpdateH4aCalendarsController extends Backend
             $this->h4aEventAutomator->syncCalendars($objCalendar, false);
         }
 
-        Message::addConfirmation('Update der Kalender über Handball4all durchgeführt.');
+        Message::addConfirmation('Update der Kalender über Handballnet durchgeführt.');
 
         $this->redirect($this->getReferer());
     }

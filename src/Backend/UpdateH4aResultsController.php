@@ -84,7 +84,7 @@ class UpdateH4aResultsController extends Backend
             } else {
                 $objEvent->h4a_resultComplete = false;
 
-                Message::addInfo('Ergebnis für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' über Handball4all geprüft, kein Ergebnis vorhanden.');
+                Message::addInfo('Ergebnis für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' über Handballnet geprüft, kein Ergebnis vorhanden.');
             }
         }
 
