@@ -43,6 +43,5 @@ $GLOBALS['BE_MOD']['content']['calendar']['tables'] = array_merge(
 $GLOBALS['BE_MOD']['content']['handballnet_teams']['tables'] = ['tl_h4a_seasons', 'tl_hn_teams'];
 
 // Register Models
-$GLOBALS['TL_MODELS']['tl_h4ajsondata'] = H4aJsonDataModel::class;
 $GLOBALS['TL_MODELS']['tl_h4a_seasons'] = H4aSeasonModel::class;
 $GLOBALS['TL_MODELS']['tl_hn_teams'] = HandballnetTeamsModel::class;
