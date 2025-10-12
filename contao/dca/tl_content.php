@@ -10,10 +10,13 @@ declare(strict_types=1);
  * @license MIT
  */
 
-use Janborg\H4aTabellen\Controller\ContentElement\H4aAktuelleSpieleElement;
-use Janborg\H4aTabellen\Controller\ContentElement\H4aLigaSpielplanElement;
-use Janborg\H4aTabellen\Controller\ContentElement\H4aSpielplanElement;
+use Janborg\H4aTabellen\HandballNet\Verband;
+use Janborg\H4aTabellen\HandballNet\Provider;
 use Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement;
+use Janborg\H4aTabellen\Controller\ContentElement\H4aSpielplanElement;
+use Janborg\H4aTabellen\Controller\ContentElement\H4aLigaSpielplanElement;
+use Janborg\H4aTabellen\Controller\ContentElement\H4aAktuelleSpieleElement;
+use Janborg\H4aTabellen\Controller\ContentElement\HandballnetSpielplanElement;
 
 /*
  * This file is part of contao-h4a_tabellen.
@@ -29,6 +32,8 @@ use Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement;
 
 $GLOBALS['TL_DCA']['tl_content']['palettes'][H4aTabelleElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
 $GLOBALS['TL_DCA']['tl_content']['palettes'][H4aSpielplanElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_team_ID, my_team_name;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][HandballnetSpielplanElement::TYPE] = '{type_legend,type,headline;{handballnet_legend},provider,verband,team_id,handballnet_id,my_team_name;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
+
 /*
  * Fields
  */

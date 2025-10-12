@@ -1,0 +1,78 @@
+{# templates/content_element/handballnet_spielplan.html.twig #}
+
+<div class="ce_handballnet_spielplan {{ cssClass|default('') }} block">
+  
+  {% if headline %}
+    <{{ hl|default('h2') }}>{{ headline }}</{{ hl|default('h2') }}>
+  {% endif %}
+
+  {% if spielplanData is not empty %}
+    <table class="handball-spielplan-table">
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Zeit</th>
+          <th>Halle</th>
+          <th>Heimmannschaft</th>
+          <th>Gastmannschaft</th>
+          <th>Ergebnis</th>   
+        </tr>
+      </thead>
+      <tbody>
+        {% for game in spielplanData %}
+        <tr class="game-row {{ game.state|lower }} {{ myTeam and (game.homeTeam.name == myTeam or game.awayTeam.name == myTeam) ? 'own-team-game' : '' }}">
+          
+          {# Datum #}
+          <td class="game-date">
+            {{ (game.startsAt / 1000)|date('d.m.Y') }}
+          </td>
+          
+          {# Zeit #}
+          <td class="game-time">
+            {% if game.showTime %}
+              {{ (game.startsAt / 1000)|date('H:i') }}
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          
+          {# Spielort #}
+          <td class="game-location">
+            {% if game.field %}
+              {{ game.field.name }}
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          
+          {# Heimmannschaft #}
+          <td class="team-home {{ myTeam and game.homeTeam.name == myTeam ? 'own-team' : '' }}">
+            {{ game.homeTeam.name }}
+          </td>
+          
+          {# Gastmannschaft #}
+          <td class="team-away {{ myTeam and game.awayTeam.name == myTeam ? 'own-team' : '' }}">
+            {{ game.awayTeam.name }}
+          </td>
+
+          {# Ergebnis #}
+          <td class="game-result">
+            {% if game.state == 'Post' %}
+              {{ game.homeGoals }}:{{ game.awayGoals }}
+              {% if game.homeGoalsHalf and game.awayGoalsHalf %}
+                <span class="halftime">({{ game.homeGoalsHalf }}:{{ game.awayGoalsHalf }})</span>
+              {% endif %}
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-games">Keine Spiele verfügbar.</p>
+  {% endif %}
+
+</div>
