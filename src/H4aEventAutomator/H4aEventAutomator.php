@@ -210,6 +210,18 @@ class H4aEventAutomator extends Backend
                         $isChanged = true;
                     }
 
+                    // check if reportUrl changed
+                    if (null !== $arrSpiel['pdfUrl'] && '' !== $arrSpiel['pdfUrl'])
+                    {
+                        parse_str(parse_url($arrSpiel['pdfUrl'], PHP_URL_QUERY), $params);
+                        if (
+                            $objEvent->sGID != $params['sGID']
+                        ) {
+                            $objEvent->sGID = $params['sGID'];
+                            $isChanged = true;    
+                        }    
+                    }
+
                     if (null !== $arrSpiel['homeGoals'] && null !== $arrSpiel['awayGoals']) {
                         $objEvent->h4a_resultComplete = true;
                     } else {
@@ -262,7 +274,9 @@ class H4aEventAutomator extends Backend
                     $objEvent->gGuestGoals = $arrSpiel['awayGoals'] ?? '';
                     $objEvent->gHomeGoals_1 = $arrSpiel['homeGoalsHalf'] ?? '';
                     $objEvent->gGuestGoals_1 = $arrSpiel['awayGoalsHalf'] ?? '';
-                    //$objEvent->gComment = $arrSpiel['remark'] ?? '';
+                    $objEvent->gComment = $arrSpiel['remark'] ?? '';
+                    parse_str(parse_url($arrSpiel['pdfUrl'], PHP_URL_QUERY), $params);
+                    $objEvent->sGID = $params['sGID'] ?? '';
                     $objEvent->published = true;
 
                     if (null !== $arrSpiel['homeGoals'] && null !== $arrSpiel['awayGoals']) {
