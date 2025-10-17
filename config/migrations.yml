@@ -24,3 +24,13 @@ services:
         arguments:
             - "@database_connection"
             - "@contao.framework"
+
+    janborg.h4atabellen.migration.fillhandballnetidincalendarevents:
+        class: Janborg\H4aTabellen\Migration\FillHandballnetIdInCalendarEventMigration
+        arguments:
+            - "@database_connection"
+
+    janborg.h4atabellen.migration.fillhandballnetidincalendar:
+        class: Janborg\H4aTabellen\Migration\FillHandballnetIdInCalendarsMigration
+        arguments:
+            - "@database_connection"

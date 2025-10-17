@@ -206,5 +206,16 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         ],
         'sql' => "varchar(9) NOT NULL default ''",
     ]],
+    ['handballnet_id' => [
+        'label' =>&$GLOBALS['TL_LANG']['tl_calendar_events']['handballnet_id'],
+        'inputType' => 'text',
+        'exclude' => true,
+        'eval' => [
+            'mandatory' => false,
+            'unique' => true,
+            'tl_class' => 'w50',
+        ],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ]],
     $GLOBALS['TL_DCA']['tl_calendar_events']['fields'],
 );
