@@ -30,7 +30,6 @@
         "symfony/dom-crawler": "^6.0 || ^7.0",
         "symfony/http-foundation": "^6.0 || ^7.0",
         "symfony/http-kernel": "^6.0 || ^7.0",
-        "symfony/http-client": "^6.0 || ^7.0", 
         "symfony/translation": "^6.0 || ^7.0",
         "symfony/event-dispatcher-contracts": "^3.0",
         "psr/log": "^3.0",
