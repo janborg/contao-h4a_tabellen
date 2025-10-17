@@ -6,7 +6,6 @@ namespace Janborg\H4aTabellen\Cron;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCronJob;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Janborg\H4aTabellen\Crawler\TeamsCrawler;
 use Janborg\H4aTabellen\Event\HandballnetTeamCreatedEvent;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
@@ -47,7 +46,7 @@ class UpdateHandballnetTeamsCron
             ++$this->active_seasons;
 
             $id = $season->provider.'.'.$season->verband.'.'.$season->club_id;
-            
+
             try {
                 $data = json_decode($this->handballnetApiClient->getClubTeamsData($id, $season->hn_season, false), true);
             } catch (\Exception $e) {
@@ -90,7 +89,7 @@ class UpdateHandballnetTeamsCron
                 $handballnetTeam->tstamp = time();
 
                 $handballnetTeam->save();
-                
+
                 ++$this->new_teams_created;
 
                 // Dispatch Event for every created Event

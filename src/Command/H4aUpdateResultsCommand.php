@@ -12,17 +12,16 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Command;
 
-use Contao\CalendarModel;
 use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
-use Janborg\H4aTabellen\HandballnetApiClient;
-use Symfony\Component\Console\Command\Command;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Attribute\AsCommand;
-use Symfony\Component\Console\Input\InputInterface;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
+use Janborg\H4aTabellen\HandballnetApiClient;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -108,7 +107,7 @@ class H4aUpdateResultsCommand extends Command
                 $this->io->error($e->getMessage());
             }
 
-            if ( null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {
+            if (null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {
                 $objEvent->gHomeGoals = $data['data']['homeGoals'];
                 $objEvent->gGuestGoals = $data['data']['awayGoals'];
                 $objEvent->gHomeGoals_1 = $data['data']['homeGoalsHalf'];

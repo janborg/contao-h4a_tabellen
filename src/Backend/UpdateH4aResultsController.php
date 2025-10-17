@@ -13,14 +13,11 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\Backend;
 
 use Contao\Backend;
-use Contao\Message;
 use Contao\BackendUser;
-use Contao\CalendarModel;
 use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
-use Janborg\H4aTabellen\Helper\H4aApiHelper;
+use Contao\Message;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
-use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -64,7 +61,7 @@ class UpdateH4aResultsController extends Backend
                 $this->io->error($e->getMessage());
             }
 
-            if ( null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {
+            if (null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {
                 $objEvent->gHomeGoals = $data['data']['homeGoals'];
                 $objEvent->gGuestGoals = $data['data']['awayGoals'];
                 $objEvent->gHomeGoals_1 = $data['data']['homeGoalsHalf'];

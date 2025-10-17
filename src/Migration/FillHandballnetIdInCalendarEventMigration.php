@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 namespace Janborg\H4aTabellen\Migration;
 
 use Contao\CoreBundle\Migration\AbstractMigration;
@@ -11,10 +19,8 @@ use Doctrine\DBAL\Connection;
 class FillHandballnetIdInCalendarEventMigration extends AbstractMigration
 {
     public function __construct(
-        private Connection $connection
-        )
-    {
-        
+        private Connection $connection,
+    ) {
     }
 
     public function shouldRun(): bool
@@ -31,19 +37,20 @@ class FillHandballnetIdInCalendarEventMigration extends AbstractMigration
 
         // Prüfe ob alle benötigten Felder existieren
         $requiredFields = ['handballnet_id', 'gGameID', 'provider', 'verband'];
+
         foreach ($requiredFields as $field) {
-            if (!in_array(strtolower($field), array_map('strtolower', $columnNames))) {
+            if (!\in_array(strtolower($field), array_map('strtolower', $columnNames), true)) {
                 return false;
             }
         }
 
         // Prüfe ob es Datensätze gibt, die aktualisiert werden müssen
         $count = $this->connection->fetchOne(
-            "SELECT COUNT(*) FROM tl_calendar_events 
-             WHERE (handballnet_id IS NULL OR handballnet_id = '') 
-             AND gGameID IS NOT NULL AND gGameID != '' 
-             AND provider IS NOT NULL AND provider != '' 
-             AND verband IS NOT NULL AND verband != ''"
+            "SELECT COUNT(*) FROM tl_calendar_events
+             WHERE (handballnet_id IS NULL OR handballnet_id = '')
+             AND gGameID IS NOT NULL AND gGameID != ''
+             AND provider IS NOT NULL AND provider != ''
+             AND verband IS NOT NULL AND verband != ''",
         );
 
         return $count > 0;
@@ -53,17 +60,17 @@ class FillHandballnetIdInCalendarEventMigration extends AbstractMigration
     {
         // Aktualisiere die Datensätze
         $affectedRows = $this->connection->executeStatement(
-            "UPDATE tl_calendar_events 
+            "UPDATE tl_calendar_events
              SET handballnet_id = CONCAT(provider, '.', verband, '.', gGameID)
-             WHERE (handballnet_id IS NULL OR handballnet_id = '') 
-             AND gGameID IS NOT NULL AND gGameID != '' 
-             AND provider IS NOT NULL AND provider != '' 
-             AND verband IS NOT NULL AND verband != ''"
+             WHERE (handballnet_id IS NULL OR handballnet_id = '')
+             AND gGameID IS NOT NULL AND gGameID != ''
+             AND provider IS NOT NULL AND provider != ''
+             AND verband IS NOT NULL AND verband != ''",
         );
 
         return $this->createResult(
             true,
-            sprintf('Erfolgreich %d Datensätze aktualisiert.', $affectedRows)
+            \sprintf('Erfolgreich %d Datensätze aktualisiert.', $affectedRows),
         );
     }
 }

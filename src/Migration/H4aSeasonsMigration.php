@@ -50,8 +50,8 @@ class H4aSeasonsMigration extends AbstractMigration
         $this->framework->initialize();
 
         // neue Tabelle tl_h4a_seasons anlegen
-        $this->connection->executeQuery("
-        CREATE TABLE tl_h4a_seasons (
+        $this->connection->executeQuery(
+            "CREATE TABLE tl_h4a_seasons (
             id INT UNSIGNED AUTO_INCREMENT NOT NULL,
             tstamp INT UNSIGNED DEFAULT 0 NOT NULL,
             season VARCHAR(255) DEFAULT '',
@@ -59,25 +59,25 @@ class H4aSeasonsMigration extends AbstractMigration
             PRIMARY KEY(id)
         )
             DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB ROW_FORMAT = DYNAMIC
-        ");
+        ", );
 
         // neues Feld h4a_seasons in der tl_calendar anlegen
-        $this->connection->executeQuery('
-            ALTER TABLE
+        $this->connection->executeQuery(
+            'ALTER TABLE
                 tl_calendar
             ADD
                 h4a_seasons blob NULL
-        ');
+        ', );
         // alle in Kalendern hinterlegten Saisons finden
-        $seasons = $this->connection->fetchAllAssociative('
-            SELECT DISTINCT
+        $seasons = $this->connection->fetchAllAssociative(
+            'SELECT DISTINCT
                 h4a_season
             FROM
                 tl_calendar
             WHERE
                 h4a_imported = 1
             ORDER BY h4a_season ASC
-        ');
+        ', );
 
         // neue Seasons in Tabelle tl_h4a_seasons anlegen
         foreach ($seasons as $season) {

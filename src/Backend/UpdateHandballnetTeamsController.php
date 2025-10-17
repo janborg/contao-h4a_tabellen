@@ -74,7 +74,7 @@ class UpdateHandballnetTeamsController extends Backend
                 $handballnetTeamsModel->pid = $season->id;
                 $handballnetTeamsModel->saison = $season->hn_season;
                 $handballnetTeamsModel->team_id = $teamIdParts[2];
-                //$handballnetTeamsModel->liga_id = $team['defaultTournament']['acronym'];
+                // $handballnetTeamsModel->liga_id = $team['defaultTournament']['acronym'];
                 $handballnetTeamsModel->provider = $teamIdParts[0];
                 $handballnetTeamsModel->verband = $teamIdParts[1];
                 $handballnetTeamsModel->handballnet_id = $team['id'];
@@ -88,7 +88,6 @@ class UpdateHandballnetTeamsController extends Backend
 
                 ++$this->new_teams;
             }
-            
         }
 
         if ($this->active_seasons > 0) {
