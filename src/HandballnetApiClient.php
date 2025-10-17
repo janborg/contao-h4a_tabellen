@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen;
 
-use Contao\CoreBundle\Framework\ContaoFramework;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -16,11 +15,9 @@ class HandballnetApiClient
 {
     public function __construct(
         private readonly CacheInterface $appCache,
-        private readonly ContaoFramework $contaoFramework,
         private readonly HttpClientInterface $httpClient,
         private readonly LoggerInterface $contaoLogger,
         private readonly string $baseApiUrl,
-        private readonly string $projectDir,
         private readonly int $cacheTtl,
     ) {
     }

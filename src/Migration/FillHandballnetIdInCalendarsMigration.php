@@ -55,7 +55,7 @@ class FillHandballnetIdInCalendarsMigration extends AbstractMigration
             foreach ($seasons as $season) {
                 // Prüfe ob handballnet_id leer ist und die anderen Felder gesetzt sind
                 if (
-                    (empty($season['handballnet_id']) || '' === $season['handballnet_id'])
+                    empty($season['handballnet_id'])
                     && !empty($season['provider'])
                     && !empty($season['verband'])
                     && !empty($season['h4a_team'])
@@ -88,7 +88,7 @@ class FillHandballnetIdInCalendarsMigration extends AbstractMigration
             foreach ($seasons as $key => $season) {
                 // Prüfe ob handballnet_id leer ist und die anderen Felder gesetzt sind
                 if (
-                    (empty($season['handballnet_id']) || '' === $season['handballnet_id'])
+                    empty($season['handballnet_id'])
                     && !empty($season['provider'])
                     && !empty($season['verband'])
                     && !empty($season['h4a_team'])

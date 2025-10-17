@@ -26,7 +26,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Class ShowTeamSceduleCommand.
+ * Class ShowTeamScheduleCommand.
  *
  * @property SymfonyStyle $io
  * @property int          $statusCode
@@ -37,6 +37,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class ShowTeamScheduleCommand extends Command
 {
+    private SymfonyStyle $io;
+
     public function __construct(
         private ContaoFramework $framework,
         private HandballnetApiClient $handballnetApiClient,

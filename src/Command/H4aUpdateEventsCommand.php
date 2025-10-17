@@ -20,6 +20,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @property SymfonyStyle $io
+ * @property int          $statusCode
+ */
 #[AsCommand(
     name: 'handballnet:update:events',
     description: 'Update all Events from h4a',

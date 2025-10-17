@@ -84,7 +84,7 @@ class H4aEventAutomator extends Backend
             try {
                 $data = json_decode($this->handballnetApiClient->getTeamScheduleData($arrSeason['handballnet_id'], false), true);
             } catch (\Exception $e) {
-                $this->io->error($e->getMessage());
+                $this->logger?->error($e->getMessage());
             }
 
             // continue if no matches are given
@@ -187,20 +187,20 @@ class H4aEventAutomator extends Backend
                         $objEvent->location = $arrSpiel['field']['name'];
                         $objEvent->address = $arrSpiel['field']['city']; // TODO Field Adresseüber Api
                         // $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
-                        $objEvent->gGymnasiumTown = ['field']['city'];
+                        $objEvent->gGymnasiumTown = $arrSpiel['field']['city'];
                         // $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
                         $isChanged = true;
                     }
 
                     // Check, if gComment changed                    if ($objEvent->gComment !==
                     // $arrSpiel['remarks']) {                        $objEvent->gComment =
-                    // $arrSpiel['remarks'] ?? '';                        $isChanged = true;         
-                    //           } Check, if result changed
+                    // $arrSpiel['remarks'] ?? '';                        $isChanged = true;  }
+                    // Check, if result changed
                     if (
                         $objEvent->gHomeGoals !== $arrSpiel['homeGoals']
                         || $objEvent->gGuestGoals !== $arrSpiel['awayGoals']
-                        // || $objEvent->gHomeGoals_1 != $arrSpiel['homeGoalsHalf']
-                        // || $objEvent->gGuestGoals_1 != $arrSpiel['awayGoalsHalf']
+                        // || $objEvent->gHomeGoals_1 != $arrSpiel['homeGoalsHalf'] ||
+                        // $objEvent->gGuestGoals_1 != $arrSpiel['awayGoalsHalf']
                     ) {
                         $objEvent->gHomeGoals = $arrSpiel['homeGoals'];
                         $objEvent->gGuestGoals = $arrSpiel['awayGoals'];
@@ -316,7 +316,8 @@ class H4aEventAutomator extends Backend
             try {
                 $data = json_decode($this->handballnetApiClient->getGameSummaryData($id, false), true);
             } catch (\Exception $e) {
-                $this->io->error($e->getMessage());
+                $this->logger?->error($e->getMessage());
+                continue;
             }
 
             if (null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {

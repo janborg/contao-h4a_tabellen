@@ -71,9 +71,7 @@ services:
         public: true
         arguments:
             - '@cache.app'
-            - '@contao.framework'
             - '@http_client'
             - '@?monolog.logger.contao.general'
             - 'https://www.handball.net/a/sportdata/1/'
-            - '%kernel.project_dir'
             - '900'

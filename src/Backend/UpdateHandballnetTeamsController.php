@@ -52,6 +52,7 @@ class UpdateHandballnetTeamsController extends Backend
                 $data = json_decode($this->handballnetApiClient->getClubTeamsData($id, $season->hn_season, false), true);
             } catch (\Exception $e) {
                 Message::addError($e->getMessage());
+                continue;
             }
 
             foreach ($data['data'] as $team) {

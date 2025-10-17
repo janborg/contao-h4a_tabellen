@@ -36,6 +36,8 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 )]
 class H4aUpdateResultsCommand extends Command
 {
+    private SymfonyStyle $io;
+
     public function __construct(
         private ContaoFramework $framework,
         private EntityCacheTags $entityCacheTags,
@@ -105,6 +107,7 @@ class H4aUpdateResultsCommand extends Command
                 $data = json_decode($this->handballnetApiClient->getGameSummaryData($id, false), true);
             } catch (\Exception $e) {
                 $this->io->error($e->getMessage());
+                continue;
             }
 
             if (null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {

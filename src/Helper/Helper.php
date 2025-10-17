@@ -14,7 +14,6 @@ namespace Janborg\H4aTabellen\Helper;
 
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
-use Janborg\H4aTabellen\Model\H4aJsonDataModel;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Helper
@@ -115,54 +114,6 @@ class Helper
         $arrResult = json_decode($strJson, true);
 
         return $arrResult[0];
-    }
-
-    /**
-     * @param array<mixed> $arrResultSpielplan
-     * @param array<mixed> $arrResultTabelle
-     */
-    public static function updateDatabaseFromJsonFile($arrResultSpielplan, $arrResultTabelle): void
-    {
-        $objH4aJsonData = H4aJsonDataModel::findOneBy(
-            ['lvTypePathStr=?', 'lvIDPathStr=?'],
-            [$arrResultSpielplan['lvTypePathStr'], $arrResultSpielplan['lvIDPathStr']],
-        );
-
-        if (null === $objH4aJsonData) {
-            $objH4aJsonData = new H4aJsonDataModel();
-        }
-
-        $objH4aJsonData->tstamp = time();
-        $objH4aJsonData->lvTypePathStr = $arrResultSpielplan['lvTypePathStr'];
-        $objH4aJsonData->lvIDPathStr = $arrResultSpielplan['lvIDPathStr'];
-        $objH4aJsonData->lvTypeLabelStr = trim($arrResultSpielplan['lvTypeLabelStr'], '/ ');
-        $objH4aJsonData->gClassID = $arrResultSpielplan['dataList'][0]['gClassID'];
-        $objH4aJsonData->gClassName = $arrResultSpielplan['dataList'][0]['gClassSname'];
-        $objH4aJsonData->gTeamJson = json_encode($arrResultSpielplan);
-        $objH4aJsonData->gTableJson = json_encode($arrResultTabelle);
-
-        if (null !== $arrResultSpielplan['dataList'][0]['gDate']) {
-            $arrDate = explode('.', $arrResultSpielplan['dataList'][0]['gDate']);
-            $Unixdate = mktime(0, 0, 0, (int) $arrDate[1], (int) $arrDate[0], (int) $arrDate[2]);
-            $objH4aJsonData->DateStart = $Unixdate;
-            $month = date('m', $Unixdate);
-
-            switch (true) {
-                case $month < 4:
-                    $objH4aJsonData->season = date('Y', $Unixdate - 31536000).'/'.date('Y', $Unixdate);
-                    break;
-
-                case $month >= 3:
-                    $objH4aJsonData->season = date('Y', $Unixdate).'/'.date('Y', $Unixdate + 31536000);
-                    break;
-            }
-        }
-
-        if (null !== $arrResultTabelle['lvTypeLabelStr']) {
-            $objH4aJsonData->gClassNameLong = trim($arrResultTabelle['lvTypeLabelStr'], '/ ');
-        }
-
-        $objH4aJsonData->save();
     }
 
     /**

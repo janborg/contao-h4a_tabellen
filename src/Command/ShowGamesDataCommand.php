@@ -38,6 +38,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class ShowGamesDataCommand extends Command
 {
+    private SymfonyStyle $io;
+
     public function __construct(
         private ContaoFramework $framework,
         private HandballnetApiClient $handballnetApiClient,
@@ -58,12 +60,12 @@ class ShowGamesDataCommand extends Command
     {
         $this->framework->initialize();
 
-        $io = new SymfonyStyle($input, $output);
+        $this->io = new SymfonyStyle($input, $output);
 
         $gGameID = $input->getArgument('gGameID');
 
         if (!$gGameID) {
-            $io->error('Bitte Game ID angeben!');
+            $this->io->error('Bitte Game ID angeben!');
 
             return Command::FAILURE;
         }
@@ -78,7 +80,7 @@ class ShowGamesDataCommand extends Command
             );
             $question->setErrorMessage('Bitte gültigen Provider angeben');
 
-            $provider = $io->askQuestion($question);
+            $provider = $this->io->askQuestion($question);
         }
 
         if ($input->getOption('verband')) {
@@ -92,7 +94,7 @@ class ShowGamesDataCommand extends Command
 
             $question->setErrorMessage('Verband %s ist ungültig.');
 
-            $verband = $io->askQuestion($question);
+            $verband = $this->io->askQuestion($question);
         }
 
         $id = $provider.'.'.$verband.'.'.$gGameID;

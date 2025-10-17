@@ -58,7 +58,8 @@ class UpdateH4aResultsController extends Backend
             try {
                 $data = json_decode($this->handballnetApiClient->getGameSummaryData($id, false), true);
             } catch (\Exception $e) {
-                $this->io->error($e->getMessage());
+                Message::addError($e->getMessage());
+                continue;
             }
 
             if (null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {

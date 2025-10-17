@@ -48,6 +48,7 @@ class HandballnetSpielplanElement extends AbstractContentElementController
             $data = json_decode($this->handballnetApiClient->getTeamScheduleData($model->handballnet_id, true), true);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
+            $data['data'] = [];
         }
 
         // Base-Template Variablen setzen
