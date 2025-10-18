@@ -21,9 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CalendarCheckSeasonDataCallback
 {
-    public function __construct(private RequestStack $requestStack)
-    {
-    }
+    public function __construct(private RequestStack $requestStack) {}
 
     /**
      * @Callback(table="tl_calendar", target="config.onload")
@@ -45,11 +43,27 @@ class CalendarCheckSeasonDataCallback
                     [$season['h4a_team']],
                 );
                 if (null !== $team) {
-                    $season['provider'] = $team->provider;
-                    $season['verband'] = $team->verband;
-                    $season['liga_shortname'] = $team->liga_shortname;
-                    $season['my_team_name'] = $team->my_team_name;
-                    $season['handballnet_id'] = $team->handballnet_id;
+                    if (null !== $team) {
+                        if (empty($season['provider'])) {
+                            $season['provider'] = $team->provider;
+                        }
+
+                        if (empty($season['verband'])) {
+                            $season['verband'] = $team->verband;
+                        }
+
+                        if (empty($season['liga_shortname'])) {
+                            $season['liga_shortname'] = $team->liga_shortname;
+                        }
+
+                        if (empty($season['my_team_name'])) {
+                            $season['my_team_name'] = $team->my_team_name;
+                        }
+
+                        if (empty($season['handballnet_id'])) {
+                            $season['handballnet_id'] = $team->handballnet_id;
+                        }
+                    }
                 }
             }
             $objCalendar->h4a_seasons = serialize($seasons);
