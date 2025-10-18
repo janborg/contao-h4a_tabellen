@@ -40,6 +40,9 @@ class Configuration implements ConfigurationInterface
             ->integerNode('h4aCacheTtl')
             ->defaultValue(3600)
             ->end()
+            ->integerNode('handballnet_cache_ttl')
+                    ->defaultValue(900)
+                ->end()
             ->end()
         ;
 
