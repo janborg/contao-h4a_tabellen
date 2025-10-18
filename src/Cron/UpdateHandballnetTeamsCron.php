@@ -48,7 +48,7 @@ class UpdateHandballnetTeamsCron
             $id = $season->provider.'.'.$season->verband.'.'.$season->club_id;
 
             try {
-                $data = json_decode($this->handballnetApiClient->getClubTeamsData($id, $season->hn_season, false), true);
+                $data = json_decode($this->handballnetApiClient->getClubTeamsData($id, $season->hn_season), true);
             } catch (\Exception $e) {
                 $this->contaoCronLogger->error('Fehler beim Abruf über die handballnetApi', [$e->getMessage()]);
             }

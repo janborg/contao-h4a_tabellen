@@ -56,7 +56,7 @@ class UpdateH4aResultsController extends Backend
             $id = $objEvent->provider.'.'.$objEvent->verband.'.'.$objEvent->gGameID;
 
             try {
-                $data = json_decode($this->handballnetApiClient->getGameSummaryData($id, false), true);
+                $data = json_decode($this->handballnetApiClient->getGameSummaryData($id), true);
             } catch (\Exception $e) {
                 Message::addError($e->getMessage());
                 continue;

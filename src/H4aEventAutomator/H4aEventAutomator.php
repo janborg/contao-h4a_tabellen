@@ -82,7 +82,7 @@ class H4aEventAutomator extends Backend
             $seasonID = H4aSeasonModel::findById($arrSeason['h4a_saison'])->id;
 
             try {
-                $data = json_decode($this->handballnetApiClient->getTeamScheduleData($arrSeason['handballnet_id'], false), true);
+                $data = json_decode($this->handballnetApiClient->getTeamScheduleData($arrSeason['handballnet_id']), true);
             } catch (\Exception $e) {
                 $this->logger?->error($e->getMessage());
             }
@@ -314,7 +314,7 @@ class H4aEventAutomator extends Backend
             $id = $objEvent->provider.'.'.$objEvent->verband.'.'.$objEvent->gGameID;
 
             try {
-                $data = json_decode($this->handballnetApiClient->getGameSummaryData($id, false), true);
+                $data = json_decode($this->handballnetApiClient->getGameSummaryData($id), true);
             } catch (\Exception $e) {
                 $this->logger?->error($e->getMessage());
                 continue;

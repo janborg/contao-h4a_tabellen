@@ -74,4 +74,5 @@ services:
             - '@http_client'
             - '@?monolog.logger.contao.general'
             - 'https://www.handball.net/a/sportdata/1/'
-            - '%handballnet.cache_ttl%'
+            - '%janborg_h4a_tabellen.handballnet_cache_ttl%'
+
