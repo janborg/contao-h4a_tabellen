@@ -34,3 +34,10 @@ services:
         class: Janborg\H4aTabellen\Migration\FillHandballnetIdInCalendarsMigration
         arguments:
             - "@database_connection"
+
+
+    janborg.h4atabellen.migration.fillhandballnetidinteams:
+        class: Janborg\H4aTabellen\Migration\FillHandballnetIdInHandballnetTeamsMigration
+        arguments:
+            - "@database_connection"
+            
