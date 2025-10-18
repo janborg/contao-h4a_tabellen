@@ -15,10 +15,6 @@ tl_calendar_events:
     0: Spiel ID
     1: Wird automatisch beim Update über handball4all gesetzt
   
-  gClassID:
-    0: ID Spielklasse
-    1: Wird automatisch beim Update über handball4all gesetzt
-  
   gClassName:
     0: Name Spielklasse
     1: Wird automatisch beim Update über handball4all gesetzt
