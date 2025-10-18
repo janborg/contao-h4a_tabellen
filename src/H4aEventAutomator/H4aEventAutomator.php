@@ -247,7 +247,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->alias = StringUtil::generateAlias($arrSpiel['homeTeam']['name'].'_'.$arrSpiel['awayTeam']['name'].'_'.$arrSpiel['gameNumber']);
                     $objEvent->h4a_season = $seasonID;
                     $objEvent->gGameID = $handballnetIdParts[2];
-                    $objEvent->gGameNo = $arrSpiel['gameNumber'];
+                    $objEvent->gGameNo = $arrSpiel['gameNumber'] ?? '';
                     // $objEvent->gClassID = $arrSpiel['gClassID'];
                     $objEvent->gClassName = $arrSpiel['tournament']['acronym'];
                     $objEvent->provider = $handballnetIdParts[0];
@@ -273,7 +273,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->gHomeGoals_1 = $arrSpiel['homeGoalsHalf'] ?? '';
                     $objEvent->gGuestGoals_1 = $arrSpiel['awayGoalsHalf'] ?? '';
                     $objEvent->gComment = $arrSpiel['remark'] ?? '';
-                    parse_str(parse_url($arrSpiel['pdfUrl'], PHP_URL_QUERY), $params);
+                    parse_str(parse_url($arrSpiel['pdfUrl'] ?? '', PHP_URL_QUERY) ?? '', $params);
                     $objEvent->sGID = $params['sGID'] ?? '';
                     $objEvent->published = true;
 
