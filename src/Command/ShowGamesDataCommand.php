@@ -99,8 +99,13 @@ class ShowGamesDataCommand extends Command
 
         $id = $provider.'.'.$verband.'.'.$gGameID;
 
-        // add try.. catch ...
-        $data = json_decode($this->handballnetApiClient->getGameCombinedData($id, false), true);
+        try {
+            $data = json_decode($this->handballnetApiClient->getGameCombinedData($id, false), true);
+        } catch (\Exception $e) {
+            $this->io->error($e->getMessage());
+
+            return Command::FAILURE;
+        }
 
         $output->writeln([
             '',
