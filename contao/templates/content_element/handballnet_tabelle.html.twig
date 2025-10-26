@@ -1,0 +1,60 @@
+{# templates/content_element/handballnet_tabelle.html.twig #}
+
+<div class="ce_handballnet_tabelle {{ cssClass|default('') }} block">
+
+	{% if headline %}
+		<{{hl|default('h2')}}>{{ headline }}</{{hl|default('h2')}}>
+	{% endif %}
+
+	{% if tabelleData.rows is defined and tabelleData.rows|length > 0 %}
+		<div class="table-responsive">
+			<table class="table handballnet-table">
+				<thead>
+					<tr>
+						<th>Platz</th>
+						<th>Mannschaft</th>
+						<th class="text-center">Spiele</th>
+						<th class="text-center">Punkte</th>
+						<th class="text-center">S / U / N</th>
+						<th class="text-center">Tore</th>
+						<th class="text-center">Diff</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for row in tabelleData.rows %}
+						<tr class="{% if row.team.name == myTeam %}my-team highlight{% endif %}">
+							<td class="rank">{{ row.rank ?? '' }}</td>
+							<td class="team-name">{{ row.team.name }}</td>
+							<td class="games">{{ row.games }}</td>
+							<td class="points">{{ row.points }}</td>
+							<td class="w-d-l">{{ row.wins }}
+								/
+								{{ row.draws }}
+								/
+								{{ row.losses }}</td>
+							<td class="text-center">{{ row.goals }}:{{ row.goalsAgainst }}</td>
+							<td class="text-center">{{ row.goalDifference > 0 ? '+' : '' }}{{ row.goalDifference }}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+		{% if tabelleData.footer %}
+			<div class="table-footer">
+				<small>{{ tabelleData.footer|nl2br }}</small>
+			</div>
+		{% endif %}
+
+		<div class="table-meta">
+			<small class="text-muted">
+				Stand:
+				{{ tabelleData.updatedAtFormatted }} Uhr
+				Uhr
+			</small>
+		</div>
+	{% else %}
+		<p class="alert alert-info">Keine Tabellendaten verfügbar.</p>
+	{% endif %}
+</div>

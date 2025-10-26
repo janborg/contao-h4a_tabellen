@@ -21,6 +21,13 @@ services:
             - '@h4atabellen.handballnet.apiclient'
             - '@?monolog.logger.contao.general'
 
+    Janborg\H4aTabellen\Controller\ContentElement\HandballnetTabelleElement: 
+        public: true
+        arguments:
+            - '@contao.routing.scope_matcher'
+            - '@h4atabellen.handballnet.apiclient'
+            - '@?monolog.logger.contao.general'
+
     Janborg\H4aTabellen\Backend\UpdateH4aResultsController:
         public: true
         arguments:
