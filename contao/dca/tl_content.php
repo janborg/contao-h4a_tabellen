@@ -145,11 +145,12 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['team_id'] = [
     'sql' => "varchar(10) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_team_id'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['handballnet_id'],
-    'inputType' => 'text',
+    'label' => &$GLOBALS['TL_LANG']['tl_content']['handballnet_team_id'],
+    'inputType' => 'select',
     'eval' => [
-        'mandatory' => false,
-        'maxlength' => 255,
+        'mandatory' => true,
+        'includeBlankOption' => true,
+        'chosen' => true,
         'tl_class' => 'w50',
     ],
     'sql' => "varchar(255) NOT NULL default ''",
