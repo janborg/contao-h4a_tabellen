@@ -35,8 +35,8 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             'panelLayout' => 'search;filter;limit',
         ],
         'label' => [
-            'fields' => ['liga_shortname', 'team_id', 'liga_name', 'liga_id'],
-            'format' => '%s (%s) | %s (%s)',
+            'fields' => ['liga_shortname', 'team_id', 'liga_name'],
+            'format' => '%s (%s) | %s',
         ],
         'global_operations' => [
             'all' => [
@@ -58,7 +58,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},saison,provider,verband,team_id,handballnet_id,liga_shortname,liga_name,my_team_name; {status_legend}, is_active',
+        'default' => '{title_legend},saison,provider,verband;{handballnet_tounament_legend},liga_shortname,liga_name,handballnet_tournament_id;{handballnet_team_legend},team_id,my_team_name,handballnet_team_id; {status_legend}, is_active',
     ],
     // Fields
     'fields' => [
@@ -81,6 +81,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
                 'rgxp' => 'digit',
                 'maxlength' => 4,
                 'tl_class' => 'w50',
+                'readonly' => true,
             ],
             'sql' => "varchar(4) unsigned NOT NULL default '0'",
         ],
@@ -132,7 +133,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             'eval' => [
                 'mandatory' => true,
                 'maxlength' => 255,
-                'tl_class' => 'w50',
+                'tl_class' => 'w50 clr',
                 'includeBlankOption' => true,
                 'chosen' => true,
             ],
@@ -153,7 +154,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             ],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
-        'handballnet_id' => [
+        'handballnet_team_id' => [
             'inputType' => 'text',
             'exclude' => true, 
             'eval' => [
@@ -162,6 +163,16 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             ],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
+        'handballnet_tournament_id' => [
+            'inputType' => 'text',
+            'exclude' => true, 
+            'eval' => [
+                'maxlength' => 255,
+                'tl_class' => 'w50',
+            ],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+
         'my_team_name' => [
             'inputType' => 'text',
             'exclude' => true,

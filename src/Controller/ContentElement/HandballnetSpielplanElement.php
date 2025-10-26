@@ -39,13 +39,13 @@ class HandballnetSpielplanElement extends AbstractContentElementController
     {
         if ($this->scopeMatcher->isBackendRequest($request)) {
             $template = new BackendTemplate('be_wildcard');
-            $template->wildcard = 'Handballnet Spielplan (Team-ID: '.$model->handballnet_id.')';
+            $template->wildcard = 'Handballnet Spielplan (Team-ID: '.$model->handballnet_team_id.')';
 
             return new Response($template->parse());
         }
 
         try {
-            $data = json_decode($this->handballnetApiClient->getTeamScheduleData($model->handballnet_id, true), true);
+            $data = json_decode($this->handballnetApiClient->getTeamScheduleData($model->handballnet_team_id, true), true);
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             $data['data'] = [];
