@@ -53,9 +53,9 @@ class HandballnetApiClient
     /**
      * Get all data for a Game from handball.net.
      */
-    public function getGameCombinedData(string $id, bool $cache = true): string|null
+    public function getGameCombinedData(string $game_id, bool $cache = true): string|null
     {
-        $url = $this->baseApiUrl.'games/'.$id.'/combined';
+        $url = $this->baseApiUrl.'games/'.$game_id.'/combined';
 
         return $this->getData($url, $cache);
     }
@@ -63,9 +63,9 @@ class HandballnetApiClient
     /**
      * Get Summary for a Game from handball.net.
      */
-    public function getGameSummaryData(string $id, bool $cache = true): string|null
+    public function getGameSummaryData(string $game_id, bool $cache = true): string|null
     {
-        $url = $this->baseApiUrl.'games/'.$id;
+        $url = $this->baseApiUrl.'games/'.$game_id;
 
         return $this->getData($url, $cache);
     }
@@ -73,9 +73,9 @@ class HandballnetApiClient
     /**
      * Get Lineup data for a Game from handball.net.
      */
-    public function getGameLineupData(string $id, bool $cache = true): string|null
+    public function getGameLineupData(string $game_id, bool $cache = true): string|null
     {
-        $url = $this->baseApiUrl.'games/'.$id.'/lineups';
+        $url = $this->baseApiUrl.'games/'.$game_id.'/lineups';
 
         return $this->getData($url, $cache);
     }
@@ -83,9 +83,9 @@ class HandballnetApiClient
     /**
      * Get events data for a Game from handball.net.
      */
-    public function getGameEventsData(string $id, bool $cache = true): string|null
+    public function getGameEventsData(string $game_id, bool $cache = true): string|null
     {
-        $url = $this->baseApiUrl.'games/'.$id.'/events';
+        $url = $this->baseApiUrl.'games/'.$game_id.'/events';
 
         return $this->getData($url, $cache);
     }
@@ -93,9 +93,9 @@ class HandballnetApiClient
     /**
      * Get data for a Club from handball.net.
      */
-    public function getClubData(string $id, bool $cache = true): string|null
+    public function getClubData(string $club_id, bool $cache = true): string|null
     {
-        $url = $this->baseApiUrl.'clubs/'.$id;
+        $url = $this->baseApiUrl.'clubs/'.$club_id;
 
         return $this->getData($url, $cache);
     }
@@ -103,9 +103,9 @@ class HandballnetApiClient
     /**
      * Get Teams data for a Club from handball.net.
      */
-    public function getClubTeamsData(string $id, string $season, bool $cache = true): string|null
+    public function getClubTeamsData(string $club_id, string $season, bool $cache = true): string|null
     {
-        $url = $this->baseApiUrl.'clubs/'.$id.'/teams?season='.$season;
+        $url = $this->baseApiUrl.'clubs/'.$club_id.'/teams?season='.$season;
 
         return $this->getData($url, $cache);
     }
@@ -113,9 +113,9 @@ class HandballnetApiClient
     /**
      * Get data for a Team from handball.net.
      */
-    public function getTeamData(string $id, bool $cache = true): string|null
+    public function getTeamData(string $team_id, bool $cache = true): string|null
     {
-        $url = $this->baseApiUrl.'teams/'.$id;
+        $url = $this->baseApiUrl.'teams/'.$team_id;
 
         return $this->getData($url, $cache);
     }
@@ -123,9 +123,9 @@ class HandballnetApiClient
     /**
      * Get Schedule data for a Team from handball.net.
      */
-    public function getTeamScheduleData(string $id, bool $cache = true): string|null
+    public function getTeamScheduleData(string $team_id, bool $cache = true): string|null
     {
-        $url = $this->baseApiUrl.'teams/'.$id.'/schedule';
+        $url = $this->baseApiUrl.'teams/'.$team_id.'/schedule';
 
         return $this->getData($url, $cache);
     }
@@ -133,9 +133,9 @@ class HandballnetApiClient
     /**
      * Get data for a tournament from handball.net.
      */
-    public function getTournamentData(string $id, bool $cache = true): string|null
+    public function getTournamentData(string $tournament_id, bool $cache = true): string|null
     {
-        $url = $this->baseApiUrl.'tournaments/'.$id;
+        $url = $this->baseApiUrl.'tournaments/'.$tournament_id;
 
         return $this->getData($url, $cache);
     }
@@ -143,9 +143,9 @@ class HandballnetApiClient
     /**
      * Get Table data for a tournament from handball.net.
      */
-    public function getTournamentTableData(string $id, bool $cache = true): string|null
+    public function getTournamentTableData(string $tournament_id, bool $cache = true): string|null
     {
-        $url = $this->baseApiUrl.'tournaments/'.$id.'/table';
+        $url = $this->baseApiUrl.'tournaments/'.$tournament_id.'/table';
 
         return $this->getData($url, $cache);
     }
@@ -153,9 +153,9 @@ class HandballnetApiClient
     /**
      * Get data for an arena from handball.net.
      */
-    public function getArenaData(string $id, bool $cache = true): string|null
+    public function getArenaData(string $field_id, bool $cache = true): string|null
     {
-        $url = $this->baseApiUrl.'fields/'.$id;
+        $url = $this->baseApiUrl.'fields/'.$field_id;
 
         return $this->getData($url, $cache);
     }
