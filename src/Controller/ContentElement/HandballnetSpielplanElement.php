@@ -12,16 +12,18 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Controller\ContentElement;
 
-use Contao\BackendTemplate;
 use Contao\ContentModel;
-use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
-use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
+use Contao\BackendTemplate;
+use Psr\Log\LoggerInterface;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Twig\FragmentTemplate;
 use Janborg\H4aTabellen\HandballnetApiClient;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Janborg\H4aTabellen\HandballNet\HandballNetTeam;
+use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
+use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 
 #[AsContentElement(type: HandballnetSpielplanElement::TYPE, category: 'handballnet', template: 'handballnet_spielplan')]
 class HandballnetSpielplanElement extends AbstractContentElementController
@@ -51,13 +53,16 @@ class HandballnetSpielplanElement extends AbstractContentElementController
             $data['data'] = [];
         }
 
+        $team = HandballnetTeamsModel::findOneByHandballnet_team_id($model->handballnet_team_id);
+
         // Base-Template Variablen setzen
         $template->set('element_html_id', 'ce_'.$model->id);
         $template->set('element_css_classes', 'ce_handballnet_spielplan');
 
         // Deine Daten
         $template->set('spielplanData', $data['data']);
-        $template->set('myTeam', $model->my_team_name);
+        $template->set('handballnetTeam', $team->row());
+        $template->set('myTeam', $team->my_team_name);
 
         return $template->getResponse();
     }
