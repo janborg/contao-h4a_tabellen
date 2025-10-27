@@ -157,9 +157,10 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_team_id'] = [
 ];
 $GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_tournament_id'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_calendar']['handballnet_id'],
-    'inputType' => 'text',
+    'inputType' => 'select',
     'eval' => [
         'mandatory' => false,
+        'includeBlankOption' => true,
         'maxlength' => 255,
         'tl_class' => 'w50',
     ],

@@ -27,3 +27,8 @@ services:
         class: Janborg\H4aTabellen\EventListener\DataContainer\HandballnetTeamIdOptionsCallback   
         arguments:
             - '@request_stack'
+
+    h4atabellen.calendar.handballnettournamentid.options.callback:
+        class: Janborg\H4aTabellen\EventListener\DataContainer\HandballnetTournamentIdOptionsCallback   
+        arguments:
+            - '@request_stack'
