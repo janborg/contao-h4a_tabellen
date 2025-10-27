@@ -25,9 +25,9 @@
 						<tr class="{% if row.team.name == myTeam %}my-team highlight{% endif %}">
 							<td class="rank">{{ row.rank ?? '' }}</td>
 							<td class="team-name">{{ row.team.name }}</td>
-							<td class="games">{{ row.games }}</td>
-							<td class="points">{{ row.points }}</td>
-							<td class="w-d-l">{{ row.wins }}
+							<td class="games text-center">{{ row.games }}</td>
+							<td class="points text-center">{{ row.points }}</td>
+							<td class="w-d-l text-center">{{ row.wins }}
 								/
 								{{ row.draws }}
 								/
