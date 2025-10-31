@@ -16,7 +16,7 @@ use Contao\CoreBundle\Migration\AbstractMigration;
 use Contao\CoreBundle\Migration\MigrationResult;
 use Doctrine\DBAL\Connection;
 
-class FillHandballnetIdInHandballnetTeamsMigration extends AbstractMigration
+class FillHandballnetTeamIdInHandballnetTeamsMigration extends AbstractMigration
 {
     public function __construct(
         private Connection $connection,
@@ -36,7 +36,7 @@ class FillHandballnetIdInHandballnetTeamsMigration extends AbstractMigration
         $columnNames = array_keys($columns);
 
         // Prüfe ob alle benötigten Felder existieren
-        $requiredFields = ['handballnet_id', 'team_id', 'provider', 'verband'];
+        $requiredFields = ['handballnet_team_id', 'team_id', 'provider', 'verband'];
 
         foreach ($requiredFields as $field) {
             if (!\in_array(strtolower($field), array_map('strtolower', $columnNames), true)) {
@@ -47,7 +47,7 @@ class FillHandballnetIdInHandballnetTeamsMigration extends AbstractMigration
         // Prüfe ob es Datensätze gibt, die aktualisiert werden müssen
         $count = $this->connection->fetchOne(
             "SELECT COUNT(*) FROM tl_hn_teams
-             WHERE (handballnet_id IS NULL OR handballnet_id = '')
+             WHERE (handballnet_team_id IS NULL OR handballnet_team_id = '')
              AND team_id IS NOT NULL AND team_id != ''
              AND provider IS NOT NULL AND provider != ''
              AND verband IS NOT NULL AND verband != ''",
@@ -61,8 +61,8 @@ class FillHandballnetIdInHandballnetTeamsMigration extends AbstractMigration
         // Aktualisiere die Datensätze
         $affectedRows = $this->connection->executeStatement(
             "UPDATE tl_hn_teams
-             SET handballnet_id = CONCAT(provider, '.', verband, '.', team_id)
-             WHERE (handballnet_id IS NULL OR handballnet_id = '')
+             SET handballnet_team_id = CONCAT(provider, '.', verband, '.', team_id)
+             WHERE (handballnet_team_id IS NULL OR handballnet_team_id = '')
              AND team_id IS NOT NULL AND team_id != ''
              AND provider IS NOT NULL AND provider != ''
              AND verband IS NOT NULL AND verband != ''",

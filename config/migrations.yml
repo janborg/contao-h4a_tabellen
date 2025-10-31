@@ -36,8 +36,7 @@ services:
             - "@database_connection"
 
 
-    janborg.h4atabellen.migration.fillhandballnetidinteams:
-        class: Janborg\H4aTabellen\Migration\FillHandballnetIdInHandballnetTeamsMigration
+    janborg.h4atabellen.migration.fillhandballnetteamidinteams:
+        class: Janborg\H4aTabellen\Migration\FillHandballnetTeamIdInHandballnetTeamsMigration
         arguments:
             - "@database_connection"
-            
