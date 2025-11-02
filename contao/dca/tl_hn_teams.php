@@ -58,7 +58,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},saison,provider,verband;{handballnet_tounament_legend},liga_shortname,liga_name,handballnet_tournament_id;{handballnet_team_legend},team_id,my_team_name,handballnet_team_id; {status_legend}, is_active',
+        'default' => '{title_legend},saison,provider,verband;{handballnet_tournament_legend},liga_shortname,liga_name,handballnet_tournament_id;{handballnet_team_legend},team_id,my_team_name,handballnet_team_id; {status_legend}, is_active',
     ],
     // Fields
     'fields' => [

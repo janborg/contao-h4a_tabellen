@@ -90,3 +90,7 @@ tl_calendar_events:
   liga_shortname:
       0: League Short Name
       1: Short name of the league
+
+  handballnet_id:
+      0: Handballnet ID 
+      1: Complete Game ID from handball.net

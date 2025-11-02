@@ -14,19 +14,21 @@ tl_hn_teams:
     # Legends
     title_legend: Handball.net Team Einstellungen 
     status_legend: Status Einstellungen
+    handballnet_tournament_legend: Handballnet Liga Daten
+    handballnet_team_legend: Handballnet Team Daten
 
     # Fields
     saison: 
       0: Saison (handball.net)
       1: Jahr der Saison auf handball.net (2024 für 2024/2025)
 
-    team_id:
+    handballnet_team_id:
       0: Team ID
-      1: ID des Teams beim Provider 
+      1: ID des Teams bei Handball.net 
 
-    liga_id:
-      0: Liga ID
-      1: ID der Liga beim Provider
+    handballnet_tournament_id:
+      0: Tournament ID
+      1: ID der Liga beim Handball.net
 
     liga_shortname:
       0: Liga Short Name

@@ -43,6 +43,10 @@ tl_calendar:
         0: Team ID
         1: H4a ID for the team
 
+    handballnet_id:
+        0: handball.net ID
+        1: Complete team id from handball.net
+
     provider:
         0: Provider
         1: Provider that supplies the league's data
