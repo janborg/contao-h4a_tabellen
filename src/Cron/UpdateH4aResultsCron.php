@@ -17,6 +17,7 @@ use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
+use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -27,7 +28,7 @@ class UpdateH4aResultsCron
         private ContaoFramework $framework,
         private EntityCacheTags $entityCacheTags,
         private readonly LoggerInterface|null $logger,
-        private H4aApiHelper $h4aApiHelper,
+        private HandballnetApiClient $handballnetApiClient,
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {
         $this->framework->initialize();
@@ -49,34 +50,27 @@ class UpdateH4aResultsCron
         }
 
         foreach ($objEvents as $objEvent) {
-            if ($objEvent->startTime > time() || '00:00' === date('H:i', (int) $objEvent->startTime)) {
+            $now = time();
+
+            // Continue, wenn Spiel noch nicht gestartet
+            if ($objEvent->startTime > $now || '00:00' === date('H:i', (int) $objEvent->startTime)) {
                 continue;
             }
 
-            $objCalendar = CalendarModel::findById($objEvent->pid);
+            $id = $objEvent->provider.'.'.$objEvent->verband.'.'.$objEvent->gGameID;
 
-            $h4a_team_ID = $this->h4aApiHelper->getH4ateamFromH4aSeasons($objCalendar, $objEvent);
-
-            $arrResult = $this->h4aApiHelper->setLvIDNext($h4a_team_ID)->getSpielplanForTeamID(false); // do not use cache
-
-            $games = $arrResult['dataList'];
-
-            if (isset($games[0])) {
-                $gameId = array_search($objEvent->gGameID, array_column($games, 'gID'), true);
-            } else {
+            try {
+                $data = json_decode($this->handballnetApiClient->getGameSummaryData($id), true);
+            } catch (\Exception $e) {
+                $this->logger->error($e->getMessage());
                 continue;
             }
 
-            if (
-                isset($games[$gameId]['gHomeGoals'], $games[$gameId]['gGuestGoals'])
-
-                && ' ' !== $games[$gameId]['gHomeGoals']
-                && ' ' !== $games[$gameId]['gGuestGoals']
-            ) {
-                $objEvent->gHomeGoals = $games[$gameId]['gHomeGoals'];
-                $objEvent->gGuestGoals = $games[$gameId]['gGuestGoals'];
-                $objEvent->gHomeGoals_1 = $games[$gameId]['gHomeGoals_1'];
-                $objEvent->gGuestGoals_1 = $games[$gameId]['gGuestGoals_1'];
+            if (null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {
+                $objEvent->gHomeGoals = $data['data']['homeGoals'];
+                $objEvent->gGuestGoals = $data['data']['awayGoals'];
+                $objEvent->gHomeGoals_1 = $data['data']['homeGoalsHalf'];
+                $objEvent->gGuestGoals_1 = $data['data']['awayGoalsHalf'];
                 $objEvent->h4a_resultComplete = true;
                 $objEvent->save();
 
@@ -86,7 +80,7 @@ class UpdateH4aResultsCron
 
                 // log new result
                 $this->logger
-                    ->info('Ergebnis ('.$games[$gameId]['gHomeGoals'].':'.$games[$gameId]['gGuestGoals'].') für Spiel '.$objEvent->gGameID.' über Handball4all aktualisiert')
+                    ->info('Ergebnis ('.$data['data']['homeGoals'].':'.$data['data']['awayGoals'].') für Spiel '.$objEvent->gGameID.' über Handballnet aktualisiert')
                 ;
 
                 // Invalidate CacheTag for Event
