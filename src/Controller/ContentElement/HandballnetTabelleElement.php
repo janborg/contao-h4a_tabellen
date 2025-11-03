@@ -12,17 +12,17 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Controller\ContentElement;
 
-use Contao\ContentModel;
 use Contao\BackendTemplate;
-use Psr\Log\LoggerInterface;
+use Contao\ContentModel;
+use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Twig\FragmentTemplate;
 use Janborg\H4aTabellen\HandballnetApiClient;
+use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
-use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
-use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 
 #[AsContentElement(type: HandballnetTabelleElement::TYPE, category: 'handballnet', template: 'handballnet_tabelle')]
 class HandballnetTabelleElement extends AbstractContentElementController
@@ -49,11 +49,11 @@ class HandballnetTabelleElement extends AbstractContentElementController
             $data = json_decode($this->handballnetApiClient->getTournamentTableData($model->handballnet_tournament_id, true), true);
             // Timestamp in Sekunden umrechnen
             if (isset($data['data']['updatedAt'])) {
-                $data['data']['updatedAtFormatted'] = date('d.m.Y H:i', (int)($data['data']['updatedAt'] / 1000));
+                $data['data']['updatedAtFormatted'] = date('d.m.Y H:i', (int) ($data['data']['updatedAt'] / 1000));
             }
             if (isset($data['data']['refUpdatedAt'])) {
-            $data['data']['refUpdatedAtFormatted'] = date('d.m.Y H:i', (int)($data['data']['refUpdatedAt'] / 1000));
-        }
+                $data['data']['refUpdatedAtFormatted'] = date('d.m.Y H:i', (int) ($data['data']['refUpdatedAt'] / 1000));
+            }
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             $data['data'] = [];

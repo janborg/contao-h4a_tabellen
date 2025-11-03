@@ -12,18 +12,17 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Controller\ContentElement;
 
-use Contao\ContentModel;
 use Contao\BackendTemplate;
-use Psr\Log\LoggerInterface;
+use Contao\ContentModel;
+use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Twig\FragmentTemplate;
 use Janborg\H4aTabellen\HandballnetApiClient;
+use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Janborg\H4aTabellen\HandballNet\HandballNetTeam;
-use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
-use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
-use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 
 #[AsContentElement(type: HandballnetSpielplanElement::TYPE, category: 'handballnet', template: 'handballnet_spielplan')]
 class HandballnetSpielplanElement extends AbstractContentElementController

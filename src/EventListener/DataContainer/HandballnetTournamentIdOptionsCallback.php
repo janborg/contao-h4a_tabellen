@@ -30,7 +30,7 @@ class HandballnetTournamentIdOptionsCallback
         $teams = HandballnetTeamsModel::findBy(
             ['pid=?'],
             [$dc->activeRecord->handballnet_saison],
-            ['order' => 'liga_shortname ASC']
+            ['order' => 'liga_shortname ASC'],
         );
 
         if (null === $teams) {
@@ -38,7 +38,7 @@ class HandballnetTournamentIdOptionsCallback
         }
 
         foreach ($teams as $team) {
-            $options[$team->handballnet_tournament_id] = sprintf(
+            $options[$team->handballnet_tournament_id] = \sprintf(
                 '%s (%s)',
                 $team->liga_shortname,
                 $team->my_team_name,

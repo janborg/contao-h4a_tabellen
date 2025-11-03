@@ -13,12 +13,10 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\Cron;
 
 use Contao\CalendarEventsModel;
-use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
 use Janborg\H4aTabellen\HandballnetApiClient;
-use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
