@@ -70,7 +70,6 @@ class UpdateHandballnetTeamsController extends Backend
                     // create new team
                     $handballnetTeamsModel = new HandballnetTeamsModel();
                     ++$this->new_teams;
-
                 }
 
                 $teamIdParts = explode('.', $team['id']);
@@ -80,11 +79,11 @@ class UpdateHandballnetTeamsController extends Backend
 
                 $handballnetTeamsModel->provider = $teamIdParts[0];
                 $handballnetTeamsModel->verband = $teamIdParts[1];
-                
+
                 $handballnetTeamsModel->liga_shortname = $team['defaultTournament']['acronym'];
                 $handballnetTeamsModel->liga_name = $team['defaultTournament']['name'];
                 $handballnetTeamsModel->handballnet_tournament_id = $team['defaultTournament']['id'];
-                
+
                 $handballnetTeamsModel->team_id = $teamIdParts[2];
                 $handballnetTeamsModel->handballnet_team_id = $team['id'];
                 $handballnetTeamsModel->my_team_name = $team['name'];

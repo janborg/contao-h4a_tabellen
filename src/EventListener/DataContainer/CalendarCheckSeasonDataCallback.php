@@ -21,7 +21,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CalendarCheckSeasonDataCallback
 {
-    public function __construct(private RequestStack $requestStack) {}
+    public function __construct(private RequestStack $requestStack)
+    {
+    }
 
     /**
      * @Callback(table="tl_calendar", target="config.onload")
