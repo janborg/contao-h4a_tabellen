@@ -18,12 +18,17 @@ use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 
 class HandballnetTeamIdOptionsCallback
 {
+    /**
+     * Callback to get Handballnet Team IDs.
+     *
+     * @return array<string, string>
+     */
     #[AsCallback(table: 'tl_content', target: 'fields.handballnet_team_id.options')]
     public function getHandballnetTeamOptions(DataContainer $dc): array
     {
         $options = [];
 
-        if (!$dc->activeRecord || !$dc->activeRecord->handballnet_saison) {
+        if (!isset($dc->activeRecord) || !isset($dc->activeRecord->handballnet_saison)) {
             return $options;
         }
 
