@@ -17,8 +17,21 @@ tl_content:
     0: Verein ID
     1: Bitte geben Sie die ID des Vereins (www.handball4all.de) ein
 
+  handballnet_saison:
+    0: Saison
+    1: Wähle die Saison aus
+
+  handballnet_team_id:
+    0: Team ID
+    1: Wähle das Team 
+  
+  handballnet_tournament_id:
+    0: Tournament ID
+    1: Wähle die Liga 
+
 CTE:
   handball4all: Handball4All Elements
+  handballnet: Handballnet Elements
 
   h4a_tabelle:
     0: Tabelle Liga
@@ -35,3 +48,11 @@ CTE:
   h4a_aktuellespiele:
     0: Aktuelle Spiele Verein
     1: Erzeugt die akteulle Spielübericht des Vereins
+
+  handballnet_tabelle:
+    0: Tabelle (handball.net)
+    1: Zeigt die aktuelle Tabelle einer Liga an
+
+  handballnet_spielplan:
+    0: Spielplan (handball.net)
+    1: Zeigt den Spielplan für eine Mannschaft an
