@@ -28,7 +28,7 @@ class HandballnetTeamIdOptionsCallback
     {
         $options = [];
 
-        if (!isset($dc->activeRecord) || !isset($dc->activeRecord->handballnet_saison)) {
+    if (!isset($dc->activeRecord->handballnet_saison) || !$dc->activeRecord->handballnet_saison) {
             return $options;
         }
 
