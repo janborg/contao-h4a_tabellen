@@ -28,7 +28,7 @@ class HandballnetTeamIdOptionsCallback
     {
         $options = [];
 
-    if (!isset($dc->activeRecord->handballnet_saison) || !$dc->activeRecord->handballnet_saison) {
+        if (!isset($dc->activeRecord->handballnet_saison) || !$dc->activeRecord->handballnet_saison) {
             return $options;
         }
 
@@ -46,7 +46,7 @@ class HandballnetTeamIdOptionsCallback
             $options[$team->handballnet_team_id] = \sprintf(
                 '%s (%s)',
                 $team->liga_shortname,
-                $team->handballnet_team_id
+                $team->handballnet_team_id,
             );
         }
 

@@ -46,7 +46,7 @@ class HandballnetTournamentIdOptionsCallback
             $options[$team->handballnet_tournament_id] = \sprintf(
                 '%s (%s)',
                 $team->liga_shortname,
-                $team->handballnet_tournament_id
+                $team->handballnet_tournament_id,
             );
         }
 
