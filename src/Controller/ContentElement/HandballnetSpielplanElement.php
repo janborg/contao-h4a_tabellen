@@ -24,7 +24,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-#[AsContentElement(type: HandballnetSpielplanElement::TYPE, category: 'handballnet', template: 'handballnet_spielplan')]
+#[AsContentElement(type: HandballnetSpielplanElement::TYPE, category: 'handballnet')]
 class HandballnetSpielplanElement extends AbstractContentElementController
 {
     public const TYPE = 'handballnet_spielplan';

@@ -1,78 +1,99 @@
-{# templates/content_element/handballnet_spielplan.html.twig #}
+{% extends "@Contao/content_element/_base.html.twig" %}
 
-<div class="ce_handballnet_spielplan {{ cssClass|default('') }} block">
+{% block content %}
+
+  {% block table_wrapper %}
+    {% if spielplanData is not empty %}
+      
+      {% block table %}
+        <table class="handball-spielplan-table">
+          
+          {% block table_head %}
+            <thead>
+              <tr>
+                {% block table_header_row %}
+                  <th>Datum</th>
+                  <th>Zeit</th>
+                  <th>Halle</th>
+                  <th>Heimmannschaft</th>
+                  <th>Gastmannschaft</th>
+                  <th>Ergebnis</th>
+                {% endblock %}
+              </tr>
+            </thead>
+          {% endblock %}
+          
+          {% block table_body %}
+            <tbody>
+              {% for game in spielplanData %}
+                {% block table_row %}
+                  <tr class="game-row {{ game.state|lower }} {{ myTeam and (game.homeTeam.name == myTeam or game.awayTeam.name == myTeam) ? 'own-team-game' : '' }}">
+                    
+                    {% block cell_date %}
+                      <td class="game-date">
+                        {{ (game.startsAt / 1000)|date('d.m.Y') }}
+                      </td>
+                    {% endblock %}
+                    
+                    {% block cell_time %}
+                      <td class="game-time">
+                        {% if game.showTime %}
+                          {{ (game.startsAt / 1000)|date('H:i') }}
+                        {% else %}
+                          -
+                        {% endif %}
+                      </td>
+                    {% endblock %}
+                    
+                    {% block cell_location %}
+                      <td class="game-location">
+                        {% if game.field %}
+                          {{ game.field.name }}
+                        {% else %}
+                          -
+                        {% endif %}
+                      </td>
+                    {% endblock %}
+                    
+                    {% block cell_home_team %}
+                      <td class="team-home {{ myTeam and game.homeTeam.name == myTeam ? 'myteam' : '' }}">
+                        {{ game.homeTeam.name }}
+                      </td>
+                    {% endblock %}
+                    
+                    {% block cell_away_team %}
+                      <td class="team-away {{ myTeam and game.awayTeam.name == myTeam ? 'myteam' : '' }}">
+                        {{ game.awayTeam.name }}
+                      </td>
+                    {% endblock %}
+
+                    {% block cell_result %}
+                      <td class="game-result">
+                        {% if game.state == 'Post' %}
+                          {{ game.homeGoals }}:{{ game.awayGoals }}
+                          {% if game.homeGoalsHalf and game.awayGoalsHalf %}
+                            <span class="halftime">({{ game.homeGoalsHalf }}:{{ game.awayGoalsHalf }})</span>
+                          {% endif %}
+                        {% else %}
+                          -
+                        {% endif %}
+                      </td>
+                    {% endblock %}
+                    
+                  </tr>
+                {% endblock %}
+              {% endfor %}
+            </tbody>
+          {% endblock %}
+          
+        </table>
+      {% endblock %}
+      
+    {% else %}
+      {% block empty_state %}
+        <p class="no-games">Keine Spiele verfügbar.</p>
+      {% endblock %}
+    {% endif %}
+  {% endblock %}
   
-  {% if headline %}
-    <{{ hl|default('h2') }}>{{ headline }}</{{ hl|default('h2') }}>
-  {% endif %}
-
-  {% if spielplanData is not empty %}
-    <table class="handball-spielplan-table">
-      <thead>
-        <tr>
-          <th>Datum</th>
-          <th>Zeit</th>
-          <th>Halle</th>
-          <th>Heimmannschaft</th>
-          <th>Gastmannschaft</th>
-          <th>Ergebnis</th>   
-        </tr>
-      </thead>
-      <tbody>
-        {% for game in spielplanData %}
-        <tr class="game-row {{ game.state|lower }} {{ myTeam and (game.homeTeam.name == myTeam or game.awayTeam.name == myTeam) ? 'own-team-game' : '' }}">
-          
-          {# Datum #}
-          <td class="game-date">
-            {{ (game.startsAt / 1000)|date('d.m.Y') }}
-          </td>
-          
-          {# Zeit #}
-          <td class="game-time">
-            {% if game.showTime %}
-              {{ (game.startsAt / 1000)|date('H:i') }}
-            {% else %}
-              -
-            {% endif %}
-          </td>
-          
-          {# Spielort #}
-          <td class="game-location">
-            {% if game.field %}
-              {{ game.field.name }}
-            {% else %}
-              -
-            {% endif %}
-          </td>
-          
-          {# Heimmannschaft #}
-          <td class="team-home {{ myTeam and game.homeTeam.name == myTeam ? 'own-team' : '' }}">
-            {{ game.homeTeam.name }}
-          </td>
-          
-          {# Gastmannschaft #}
-          <td class="team-away {{ myTeam and game.awayTeam.name == myTeam ? 'own-team' : '' }}">
-            {{ game.awayTeam.name }}
-          </td>
-
-          {# Ergebnis #}
-          <td class="game-result">
-            {% if game.state == 'Post' %}
-              {{ game.homeGoals }}:{{ game.awayGoals }}
-              {% if game.homeGoalsHalf and game.awayGoalsHalf %}
-                <span class="halftime">({{ game.homeGoalsHalf }}:{{ game.awayGoalsHalf }})</span>
-              {% endif %}
-            {% else %}
-              -
-            {% endif %}
-          </td>
-          
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p class="no-games">Keine Spiele verfügbar.</p>
-  {% endif %}
-
-</div>
+{% endblock %}
