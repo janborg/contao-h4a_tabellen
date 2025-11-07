@@ -2,55 +2,102 @@
 
 {% block content %}
 
-	{% if tabelleData.rows is defined and tabelleData.rows|length > 0 %}
-		<div class="table-responsive">
-			<table class="table handballnet-table">
-				<thead>
-					<tr>
-						<th>Platz</th>
-						<th>Mannschaft</th>
-						<th class="text-center">Spiele</th>
-						<th class="text-center">Punkte</th>
-						<th class="text-center">S / U / N</th>
-						<th class="text-center">Tore</th>
-						<th class="text-center">Diff</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for row in tabelleData.rows %}
-						<tr class="{% if row.team.name == myTeam %}my-team highlight{% endif %}">
-							<td class="rank">{{ row.rank ?? '' }}</td>
-							<td class="team-name">{{ row.team.name }}</td>
-							<td class="games text-center">{{ row.games }}</td>
-							<td class="points text-center">{{ row.points }}</td>
-							<td class="w-d-l text-center">{{ row.wins }}
-								/
-								{{ row.draws }}
-								/
-								{{ row.losses }}</td>
-							<td class="text-center">{{ row.goals }}:{{ row.goalsAgainst }}</td>
-							<td class="text-center">{{ row.goalDifference > 0 ? '+' : '' }}{{ row.goalDifference }}
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
+  {% block table_wrapper %}
+    {% if tabelleData.rows is defined and tabelleData.rows|length > 0 %}
+      
+      {% block table_container %}
+        <div class="table-responsive">
+          
+          {% block table %}
+            <table class="table handballnet-table">
+              
+              {% block table_head %}
+                <thead>
+                  <tr>
+                    {% block table_header_row %}
+                      <th>Platz</th>
+                      <th>Mannschaft</th>
+                      <th class="text-center">Spiele</th>
+                      <th class="text-center">Punkte</th>
+                      <th class="text-center">S / U / N</th>
+                      <th class="text-center">Tore</th>
+                      <th class="text-center">Diff</th>
+                    {% endblock %}
+                  </tr>
+                </thead>
+              {% endblock %}
+              
+              {% block table_body %}
+                <tbody>
+                  {% for row in tabelleData.rows %}
+                    {% block table_row %}
+                      <tr class="{% if row.team.name == myTeam %}myteam highlight{% endif %}">
+                        
+                        {% block cell_rank %}
+                          <td class="rank">{{ row.rank ?? '' }}</td>
+                        {% endblock %}
+                        
+                        {% block cell_team %}
+                          <td class="team-name">{{ row.team.name }}</td>
+                        {% endblock %}
+                        
+                        {% block cell_games %}
+                          <td class="games text-center">{{ row.games }}</td>
+                        {% endblock %}
+                        
+                        {% block cell_points %}
+                          <td class="points text-center">{{ row.points }}</td>
+                        {% endblock %}
+                        
+                        {% block cell_wdl %}
+                          <td class="w-d-l text-center">
+                            {{ row.wins }} / {{ row.draws }} / {{ row.losses }}
+                          </td>
+                        {% endblock %}
+                        
+                        {% block cell_goals %}
+                          <td class="text-center">{{ row.goals }}:{{ row.goalsAgainst }}</td>
+                        {% endblock %}
+                        
+                        {% block cell_diff %}
+                          <td class="text-center">
+                            {{ row.goalDifference > 0 ? '+' : '' }}{{ row.goalDifference }}
+                          </td>
+                        {% endblock %}
+                        
+                      </tr>
+                    {% endblock %}
+                  {% endfor %}
+                </tbody>
+              {% endblock %}
+              
+            </table>
+          {% endblock %}
+          
+        </div>
+      {% endblock %}
 
-		{% if tabelleData.footer %}
-			<div class="table-footer">
-				<small>{{ tabelleData.footer|nl2br }}</small>
-			</div>
-		{% endif %}
+      {% block table_footer %}
+        {% if tabelleData.footer %}
+          <div class="table-footer">
+            <small>{{ tabelleData.footer|nl2br }}</small>
+          </div>
+        {% endif %}
+      {% endblock %}
 
-		<div class="table-meta">
-			<small class="text-muted">
-				Stand:
-				{{ tabelleData.updatedAtFormatted }} Uhr
-			</small>
-		</div>
-	{% else %}
-		<p class="alert alert-info">Keine Tabellendaten verfügbar.</p>
-	{% endif %}
+      {% block table_meta %}
+        <div class="table-meta">
+          <small class="text-muted">
+            Stand: {{ tabelleData.updatedAtFormatted }} Uhr
+          </small>
+        </div>
+      {% endblock %}
+      
+    {% else %}
+      {% block empty_state %}
+        <p class="alert alert-info">Keine Tabellendaten verfügbar.</p>
+      {% endblock %}
+    {% endif %}
+  {% endblock %}
 
 {% endblock %}
