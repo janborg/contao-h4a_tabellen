@@ -1,11 +1,8 @@
-{# templates/content_element/handballnet_spielplan.html.twig #}
+{% extends "@Contao/content_element/_base.html.twig" %}
 
+{% block content %}
 <div class="ce_handballnet_spielplan {{ cssClass|default('') }} block">
   
-  {% if headline %}
-    <{{ hl|default('h2') }}>{{ headline }}</{{ hl|default('h2') }}>
-  {% endif %}
-
   {% if spielplanData is not empty %}
     <table class="handball-spielplan-table">
       <thead>
@@ -76,3 +73,4 @@
   {% endif %}
 
 </div>
+{% endblock %}

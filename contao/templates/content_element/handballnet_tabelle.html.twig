@@ -1,10 +1,8 @@
-{# templates/content_element/handballnet_tabelle.html.twig #}
+{% extends "@Contao/content_element/_base.html.twig" %}
+
+{% block content %}
 
 <div class="ce_handballnet_tabelle {{ cssClass|default('') }} block">
-
-	{% if headline %}
-		<{{hl|default('h2')}}>{{ headline }}</{{hl|default('h2')}}>
-	{% endif %}
 
 	{% if tabelleData.rows is defined and tabelleData.rows|length > 0 %}
 		<div class="table-responsive">
@@ -58,3 +56,4 @@
 		<p class="alert alert-info">Keine Tabellendaten verfügbar.</p>
 	{% endif %}
 </div>
+{% endblock %}
