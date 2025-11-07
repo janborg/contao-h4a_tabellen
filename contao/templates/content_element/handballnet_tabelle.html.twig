@@ -2,8 +2,6 @@
 
 {% block content %}
 
-<div class="ce_handballnet_tabelle {{ cssClass|default('') }} block">
-
 	{% if tabelleData.rows is defined and tabelleData.rows|length > 0 %}
 		<div class="table-responsive">
 			<table class="table handballnet-table">
@@ -49,11 +47,10 @@
 			<small class="text-muted">
 				Stand:
 				{{ tabelleData.updatedAtFormatted }} Uhr
-				Uhr
 			</small>
 		</div>
 	{% else %}
 		<p class="alert alert-info">Keine Tabellendaten verfügbar.</p>
 	{% endif %}
-</div>
+
 {% endblock %}

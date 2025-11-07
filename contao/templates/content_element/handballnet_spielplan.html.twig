@@ -1,8 +1,7 @@
 {% extends "@Contao/content_element/_base.html.twig" %}
 
 {% block content %}
-<div class="ce_handballnet_spielplan {{ cssClass|default('') }} block">
-  
+
   {% if spielplanData is not empty %}
     <table class="handball-spielplan-table">
       <thead>
@@ -72,5 +71,4 @@
     <p class="no-games">Keine Spiele verfügbar.</p>
   {% endif %}
 
-</div>
 {% endblock %}
