@@ -88,6 +88,18 @@
           
         </table>
       {% endblock %}
+
+      {% block powered_by %}
+          <div class="powered-by">
+          </div>
+      {% endblock %}
+
+      {% block table_meta %}
+        <div class="table-meta">
+          powered by <a href="https://www.handball.net" target="_blank" rel="noopener noreferrer">https://www.handball.net</a> //  
+          Stand: {{ lastUpdated }} Uhr
+        </div>
+      {% endblock %}
       
     {% else %}
       {% block empty_state %}
