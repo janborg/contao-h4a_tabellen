@@ -64,7 +64,7 @@ class HandballnetSpielplanElement extends AbstractContentElementController
         $template->set('myTeam', $team->my_team_name);
 
         // Timestamp in Sekunden umrechnen
-        $template->set('lastUpdated',  date('d.m.Y H:i', (int) ($data['meta']['lastUpdated'] / 1000)));
+        $template->set('lastUpdated', date('d.m.Y H:i', (int) ($data['meta']['lastUpdated'] / 1000)));
 
         return $template->getResponse();
     }
