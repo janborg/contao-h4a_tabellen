@@ -183,7 +183,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->gGymnasiumNo = $arrSpiel['field']['fieldNumber'];
                         $objEvent->gGymnasiumName = $arrSpiel['field']['name'];
                         $objEvent->location = $arrSpiel['field']['name'];
-                        $objEvent->address = $arrSpiel['field']['city']; // TODO Field Adresseüber Api
+                        $objEvent->address = $arrSpiel['field']['city'] ?? ''; // TODO Field Adresseüber Api
                         // $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
                         $objEvent->gGymnasiumTown = $arrSpiel['field']['city'];
                         // $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
@@ -261,7 +261,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->gGymnasiumNo = $arrSpiel['field']['fieldNumber'];
                     $objEvent->gGymnasiumName = $arrSpiel['field']['name'];
                     $objEvent->location = $arrSpiel['field']['name'];
-                    $objEvent->address = $arrSpiel['field']['city']; // TODO adress from api
+                    $objEvent->address = $arrSpiel['field']['city'] ?? ''; // TODO adress from api
                     // $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
                     $objEvent->gGymnasiumTown = $arrSpiel['field']['city'];
                     // $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
