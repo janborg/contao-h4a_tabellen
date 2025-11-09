@@ -77,22 +77,13 @@
         </div>
       {% endblock %}
 
-      {% block table_footer %}
-        {% if tabelleData.footer %}
-          <div class="table-footer">
-            <small>{{ tabelleData.footer|nl2br }}</small>
-          </div>
-        {% endif %}
-      {% endblock %}
-
       {% block table_meta %}
         <div class="table-meta">
-          <small class="text-muted">
-            Stand: {{ tabelleData.updatedAtFormatted }} Uhr
-          </small>
+          powered by <a href="https://www.handball.net" target="_blank" rel="noopener noreferrer">https://www.handball.net</a> //  
+          Stand: {{ tabelleData.updatedAtFormatted }} Uhr
         </div>
       {% endblock %}
-      
+            
     {% else %}
       {% block empty_state %}
         <p class="alert alert-info">Keine Tabellendaten verfügbar.</p>
