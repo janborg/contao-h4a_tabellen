@@ -33,6 +33,7 @@ class HandballnetTabelleElement extends AbstractContentElementController
         private ScopeMatcher $scopeMatcher,
         private HandballnetApiClient $handballnetApiClient,
         private readonly LoggerInterface|null $logger,
+        private readonly int $cacheTtl,
     ) {
     }
 
@@ -70,6 +71,6 @@ class HandballnetTabelleElement extends AbstractContentElementController
         $template->set('handballnetTeam', $team->row());
         $template->set('myTeam', $team->my_team_name);
 
-        return $template->getResponse();
+        return $template->getResponse()->setSharedMaxAge($this->cacheTtl);
     }
 }

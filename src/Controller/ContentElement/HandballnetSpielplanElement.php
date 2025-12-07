@@ -33,6 +33,7 @@ class HandballnetSpielplanElement extends AbstractContentElementController
         private ScopeMatcher $scopeMatcher,
         private HandballnetApiClient $handballnetApiClient,
         private readonly LoggerInterface|null $logger,
+        private readonly int $cacheTtl,
     ) {
     }
 
@@ -66,6 +67,6 @@ class HandballnetSpielplanElement extends AbstractContentElementController
         // Timestamp in Sekunden umrechnen
         $template->set('lastUpdated', date('d.m.Y H:i', (int) ($data['meta']['lastUpdated'] / 1000)));
 
-        return $template->getResponse();
+        return $template->getResponse()->setSharedMaxAge($this->cacheTtl);
     }
 }

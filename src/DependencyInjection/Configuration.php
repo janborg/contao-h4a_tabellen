@@ -19,10 +19,14 @@ class Configuration implements ConfigurationInterface
 {
     public const ROOT_KEY = 'janborg_h4a_tabellen';
 
+    /**
+     * @phpstan-ignore-next-line
+     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(self::ROOT_KEY);
 
+        /** @phpstan-ignore-next-line */
         $treeBuilder->getRootNode()
             ->children()
             ->integerNode('AktuelleSpieleCacheTime')
