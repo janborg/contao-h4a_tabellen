@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -20,14 +19,15 @@ class Configuration implements ConfigurationInterface
 {
     public const ROOT_KEY = 'janborg_h4a_tabellen';
 
+    /**
+     * @phpstan-ignore-next-line
+     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(self::ROOT_KEY);
 
-        /** @var ArrayNodeDefinition $rootNode */
-        $rootNode = $treeBuilder->getRootNode();
-
-        $rootNode
+        /** @phpstan-ignore-next-line */
+        $treeBuilder->getRootNode()
             ->children()
             ->integerNode('AktuelleSpieleCacheTime')
             ->defaultValue(1800)
