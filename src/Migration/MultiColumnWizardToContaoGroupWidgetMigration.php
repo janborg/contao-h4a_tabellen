@@ -17,15 +17,15 @@ use Contao\CoreBundle\Migration\MigrationResult;
 use Contao\StringUtil;
 use Doctrine\DBAL\Connection;
 
-class MultiColumnWizardToContaoGroupWidgetWMigration extends AbstractMigration
+class MultiColumnWizardToContaoGroupWidgetMigration extends AbstractMigration
 {
-    public function __construct(private Connection $db)
+    public function __construct(private Connection $connection)
     {
     }
 
     public function shouldRun(): bool
     {
-        $schemaManager = $this->db->getSchemaManager();
+        $schemaManager = $this->connection->createSchemaManager();
 
         if (!$schemaManager->tablesExist(['tl_calendar'])) {
             return false;
@@ -37,12 +37,12 @@ class MultiColumnWizardToContaoGroupWidgetWMigration extends AbstractMigration
             return false;
         }
 
-        return (int) $this->db->fetchOne("SELECT COUNT(*) FROM tl_calendar WHERE h4a_seasons LIKE 'a:_:{i:0;%'") > 0;
+        return (int) $this->connection->fetchOne("SELECT COUNT(*) FROM tl_calendar WHERE h4a_seasons LIKE 'a:_:{i:0;%'") > 0;
     }
 
     public function run(): MigrationResult
     {
-        foreach ($this->db->fetchAllAssociative("SELECT * FROM tl_calendar WHERE h4a_seasons LIKE 'a:_:{i:0;%'") as $field) {
+        foreach ($this->connection->fetchAllAssociative("SELECT * FROM tl_calendar WHERE h4a_seasons LIKE 'a:_:{i:0;%'") as $field) {
             $templates = [];
 
             foreach (StringUtil::deserialize($field['h4a_seasons'], true) as $key => $template) {
@@ -53,7 +53,7 @@ class MultiColumnWizardToContaoGroupWidgetWMigration extends AbstractMigration
                 $templates[$key] = $template;
             }
 
-            $this->db->update('tl_calendar', ['h4a_seasons' => serialize($templates)], ['id' => $field['id']]);
+            $this->connection->update('tl_calendar', ['h4a_seasons' => serialize($templates)], ['id' => $field['id']]);
         }
 
         return $this->createResult(true);
