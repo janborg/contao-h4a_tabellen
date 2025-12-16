@@ -146,10 +146,12 @@ class H4aEventAutomator extends Backend
                     // Check, if class ID or name changed
                     if (
                         $arrSeason['liga_shortname'] !== $objEvent->gClassName
+                        || $arrSeason['liga_name'] !== $objEvent->liga_name
                         || $handballnetIdParts[0] !== $objEvent->provider
                         || $handballnetIdParts[1] !== $objEvent->verband
                     ) {
                         $objEvent->gClassName = $arrSeason['liga_shortname'] ?? ''; // für handballnet, shortname aus season
+                        $objEvent->liga_name = $arrSeason['liga_name'] ?? ''; // für handballnet, shortname aus season
                         $objEvent->provider = $handballnetIdParts[0] ?? '';
                         $objEvent->verband = $handballnetIdParts[1] ?? '';
                         $isChanged = true;

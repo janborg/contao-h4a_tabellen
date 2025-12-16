@@ -58,6 +58,10 @@ class CalendarCheckSeasonDataCallback
                             $season['liga_shortname'] = $team->liga_shortname;
                         }
 
+                        if (empty($season['liga_name'])) {
+                            $season['liga_name'] = $team->liga_name;
+                        }
+
                         if (empty($season['my_team_name'])) {
                             $season['my_team_name'] = $team->my_team_name;
                         }

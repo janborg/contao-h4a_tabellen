@@ -82,7 +82,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
         'exclude' => false,
         'inputType' => 'group',
-        'palette' => ['h4a_saison', 'liga_shortname', 'provider', 'verband', 'h4a_team', 'handballnet_id',  'my_team_name'],
+        'palette' => ['h4a_saison', 'my_team_name', 'liga_shortname', 'liga_name', 'provider', 'verband', 'h4a_team', 'handballnet_id'],
         'sql' => 'blob NULL',
     ]],
     ['h4a_saison' => [
@@ -120,6 +120,14 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'inputType' => 'text',
         'eval' => [
             'maxlength' => 20,
+            'tl_class' => 'w50',
+        ],
+    ]],
+    ['liga_name' => [
+        'inputType' => 'text',
+        'eval' => [
+            'mandatory' => true,
+            'maxlength' => 255,
             'tl_class' => 'w50',
         ],
     ]],

@@ -40,7 +40,7 @@ class CalendarEventsExtendPaletteCallback
         if ('1' === $objCalendar->h4a_imported) {
             PaletteManipulator::create()
                 ->addLegend('h4a_legend', 'title_legend', PaletteManipulator::POSITION_AFTER)
-                ->addField('gHomeTeam,gGuestTeam,gClassName,gGameID,gGameNo,provider,verband,h4a_season,handballnet_id', 'h4a_legend', PaletteManipulator::POSITION_APPEND)
+                ->addField('gHomeTeam,gGuestTeam,gClassName,liga_name,gGameID,gGameNo,provider,verband,h4a_season,handballnet_id', 'h4a_legend', PaletteManipulator::POSITION_APPEND)
                 ->applyToPalette('default', 'tl_calendar_events')
             ;
 
