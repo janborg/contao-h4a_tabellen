@@ -15,7 +15,7 @@ services:
             - "@h4atabellen.h4aapihelper"
 
     janborg.h4atabellen.migration.mcvtocgw:
-        class: Janborg\H4aTabellen\Migration\MultiColumnWizardToContaoGroupWidgetWMigration
+        class: Janborg\H4aTabellen\Migration\MultiColumnWizardToContaoGroupWidgetMigration
         arguments:
             - "@database_connection"
 
