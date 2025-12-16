@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Migration;
 
-use Doctrine\DBAL\Connection;
-use Contao\CoreBundle\Migration\MigrationResult;
 use Contao\CoreBundle\Migration\AbstractMigration;
+use Contao\CoreBundle\Migration\MigrationResult;
+use Doctrine\DBAL\Connection;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 
 class FillLiganameInCalendarsMigration extends AbstractMigration
@@ -88,11 +88,11 @@ class FillLiganameInCalendarsMigration extends AbstractMigration
                 if (
                     empty($season['liga_name'])
                 ) {
-                    //get teamModel
+                    // get HandballnetTeamsModel
                     $team = HandballnetTeamsModel::findby(
-                    ['team_id=?'],
-                    [$season['h4a_team']],
-                );
+                        ['team_id=?'],
+                        [$season['h4a_team']],
+                    );
                     // Setze liga_name
                     $seasons[$key]['liga_name'] = $team->liga_name;
                     $needsUpdate = true;
