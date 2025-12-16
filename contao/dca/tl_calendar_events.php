@@ -52,6 +52,19 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
+    ['liga_name' => [
+        'inputType' => 'text',
+        'exclude' => true,
+        'sorting' => true,
+        'filter' => true,
+        'search' => true,
+        'eval' => [
+            'mandatory' => true,
+            'maxlength' => 255,
+            'tl_class' => 'w50',
+        ],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ]],
     ['provider' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['provider'],
         'inputType' => 'text',
