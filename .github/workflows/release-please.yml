@@ -1,7 +1,7 @@
 on:
     push:
         branches:
-            - '*.x'
+            - 4.x
     workflow_dispatch:
 
 permissions:
@@ -19,5 +19,5 @@ jobs:
               id: release-please-action
               with:
                   release-type: php
-                  target-branch: main
+                  target-branch: 4.x
                   token: ${{ secrets.GITHUB_TOKEN }}
