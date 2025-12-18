@@ -21,13 +21,3 @@ jobs:
                   release-type: php
                   target-branch: 4.x
                   token: ${{ secrets.GITHUB_TOKEN }}
-            - if: steps.release-please-action.outputs.pr
-              uses: actions/github-script@v7
-              with:
-                  script: |
-                      github.rest.issues.addAssignees({
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                          issue_number: ${{ steps.release-please-action.outputs.pr }},
-                          assignees: ['janborg']
-                      })
