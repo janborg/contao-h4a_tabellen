@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @license MIT
  */
 
+use Contao\ArrayUtil;
 use Contao\BackendUser;
 use Janborg\H4aTabellen\HandballNet\Verband;
 use Janborg\H4aTabellen\HandballNet\Provider;
@@ -19,20 +20,23 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
  * Global Operation(s)
  */
 
-$GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'] = array_merge(
-    ['h4a_update_calendars' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_update_calendars'],
-        'class' => 'header_h4a',
-        'href' => 'key=h4a_update_calendars',
-        'icon' => 'bundles/janborgh4atabellen/update.svg',
-    ]],
-    ['h4a_update_results' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_update_results'],
-        'class' => 'header_h4a',
-        'href' => 'key=h4a_update_results',
-        'icon' => 'bundles/janborgh4atabellen/update.svg',
-    ]],
+ArrayUtil::arrayInsert(
     $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'],
+    1,
+    [
+        'h4a_update_calendars' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_update_calendars'],
+            'class' => 'header_h4a',
+            'href' => 'key=h4a_update_calendars',
+            'icon' => 'bundles/janborgh4atabellen/update.svg',
+        ],
+        'h4a_update_results' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_update_results'],
+            'class' => 'header_h4a',
+            'href' => 'key=h4a_update_results',
+            'icon' => 'bundles/janborgh4atabellen/update.svg',
+        ]
+    ]
 );
 
 /*
