@@ -10,18 +10,21 @@ declare(strict_types=1);
  * @license MIT
  */
 
+use Contao\ArrayUtil;
+
 /*
  * Global Operation(s)
  */
-$GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] = array_merge(
-    ['h4a_update_events' => [
+ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'], 
+1, [
+    'h4a_update_events' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['update_h4a_events'],
         'class' => 'header_h4a',
         'href' => 'key=h4a_update_events',
         'icon' => 'bundles/janborgh4atabellen/update.svg',
     ]],
-    $GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'] ?? [],
 );
+    
 
 /*
  * Table tl_calendar_events
