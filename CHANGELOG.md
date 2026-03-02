@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.13](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.12...v4.0.13) (2026-03-02)
+
+
+### Bug Fixes
+
+* Backend Routing for global Operations in 5.7 ([#122](https://github.com/janborg/contao-h4a_tabellen/issues/122)) ([14a772d](https://github.com/janborg/contao-h4a_tabellen/commit/14a772d67512f5a5e0bacabe2ccf4e697d07f000))
+
 ## [4.0.12](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.11...v4.0.12) (2026-02-08)
 
 
