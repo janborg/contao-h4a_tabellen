@@ -34,7 +34,8 @@
         "symfony/event-dispatcher-contracts": "^3.0",
         "psr/log": "^3.0",
         "symfony/cache-contracts": "^3.0",
-        "symfony/http-client-contracts": "^3.0"
+        "symfony/http-client-contracts": "^3.0",
+        "symfony/routing": "^6.0 || ^7.0"
     },
     "require-dev": {
         "contao/easy-coding-standard": "^6.0",

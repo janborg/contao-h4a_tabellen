@@ -19,6 +19,7 @@ use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\Message;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
 use Janborg\H4aTabellen\HandballnetApiClient;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class UpdateH4aResultsController extends Backend
@@ -27,6 +28,7 @@ class UpdateH4aResultsController extends Backend
         private EntityCacheTags $entityCacheTags,
         private HandballnetApiClient $handballnetApiClient,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private UrlGeneratorInterface $urlGenerator,
     ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
@@ -42,7 +44,7 @@ class UpdateH4aResultsController extends Backend
         if (null === $objEvents) {
             Message::addInfo('Es stehen für keine vergangenen Spiele die Ergebnisse aus.');
 
-            $this->redirect($this->getReferer());
+            $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'calendar']));
         }
 
         foreach ($objEvents as $objEvent) {
@@ -86,6 +88,6 @@ class UpdateH4aResultsController extends Backend
             }
         }
 
-        $this->redirect($this->getReferer());
+        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'calendar']));
     }
 }
