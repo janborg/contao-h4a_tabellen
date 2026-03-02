@@ -17,11 +17,13 @@ use Contao\BackendUser;
 use Contao\CalendarModel;
 use Contao\Message;
 use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UpdateH4aCalendarsController extends Backend
 {
     public function __construct(
         private H4aEventAutomator $h4aEventAutomator,
+        private UrlGeneratorInterface $urlGenerator,
     ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
@@ -37,7 +39,7 @@ class UpdateH4aCalendarsController extends Backend
         if (null === $objCalendars) {
             Message::addInfo('Es wurden keine Kalender zum Update über Handballnet gefunden.');
 
-            $this->redirect($this->getReferer());
+            $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'calendar']));
         }
 
         foreach ($objCalendars as $objCalendar) {
@@ -46,6 +48,6 @@ class UpdateH4aCalendarsController extends Backend
 
         Message::addConfirmation('Update der Kalender über Handballnet durchgeführt.');
 
-        $this->redirect($this->getReferer());
+        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'calendar']));
     }
 }
