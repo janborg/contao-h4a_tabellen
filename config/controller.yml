@@ -36,16 +36,19 @@ services:
             - '@contao.cache.entity_tags'
             - '@h4atabellen.handballnet.apiclient'
             - '@event_dispatcher'
+            - '@router'
 
     Janborg\H4aTabellen\Backend\UpdateH4aEventsController:
         public: true
         arguments:
             - '@h4atabellen.h4aeventautomator'
+            - '@router'
 
     Janborg\H4aTabellen\Backend\UpdateH4aCalendarsController:
         public: true
         arguments:
             - '@h4atabellen.h4aeventautomator'
+            - '@router'
 
     Janborg\H4aTabellen\Backend\UpdateHandballnetTeamsController:
         public: true
