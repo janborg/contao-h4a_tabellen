@@ -64,7 +64,7 @@ class UpdateH4aResultsController extends Backend
                 continue;
             }
 
-            if (null !== $data['data']['homeGoals'] && null !== $data['data']['awayGoals']) {
+            if ('Post' === $data['data']['state']) {
                 $objEvent->gHomeGoals = $data['data']['homeGoals'];
                 $objEvent->gGuestGoals = $data['data']['awayGoals'];
                 $objEvent->gHomeGoals_1 = $data['data']['homeGoalsHalf'];

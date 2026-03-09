@@ -192,23 +192,6 @@ class H4aEventAutomator extends Backend
                         $isChanged = true;
                     }
 
-                    // Check, if gComment changed                    if ($objEvent->gComment !==
-                    // $arrSpiel['remarks']) {                        $objEvent->gComment =
-                    // $arrSpiel['remarks'] ?? '';                        $isChanged = true;  }
-                    // Check, if result changed
-                    if (
-                        $objEvent->gHomeGoals !== $arrSpiel['homeGoals']
-                        || $objEvent->gGuestGoals !== $arrSpiel['awayGoals']
-                        // || $objEvent->gHomeGoals_1 != $arrSpiel['homeGoalsHalf'] ||
-                        // $objEvent->gGuestGoals_1 != $arrSpiel['awayGoalsHalf']
-                    ) {
-                        $objEvent->gHomeGoals = $arrSpiel['homeGoals'];
-                        $objEvent->gGuestGoals = $arrSpiel['awayGoals'];
-                        // $objEvent->gHomeGoals_1 = $arrSpiel['homeGoalsHalf'] ?? '';
-                        // $objEvent->gGuestGoals_1 = $arrSpiel['awayGoalsHalf'] ?? '';
-                        $isChanged = true;
-                    }
-
                     // check if reportUrl changed
                     if (null !== $arrSpiel['pdfUrl'] && '' !== $arrSpiel['pdfUrl']) {
                         parse_str(parse_url($arrSpiel['pdfUrl'], PHP_URL_QUERY), $params);
@@ -220,7 +203,12 @@ class H4aEventAutomator extends Backend
                         }
                     }
 
-                    if (null !== $arrSpiel['homeGoals'] && null !== $arrSpiel['awayGoals']) {
+                    // TODO: How to check if it has changed ?!
+                    if ('Post' === $data['data']['state']) {
+                        $objEvent->gHomeGoals = $arrSpiel['homeGoals'];
+                        $objEvent->gGuestGoals = $arrSpiel['awayGoals'];
+                        $objEvent->gHomeGoals_1 = $arrSpiel['homeGoalsHalf'] ?? '';
+                        $objEvent->gGuestGoals_1 = $arrSpiel['awayGoalsHalf'] ?? '';
                         $objEvent->h4a_resultComplete = true;
                     } else {
                         $objEvent->h4a_resultComplete = false;
@@ -267,19 +255,24 @@ class H4aEventAutomator extends Backend
                     // $objEvent->gGymnasiumStreet = $arrSpiel['gGymnasiumStreet'];
                     $objEvent->gGymnasiumTown = $arrSpiel['field']['city'];
                     // $objEvent->gGymnasiumPostal = $arrSpiel['gGymnasiumPostal'];
-                    $objEvent->gHomeGoals = $arrSpiel['homeGoals'] ?? '';
-                    $objEvent->gGuestGoals = $arrSpiel['awayGoals'] ?? '';
-                    $objEvent->gHomeGoals_1 = $arrSpiel['homeGoalsHalf'] ?? '';
-                    $objEvent->gGuestGoals_1 = $arrSpiel['awayGoalsHalf'] ?? '';
+
                     $objEvent->gComment = $arrSpiel['remark'] ?? '';
                     parse_str(parse_url($arrSpiel['pdfUrl'] ?? '', PHP_URL_QUERY) ?? '', $params);
                     $objEvent->sGID = $params['sGID'] ?? '';
                     $objEvent->published = true;
 
-                    if (null !== $arrSpiel['homeGoals'] && null !== $arrSpiel['awayGoals']) {
+                    if ('Post' === $data['data']['state']) {
                         $objEvent->h4a_resultComplete = true;
+                        $objEvent->gHomeGoals = $arrSpiel['homeGoals'] ?? '';
+                        $objEvent->gGuestGoals = $arrSpiel['awayGoals'] ?? '';
+                        $objEvent->gHomeGoals_1 = $arrSpiel['homeGoalsHalf'] ?? '';
+                        $objEvent->gGuestGoals_1 = $arrSpiel['awayGoalsHalf'] ?? '';
                     } else {
                         $objEvent->h4a_resultComplete = false;
+                        $objEvent->gHomeGoals = '';
+                        $objEvent->gGuestGoals = '';
+                        $objEvent->gHomeGoals_1 = '';
+                        $objEvent->gGuestGoals_1 = '';
                     }
 
                     // save new Event
