@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.14](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.13...v4.0.14) (2026-03-09)
+
+
+### Bug Fixes
+
+* use 'state' to check, if game has ended ([#124](https://github.com/janborg/contao-h4a_tabellen/issues/124)) ([18de069](https://github.com/janborg/contao-h4a_tabellen/commit/18de069d09c663d71b5841242b85833200b14832))
+
 ## [4.0.13](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.12...v4.0.13) (2026-03-02)
 
 
