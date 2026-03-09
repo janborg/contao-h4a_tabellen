@@ -204,7 +204,7 @@ class H4aEventAutomator extends Backend
                     }
 
                     // TODO: How to check if it has changed ?!
-                    if ($data['data']['state'] === 'Post') {
+                    if ('Post' === $data['data']['state']) {
                         $objEvent->gHomeGoals = $arrSpiel['homeGoals'];
                         $objEvent->gGuestGoals = $arrSpiel['awayGoals'];
                         $objEvent->gHomeGoals_1 = $arrSpiel['homeGoalsHalf'] ?? '';
@@ -261,7 +261,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->sGID = $params['sGID'] ?? '';
                     $objEvent->published = true;
 
-                    if ($data['data']['state'] === 'Post') {
+                    if ('Post' === $data['data']['state']) {
                         $objEvent->h4a_resultComplete = true;
                         $objEvent->gHomeGoals = $arrSpiel['homeGoals'] ?? '';
                         $objEvent->gGuestGoals = $arrSpiel['awayGoals'] ?? '';

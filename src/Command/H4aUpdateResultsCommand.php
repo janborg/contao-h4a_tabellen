@@ -110,7 +110,7 @@ class H4aUpdateResultsCommand extends Command
                 continue;
             }
 
-            if ($data['data']['state'] === 'Post') {
+            if ('Post' === $data['data']['state']) {
                 $objEvent->gHomeGoals = $data['data']['homeGoals'];
                 $objEvent->gGuestGoals = $data['data']['awayGoals'];
                 $objEvent->gHomeGoals_1 = $data['data']['homeGoalsHalf'];
