@@ -142,6 +142,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->author = $objCalendar->h4aEvents_author;
                     $objEvent->source = 'default';
                     $objEvent->addTime = true;
+                    $objEvent->handballnet_id = $arrSpiel['id'] ?? '';
 
                     // Check, if class ID or name changed
                     if (
@@ -229,6 +230,7 @@ class H4aEventAutomator extends Backend
                 } else {
                     $objEvent = new CalendarEventsModel();
 
+                    $objEvent->handballnet_id = $arrSpiel['id'];
                     $objEvent->pid = $objCalendar->id;
                     $objEvent->tstamp = time();
                     $objEvent->title = $arrSpiel['tournament']['acronym'].': '.$arrSpiel['homeTeam']['name'].' - '.$arrSpiel['awayTeam']['name'];
