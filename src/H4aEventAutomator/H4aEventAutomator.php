@@ -147,7 +147,7 @@ class H4aEventAutomator extends Backend
                     // Check, if class ID or name changed
                     if (
                         $arrSeason['liga_shortname'] !== $objEvent->gClassName
-                        //|| $arrSeason['liga_name'] !== $objEvent->liga_name
+                        // || $arrSeason['liga_name'] !== $objEvent->liga_name
                         || $handballnetIdParts[0] !== $objEvent->provider
                         || $handballnetIdParts[1] !== $objEvent->verband
                     ) {
