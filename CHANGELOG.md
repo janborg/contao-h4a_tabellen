@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.0.15](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.14...v4.0.15) (2026-03-10)
+
+
+### Bug Fixes
+
+* fill and update handballnet_id of events ([c4ca67f](https://github.com/janborg/contao-h4a_tabellen/commit/c4ca67fe7c262917566598482701287f05a6d445))
+* get Liga name and acronym from phase in json ([f0ca9a7](https://github.com/janborg/contao-h4a_tabellen/commit/f0ca9a7dafba7aa38c209aaefa0f47dbcbc5a75b))
+* wrong aray key for game state ([a856137](https://github.com/janborg/contao-h4a_tabellen/commit/a856137733ad6d879ff5b928b8f98c29e1f9f2f7))
+
 ## [4.0.14](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.13...v4.0.14) (2026-03-09)
 
 
