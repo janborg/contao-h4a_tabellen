@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.16](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.15...v4.0.16) (2026-03-11)
+
+
+### Bug Fixes
+
+* check liga_name and shortname correctly ([ea21833](https://github.com/janborg/contao-h4a_tabellen/commit/ea21833bb36f94383327f3a38710251805cefbec))
+
 ## [4.0.15](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.14...v4.0.15) (2026-03-10)
 
 
