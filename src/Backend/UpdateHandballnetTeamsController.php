@@ -18,11 +18,13 @@ use Contao\Message;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UpdateHandballnetTeamsController extends Backend
 {
     public function __construct(
         private HandballnetApiClient $handballnetApiClient,
+        private UrlGeneratorInterface $urlGenerator,
         private int $new_teams = 0,
         private int $existing_teams = 0,
         private int $active_seasons = 0,
@@ -105,6 +107,6 @@ class UpdateHandballnetTeamsController extends Backend
             Message::addInfo($this->existing_teams.' existierende(s) Team(s) aktualisiert.');
         }
 
-        $this->redirect($this->getReferer());
+        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams']));
     }
 }
