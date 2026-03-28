@@ -54,3 +54,4 @@ services:
         public: true
         arguments:
             - '@h4atabellen.handballnet.apiclient'
+            - '@router'
