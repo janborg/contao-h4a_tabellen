@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.17](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.16...v4.0.17) (2026-03-28)
+
+
+### Bug Fixes
+
+* Backend Routing for global Operations in UpdateHandballNetTeamsController ([248eb8f](https://github.com/janborg/contao-h4a_tabellen/commit/248eb8f75cca0101160ced6e5a9cb813bd29a7a4))
+
 ## [4.0.16](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.15...v4.0.16) (2026-03-11)
 
 
