@@ -33,7 +33,6 @@ class Helper
 
     /**
      * @deprecated since 4.1.0 - will be removed in 5.0.0
-     *
      * @param string $type 'class' oder 'team' oder 'club' oder 'score'
      * @param string $id
      */
@@ -51,7 +50,6 @@ class Helper
 
     /**
      * @deprecated since 4.1.0 - will be removed in 5.0.0
-     *
      * @param string $teamID
      *
      * @return array<mixed>
@@ -71,7 +69,6 @@ class Helper
 
     /**
      * @deprecated since 4.1.0 - will be removed in 5.0.0
-     *
      * @param string $ligaID
      *
      * @return array<mixed>
@@ -91,7 +88,6 @@ class Helper
 
     /**
      * @deprecated since 4.1.0 - will be removed in 5.0.0
-     *
      * @param string $ligaID
      *
      * @return array<mixed>
@@ -179,7 +175,6 @@ class Helper
 
     /**
      * @deprecated since 4.1.0 - will be removed in 5.0.0
-     *
      * @param string $url
      */
     public static function file_get_contents_ssl($url): string

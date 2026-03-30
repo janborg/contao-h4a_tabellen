@@ -47,8 +47,6 @@ final class H4aApiHelper
     }
 
     /**
-     * @deprecated since 4.1.0 - will be removed in 5.0.0
-     *
      * @param string $lvIDNext
      *
      * @return H4aApiHelper
@@ -61,8 +59,6 @@ final class H4aApiHelper
     }
 
     /**
-     * @deprecated since 4.1.0 - will be removed in 5.0.0
-     *
      * @param bool $cache
      *
      * @return array<mixed>
@@ -79,8 +75,6 @@ final class H4aApiHelper
     }
 
     /**
-     * @deprecated since 4.1.0 - will be removed in 5.0.0
-     *
      * @param bool $cache
      *
      * @return array<mixed>
@@ -97,8 +91,6 @@ final class H4aApiHelper
     }
 
     /**
-     * @deprecated since 4.1.0 - will be removed in 5.0.0
-     *
      * @param bool $cache
      *
      * @return array<mixed>
@@ -115,8 +107,6 @@ final class H4aApiHelper
     }
 
     /**
-     * @deprecated since 4.1.0 - will be removed in 5.0.0
-     *
      * @param bool $cache
      *
      * @return array<mixed>
@@ -137,6 +127,7 @@ final class H4aApiHelper
      *
      * @deprecated since 4.1.0 - will be removed in 5.0.0
      *
+     * @deprecated since 4.1.0 - will be removed in 5.0.0
      * @param string $ligaID
      * @param string $gameNo
      *
@@ -185,9 +176,6 @@ final class H4aApiHelper
         return $game[0][10]['sGID'] ?? '';
     }
 
-    /**
-     * @deprecated since 4.1.0 - will be removed in 5.0.0
-     */
     public function getH4ateamFromH4aSeasons(CalendarModel $objCalendar, CalendarEventsModel $objEvent): string
     {
         $arrSeasons = unserialize($objCalendar->h4a_seasons);
