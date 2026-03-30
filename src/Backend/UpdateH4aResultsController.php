@@ -15,7 +15,7 @@ namespace Janborg\H4aTabellen\Backend;
 use Contao\Backend;
 use Contao\BackendUser;
 use Contao\CalendarEventsModel;
-use Contao\CoreBundle\Cache\EntityCacheTags;
+use Contao\CoreBundle\Cache\CacheTagManager;
 use Contao\Message;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
 use Janborg\H4aTabellen\HandballnetApiClient;
@@ -25,7 +25,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class UpdateH4aResultsController extends Backend
 {
     public function __construct(
-        private EntityCacheTags $entityCacheTags,
+        private CacheTagManager $cacheTagManager,
         private HandballnetApiClient $handballnetApiClient,
         private readonly EventDispatcherInterface $eventDispatcher,
         private UrlGeneratorInterface $urlGenerator,
@@ -80,7 +80,7 @@ class UpdateH4aResultsController extends Backend
                 Message::addConfirmation('Ergebnis ('.$data['data']['homeGoals'].':'.$data['data']['awayGoals'].' für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' erhalten.');
 
                 // Invalidate CacheTag for Event
-                $this->entityCacheTags->invalidateTagsFor($objEvent);
+                $this->cacheTagManager->invalidateTagsFor($objEvent);
             } else {
                 $objEvent->h4a_resultComplete = false;
 

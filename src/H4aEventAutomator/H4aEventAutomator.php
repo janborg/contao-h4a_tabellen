@@ -15,7 +15,7 @@ namespace Janborg\H4aTabellen\H4aEventAutomator;
 use Contao\Backend;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
-use Contao\CoreBundle\Cache\EntityCacheTags;
+use Contao\CoreBundle\Cache\CacheTagManager;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Input;
 use Contao\StringUtil;
@@ -30,7 +30,7 @@ class H4aEventAutomator extends Backend
 {
     public function __construct(
         private ContaoFramework $contaoFramework,
-        private EntityCacheTags $entityCacheTags,
+        private CacheTagManager $cacheTagManager,
         private HandballnetApiClient $handballnetApiClient,
         private readonly LoggerInterface|null $logger,
     ) {
@@ -223,7 +223,7 @@ class H4aEventAutomator extends Backend
                         $this->logger?->info('Event für Spiel '.$arrSpiel['tournament']['acronym'].': '.$arrSpiel['homeTeam']['name'].': '.$arrSpiel['awayTeam']['name'].' (gID: '.$objEvent->gGameID.') über Handball4all aktualisiert');
 
                         // Invalidate CacheTag for Event
-                        $this->entityCacheTags->invalidateTagsFor($objEvent);
+                        $this->cacheTagManager->invalidateTagsFor($objEvent);
                     }
 
                     // Create Event, wenn ModelObjekt existiert
@@ -282,7 +282,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->save();
 
                     // Invalidate CacheTag for Event
-                    $this->entityCacheTags->invalidateTagsFor($objEvent);
+                    $this->cacheTagManager->invalidateTagsFor($objEvent);
                 }
             }
         }

@@ -11,7 +11,7 @@ services:
         class: Janborg\H4aTabellen\Command\H4aUpdateResultsCommand
         arguments:
             - '@contao.framework'
-            - '@contao.cache.entity_tags'
+            - '@contao.cache.tag_manager'
             - '@h4atabellen.handballnet.apiclient'
             - '@event_dispatcher'
 
