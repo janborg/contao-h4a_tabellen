@@ -16,6 +16,9 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * @deprecated since 4.1.0 - will be removed in 5.0.0
+ */
 class Helper
 {
     final public const CLASS_TABLE_URL = 'https://api.h4a.mobi/spo/spo-proxy_public.php?cmd=data&lvTypeNext=class&subType=table&lvIDNext=';
@@ -29,6 +32,8 @@ class Helper
     final public const GAME_SCORES_URL = 'https://spo.handball4all.de/Spielbetrieb/index.php?orgGrpID=1&all=1&score=';
 
     /**
+     * @deprecated since 4.1.0 - will be removed in 5.0.0
+     *
      * @param string $type 'class' oder 'team' oder 'club' oder 'score'
      * @param string $id
      */
@@ -45,6 +50,8 @@ class Helper
     }
 
     /**
+     * @deprecated since 4.1.0 - will be removed in 5.0.0
+     *
      * @param string $teamID
      *
      * @return array<mixed>
@@ -63,6 +70,8 @@ class Helper
     }
 
     /**
+     * @deprecated since 4.1.0 - will be removed in 5.0.0
+     *
      * @param string $ligaID
      *
      * @return array<mixed>
@@ -81,6 +90,8 @@ class Helper
     }
 
     /**
+     * @deprecated since 4.1.0 - will be removed in 5.0.0
+     *
      * @param string $ligaID
      *
      * @return array<mixed>
@@ -99,6 +110,8 @@ class Helper
     }
 
     /**
+     * @deprecated since 4.1.0 - will be removed in 5.0.0
+     *
      * @param string $vereinID
      *
      * @return array<mixed>
@@ -118,6 +131,8 @@ class Helper
 
     /**
      * Ermittelt die Nummer des Reports (URL Parameter sGID)).
+     *
+     * @deprecated since 4.1.0 - will be removed in 5.0.0
      *
      * @param string $ligaID
      * @param string $gameNo
@@ -163,6 +178,8 @@ class Helper
     }
 
     /**
+     * @deprecated since 4.1.0 - will be removed in 5.0.0
+     *
      * @param string $url
      */
     public static function file_get_contents_ssl($url): string
@@ -182,6 +199,9 @@ class Helper
         return $result;
     }
 
+    /**
+     * @deprecated since 4.1.0 - will be removed in 5.0.0
+     */
     public static function getH4ateamFromH4aSeasons(CalendarModel $objCalendar, CalendarEventsModel $objEvent): string
     {
         $arrSeasons = unserialize($objCalendar->h4a_seasons);

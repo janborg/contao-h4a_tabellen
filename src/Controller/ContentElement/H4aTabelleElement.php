@@ -24,6 +24,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * @deprecated since 4.1.0 - will be removed in 5.0.0
+ *
  * @ContentElement(type=H4aTabelleElement::TYPE,
  *   category="handball4all",
  *   template="ce_h4a_tabelle",
