@@ -20,6 +20,9 @@ use Doctrine\DBAL\Connection;
 use Janborg\H4aTabellen\Helper\H4aApiHelper;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
 
+/**
+ * @deprecated since 4.1.0 - will be removed in 5.0.0
+ */
 class H4aSeasonsMigration extends AbstractMigration
 {
     public function __construct(
