@@ -33,7 +33,7 @@ services:
     Janborg\H4aTabellen\Backend\UpdateH4aResultsController:
         public: true
         arguments:
-            - '@contao.cache.entity_tags'
+            - '@contao.cache.tag_manager'
             - '@h4atabellen.handballnet.apiclient'
             - '@event_dispatcher'
             - '@router'
