@@ -126,8 +126,8 @@ final class H4aApiHelper
      * Ermittelt die Nummer des Reports (URL Parameter sGID)).
      *
      * @deprecated since 4.1.0 - will be removed in 5.0.0
-     *
      * @deprecated since 4.1.0 - will be removed in 5.0.0
+     *
      * @param string $ligaID
      * @param string $gameNo
      *
