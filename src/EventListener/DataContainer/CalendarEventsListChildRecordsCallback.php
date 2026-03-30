@@ -15,7 +15,7 @@ namespace Janborg\H4aTabellen\EventListener\DataContainer;
 use Contao\Calendar;
 use Contao\CalendarModel;
 use Contao\Config;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\Date;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -30,9 +30,8 @@ class CalendarEventsListChildRecordsCallback
 
     /**
      * @param array<mixed> $arrRow
-     *
-     * @Callback(table="tl_calendar_events", target="list.sorting.child_record")
      */
+    #[AsCallback(table: 'tl_calendar_events', target: 'list.sorting.child_record')]
     public function __invoke($arrRow): string
     {
         $span = Calendar::calculateSpan($arrRow['startTime'], $arrRow['endTime']);

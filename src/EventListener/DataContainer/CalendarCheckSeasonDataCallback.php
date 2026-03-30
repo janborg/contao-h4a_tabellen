@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\EventListener\DataContainer;
 
 use Contao\CalendarModel;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\DataContainer;
 use Contao\StringUtil;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
@@ -25,9 +25,7 @@ class CalendarCheckSeasonDataCallback
     {
     }
 
-    /**
-     * @Callback(table="tl_calendar", target="config.onload")
-     */
+    #[AsCallback(table: 'tl_calendar', target: 'config.onload')]
     public function __invoke(DataContainer|null $dc = null): void
     {
         if (null === $dc || !$dc->id || 'edit' !== $this->requestStack->getCurrentRequest()->query->get('act')) {

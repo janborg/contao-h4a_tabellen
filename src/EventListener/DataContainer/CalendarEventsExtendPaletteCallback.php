@@ -15,7 +15,7 @@ namespace Janborg\H4aTabellen\EventListener\DataContainer;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use Contao\CoreBundle\ServiceAnnotation\Callback;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\DataContainer;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -25,9 +25,7 @@ class CalendarEventsExtendPaletteCallback
     {
     }
 
-    /**
-     * @Callback(table="tl_calendar_events", target="config.onload")
-     */
+    #[AsCallback(table: 'tl_calendar_events', target: 'config.onload')]
     public function __invoke(DataContainer|null $dc = null): void
     {
         if (null === $dc || !$dc->id || 'edit' !== $this->requestStack->getCurrentRequest()->query->get('act')) {
