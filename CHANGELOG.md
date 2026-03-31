@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.19](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.18...v4.0.19) (2026-03-31)
+
+
+### Bug Fixes
+
+* dont show empty halftime results ([f03e997](https://github.com/janborg/contao-h4a_tabellen/commit/f03e997bb62bb27b0d548c1d0ca1a16760b5fd88))
+
 ## [4.0.18](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.17...v4.0.18) (2026-03-31)
 
 
