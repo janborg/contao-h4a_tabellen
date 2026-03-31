@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.0.18](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.17...v4.0.18) (2026-03-31)
+
+
+### Features
+
+* add deprecation info ([#133](https://github.com/janborg/contao-h4a_tabellen/issues/133)) ([a4c59d1](https://github.com/janborg/contao-h4a_tabellen/commit/a4c59d1f033e88dc884ace81e7efbb4e1df2d556))
+* add release-please-manifest ([6e5d398](https://github.com/janborg/contao-h4a_tabellen/commit/6e5d398f217c6e1ab3def19e1394880d99f04a82))
+* use CacheTagManager instead of EntityCacheTags ([c50c172](https://github.com/janborg/contao-h4a_tabellen/commit/c50c172725f15e7951b0a23e7ffa32a092165042))
+* Use DI AsCallback instead of ServiceAnnotation ([68c2b18](https://github.com/janborg/contao-h4a_tabellen/commit/68c2b18fbeae96b3fbd35b6882fb49307910da48))
+
 ## [4.0.17](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.16...v4.0.17) (2026-03-28)
 
 
