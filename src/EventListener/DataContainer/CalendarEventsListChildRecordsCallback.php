@@ -47,7 +47,7 @@ class CalendarEventsListChildRecordsCallback
         $result = ' ';
         // Show result in listview only, when existing
         if ('1' === $arrRow['h4a_resultComplete']) {
-            $result = $arrRow['gHomeGoals'].' : '.$arrRow['gGuestGoals'].' ('.$arrRow['gHomeGoals_1'].' : '.$arrRow['gGuestGoals_1'].')';
+            $result = ' ('.$arrRow['gHomeGoals'].' : '.$arrRow['gGuestGoals'].')';
         }
 
         // different listview with result for calendars, that are updated via h4a
