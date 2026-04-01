@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\Cron;
 
 use Contao\CalendarEventsModel;
-use Contao\CoreBundle\Cache\CacheTagManager;
+use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
 use Janborg\H4aTabellen\HandballnetApiClient;
@@ -24,7 +24,7 @@ class UpdateH4aResultsCron
 {
     public function __construct(
         private ContaoFramework $framework,
-        private CacheTagManager $cacheTagManager,
+        private EntityCacheTags $entityCacheTags,
         private readonly LoggerInterface|null $logger,
         private HandballnetApiClient $handballnetApiClient,
         private readonly EventDispatcherInterface $eventDispatcher,
@@ -82,7 +82,7 @@ class UpdateH4aResultsCron
                 ;
 
                 // Invalidate CacheTag for Event
-                $this->cacheTagManager->invalidateTagsFor($objEvent);
+                $this->entityCacheTags->invalidateTagsFor($objEvent);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
