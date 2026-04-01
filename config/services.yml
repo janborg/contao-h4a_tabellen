@@ -12,7 +12,7 @@ services:
         public: true
         arguments:
             - '@contao.framework'
-            - '@contao.cache.tag_manager'
+            - '@contao.cache.entity_tags'
             - '@h4atabellen.handballnet.apiclient'
             - '@?monolog.logger.contao.general'
     
@@ -30,7 +30,7 @@ services:
         class: Janborg\H4aTabellen\Cron\UpdateH4aResultsCron
         arguments:
             - '@contao.framework'
-            - '@contao.cache.tag_manager'
+            - '@contao.cache.entity_tags'
             - '@?monolog.logger.contao.cron'
             - '@h4atabellen.handballnet.apiclient'
             - '@event_dispatcher'

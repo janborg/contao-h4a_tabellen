@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\Command;
 
 use Contao\CalendarEventsModel;
-use Contao\CoreBundle\Cache\CacheTagManager;
+use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
 use Janborg\H4aTabellen\HandballnetApiClient;
@@ -40,7 +40,7 @@ class H4aUpdateResultsCommand extends Command
 
     public function __construct(
         private ContaoFramework $framework,
-        private CacheTagManager $cacheTagManager,
+        private EntityCacheTags $entityCacheTags,
         private HandballnetApiClient $handballnetApiClient,
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {
@@ -128,7 +128,7 @@ class H4aUpdateResultsCommand extends Command
                 $this->eventDispatcher->dispatch($event);
 
                 // Invalidate CacheTag for Event
-                $this->cacheTagManager->invalidateTagsFor($objEvent);
+                $this->entityCacheTags->invalidateTagsFor($objEvent);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
