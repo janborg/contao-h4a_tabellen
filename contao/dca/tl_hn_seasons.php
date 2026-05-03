@@ -15,115 +15,103 @@ use Contao\DataContainer;
 use Janborg\H4aTabellen\HandballNet\Verband;
 use Janborg\H4aTabellen\HandballNet\Provider;
 
-$GLOBALS['TL_DCA']['tl_hn_teams'] = [
+$GLOBALS['TL_DCA']['tl_hn_seasons'] = [
     // Config
     'config' => [
         'dataContainer' => DC_Table::class,
-        'ptable' => 'tl_hn_seasons',
         'sql' => [
             'keys' => [
                 'id' => 'primary',
             ],
         ],
+        'ctable' => ['tl_hn_teams'],
     ],
     'list' => [
         'sorting' => [
-            'mode' => DataContainer::MODE_PARENT,
-            'flag' => DataContainer::SORT_INITIAL_LETTER_DESC,
-            'headerFields' => ['hn_season', 'club_name', 'club_id'],
-            'fields' => ['liga_shortname'],
-            'panelLayout' => 'search;filter;limit',
+            'mode' => DataContainer::MODE_SORTED,
+            'flag' => DataContainer::SORT_DESC,
+            'fields' => ['season_id', 'club_name'],
+            'panelLayout' => 'search, sort;filter,limit',
         ],
         'label' => [
-            'fields' => ['liga_shortname', 'team_id', 'liga_name'],
-            'format' => '%s (%s) | %s',
+            'fields' => ['season_name', 'club_name', 'handballnet_club_id'],
+            'format' => '%s - %s (%s)',
         ],
         'global_operations' => [
-            'all' => [
-                'href' => 'act=select',
-                'class' => 'header_edit_all',
-                'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
+            'all',
+            'update_hn_teams' => [
+                'href' => 'key=update_hn_teams',
+                'icon' => 'bundles/janborgh4atabellen/update.svg',
+                'attributes' => 'onclick="Backend.getScrollOffset()"',
+            ],
+            'update_hn_clubs' => [
+                'href' => 'key=update_hn_clubs',
+                'icon' => 'bundles/janborgh4atabellen/update.svg',
+                'attributes' => 'onclick="Backend.getScrollOffset()"',
+            ],
+            'manage_clubs' => [
+                'href' => 'table=tl_hn_clubs',
+                'primary' => true
             ],
         ],
         'operations' => [
             'edit',
+            'children',
             'delete',
+            'show',
             'toggle' => [
 				'href'                => 'act=toggle&amp;field=is_active',
 				'icon'                => 'visible.svg',
 				'showInHeader'        => true
 			],
-            'show',
         ],
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},saison,provider,verband;{handballnet_tournament_legend},liga_name,handballnet_tournament_id;{handballnet_team_legend},my_team_name,handballnet_team_id; {status_legend}, is_active',
+        'default' => '{title_legend}, season_name;    
+                    {handballnet_legend},season_id, handballnet_club_id, club_name, provider, verband;
+                    {status_legend}, is_active',
     ],
     // Fields
     'fields' => [
         'id' => [
             'sql' => 'int(10) unsigned NOT NULL auto_increment',
         ],
-        'pid' => array(
-            'sql' => "int(10) unsigned NOT NULL default '0"
-        ),
         'tstamp' => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
         ],
-        'saison' => [
-            'inputType' => 'text',
+        'season_name' => [
             'exclude' => true,
             'sorting' => true,
-            'filter' => false,
-            'eval' => [
-                'mandatory' => true,
-                'rgxp' => 'digit',
-                'maxlength' => 4,
-                'tl_class' => 'w50',
-                'readonly' => true,
-            ],
-            'sql' => "varchar(4) unsigned NOT NULL default '0'",
-        ],
-        'team_id' => [
             'inputType' => 'text',
+            'eval' => ['maxlength' => 9, 'tl_class' => 'w50'],
+            'sql' => "varchar(255) NULL default ''",
+        ],
+        'season_id' => [
             'exclude' => true,
             'sorting' => true,
-            'search' => true,
+            'inputType' => 'text',
             'eval' => [
-                'mandatory' => true,
-                'rgxp' => 'digit',
-                'maxlength' => 7,
+                'maxlength' => 4, 
                 'tl_class' => 'w50',
+                'rgxp' => 'custom',
+                'customRgxp' => '/(202[1-9]|20[3-9][0-9])/',
+                'errorMsg'=> 'Bitte gülitgen Wert im Format "YYYY" eingeben (2021 - heute)',
             ],
-            'sql' => "varchar(10) unsigned NOT NULL default ''",
+            'sql' => "varchar(4) NOT NULL default ''",
         ],
-        'liga_shortname' => [
+        'club_name' => [
             'inputType' => 'text',
             'exclude' => true,
             'sorting' => true,
             'filter' => true,
-            'search' => true,
-            'eval' => [
-                'mandatory' => true,
-                'maxlength' => 20,
-                'tl_class' => 'w50',
-            ],
-            'sql' => "varchar(20) NOT NULL default ''",
-        ],
-        'liga_name' => [
-            'inputType' => 'text',
-            'exclude' => true,
-            'sorting' => true,
-            'filter' => true,
-            'search' => true,
             'eval' => [
                 'mandatory' => true,
                 'maxlength' => 255,
                 'tl_class' => 'w50',
             ],
             'sql' => "varchar(255) NOT NULL default ''",
-        ],
+        ], 
         'provider' => [
             'inputType' => 'select',
             'exclude' => true,
@@ -131,9 +119,9 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             'filter' => true,
             'enum' => Provider::class,
             'eval' => [
-                'mandatory' => true,
+//                'mandatory' => true,
                 'maxlength' => 255,
-                'tl_class' => 'w50 clr',
+                'tl_class' => 'w50',
                 'includeBlankOption' => true,
                 'chosen' => true,
             ],
@@ -146,7 +134,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             'filter' => true,
             'enum' => Verband::class,
             'eval' => [
-                'mandatory' => true,
+//                'mandatory' => true,
                 'maxlength' => 255,
                 'tl_class' => 'w50',
                 'includeBlankOption' => true,
@@ -154,37 +142,18 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             ],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
-        'handballnet_team_id' => [
+        'handballnet_club_id' => [
             'inputType' => 'text',
-            'exclude' => true, 
-            'eval' => [
-                'maxlength' => 255,
-                'tl_class' => 'w50',
-            ],
-            'sql' => "varchar(255) NOT NULL default ''",
-        ],
-        'handballnet_tournament_id' => [
-            'inputType' => 'text',
-            'exclude' => true, 
-            'eval' => [
-                'maxlength' => 255,
-                'tl_class' => 'w50',
-            ],
-            'sql' => "varchar(255) NOT NULL default ''",
-        ],
-
-        'my_team_name' => [
-            'inputType' => 'text',
-            'exclude' => true,
-            'sorting' => true,
-            'filter' => true,
+//            'foreignKey' => 'tl_hn_clubs.handballnet_id',
+//            'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
             'eval' => [
                 'mandatory' => true,
-                'maxlength' => 255,
+                'chosen' => true,
                 'tl_class' => 'w50',
+//                'includeBlankOption' => true,
             ],
             'sql' => "varchar(255) NOT NULL default ''",
-        ], 
+        ],
         'is_active' => [
             'toggle' => true,
             'exclude' => true,
@@ -193,6 +162,5 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             'eval' => ['tl_class' => 'w50 m12'],
             'sql' => "char(1) NOT NULL default ''",
         ],
-   
     ],
 ];

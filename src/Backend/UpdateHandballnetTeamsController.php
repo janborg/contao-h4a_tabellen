@@ -17,6 +17,7 @@ use Contao\BackendUser;
 use Contao\Message;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
+use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -35,7 +36,7 @@ class UpdateHandballnetTeamsController extends Backend
 
     public function updateTeams(): void
     {
-        $objSeasons = H4aSeasonModel::findBy(
+        $objSeasons = HandballnetSeasonsModel::findBy(
             ['is_active = ?'],
             [true],
         );
@@ -48,10 +49,10 @@ class UpdateHandballnetTeamsController extends Backend
         $this->active_seasons = $objSeasons->count();
 
         foreach ($objSeasons as $season) {
-            $id = $season->provider.'.'.$season->verband.'.'.$season->club_id;
+            //$id = $season->provider.'.'.$season->verband.'.'.$season->club_id;
 
             try {
-                $data = json_decode($this->handballnetApiClient->getClubTeamsData($id, $season->hn_season), true);
+                $data = json_decode($this->handballnetApiClient->getClubTeamsData($season->handballnet_club_id, $season->season_id), true);
             } catch (\Exception $e) {
                 Message::addError($e->getMessage());
                 continue;
@@ -72,25 +73,24 @@ class UpdateHandballnetTeamsController extends Backend
                     // create new team
                     $handballnetTeamsModel = new HandballnetTeamsModel();
                     ++$this->new_teams;
+
+                    $handballnetTeamsModel->is_active = true;
+                    $handballnetTeamsModel->tstamp = time();
                 }
 
                 $teamIdParts = explode('.', $team['id']);
 
                 $handballnetTeamsModel->pid = $season->id;
-                $handballnetTeamsModel->saison = $season->hn_season;
+                $handballnetTeamsModel->saison = $season->season_id;
 
                 $handballnetTeamsModel->provider = $teamIdParts[0];
                 $handballnetTeamsModel->verband = $teamIdParts[1];
 
-                $handballnetTeamsModel->liga_shortname = $team['defaultTournament']['acronym'];
                 $handballnetTeamsModel->liga_name = $team['defaultTournament']['name'];
                 $handballnetTeamsModel->handballnet_tournament_id = $team['defaultTournament']['id'];
 
-                $handballnetTeamsModel->team_id = $teamIdParts[2];
                 $handballnetTeamsModel->handballnet_team_id = $team['id'];
                 $handballnetTeamsModel->my_team_name = $team['name'];
-                $handballnetTeamsModel->is_active = true;
-                $handballnetTeamsModel->tstamp = time();
 
                 $handballnetTeamsModel->save();
             }
