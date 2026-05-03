@@ -42,6 +42,7 @@ class ShowTeamScheduleCommand extends Command
     public function __construct(
         private ContaoFramework $framework,
         private HandballnetApiClient $handballnetApiClient,
+        private readonly string $current_season,
     ) {
         parent::__construct();
     }
@@ -52,6 +53,7 @@ class ShowTeamScheduleCommand extends Command
             ->addOption('teamID', null, InputOption::VALUE_REQUIRED, 'teamID from handball.net')
             ->addOption('provider', null, InputOption::VALUE_REQUIRED, 'handball4all, nuliga oder sportradar')
             ->addOption('verband', null, InputOption::VALUE_REQUIRED, 'verband from handball.net, z.B. baden')
+            ->addOption('season', null, InputOption::VALUE_OPTIONAL, 'Saison, die angezeigt werden soll, z.Bsp. 2025', $this->current_season)
         ;
     }
 
@@ -102,8 +104,15 @@ class ShowTeamScheduleCommand extends Command
 
         $id = $provider.'.'.$verband.'.'.$teamID;
 
+        // saison
+        $season = $input->getOption('season');
+
+        if (!$season) {
+            $season = $this->current_season;
+        }
+
         try {
-            $data = json_decode($this->handballnetApiClient->getTeamScheduleData($id, false), true);
+            $data = json_decode($this->handballnetApiClient->getTeamScheduleData($id, $season, false), true);
         } catch (\Exception $e) {
             $this->io->error($e->getMessage());
 

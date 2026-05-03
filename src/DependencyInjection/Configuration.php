@@ -44,6 +44,13 @@ class Configuration implements ConfigurationInterface
             ->integerNode('handballnet_cache_ttl')
             ->defaultValue(900)
             ->end()
+            ->scalarNode('current_season')
+            ->defaultValue('2025')
+            ->validate()
+            ->ifTrue(static fn (string $v) => !preg_match('/^20\d{2}$/', $v))
+            ->thenInvalid('aktuelle_saison muss 4 Ziffern haben, z. B. "2025"')
+            ->end()
+            ->end()
             ->end()
         ;
 

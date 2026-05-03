@@ -43,6 +43,7 @@ class ShowClubTeamsCommand extends Command
     public function __construct(
         private ContaoFramework $framework,
         private HandballnetApiClient $handballnetApiClient,
+        private readonly string $current_season,
     ) {
         parent::__construct();
     }
@@ -53,7 +54,7 @@ class ShowClubTeamsCommand extends Command
             ->addOption('clubID', null, InputOption::VALUE_REQUIRED, 'clubID from handball.net')
             ->addOption('provider', null, InputOption::VALUE_REQUIRED, 'handball4all, nuliga oder sportradar')
             ->addOption('verband', null, InputOption::VALUE_REQUIRED, 'verband from handball.net, z.B. baden')
-            ->addOption('season', null, InputOption::VALUE_REQUIRED, 'season from handball.net, z.B. 2025')
+            ->addOption('season', null, InputOption::VALUE_OPTIONAL, 'season from handball.net, z.B. 2025', $this->current_season)
         ;
     }
 

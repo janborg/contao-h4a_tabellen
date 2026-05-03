@@ -51,5 +51,6 @@ class JanborgH4aTabellenExtension extends Extension
         $container->setParameter($rootKey.'.TabellenCacheTime', $config['TabellenCacheTime']);
         $container->setParameter($rootKey.'.h4aCacheTtl', (int) $config['h4aCacheTtl']);
         $container->setParameter($rootKey.'.handballnet_cache_ttl', (int) $config['handballnet_cache_ttl']);
+        $container->setParameter($rootKey.'.current_season', $config['current_season']);
     }
 }

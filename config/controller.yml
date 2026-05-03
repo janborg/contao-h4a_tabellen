@@ -21,6 +21,7 @@ services:
             - '@h4atabellen.handballnet.apiclient'
             - '@?monolog.logger.contao.general'
             - '%janborg_h4a_tabellen.handballnet_cache_ttl%'
+            - '%janborg_h4a_tabellen.current_season%'
 
     Janborg\H4aTabellen\Controller\ContentElement\HandballnetTabelleElement: 
         public: true

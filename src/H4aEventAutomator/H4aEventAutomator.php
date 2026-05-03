@@ -33,6 +33,7 @@ class H4aEventAutomator extends Backend
         private EntityCacheTags $entityCacheTags,
         private HandballnetApiClient $handballnetApiClient,
         private readonly LoggerInterface|null $logger,
+        private readonly string $current_season,
     ) {
         $this->contaoFramework->initialize();
         parent::__construct();
@@ -79,10 +80,12 @@ class H4aEventAutomator extends Backend
         $arrSeasons = unserialize($objCalendar->h4a_seasons);
 
         foreach ($arrSeasons as $arrSeason) {
-            $seasonID = H4aSeasonModel::findById($arrSeason['h4a_saison'])->id;
+            // $seasonID = H4aSeasonModel::findById($arrSeason['h4a_saison'])->id;
+
+            $season = H4aSeasonModel::findById($arrSeason['h4a_saison']);
 
             try {
-                $data = json_decode($this->handballnetApiClient->getTeamScheduleData($arrSeason['handballnet_id']), true);
+                $data = json_decode($this->handballnetApiClient->getTeamScheduleData($arrSeason['handballnet_id'], $season->hn_season), true);
             } catch (\Exception $e) {
                 $this->logger?->error($e->getMessage());
             }
@@ -138,7 +141,7 @@ class H4aEventAutomator extends Backend
                 if (null !== $objEvent) {
                     $isChanged = false;
 
-                    $objEvent->h4a_season = $seasonID;
+                    $objEvent->h4a_season = $season->id;
                     $objEvent->author = $objCalendar->h4aEvents_author;
                     $objEvent->source = 'default';
                     $objEvent->addTime = true;
@@ -235,7 +238,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->tstamp = time();
                     $objEvent->title = $arrSpiel['tournament']['acronym'].': '.$arrSpiel['homeTeam']['name'].' - '.$arrSpiel['awayTeam']['name'];
                     $objEvent->alias = StringUtil::generateAlias($arrSpiel['homeTeam']['name'].'_'.$arrSpiel['awayTeam']['name'].'_'.$arrSpiel['gameNumber']);
-                    $objEvent->h4a_season = $seasonID;
+                    $objEvent->h4a_season = $season->id;
                     $objEvent->gGameID = $handballnetIdParts[2];
                     $objEvent->gGameNo = $arrSpiel['gameNumber'] ?? '';
                     $objEvent->liga_name = $arrSpiel['phase']['name'] ?? '';

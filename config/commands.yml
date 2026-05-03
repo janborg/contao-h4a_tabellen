@@ -34,6 +34,7 @@ services:
         arguments:
             - '@contao.framework'
             - '@h4atabellen.handballnet.apiclient'
+            - '%janborg_h4a_tabellen.current_season%'
         tags: 
             - "console.command"
 
@@ -42,5 +43,6 @@ services:
         arguments:
             - '@contao.framework'
             - '@h4atabellen.handballnet.apiclient'
+            - '%janborg_h4a_tabellen.current_season%'
         tags: 
             - "console.command"
