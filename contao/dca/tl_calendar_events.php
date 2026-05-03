@@ -104,6 +104,19 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
         'sql' => "varchar(255) NOT NULL default ''",
     ]],
+    ['handballnet_field_id' => [
+        'exclude' => true,
+        'inputType' => 'select',
+        'foreignKey' => 'tl_handballnet_fields.fieldId',
+        'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
+        'eval' => [
+            'mandatory' => true,
+            'tl_class' => 'w50',
+            'includeBlankOption' => true,
+            'chosen' => true,
+        ],
+        'sql' => "varchar(255) NOT NULL default ''",
+    ]],
     ['gGymnasiumNo' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumNo'],
         'exclude' => true,

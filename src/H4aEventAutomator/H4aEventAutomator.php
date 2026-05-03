@@ -21,6 +21,7 @@ use Contao\Input;
 use Contao\StringUtil;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\H4aSeasonModel;
+use Janborg\H4aTabellen\Model\HandballnetFieldsModel;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -47,7 +48,7 @@ class H4aEventAutomator extends Backend
 
         $intCalendars = \count($objCalendars);
 
-        $this->logger?->info('Update für '.$intCalendars.' Kalender über Handball4all gestartet');
+        $this->logger?->info('Update für ' . $intCalendars . ' Kalender über Handball4all gestartet');
 
         foreach ($objCalendars as $objCalendar) {
             $this->syncCalendars($objCalendar, false);
@@ -66,7 +67,7 @@ class H4aEventAutomator extends Backend
 
         $this->syncCalendars($objCalendar, false);
 
-        $this->logger?->info('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.');
+        $this->logger?->info('Update des Kalenders "' . $objCalendar->title . '" (ID: ' . $objCalendar->id . ') über Handball4all durchgeführt.');
 
         $this->redirect($this->getReferer());
     }
@@ -93,7 +94,7 @@ class H4aEventAutomator extends Backend
             }
 
             if (isset($data['code']) && '400' === $data['code']) {
-                $this->logger?->info('Updateversuch des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') abgebrochen, prüfen Sie die handballnet ID!');
+                $this->logger?->info('Updateversuch des Kalenders "' . $objCalendar->title . '" (ID: ' . $objCalendar->id . ') abgebrochen, prüfen Sie die handballnet ID!');
                 continue;
             }
 
@@ -113,13 +114,13 @@ class H4aEventAutomator extends Backend
                     // (handball4all.wuerttemberg.1234567)
                     $existingEvent = array_filter(
                         $arrSpiele,
-                        static fn ($spiel) => $event->provider.'.'.$event->verband.'.'.$event->gGameID === $spiel['id'],
+                        static fn($spiel) => $event->provider . '.' . $event->verband . '.' . $event->gGameID === $spiel['id'],
                     );
 
                     // wenn nicht, Event löschen
                     if (empty($existingEvent)) {
                         $event->delete();
-                        $this->logger?->info('Event '.$event->gClassname.': '.$event->gHomeTeam.': '.$event->gGuestTeam.' (gID: '.$event->gGameID.') wurde gelöscht');
+                        $this->logger?->info('Event ' . $event->gClassname . ': ' . $event->gHomeTeam . ': ' . $event->gGuestTeam . ' (gID: ' . $event->gGameID . ') wurde gelöscht');
                     }
                     unset($existingEvent);
                 }
@@ -181,6 +182,31 @@ class H4aEventAutomator extends Backend
                         $isChanged = true;
                     }
 
+                    //check, if handballnet_field_id exists
+                    $handballnet_field = HandballnetFieldsModel::findOneByFieldId($arrSpiel['field']['id']);
+                    if (null !== $handballnet_field) {
+                        //check if handballnet_field_id changed
+                        if ($objEvent->handballnet_field_id !== $handballnet_field->fieldId) {
+                            $objEvent->handballnet_field_id = $handballnet_field->id;
+                            $isChanged = true;
+                        }
+                    } else {
+                        // create new HandballnetFieldsModel
+                        try {
+                            $fieldData = json_decode($this->handballnetApiClient->getArenaData($arrSpiel['field']['id'], false), true);
+                        } catch (\Exception $e) {
+                            $this->contaoCronLogger->error('Fehler beim Abruf über die handballnetApi', [$e->getMessage()]);
+                        }
+                        $objHandballnetField = new HandballnetFieldsModel();
+                        $objHandballnetField->tstamp = time();
+                        $objHandballnetField->acronym = $fieldData['data']['acronym'];
+                        $objHandballnetField->name = $fieldData['data']['name'];
+                        $objHandballnetField->fieldId = $fieldData['data']['id'];
+                        $objHandballnetField->city = $fieldData['data']['city'];
+                        $objHandballnetField->fieldNumber = $fieldData['data']['fieldNumber'];
+                        $objHandballnetField->save();
+                    }
+
                     // Check, if gGymnasiumNo changed
                     if ($objEvent->gGymnasiumNo !== $arrSpiel['field']['fieldNumber']) {
                         $objEvent->gGymnasiumNo = $arrSpiel['field']['fieldNumber'];
@@ -220,7 +246,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->save();
 
                         // log, that event was changed
-                        $this->logger?->info('Event für Spiel '.$arrSpiel['tournament']['acronym'].': '.$arrSpiel['homeTeam']['name'].': '.$arrSpiel['awayTeam']['name'].' (gID: '.$objEvent->gGameID.') über Handball4all aktualisiert');
+                        $this->logger?->info('Event für Spiel ' . $arrSpiel['tournament']['acronym'] . ': ' . $arrSpiel['homeTeam']['name'] . ': ' . $arrSpiel['awayTeam']['name'] . ' (gID: ' . $objEvent->gGameID . ') über Handball4all aktualisiert');
 
                         // Invalidate CacheTag for Event
                         $this->entityCacheTags->invalidateTagsFor($objEvent);
@@ -233,8 +259,8 @@ class H4aEventAutomator extends Backend
                     $objEvent->handballnet_id = $arrSpiel['id'];
                     $objEvent->pid = $objCalendar->id;
                     $objEvent->tstamp = time();
-                    $objEvent->title = $arrSpiel['tournament']['acronym'].': '.$arrSpiel['homeTeam']['name'].' - '.$arrSpiel['awayTeam']['name'];
-                    $objEvent->alias = StringUtil::generateAlias($arrSpiel['homeTeam']['name'].'_'.$arrSpiel['awayTeam']['name'].'_'.$arrSpiel['gameNumber']);
+                    $objEvent->title = $arrSpiel['tournament']['acronym'] . ': ' . $arrSpiel['homeTeam']['name'] . ' - ' . $arrSpiel['awayTeam']['name'];
+                    $objEvent->alias = StringUtil::generateAlias($arrSpiel['homeTeam']['name'] . '_' . $arrSpiel['awayTeam']['name'] . '_' . $arrSpiel['gameNumber']);
                     $objEvent->h4a_season = $seasonID;
                     $objEvent->gGameID = $handballnetIdParts[2];
                     $objEvent->gGameNo = $arrSpiel['gameNumber'] ?? '';
@@ -306,7 +332,7 @@ class H4aEventAutomator extends Backend
                 continue;
             }
 
-            $id = $objEvent->provider.'.'.$objEvent->verband.'.'.$objEvent->gGameID;
+            $id = $objEvent->provider . '.' . $objEvent->verband . '.' . $objEvent->gGameID;
 
             try {
                 $data = json_decode($this->handballnetApiClient->getGameSummaryData($id), true);
@@ -323,11 +349,11 @@ class H4aEventAutomator extends Backend
                 $objEvent->h4a_resultComplete = true;
                 $objEvent->save();
 
-                $this->logger?->info('Ergebnis ('.$data['data']['homeGoals'].':'.$data['data']['awayGoals'].') für Spiel '.$objEvent->gGameID.' über Handball4all aktualisiert');
+                $this->logger?->info('Ergebnis (' . $data['data']['homeGoals'] . ':' . $data['data']['awayGoals'] . ') für Spiel ' . $objEvent->gGameID . ' über Handball4all aktualisiert');
             } else {
                 $objEvent->h4a_resultComplete = false;
 
-                $this->logger?->info('Ergebnis für Spiel '.$objEvent->gGameID.' über Handball4all geprüft, kein Ergebnis vorhanden');
+                $this->logger?->info('Ergebnis für Spiel ' . $objEvent->gGameID . ' über Handball4all geprüft, kein Ergebnis vorhanden');
             }
         }
         $this->redirect($this->getReferer());
