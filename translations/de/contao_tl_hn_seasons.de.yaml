@@ -1,8 +1,16 @@
-tl_h4a_seasons:
+tl_hn_seasons:
   # Global Operations
   update_hn_teams: 
     0: Update Teams
     1: Update Teams über handball.net
+
+  update_hn_clubs: 
+    0: Update Clubsaisons
+    1: Update Clubsaisons über handball.net
+
+  manage_clubs:
+    0: Clubs 
+    1: Clubs verwalten
 
   # Operations
   edit: Saison %s bearbeiten
