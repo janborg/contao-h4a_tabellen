@@ -35,8 +35,8 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             'panelLayout' => 'search;filter;limit',
         ],
         'label' => [
-            'fields' => ['liga_shortname', 'team_id', 'liga_name'],
-            'format' => '%s (%s) | %s',
+            'fields' => ['liga_name'],
+            'format' => '%s',
         ],
         'global_operations' => [
             'all' => [
