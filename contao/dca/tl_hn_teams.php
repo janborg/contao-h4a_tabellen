@@ -29,14 +29,14 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
     'list' => [
         'sorting' => [
             'mode' => DataContainer::MODE_PARENT,
-            'flag' => DataContainer::SORT_INITIAL_LETTER_DESC,
-            'headerFields' => ['hn_season', 'club_name', 'club_id'],
-            'fields' => ['liga_shortname'],
+            'flag' => DataContainer::SORT_INITIAL_LETTERS_BOTH,
+            'headerFields' => ['club_name', 'season_name', 'handballnet_club_id'],
+            'fields' => ['verband'],
             'panelLayout' => 'search;filter;limit',
         ],
         'label' => [
-            'fields' => ['liga_name'],
-            'format' => '%s',
+            'fields' => ['liga_name', 'handballnet_team_id'],
+            'format' => '%s (%s)',
         ],
         'global_operations' => [
             'all' => [
