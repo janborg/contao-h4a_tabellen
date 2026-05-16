@@ -20,9 +20,8 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 final class H4aResultUpdatedEvent extends Event
 {
-    public function __construct(
-        public readonly CalendarEventsModel $calendarEvent,
-    ) {
+    public function __construct(public readonly CalendarEventsModel $calendarEvent)
+    {
     }
 
     public function getCalendarEvent(): CalendarEventsModel
