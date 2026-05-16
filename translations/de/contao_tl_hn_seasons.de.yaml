@@ -26,17 +26,17 @@ tl_hn_seasons:
   title_legend: Saison Settings
   status_legend: Status Settings
   # Fields
-  season:
-    0: Saison Name
+  season_name:
+    0: Saison
     1: Bezeichnung der Saison, z.Bsp. "2024/2025"
 
-  hn_season:
+  season_id:
     0: Saison (handball.net)
     1: Jahr der Saison auf handball.net (2024 für 2024/2025)
   
-  club_id:
+  handballnet_club_id:
     0: Club ID
-    1: ID des Clubs auf handball.net (z.Bsp. 1234 für den Club mit der ID 1234)
+    1: ID des Clubs auf handball.net (z.Bsp. handball4all.wuerttemberg.1234)
 
   club_name:
     0: Club Name
