@@ -30,7 +30,7 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
         'sorting' => [
             'mode' => DataContainer::MODE_SORTED,
             'flag' => DataContainer::SORT_DESC,
-            'fields' => ['season_id', 'club_name'],
+            'fields' => ['club_name', 'season_id'],
             'panelLayout' => 'search, sort;filter,limit',
         ],
         'label' => [
@@ -41,16 +41,19 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
             'all',
             'update_hn_teams' => [
                 'href' => 'key=update_hn_teams',
-                'icon' => 'bundles/janborgh4atabellen/update.svg',
+                'icon' => 'bundles/janborgh4atabellen/refresh.svg',
                 'attributes' => 'onclick="Backend.getScrollOffset()"',
+                'primary' => true
             ],
             'update_hn_clubs' => [
                 'href' => 'key=update_hn_clubs',
-                'icon' => 'bundles/janborgh4atabellen/update.svg',
+                'icon' => 'bundles/janborgh4atabellen/refresh.svg',
                 'attributes' => 'onclick="Backend.getScrollOffset()"',
+                'primary' => true
             ],
             'manage_clubs' => [
                 'href' => 'table=tl_hn_clubs',
+                'icon' => 'bundles/janborgh4atabellen/clubs.svg',
                 'primary' => true
             ],
         ],

@@ -5,11 +5,11 @@ tl_hn_clubs:
     edit: Club %s bearbeiten
     delete: Club %s löschen
     toggle: 
-      0: Synchronisation aktivieren/deaktivieren
-      1: Synchronisation deaktivieren
-      2: Synchronisation aktivieren
-      3: Update deaktivieren
-      4: Update aktivieren
+      0: Aktualisierung aktivieren/deaktivieren
+      1: Aktualisierung für Club %s deaktivieren
+      2: Aktualisierung für Club %s aktivieren
+      3: Aktualisierung deaktivieren
+      4: Aktualisierung aktivieren
     show: Club %s anzeigen
 
     # Legends
