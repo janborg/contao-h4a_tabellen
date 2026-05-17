@@ -21,6 +21,8 @@ tl_hn_seasons:
     0: Automatische Updates für Saison %s aktivieren/deaktivieren
     1: Automatische Updates für Saison %s deaktivieren
     2: Automatische Updates für Saison %s aktivieren
+    3: Updates deaktivieren
+    4: Updates aktivieren
 
   # Legends
   title_legend: Saison Settings

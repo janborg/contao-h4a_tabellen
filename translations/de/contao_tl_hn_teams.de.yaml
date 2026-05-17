@@ -9,7 +9,9 @@ tl_hn_teams:
     toggle: 
       0: Automatische Updates für Team %s aktivieren/deaktivieren
       1: Automatische Updates für Team %s Team deaktivieren
-      2: Automatische Updates für Team %s Team aktivieren 
+      2: Automatische Updates für Team %s Team aktivieren
+      3: Team Updates deaktivieren
+      4: Teams Updates aktivieren 
 
     # Legends
     title_legend: Handball.net Team Einstellungen 

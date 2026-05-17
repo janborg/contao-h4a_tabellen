@@ -43,8 +43,8 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
             'delete',
             'toggle' => [
 				'href'                => 'act=toggle&amp;field=is_active',
-				'icon'                => 'visible.svg',
-				'showInHeader'        => true
+				'icon'                => 'bundles/janborgh4atabellen/refresh.svg',
+                'primary'             => true
 			],
             'show',
         ],
@@ -68,7 +68,7 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
             'search' => true,
             'eval' => [
                 'mandatory' => true,
-                'submitOnChange' => true,
+                'alwaysSave' => true,
                 'maxlength' => 255,
                 'tl_class' => 'w50 clr',
             ],
@@ -159,7 +159,7 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
             'filter' => true,
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
-            'sql' => "char(1) NOT NULL default ''",
+            'sql' => ['type' => 'boolean', 'default' => false],
         ],
     ],
 ];

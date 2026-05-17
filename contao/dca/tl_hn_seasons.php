@@ -61,8 +61,8 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
             'show',
             'toggle' => [
 				'href'                => 'act=toggle&amp;field=is_active',
-				'icon'                => 'visible.svg',
-				'showInHeader'        => true
+				'icon'                => 'bundles/janborgh4atabellen/refresh.svg',
+                'primary'             => true,
 			],
         ],
     ],
@@ -160,7 +160,7 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
             'filter' => true,
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
-            'sql' => "char(1) NOT NULL default ''",
+            'sql' => ['type' => 'boolean', 'default' => false],
         ],
     ],
 ];

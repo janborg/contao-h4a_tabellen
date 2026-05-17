@@ -2,13 +2,15 @@ tl_hn_clubs:
     # Global operations
 
     # Operations
-    edit: Clubsaison %s bearbeiten
-    delete: Clubsaison %s löschen
+    edit: Club %s bearbeiten
+    delete: Club %s löschen
     toggle: 
       0: Synchronisation aktivieren/deaktivieren
       1: Synchronisation deaktivieren
       2: Synchronisation aktivieren
-    show: Clubsaison %s anzeigen
+      3: Update deaktivieren
+      4: Update aktivieren
+    show: Club %s anzeigen
 
     # Legends
     title_legend: Club
