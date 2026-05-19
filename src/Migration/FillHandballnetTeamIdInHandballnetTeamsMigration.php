@@ -18,9 +18,8 @@ use Doctrine\DBAL\Connection;
 
 class FillHandballnetTeamIdInHandballnetTeamsMigration extends AbstractMigration
 {
-    public function __construct(
-        private Connection $connection,
-    ) {
+    public function __construct(private Connection $connection)
+    {
     }
 
     public function shouldRun(): bool
