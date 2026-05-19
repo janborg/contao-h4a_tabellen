@@ -41,7 +41,7 @@ tl_hn_clubs:
       1: ID des Verbands, in dem der Club beheimatet ist
 
     org_name:
-      0: Name der Organisations
+      0: Name der Organisation
       1: Name des Verbands, in dem der Club beheimatet ist
 
     org_acronym:
