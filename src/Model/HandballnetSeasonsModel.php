@@ -16,7 +16,7 @@ use Contao\Model;
 use Contao\Model\Collection;
 
 /**
- * Reads and writes handballnetTeams.
+ * Reads and writes handballnetSeasons for CLubs.
  *
  * @property int    $id
  * @property int    $tstamp
@@ -30,7 +30,7 @@ use Contao\Model\Collection;
  *
  * @method static HandballnetSeasonsModel|null             findById($id, array $opt=array())
  * @method static HandballnetSeasonsModel|null             findOneBy($col, $val, array $opt=array())
- * @method static HandballnetSeasonsModel|null             findOneByHandballnet_club_id($val, array $opt=array())
+ * @method static Collection<HandballnetSeasonsModel>|null findByHandballnet_club_id($val, array $opt=array())
  * @method static Collection<HandballnetSeasonsModel>|null findBySeason_id($val, array $opt=array())
  * @method static Collection<HandballnetSeasonsModel>|null findBySeason_name($val, array $opt=array())
  * @method static Collection<HandballnetSeasonsModel>|null findByClub_name($val, array $opt=array())
@@ -38,7 +38,6 @@ use Contao\Model\Collection;
  * @method static Collection<HandballnetSeasonsModel>|null findByVerband($val, array $opt=array())
  * @method static Collection<HandballnetSeasonsModel>|null findByIs_active($val, array $opt=array())
  */
-
 class HandballnetSeasonsModel extends Model
 {
     /**
