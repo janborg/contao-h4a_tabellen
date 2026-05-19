@@ -48,7 +48,6 @@ class UpdateHandballnetClubSeasonsController extends Backend
         $this->active_clubs = $objClubs->count();
 
         foreach ($objClubs as $club) {
-
             try {
                 $data = json_decode($this->handballnetApiClient->getClubTeamsData($club->handballnet_id, '2025'), true);
             } catch (\Exception $e) {
@@ -88,14 +87,14 @@ class UpdateHandballnetClubSeasonsController extends Backend
         }
 
         if ($this->active_clubs > 0) {
-            Message::addConfirmation($this->active_clubs . ' aktive Club(s) gefunden und aktualisiert.');
+            Message::addConfirmation($this->active_clubs.' aktive Club(s) gefunden und aktualisiert.');
         }
 
         if ($this->new_seasons > 0) {
-            Message::addConfirmation($this->new_seasons . ' neue(s) Season(s) erstellt.');
+            Message::addConfirmation($this->new_seasons.' neue(s) Season(s) erstellt.');
         }
-        if ($this->existing_teams > 0) {
-            Message::addInfo($this->existing_seasons . ' existierende(s) Season(s) aktualisiert.');
+        if ($this->existing_seasons > 0) {
+            Message::addInfo($this->existing_seasons.' existierende(s) Season(s) aktualisiert.');
         }
 
         $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams']));
