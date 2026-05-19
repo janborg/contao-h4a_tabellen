@@ -19,6 +19,7 @@ enum Verband: string implements TranslatableLabelInterface
 {
     case BADEN = 'baden';
     case BADEN_WUERTTENBERG = 'baden-wuerttemberg';
+    case OL_HAMBURG_SCHLESWIG_HOLSTEIN = 'ol-hamburg-schleswig-holstein';
     case HAMBURG = 'hamburg';
     case PFALZ = 'pfalz';
     case RHEINHESSEN = 'rheinhessen';
@@ -28,17 +29,18 @@ enum Verband: string implements TranslatableLabelInterface
     case WESTFALEN = 'westfalen';
     case WUERTTEMBERG = 'wuerttemberg';
     case OL_BADEN_WUERTTENBERG = 'ol-baden-wuerttemberg';
-    /*  case BAYERN = 'bhv';
-        case BRANDENBURG = 'hvbr';
-        case BERLIN = 'hvberlin';
-        case HESSEN = 'hhv';
-        case MECKLENBURG = 'hvmv';
-        case NIEDERSACHSEN = 'hvn';
-        case RHEINLAND = 'hvr';
-        case SACHSEN = 'hvs';
-        case THUERINGEN = 'thv';
-        case NORDRHEIN = 'hnr';
-    */
+    case BAYERN = 'bhv';
+    case BRANDENBURG = 'hvbr';
+    case BERLIN = 'hvberlin';
+    case HESSEN = 'hhv';
+    case MECKLENBURG = 'hvmv';
+    case NIEDERSACHSEN = 'hvn';
+    case RHEINLAND = 'hvr';
+    case SACHSEN = 'hvs';
+    case SACHSEN_ANHALT = 'hvsa';
+    case THUERINGEN = 'thv';
+    case NORDRHEIN = 'hnr';
+    case DHBDATA = 'dhbdata';
 
     public function label(): TranslatableMessage
     {
