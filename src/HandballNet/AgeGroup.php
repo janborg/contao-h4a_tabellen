@@ -26,6 +26,7 @@ enum AgeGroup: string implements TranslatableLabelInterface
     case EYOUTH = 'EYouth';
     case FYOUTH = 'FYouth';
     case MINIS = 'Minis';
+    case SENIORS = 'Seniors';
 
     public function label(): TranslatableMessage
     {

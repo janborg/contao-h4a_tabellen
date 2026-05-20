@@ -39,6 +39,7 @@ agegroup:
     EYouth: E-Jugend
     FYouth: F-Jugend
     Minis: Minis
+    Seniors: Senioren
 gender:
   label:
     Male: männlich
