@@ -39,8 +39,8 @@ class CalendarCheckSeasonDataCallback
 
             foreach ($seasons as &$season) {
                 $team = HandballnetTeamsModel::findby(
-                    ['team_id=?'],
-                    [$season['h4a_team']],
+                    ['handballnet_team_id=?'],
+                    [$season['handballnet_id']],
                 );
                 if (null !== $team) {
                     if (null !== $team) {
