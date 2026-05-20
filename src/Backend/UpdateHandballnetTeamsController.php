@@ -87,7 +87,7 @@ class UpdateHandballnetTeamsController extends Backend
 
                 $provider = Provider::tryFrom($teamIdParts[0]);
                 $verband = Verband::tryFrom($teamIdParts[1]);
-                $agegroup = AgeGroup::tryFrom($team['defaultTournament']['ageGroup']);
+                $agegroup = AgeGroup::tryFrom($team['defaultTournament']['ageGroup'] ?? '');
 
                 if (null === $provider) {
                     Message::addError('Unbekannter Provider '.$teamIdParts[0]);
