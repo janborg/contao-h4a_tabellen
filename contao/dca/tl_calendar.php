@@ -86,14 +86,12 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
         'exclude' => false,
         'inputType' => 'group',
-        'palette' => ['h4a_saison', 'my_team_name', 'liga_shortname', 'liga_name', 'provider', 'verband', 'h4a_team', 'handballnet_id'],
+        'palette' => ['h4a_saison', 'handballnet_id', 'liga_shortname', 'liga_name', 'provider', 'verband'],
         'sql' => 'blob NULL',
     ]],
     ['h4a_saison' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
         'inputType' => 'select',
-        'foreignKey' => 'tl_h4a_seasons.season',
-        'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
         'eval' => [
             'mandatory' => true,
             'tl_class' => 'w50',
@@ -101,21 +99,11 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
             'chosen' => true,
         ],
     ]],
-    ['h4a_team' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_team'],
-        'inputType' => 'text',
-        'eval' => [
-            'mandatory' => true,
-            'rgxp' => 'digit',
-            'maxlength' => 7,
-            'tl_class' => 'w50',
-        ],
-    ]],
     ['handballnet_id' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['handballnet_id'],
         'inputType' => 'text',
         'eval' => [
-            'mandatory' => false,
+            'mandatory' => true,
             'maxlength' => 255,
             'tl_class' => 'w50',
         ],
@@ -155,15 +143,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
             'tl_class' => 'w50',
             'includeBlankOption' => true,
             'chosen' => true,
-        ],
-    ]],
-    ['my_team_name' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['my_team_name'],
-        'inputType' => 'text',
-        'eval' => [
-            'mandatory' => false,
-            'maxlength' => 255,
-            'tl_class' => 'w50',
         ],
     ]],
     ['h4aEvents_author' => [
