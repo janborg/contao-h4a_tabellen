@@ -21,22 +21,22 @@ use Janborg\H4aTabellen\HandballNet\Verband;
 /**
  * Reads and writes handballnetTeams.
  *
- * @property int    $id
- * @property int    $pid
- * @property int    $tstamp
- * @property string $saison
- * @property string $team_logo
- * @property string $team_group_id
- * @property string $liga_shortname
- * @property string $liga_name
+ * @property int      $id
+ * @property int      $pid
+ * @property int      $tstamp
+ * @property string   $saison
+ * @property string   $team_logo
+ * @property string   $team_group_id
+ * @property string   $liga_shortname
+ * @property string   $liga_name
  * @property Provider $provider
- * @property Verband $verband
- * @property string $handballnet_team_id
- * @property string $handballnet_tournament_id
- * @property string $tournament_type
+ * @property Verband  $verband
+ * @property string   $handballnet_team_id
+ * @property string   $handballnet_tournament_id
+ * @property string   $tournament_type
  * @property AgeGroup $ageGroup
- * @property string $my_team_name
- * @property bool   $is_active
+ * @property string   $my_team_name
+ * @property bool     $is_active
  *
  * @method static HandballnetTeamsModel|null             findById($id, array $opt=array())
  * @method static HandballnetTeamsModel|null             findByPk($id, array $opt=array())

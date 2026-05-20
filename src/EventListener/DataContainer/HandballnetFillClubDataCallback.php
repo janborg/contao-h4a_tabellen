@@ -45,6 +45,7 @@ class HandballnetFillClubDataCallback
             $clubData = $this->handballnetApiClient->getClubData((string) $record['handballnet_id'], false);
         } catch (\Exception $e) {
             Message::addError('Fehler beim Abruf der Daten von handball.net ('.$e->getMessage().')');
+
             throw new \Exception('Fehler beim Abrufen der Handballnet Daten: '.$e->getMessage());
         }
 
