@@ -53,7 +53,7 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
             ],
             'manage_clubs' => [
                 'href' => 'table=tl_hn_clubs',
-                'icon' => 'bundles/janborgh4atabellen/clubs.svg',
+                'icon' => 'bundles/janborgh4atabellen/trophy.svg',
                 'primary' => true
             ],
         ],
