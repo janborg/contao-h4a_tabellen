@@ -63,14 +63,16 @@ class UpdateHandballnetClubSeasonsController extends Backend
                     [$club->handballnet_id, $season['id']],
                 );
 
-                // skip Seasons that already exist
                 if ($handballnetSeason) {
                     // update existing Season
                     $handballnetSeasonsModel = $handballnetSeason;
                     ++$this->existing_seasons;
                 } else {
-                    // create new team
+                    // create new Season
                     $handballnetSeasonsModel = new HandballnetSeasonsModel();
+                    $handballnetSeasonsModel->is_active = true;
+                    $handballnetSeasonsModel->tstamp = time();
+
                     ++$this->new_seasons;
                 }
 
@@ -78,9 +80,6 @@ class UpdateHandballnetClubSeasonsController extends Backend
                 $handballnetSeasonsModel->season_name = $season['name'];
                 $handballnetSeasonsModel->handballnet_club_id = $club->handballnet_id;
                 $handballnetSeasonsModel->club_name = $club->name;
-
-                $handballnetSeasonsModel->is_active = true;
-                $handballnetSeasonsModel->tstamp = time();
 
                 $handballnetSeasonsModel->save();
             }
