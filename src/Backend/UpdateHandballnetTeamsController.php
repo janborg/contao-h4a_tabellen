@@ -100,13 +100,15 @@ class UpdateHandballnetTeamsController extends Backend
                 }
 
                 if (null === $agegroup) {
-                    Message::addError('Unbekannte Altergruppe '.$team['defaultTournament']['ageGroup']);
-                    continue;
+                    Message::addError(
+                        'Unbekannte Altergruppe '.$team['defaultTournament']['ageGroup'].' bei Team '.$team['id'].' ('.$team['name'].') ',
+                    );
+                } else {
+                    $handballnetTeamsModel->age_group = $agegroup->value;
                 }
 
                 $handballnetTeamsModel->provider = $provider->value;
                 $handballnetTeamsModel->verband = $verband->value;
-                $handballnetTeamsModel->age_group = $agegroup->value;
 
                 $handballnetTeamsModel->liga_name = $team['defaultTournament']['name'];
                 $handballnetTeamsModel->handballnet_tournament_id = $team['defaultTournament']['id'];

@@ -107,7 +107,7 @@ class UpdateHandballnetTeamsCron
 
                 if (null === $agegroup) {
                     $this->contaoCronLogger->info(
-                        'Unbekannte Altergruppe '.$team['defaultTournament']['ageGroup'],
+                        'Unbekannte Altergruppe '.$team['defaultTournament']['ageGroup'].' bei Team '.$team['id'].' ('.$team['name'].') ',
                     );
                     continue;
                 }
