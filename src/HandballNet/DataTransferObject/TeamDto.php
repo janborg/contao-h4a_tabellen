@@ -58,7 +58,7 @@ final readonly class TeamDto
             name: $data['name'],
             acronym: $data['acronym'] ?? '',
             logo: $data['logo'] ?? null,
-            teamGroupId: $data['teamGroupId'],
+            teamGroupId: (string) $data['teamGroupId'],
             livestreamUrl: $data['livestreamUrl'] ?? null,
 
             // ID-Parts
