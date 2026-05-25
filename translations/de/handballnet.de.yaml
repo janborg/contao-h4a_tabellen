@@ -3,6 +3,7 @@ provider:
     handball4all: Handball4All
     nuliga: NuLiga
     sportradar: Sportradar
+    sr: SR (Sportradar)
 verband:
   label:
     baden: Badischer Handball-Verband

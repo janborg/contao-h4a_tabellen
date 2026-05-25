@@ -20,6 +20,7 @@ enum Provider: string implements TranslatableLabelInterface
     case HANDBALL4ALL = 'handball4all';
     case NULIGA = 'nuliga';
     case SPORTRADAR = 'sportradar';
+    case SR = 'sr';
 
     public function label(): TranslatableMessage
     {
