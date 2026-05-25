@@ -12,18 +12,18 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Event;
 
-use Janborg\H4aTabellen\Model\H4aSeasonModel;
+use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
- * This event is dispatched each time a new result is upddated from h4a.
+ * This event is dispatched each time a new result is upddated from handballnet.
  */
 final class HandballnetTeamCreatedEvent extends Event
 {
     public function __construct(
         public readonly HandballnetTeamsModel $handballNetTeam,
-        public readonly H4aSeasonModel $season,
+        public readonly HandballnetSeasonsModel $season,
     ) {
     }
 
@@ -32,7 +32,7 @@ final class HandballnetTeamCreatedEvent extends Event
         return $this->handballNetTeam;
     }
 
-    public function getH4aSeason(): H4aSeasonModel
+    public function getHandballnetSeason(): HandballnetSeasonsModel
     {
         return $this->season;
     }
