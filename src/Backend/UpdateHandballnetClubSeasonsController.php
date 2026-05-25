@@ -72,6 +72,7 @@ class UpdateHandballnetClubSeasonsController extends Backend
                     $handballnetSeasonsModel = new HandballnetSeasonsModel();
                     $handballnetSeasonsModel->is_active = true;
                     $handballnetSeasonsModel->tstamp = time();
+                    $handballnetSeasonsModel->pid = $club->id;
 
                     ++$this->new_seasons;
                 }

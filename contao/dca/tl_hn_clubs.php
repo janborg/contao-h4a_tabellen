@@ -22,6 +22,7 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
                 'id' => 'primary',
             ],
         ],
+        'ctable' => ['tl_hn_seasons'],
         'backlink' => 'do=handballnet_teams'
     ],
     'list' => [
