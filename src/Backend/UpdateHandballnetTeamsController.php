@@ -15,9 +15,7 @@ namespace Janborg\H4aTabellen\Backend;
 use Contao\Backend;
 use Contao\BackendUser;
 use Contao\Message;
-use Janborg\H4aTabellen\HandballNet\AgeGroup;
-use Janborg\H4aTabellen\HandballNet\Provider;
-use Janborg\H4aTabellen\HandballNet\Verband;
+use Janborg\H4aTabellen\HandballNet\DataTransferObject\TeamDto;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
@@ -38,10 +36,7 @@ class UpdateHandballnetTeamsController extends Backend
 
     public function updateTeams(): void
     {
-        $objSeasons = HandballnetSeasonsModel::findBy(
-            ['is_active = ?'],
-            [true],
-        );
+        $objSeasons = HandballnetSeasonsModel::findBy(['is_active = ?'], [true]);
 
         if (null === $objSeasons) {
             Message::addError('Es sind keine aktiven Saisons vorhanden.');
@@ -51,78 +46,91 @@ class UpdateHandballnetTeamsController extends Backend
         $this->active_seasons = $objSeasons->count();
 
         foreach ($objSeasons as $season) {
-            // $id = $season->provider.'.'.$season->verband.'.'.$season->club_id;
-
             try {
-                $data = json_decode($this->handballnetApiClient->getClubTeamsData($season->handballnet_club_id, $season->season_id), true);
+                $data = json_decode(
+                    $this->handballnetApiClient->getClubTeamsData($season->handballnet_club_id, $season->season_id),
+                    true,
+                );
             } catch (\Exception $e) {
                 Message::addError($e->getMessage());
                 continue;
             }
 
             foreach ($data['data'] as $team) {
-                $handballnetTeam = HandballnetTeamsModel::findBy(
-                    ['handballnet_team_id=?'],
-                    [$team['id']],
-                );
-
-                // skip teams that already exist
-                if ($handballnetTeam) {
-                    // update existing team
-                    $handballnetTeamsModel = $handballnetTeam;
-                    ++$this->existing_teams;
-                } else {
-                    // create new team
-                    $handballnetTeamsModel = new HandballnetTeamsModel();
-                    ++$this->new_teams;
-
-                    $handballnetTeamsModel->is_active = true;
-                    $handballnetTeamsModel->tstamp = time();
-                }
-
-                $teamIdParts = explode('.', $team['id']);
-
-                $handballnetTeamsModel->pid = $season->id;
-                $handballnetTeamsModel->saison = $season->season_id;
-
-                $provider = Provider::tryFrom($teamIdParts[0]);
-                $verband = Verband::tryFrom($teamIdParts[1]);
-                $agegroup = AgeGroup::tryFrom($team['defaultTournament']['ageGroup'] ?? '');
-
-                if (null === $provider) {
-                    Message::addError('Unbekannter Provider '.$teamIdParts[0]);
-                    continue;
-                }
-
-                if (null === $verband) {
-                    Message::addError('Unbekannter Verband '.$teamIdParts[1]);
-                    continue;
-                }
-
-                if (null === $agegroup) {
-                    Message::addError(
-                        'Unbekannte Altergruppe '.$team['defaultTournament']['ageGroup'].' bei Team '.$team['id'].' ('.$team['name'].') ',
-                    );
-                } else {
-                    $handballnetTeamsModel->age_group = $agegroup->value;
-                }
-
-                $handballnetTeamsModel->provider = $provider->value;
-                $handballnetTeamsModel->verband = $verband->value;
-
-                $handballnetTeamsModel->liga_name = $team['defaultTournament']['name'];
-                $handballnetTeamsModel->handballnet_tournament_id = $team['defaultTournament']['id'];
-                $handballnetTeamsModel->tournament_type = $team['defaultTournament']['tournamentType'];
-                $handballnetTeamsModel->liga_shortname = $team['defaultTournament']['acronym'];
-
-                $handballnetTeamsModel->handballnet_team_id = $team['id'];
-                $handballnetTeamsModel->my_team_name = $team['name'];
-                $handballnetTeamsModel->team_group_id = $team['teamGroupId'];
-
-                $handballnetTeamsModel->save();
+                $this->processTeam($team, $season);
             }
         }
 
+        $this->addSummaryMessages();
+
+        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams']));
+    }
+
+    /**
+     * Undocumented function.
+     *
+     * @param array<mixed> $teamData
+     */
+    private function processTeam(array $teamData, object $season): void
+    {
+        try {
+            $dto = TeamDto::fromArray($teamData);
+        } catch (\InvalidArgumentException $e) {
+            Message::addError($e->getMessage());
+
+            return;
+        }
+
+        if (null === $dto->ageGroup) {
+            Message::addError(\sprintf(
+                'Unbekannte Altersgruppe "%s" bei Team %s (%s)',
+                $teamData['defaultTournament']['ageGroup'] ?? 'leer',
+                $dto->id,
+                $dto->name,
+            ));
+        }
+
+        $model = $this->findOrCreate($dto->id);
+
+        $model->pid = $season->id;
+        $model->saison = $season->season_id;
+
+        $model->provider = $dto->provider;
+        $model->verband = $dto->verband;
+        $model->age_group = $dto->ageGroup ?? '';
+
+        $model->handballnet_team_id = $dto->id;
+        $model->my_team_name = $dto->name;
+        $model->team_group_id = $dto->teamGroupId;
+
+        $model->liga_name = $dto->tournamentName;
+        $model->liga_shortname = $dto->tournamentAcronym;
+        $model->handballnet_tournament_id = $dto->tournamentId;
+        $model->tournament_type = $dto->tournamentType;
+
+        $model->tstamp = time();
+        $model->save();
+    }
+
+    private function findOrCreate(string $externalId): HandballnetTeamsModel
+    {
+        $existing = HandballnetTeamsModel::findOneBy('handballnet_team_id', $externalId);
+
+        if ($existing) {
+            ++$this->existing_teams;
+
+            return $existing;
+        }
+
+        $model = new HandballnetTeamsModel();
+        $model->is_active = true;
+        ++$this->new_teams;
+
+        return $model;
+    }
+
+    private function addSummaryMessages(): void
+    {
         if ($this->active_seasons > 0) {
             Message::addConfirmation($this->active_seasons.' aktive Saison(s) gefunden und aktualisiert.');
         }
@@ -130,10 +138,9 @@ class UpdateHandballnetTeamsController extends Backend
         if ($this->new_teams > 0) {
             Message::addConfirmation($this->new_teams.' neue(s) Team(s) erstellt.');
         }
+
         if ($this->existing_teams > 0) {
             Message::addInfo($this->existing_teams.' existierende(s) Team(s) aktualisiert.');
         }
-
-        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams']));
     }
 }

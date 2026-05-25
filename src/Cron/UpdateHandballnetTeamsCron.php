@@ -7,11 +7,9 @@ namespace Janborg\H4aTabellen\Cron;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCronJob;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Event\HandballnetTeamCreatedEvent;
-use Janborg\H4aTabellen\HandballNet\AgeGroup;
-use Janborg\H4aTabellen\HandballNet\Provider;
-use Janborg\H4aTabellen\HandballNet\Verband;
+use Janborg\H4aTabellen\HandballNet\DataTransferObject\TeamDto;
 use Janborg\H4aTabellen\HandballnetApiClient;
-use Janborg\H4aTabellen\Model\H4aSeasonModel;
+use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -34,11 +32,10 @@ class UpdateHandballnetTeamsCron
 
     public function updateHandballnetTeams(): void
     {
-        // Find active Seasons
-        $objSeasons = H4aSeasonModel::findBy(
+        $objSeasons = HandballnetSeasonsModel::findBy(
             ['is_active=?'],
             [true],
-            ['order' => 'hn_season ASC'],
+            ['order' => 'season_id ASC'],
         );
 
         if (null === $objSeasons) {
@@ -48,102 +45,106 @@ class UpdateHandballnetTeamsCron
         foreach ($objSeasons as $season) {
             ++$this->active_seasons;
 
-            $id = $season->provider.'.'.$season->verband.'.'.$season->club_id;
-
             try {
-                $data = json_decode($this->handballnetApiClient->getClubTeamsData($id, $season->hn_season), true);
+                $data = json_decode(
+                    $this->handballnetApiClient->getClubTeamsData($season->handballnet_club_id, $season->season_id),
+                    true,
+                );
             } catch (\Exception $e) {
                 $this->contaoCronLogger->error('Fehler beim Abruf über die handballnetApi', [$e->getMessage()]);
-            }
-
-            if (empty($data['data']) || !\is_array($data['data'])) {
                 continue;
             }
 
-            foreach ($data['data'] as $team) {
+            foreach ($data['data'] as $teamData) {
                 ++$this->total_teams_checked;
-
-                $handballnetTeam = HandballnetTeamsModel::findBy(
-                    ['handballnet_id=?'],
-                    [$team['id']],
-                );
-
-                // skip teams that already exist
-                if ($handballnetTeam) {
-                    // update existing team
-                    $handballnetTeamsModel = $handballnetTeam;
-                    ++$this->existing_teams;
-                } else {
-                    // create new team
-                    $handballnetTeamsModel = new HandballnetTeamsModel();
-                    ++$this->new_teams;
-
-                    $handballnetTeamsModel->is_active = true;
-                    $handballnetTeamsModel->tstamp = time();
-                }
-
-                $teamIdParts = explode('.', $team['id']);
-
-                $handballnetTeamsModel->pid = $season->id;
-                $handballnetTeamsModel->saison = $season->season_id;
-
-                $provider = Provider::tryFrom($teamIdParts[0]);
-                $verband = Verband::tryFrom($teamIdParts[1]);
-                $agegroup = AgeGroup::tryFrom($team['defaultTournament']['ageGroup']);
-
-                if (null === $provider) {
-                    $this->contaoCronLogger->info(
-                        'Unbekannter Provider '.$teamIdParts[0],
-                    );
-                    continue;
-                }
-
-                if (null === $verband) {
-                    $this->contaoCronLogger->info(
-                        'Unbekannter Verband '.$teamIdParts[1],
-                    );
-                    continue;
-                }
-
-                if (null === $agegroup) {
-                    $this->contaoCronLogger->info(
-                        'Unbekannte Altergruppe '.$team['defaultTournament']['ageGroup'].' bei Team '.$team['id'].' ('.$team['name'].') ',
-                    );
-                    continue;
-                }
-
-                $handballnetTeamsModel->provider = $provider->value;
-                $handballnetTeamsModel->verband = $verband->value;
-                $handballnetTeamsModel->age_group = $agegroup->value;
-
-                $handballnetTeamsModel->liga_name = $team['defaultTournament']['name'];
-                $handballnetTeamsModel->handballnet_tournament_id = $team['defaultTournament']['id'];
-                $handballnetTeamsModel->tournament_type = $team['defaultTournament']['tournamentType'];
-                $handballnetTeamsModel->liga_shortname = $team['defaultTournament']['acronym'];
-
-                $handballnetTeamsModel->handballnet_team_id = $team['id'];
-                $handballnetTeamsModel->my_team_name = $team['name'];
-                $handballnetTeamsModel->team_group_id = $team['teamGroupId'];
-
-                $handballnetTeam->save();
-
-                ++$this->new_teams;
-
-                // Dispatch Event for every created Event
-                $this->eventDispatcher->dispatch(
-                    new HandballnetTeamCreatedEvent($handballnetTeam, $season),
-                );
-
-                // Log created Event
-                $this->contaoCronLogger->info(
-                    'Neues Team in der Saison '.$season->hn_season.' erstellt ('.$team['name'].', '.$team['defaultTournament']['acronym'].').',
-                );
+                $this->processTeam($teamData, $season);
             }
         }
 
-        // Log sum_up
-        $this->contaoCronLogger->info(
-            'HandballnetTeams Update: '.$this->active_seasons.' aktive Saisons, '.$this->total_teams_checked.' Teams geprüft, '.$this->existing_teams.' existierende Teams, '.$this->new_teams.' neue Teams.',
-        );
+        $this->contaoCronLogger->info(\sprintf(
+            'HandballnetTeams Update: %d aktive Saisons, %d Teams geprüft, %d existierende Teams, %d neue Teams.',
+            $this->active_seasons,
+            $this->total_teams_checked,
+            $this->existing_teams,
+            $this->new_teams,
+        ));
+    }
+
+    /**
+     * Undocumented function.
+     *
+     * @param array<mixed> $teamData
+     */
+    private function processTeam(array $teamData, object $season): void
+    {
+        try {
+            $dto = TeamDto::fromArray($teamData);
+        } catch (\InvalidArgumentException $e) {
+            $this->contaoCronLogger->info($e->getMessage());
+
+            return;
+        }
+
+        if (null === $dto->ageGroup) {
+            $this->contaoCronLogger->info(\sprintf(
+                'Unbekannte Altersgruppe "%s" bei Team %s (%s)',
+                $teamData['defaultTournament']['ageGroup'] ?? 'leer',
+                $dto->id,
+                $dto->name,
+            ));
+        }
+
+        $model = $this->findOrCreate($dto->id);
+
+        $model->pid = $season->id;
+        $model->saison = $season->season_id;
+
+        $model->provider = $dto->provider;
+        $model->verband = $dto->verband;
+        $model->age_group = $dto->ageGroup ?? '';
+
+        $model->handballnet_team_id = $dto->id;
+        $model->my_team_name = $dto->name;
+        $model->team_group_id = $dto->teamGroupId;
+
+        $model->liga_name = $dto->tournamentName;
+        $model->liga_shortname = $dto->tournamentAcronym;
+        $model->handballnet_tournament_id = $dto->tournamentId;
+        $model->tournament_type = $dto->tournamentType;
+
+        $model->tstamp = time();
+        $model->save();
+
+        // Event + Log nur für neue Teams
+        if ($model->isNew ?? false) {
+            $this->eventDispatcher->dispatch(
+                new HandballnetTeamCreatedEvent($model, $season),
+            );
+
+            $this->contaoCronLogger->info(\sprintf(
+                'Neues Team in der Saison %s erstellt (%s, %s).',
+                $season->hn_season,
+                $dto->name,
+                $dto->tournamentAcronym,
+            ));
+        }
+    }
+
+    private function findOrCreate(string $externalId): HandballnetTeamsModel
+    {
+        $existing = HandballnetTeamsModel::findOneBy('handballnet_team_id', $externalId);
+
+        if ($existing) {
+            ++$this->existing_teams;
+
+            return $existing;
+        }
+
+        $model = new HandballnetTeamsModel();
+        $model->is_active = true;
+        $model->isNew = true;
+        ++$this->new_teams;
+
+        return $model;
     }
 }
