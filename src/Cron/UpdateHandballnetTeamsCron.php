@@ -99,9 +99,9 @@ class UpdateHandballnetTeamsCron
         $model->pid = $season->id;
         $model->saison = $season->season_id;
 
-        $model->provider = $dto->provider;
-        $model->verband = $dto->verband;
-        $model->age_group = $dto->ageGroup ?? '';
+        $model->provider = $dto->provider->value;
+        $model->verband = $dto->verband->value;
+        $model->age_group = $dto->ageGroup->value ?? '';
 
         $model->handballnet_team_id = $dto->id;
         $model->my_team_name = $dto->name;
