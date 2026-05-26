@@ -61,3 +61,4 @@ services:
         arguments:
             - '@h4atabellen.handballnet.apiclient'
             - '@router'
+            - '@h4atabellen.handballnet.handballnetteamsparser'

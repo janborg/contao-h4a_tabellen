@@ -8,6 +8,7 @@ use Contao\CoreBundle\DependencyInjection\Attribute\AsCronJob;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Event\HandballnetTeamCreatedEvent;
 use Janborg\H4aTabellen\HandballNet\DataTransferObject\TeamDto;
+use Janborg\H4aTabellen\HandballNet\Parser\HandballnetTeamsParser;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
@@ -21,6 +22,7 @@ class UpdateHandballnetTeamsCron
         private ContaoFramework $contaoFramework,
         private HandballnetApiClient $handballnetApiClient,
         private EventDispatcherInterface $eventDispatcher,
+        private HandballnetTeamsParser $teamsParser,
         private readonly LoggerInterface|null $contaoCronLogger,
         private int $active_seasons = 0,
         private int $total_teams_checked = 0,
@@ -46,18 +48,16 @@ class UpdateHandballnetTeamsCron
             ++$this->active_seasons;
 
             try {
-                $data = json_decode(
-                    $this->handballnetApiClient->getClubTeamsData($season->handballnet_club_id, $season->season_id),
-                    true,
-                );
+                $json = $this->handballnetApiClient->getClubTeamsData($season->handballnet_club_id, $season->season_id);
             } catch (\Exception $e) {
                 $this->contaoCronLogger->error('Fehler beim Abruf über die handballnetApi', [$e->getMessage()]);
                 continue;
             }
 
-            foreach ($data['data'] as $teamData) {
-                ++$this->total_teams_checked;
-                $this->processTeam($teamData, $season);
+            $teams = $this->teamsParser->parseClubTeams($json);
+
+            foreach ($teams as $team) {
+                $this->processTeam($team, $season);
             }
         }
 
@@ -72,23 +72,12 @@ class UpdateHandballnetTeamsCron
 
     /**
      * Undocumented function.
-     *
-     * @param array<mixed> $teamData
      */
-    private function processTeam(array $teamData, object $season): void
+    private function processTeam(TeamDto $dto, object $season): void
     {
-        try {
-            $dto = TeamDto::fromArray($teamData);
-        } catch (\InvalidArgumentException $e) {
-            $this->contaoCronLogger->info($e->getMessage());
-
-            return;
-        }
-
         if (null === $dto->ageGroup) {
             $this->contaoCronLogger->info(\sprintf(
-                'Unbekannte Altersgruppe "%s" bei Team %s (%s)',
-                $teamData['defaultTournament']['ageGroup'] ?? 'leer',
+                'Unbekannte Altersgruppe bei Team %s (%s)',
                 $dto->id,
                 $dto->name,
             ));

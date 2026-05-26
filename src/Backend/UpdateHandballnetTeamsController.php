@@ -16,6 +16,7 @@ use Contao\Backend;
 use Contao\BackendUser;
 use Contao\Message;
 use Janborg\H4aTabellen\HandballNet\DataTransferObject\TeamDto;
+use Janborg\H4aTabellen\HandballNet\Parser\HandballnetTeamsParser;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
@@ -26,6 +27,7 @@ class UpdateHandballnetTeamsController extends Backend
     public function __construct(
         private HandballnetApiClient $handballnetApiClient,
         private UrlGeneratorInterface $urlGenerator,
+        private HandballnetTeamsParser $teamsParser,
         private int $new_teams = 0,
         private int $existing_teams = 0,
         private int $active_seasons = 0,
@@ -47,16 +49,15 @@ class UpdateHandballnetTeamsController extends Backend
 
         foreach ($objSeasons as $season) {
             try {
-                $data = json_decode(
-                    $this->handballnetApiClient->getClubTeamsData($season->handballnet_club_id, $season->season_id),
-                    true,
-                );
+                $json = $this->handballnetApiClient->getClubTeamsData($season->handballnet_club_id, $season->season_id);
             } catch (\Exception $e) {
                 Message::addError($e->getMessage());
                 continue;
             }
 
-            foreach ($data['data'] as $team) {
+            $teams = $this->teamsParser->parseClubTeams($json);
+
+            foreach ($teams as $team) {
                 $this->processTeam($team, $season);
             }
         }
@@ -68,23 +69,12 @@ class UpdateHandballnetTeamsController extends Backend
 
     /**
      * Undocumented function.
-     *
-     * @param array<mixed> $teamData
      */
-    private function processTeam(array $teamData, object $season): void
+    private function processTeam(TeamDto $dto, object $season): void
     {
-        try {
-            $dto = TeamDto::fromArray($teamData);
-        } catch (\InvalidArgumentException $e) {
-            Message::addError($e->getMessage());
-
-            return;
-        }
-
         if (null === $dto->ageGroup) {
             Message::addError(\sprintf(
-                'Unbekannte Altersgruppe "%s" bei Team %s (%s)',
-                $teamData['defaultTournament']['ageGroup'] ?? 'leer',
+                'Unbekannte Altersgruppe bei Team %s (%s)',
                 $dto->id,
                 $dto->name,
             ));
