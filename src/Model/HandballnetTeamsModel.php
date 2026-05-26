@@ -29,12 +29,12 @@ use Janborg\H4aTabellen\HandballNet\Verband;
  * @property string   $team_group_id
  * @property string   $liga_shortname
  * @property string   $liga_name
- * @property Provider $provider
- * @property Verband  $verband
+ * @property string   $provider
+ * @property string  $verband
  * @property string   $handballnet_team_id
  * @property string   $handballnet_tournament_id
  * @property string   $tournament_type
- * @property AgeGroup $ageGroup
+ * @property string $ageGroup
  * @property string   $my_team_name
  * @property bool     $is_active
  *
@@ -63,4 +63,19 @@ class HandballnetTeamsModel extends Model
      * @var string
      */
     protected static $strTable = 'tl_hn_teams';
+
+    public function getProvider(): ?Provider
+    {
+        return Provider::tryFrom($this->provider);
+    }
+
+    public function getVerband(): ?Verband
+    {
+        return Verband::tryFrom($this->verband);
+    }
+
+    public function getAgeGroup(): ?AgeGroup
+    {
+        return AgeGroup::tryFrom($this->age_group);
+    }
 }
