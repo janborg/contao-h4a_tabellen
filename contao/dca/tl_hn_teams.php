@@ -148,6 +148,7 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             // API: data[].teamGroupId
             'inputType' => 'text',
             'exclude'   => true,
+            'filter'    => true,
             'eval' => [
                 'rgxp'     => 'digit',
                 'maxlength' => 20,
