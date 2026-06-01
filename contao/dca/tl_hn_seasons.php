@@ -103,7 +103,7 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
                 'maxlength' => 4, 
                 'tl_class' => 'w50',
                 'rgxp' => 'custom',
-                'customRgxp' => '/(202[1-9]|20[3-9][0-9])/',
+                'customRgxp' => '/(202[0-9]|20[3-9][0-9])/',
                 'errorMsg'=> 'Bitte gülitgen Wert im Format "YYYY" eingeben (2021 - heute)',
             ],
             'sql' => "varchar(4) NOT NULL default ''",
