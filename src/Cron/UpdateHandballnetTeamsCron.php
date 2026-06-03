@@ -35,9 +35,10 @@ class UpdateHandballnetTeamsCron
     public function updateHandballnetTeams(): void
     {
         $objSeasons = HandballnetSeasonsModel::findBy(
-            ['is_active=?'],
-            [true],
-            ['order' => 'season_id ASC'],
+            'is_active',
+            true,
+            ['order' => 'season_id ASC',
+            'eager' => true],
         );
 
         if (null === $objSeasons) {
