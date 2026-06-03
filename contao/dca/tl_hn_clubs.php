@@ -72,6 +72,7 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
             'eval' => [
                 'mandatory' => true,
                 'alwaysSave' => true,
+                'submitOnChange' => true,
                 'maxlength' => 255,
                 'tl_class' => 'w50 clr',
             ],
