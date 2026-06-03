@@ -38,7 +38,7 @@ class UpdateHandballnetClubSeasonsController extends Backend
     {
         $id = Input::get('id');
 
-        $club = HandballnetClubsModel::findById($id, ['eager' => true]);
+        $club = HandballnetClubsModel::findById($id);
 
         try {
             $data = json_decode($this->handballnetApiClient->getClubTeamsData($club->handballnet_id, '2025'), true);
@@ -49,36 +49,10 @@ class UpdateHandballnetClubSeasonsController extends Backend
 
         $clubSeasons = $data['meta']['facets']['0']['values'];
 
-        foreach ($clubSeasons as $season) {
-            $handballnetSeason = HandballnetSeasonsModel::findBy(
-                ['handballnet_club_id=?', 'season_id=?'],
-                [$club->id, $season['id']],
-            );
-
-            if ($handballnetSeason) {
-                // update existing Season
-                $handballnetSeasonsModel = $handballnetSeason;
-                ++$this->existing_seasons;
-            } else {
-                // create new Season
-                $handballnetSeasonsModel = new HandballnetSeasonsModel();
-                $handballnetSeasonsModel->is_active = true;
-                $handballnetSeasonsModel->tstamp = time();
-                $handballnetSeasonsModel->pid = $club->id;
-
-                ++$this->new_seasons;
-            }
-
-            $handballnetSeasonsModel->season_id = $season['id'];
-            $handballnetSeasonsModel->season_name = $season['name'];
-            $handballnetSeasonsModel->handballnet_club_id = $club->id;
-            $handballnetSeasonsModel->club_name = $club->name;
-
-            $handballnetSeasonsModel->save();
-        }
+        $this->processClubSeasons($clubSeasons, $club);
 
         $this->getSummaryMessages();
-        
+
         $this->redirect($this->getReferer());
     }
 
@@ -106,38 +80,43 @@ class UpdateHandballnetClubSeasonsController extends Backend
 
             $clubSeasons = $data['meta']['facets']['0']['values'];
 
-            foreach ($clubSeasons as $season) {
-                $handballnetSeason = HandballnetSeasonsModel::findBy(
-                    ['handballnet_club_id=?', 'season_id=?'],
-                    [$club->id, $season['id']],
-                );
-
-                if ($handballnetSeason) {
-                    // update existing Season
-                    $handballnetSeasonsModel = $handballnetSeason;
-                    ++$this->existing_seasons;
-                } else {
-                    // create new Season
-                    $handballnetSeasonsModel = new HandballnetSeasonsModel();
-                    $handballnetSeasonsModel->is_active = true;
-                    $handballnetSeasonsModel->tstamp = time();
-                    $handballnetSeasonsModel->pid = $club->id;
-
-                    ++$this->new_seasons;
-                }
-
-                $handballnetSeasonsModel->season_id = $season['id'];
-                $handballnetSeasonsModel->season_name = $season['name'];
-                $handballnetSeasonsModel->handballnet_club_id = $club->id;
-                $handballnetSeasonsModel->club_name = $club->name;
-
-                $handballnetSeasonsModel->save();
-            }
+            $this->processClubSeasons($clubSeasons, $club);
         }
 
         $this->getSummaryMessages();
 
         $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams']));
+    }
+
+    private function processClubSeasons(array $clubSeasons, HandballnetClubsModel $club): void
+    {
+        foreach ($clubSeasons as $season) {
+            $handballnetSeason = HandballnetSeasonsModel::findBy(
+                ['handballnet_club_id=?', 'season_id=?'],
+                [$club->id, $season['id']],
+            );
+
+            if ($handballnetSeason) {
+                // update existing Season
+                $handballnetSeasonsModel = $handballnetSeason;
+                ++$this->existing_seasons;
+            } else {
+                // create new Season
+                $handballnetSeasonsModel = new HandballnetSeasonsModel();
+                $handballnetSeasonsModel->is_active = true;
+                $handballnetSeasonsModel->tstamp = time();
+                $handballnetSeasonsModel->pid = $club->id;
+
+                ++$this->new_seasons;
+            }
+
+            $handballnetSeasonsModel->season_id = $season['id'];
+            $handballnetSeasonsModel->season_name = $season['name'];
+            $handballnetSeasonsModel->handballnet_club_id = $club->id;
+            $handballnetSeasonsModel->club_name = $club->name;
+
+            $handballnetSeasonsModel->save();
+        }
     }
 
     private function getSummaryMessages(): void
