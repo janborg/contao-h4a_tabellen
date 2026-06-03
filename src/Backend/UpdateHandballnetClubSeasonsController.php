@@ -14,6 +14,7 @@ namespace Janborg\H4aTabellen\Backend;
 
 use Contao\Backend;
 use Contao\BackendUser;
+use Contao\Input;
 use Contao\Message;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\HandballnetClubsModel;
@@ -31,6 +32,54 @@ class UpdateHandballnetClubSeasonsController extends Backend
     ) {
         parent::__construct();
         $this->import(BackendUser::class, 'User');
+    }
+
+    public function updateClubSeasonsForClub(): void
+    {
+        $id = Input::get('id');
+
+        $club = HandballnetClubsModel::findById($id, ['eager' => true]);
+
+        try {
+            $data = json_decode($this->handballnetApiClient->getClubTeamsData($club->handballnet_id, '2025'), true);
+        } catch (\Exception $e) {
+            Message::addError($e->getMessage());
+            return;
+        }
+
+        $clubSeasons = $data['meta']['facets']['0']['values'];
+
+        foreach ($clubSeasons as $season) {
+            $handballnetSeason = HandballnetSeasonsModel::findBy(
+                ['handballnet_club_id=?', 'season_id=?'],
+                [$club->id, $season['id']],
+            );
+
+            if ($handballnetSeason) {
+                // update existing Season
+                $handballnetSeasonsModel = $handballnetSeason;
+                ++$this->existing_seasons;
+            } else {
+                // create new Season
+                $handballnetSeasonsModel = new HandballnetSeasonsModel();
+                $handballnetSeasonsModel->is_active = true;
+                $handballnetSeasonsModel->tstamp = time();
+                $handballnetSeasonsModel->pid = $club->id;
+
+                ++$this->new_seasons;
+            }
+
+            $handballnetSeasonsModel->season_id = $season['id'];
+            $handballnetSeasonsModel->season_name = $season['name'];
+            $handballnetSeasonsModel->handballnet_club_id = $club->id;
+            $handballnetSeasonsModel->club_name = $club->name;
+
+            $handballnetSeasonsModel->save();
+        }
+
+        $this->getSummaryMessages();
+        
+        $this->redirect($this->getReferer());
     }
 
     public function updateClubSeasons(): void
@@ -60,7 +109,7 @@ class UpdateHandballnetClubSeasonsController extends Backend
             foreach ($clubSeasons as $season) {
                 $handballnetSeason = HandballnetSeasonsModel::findBy(
                     ['handballnet_club_id=?', 'season_id=?'],
-                    [$club->handballnet_id, $season['id']],
+                    [$club->id, $season['id']],
                 );
 
                 if ($handballnetSeason) {
@@ -79,24 +128,29 @@ class UpdateHandballnetClubSeasonsController extends Backend
 
                 $handballnetSeasonsModel->season_id = $season['id'];
                 $handballnetSeasonsModel->season_name = $season['name'];
-                $handballnetSeasonsModel->handballnet_club_id = $club->handballnet_id;
+                $handballnetSeasonsModel->handballnet_club_id = $club->id;
                 $handballnetSeasonsModel->club_name = $club->name;
 
                 $handballnetSeasonsModel->save();
             }
         }
 
+        $this->getSummaryMessages();
+
+        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams']));
+    }
+
+    private function getSummaryMessages(): void
+    {
         if ($this->active_clubs > 0) {
-            Message::addConfirmation($this->active_clubs.' aktive Club(s) gefunden und aktualisiert.');
+            Message::addConfirmation($this->active_clubs . ' aktive Club(s) gefunden und aktualisiert.');
         }
 
         if ($this->new_seasons > 0) {
-            Message::addConfirmation($this->new_seasons.' neue(s) Season(s) erstellt.');
+            Message::addConfirmation($this->new_seasons . ' neue Season(s) erstellt.');
         }
         if ($this->existing_seasons > 0) {
-            Message::addInfo($this->existing_seasons.' existierende(s) Season(s) aktualisiert.');
+            Message::addInfo($this->existing_seasons . ' existierende Season(s) aktualisiert.');
         }
-
-        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams']));
     }
 }

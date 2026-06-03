@@ -14,6 +14,7 @@ namespace Janborg\H4aTabellen\Backend;
 
 use Contao\Backend;
 use Contao\BackendUser;
+use Contao\Input;
 use Contao\Message;
 use Janborg\H4aTabellen\HandballNet\DataTransferObject\TeamDto;
 use Janborg\H4aTabellen\HandballNet\Parser\HandballnetTeamsParser;
@@ -36,9 +37,40 @@ class UpdateHandballnetTeamsController extends Backend
         $this->import(BackendUser::class, 'User');
     }
 
+    public function updateTeamsForClubSeason(): void
+    {
+        $id = Input::get('id');
+
+        $objSeason = HandballnetSeasonsModel::findById(
+            $id,
+            ['eager' => true]
+        );
+
+        try {
+            $json = $this->handballnetApiClient->getClubTeamsData($objSeason->getRelated('handballnet_club_id')->handballnet_id, $objSeason->season_id);
+        } catch (\Exception $e) {
+            Message::addError($e->getMessage());
+            return;
+        }
+
+        $teams = $this->teamsParser->parseClubTeams($json);
+
+        foreach ($teams as $team) {
+            $this->processTeam($team, $objSeason);
+        }
+
+        $this->addSummaryMessages();
+
+        $this->redirect($this->getReferer());
+    }
+
     public function updateTeams(): void
     {
-        $objSeasons = HandballnetSeasonsModel::findBy(['is_active = ?'], [true]);
+        $objSeasons = HandballnetSeasonsModel::findBy(
+            'is_active',
+            true,
+            ['eager' => true]
+        );
 
         if (null === $objSeasons) {
             Message::addError('Es sind keine aktiven Saisons vorhanden.');
@@ -49,7 +81,7 @@ class UpdateHandballnetTeamsController extends Backend
 
         foreach ($objSeasons as $season) {
             try {
-                $json = $this->handballnetApiClient->getClubTeamsData($season->handballnet_club_id, $season->season_id);
+                $json = $this->handballnetApiClient->getClubTeamsData($season->getRelated('handballnet_club_id')->handballnet_id, $season->season_id);
             } catch (\Exception $e) {
                 Message::addError($e->getMessage());
                 continue;
@@ -122,15 +154,15 @@ class UpdateHandballnetTeamsController extends Backend
     private function addSummaryMessages(): void
     {
         if ($this->active_seasons > 0) {
-            Message::addConfirmation($this->active_seasons.' aktive Saison(s) gefunden und aktualisiert.');
+            Message::addConfirmation($this->active_seasons . ' aktive Saison(s) gefunden und aktualisiert.');
         }
 
         if ($this->new_teams > 0) {
-            Message::addConfirmation($this->new_teams.' neue(s) Team(s) erstellt.');
+            Message::addConfirmation($this->new_teams . ' neue(s) Team(s) erstellt.');
         }
 
         if ($this->existing_teams > 0) {
-            Message::addInfo($this->existing_teams.' existierende(s) Team(s) aktualisiert.');
+            Message::addInfo($this->existing_teams . ' existierende(s) Team(s) aktualisiert.');
         }
     }
 }
