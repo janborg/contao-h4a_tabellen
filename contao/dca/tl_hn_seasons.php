@@ -27,32 +27,22 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
     ],
     'list' => [
         'sorting' => [
-            'mode' => DataContainer::MODE_SORTED_PARENT,
-            'flag' => DataContainer::SORT_BOTH,
-            'fields' => ['club_name', 'season_id'],
+            'mode' => DataContainer::MODE_PARENT,
+            'flag' => DataContainer::SORT_DESC,
+            'fields' => ['season_name'],
             'panelLayout' => 'search, sort,filter,limit',
+            'headerFields' => ['name', 'handballnet_id'],
         ],
         'label' => [
-            'fields' => ['name', 'season_name', 'pid'],
+            'fields' => ['season_name', 'club_name', ],
             'format' => '%s (%s)',
         ],
         'global_operations' => [
             'all',
-            'update_hn_teams' => [
-                'href' => 'key=update_hn_teams',
-                'icon' => 'bundles/janborgh4atabellen/refresh.svg',
-                'attributes' => 'onclick="Backend.getScrollOffset()"',
-                'primary' => true
-            ],
             'update_hn_clubs' => [
                 'href' => 'key=update_hn_clubs',
                 'icon' => 'bundles/janborgh4atabellen/refresh.svg',
                 'attributes' => 'onclick="Backend.getScrollOffset()"',
-                'primary' => true
-            ],
-            'manage_clubs' => [
-                'href' => 'table=tl_hn_clubs',
-                'icon' => 'bundles/janborgh4atabellen/trophy.svg',
                 'primary' => true
             ],
         ],

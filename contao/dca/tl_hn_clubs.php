@@ -17,6 +17,7 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
     // Config
     'config' => [
         'dataContainer' => DC_Table::class,
+        'switchToEdit'                => true,
         'sql' => [
             'keys' => [
                 'id' => 'primary',
@@ -27,7 +28,7 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
     ],
     'list' => [
         'sorting' => [
-            'mode' => DataContainer::MODE_SORTABLE,
+            'mode' => DataContainer::MODE_SORTED,
             'flag' => DataContainer::SORT_INITIAL_LETTER_DESC,
             'fields' => ['name'],
             'panelLayout' => 'search;filter;limit',
@@ -41,6 +42,7 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
         ],
         'operations' => [
             'edit',
+            'children',
             'delete',
             'toggle' => [
 				'href'                => 'act=toggle&amp;field=is_active',

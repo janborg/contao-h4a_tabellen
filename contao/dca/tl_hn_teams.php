@@ -46,6 +46,12 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
                 'class' => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
             ],
+            'update_hn_teams' => [
+                'href' => 'key=update_hn_teams',
+                'icon' => 'bundles/janborgh4atabellen/refresh.svg',
+                'attributes' => 'onclick="Backend.getScrollOffset()"',
+                'primary' => true
+            ],
         ],
         'operations' => [
             'edit',
