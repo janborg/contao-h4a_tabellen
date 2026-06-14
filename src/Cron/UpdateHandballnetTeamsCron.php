@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\Cron;
 
-use Contao\CoreBundle\DependencyInjection\Attribute\AsCronJob;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Event\HandballnetTeamCreatedEvent;
 use Janborg\H4aTabellen\HandballNet\DataTransferObject\TeamDto;
@@ -15,7 +14,6 @@ use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-#[AsCronJob('daily', method: 'updateHandballnetTeams')]
 class UpdateHandballnetTeamsCron
 {
     public function __construct(
