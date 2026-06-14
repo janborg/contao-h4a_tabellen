@@ -26,7 +26,6 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
                 'id' => 'primary',
             ],
         ],
-        'backlink' => 'do=handballnet_teams'
     ],
     'list' => [
         'sorting' => [
