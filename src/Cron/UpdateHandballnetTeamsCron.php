@@ -9,6 +9,7 @@ use Janborg\H4aTabellen\Event\HandballnetTeamCreatedEvent;
 use Janborg\H4aTabellen\HandballNet\DataTransferObject\TeamDto;
 use Janborg\H4aTabellen\HandballNet\Parser\HandballnetTeamsParser;
 use Janborg\H4aTabellen\HandballnetApiClient;
+use Janborg\H4aTabellen\Model\HandballnetClubsModel;
 use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Psr\Log\LoggerInterface;
@@ -46,8 +47,15 @@ class UpdateHandballnetTeamsCron
         foreach ($objSeasons as $season) {
             ++$this->active_seasons;
 
+            $club = HandballnetClubsModel::findById($season->pid);
+
+            if (null === $club) {
+                $this->contaoCronLogger->error(\sprintf('Club nicht gefunden für Saison %s', $season->id));
+                continue;
+            }
+
             try {
-                $json = $this->handballnetApiClient->getClubTeamsData($season->handballnet_club_id, $season->season_id);
+                $json = $this->handballnetApiClient->getClubTeamsData($club->handballnet_id, $season->season_id);
             } catch (\Exception $e) {
                 $this->contaoCronLogger->error('Fehler beim Abruf über die handballnetApi', [$e->getMessage()]);
                 continue;
@@ -69,11 +77,9 @@ class UpdateHandballnetTeamsCron
         ));
     }
 
-    /**
-     * Undocumented function.
-     */
     private function processTeam(TeamDto $dto, object $season): void
     {
+        ++$this->total_teams_checked;
         if (null === $dto->ageGroup) {
             $this->contaoCronLogger->info(\sprintf(
                 'Unbekannte Altersgruppe bei Team %s (%s)',
