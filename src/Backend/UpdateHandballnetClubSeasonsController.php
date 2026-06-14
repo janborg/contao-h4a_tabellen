@@ -89,6 +89,9 @@ class UpdateHandballnetClubSeasonsController extends Backend
         $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams']));
     }
 
+    /**
+     * @param array<int, array<string, mixed>> $clubSeasons
+     */
     private function processClubSeasons(array $clubSeasons, HandballnetClubsModel $club): void
     {
         foreach ($clubSeasons as $season) {

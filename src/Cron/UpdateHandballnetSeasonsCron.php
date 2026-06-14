@@ -60,6 +60,9 @@ class UpdateHandballnetSeasonsCron
         ));
     }
 
+    /**
+     * @param array<string, mixed> $season
+     */
     private function processSeason(array $season, object $club): void
     {
         $model = $this->findOrCreate((string) $club->id, (string) $season['id']);
