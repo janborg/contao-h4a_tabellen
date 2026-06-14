@@ -53,7 +53,7 @@ class UpdateHandballnetClubSeasonsController extends Backend
 
         $this->getSummaryMessages();
 
-        $this->redirect($this->getReferer());
+        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams', 'table' => 'tl_hn_seasons', 'id' => $id]));
     }
 
     public function updateClubSeasons(): void
