@@ -61,7 +61,8 @@ class UpdateHandballnetTeamsController extends Backend
 
         $this->addSummaryMessages();
 
-        $this->redirect($this->getReferer());
+        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams', 'table' => 'tl_hn_teams', 'id' => $id]));
+
     }
 
     public function updateTeams(): void
