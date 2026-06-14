@@ -44,6 +44,7 @@ class UpdateHandballnetClubSeasonsController extends Backend
             $data = json_decode($this->handballnetApiClient->getClubTeamsData($club->handballnet_id, '2025'), true);
         } catch (\Exception $e) {
             Message::addError($e->getMessage());
+
             return;
         }
 
@@ -122,14 +123,14 @@ class UpdateHandballnetClubSeasonsController extends Backend
     private function getSummaryMessages(): void
     {
         if ($this->active_clubs > 0) {
-            Message::addConfirmation($this->active_clubs . ' aktive Club(s) gefunden und aktualisiert.');
+            Message::addConfirmation($this->active_clubs.' aktive Club(s) gefunden und aktualisiert.');
         }
 
         if ($this->new_seasons > 0) {
-            Message::addConfirmation($this->new_seasons . ' neue Season(s) erstellt.');
+            Message::addConfirmation($this->new_seasons.' neue Season(s) erstellt.');
         }
         if ($this->existing_seasons > 0) {
-            Message::addInfo($this->existing_seasons . ' existierende Season(s) aktualisiert.');
+            Message::addInfo($this->existing_seasons.' existierende Season(s) aktualisiert.');
         }
     }
 }

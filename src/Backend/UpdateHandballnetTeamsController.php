@@ -43,13 +43,14 @@ class UpdateHandballnetTeamsController extends Backend
 
         $objSeason = HandballnetSeasonsModel::findById(
             $id,
-            ['eager' => true]
+            ['eager' => true],
         );
 
         try {
             $json = $this->handballnetApiClient->getClubTeamsData($objSeason->getRelated('handballnet_club_id')->handballnet_id, $objSeason->season_id);
         } catch (\Exception $e) {
             Message::addError($e->getMessage());
+
             return;
         }
 
@@ -62,7 +63,6 @@ class UpdateHandballnetTeamsController extends Backend
         $this->addSummaryMessages();
 
         $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams', 'table' => 'tl_hn_teams', 'id' => $id]));
-
     }
 
     public function updateTeams(): void
@@ -70,7 +70,7 @@ class UpdateHandballnetTeamsController extends Backend
         $objSeasons = HandballnetSeasonsModel::findBy(
             'is_active',
             true,
-            ['eager' => true]
+            ['eager' => true],
         );
 
         if (null === $objSeasons) {
@@ -155,15 +155,15 @@ class UpdateHandballnetTeamsController extends Backend
     private function addSummaryMessages(): void
     {
         if ($this->active_seasons > 0) {
-            Message::addConfirmation($this->active_seasons . ' aktive Saison(s) gefunden und aktualisiert.');
+            Message::addConfirmation($this->active_seasons.' aktive Saison(s) gefunden und aktualisiert.');
         }
 
         if ($this->new_teams > 0) {
-            Message::addConfirmation($this->new_teams . ' neue(s) Team(s) erstellt.');
+            Message::addConfirmation($this->new_teams.' neue(s) Team(s) erstellt.');
         }
 
         if ($this->existing_teams > 0) {
-            Message::addInfo($this->existing_teams . ' existierende(s) Team(s) aktualisiert.');
+            Message::addInfo($this->existing_teams.' existierende(s) Team(s) aktualisiert.');
         }
     }
 }

@@ -21,22 +21,22 @@ use Janborg\H4aTabellen\HandballNet\Verband;
 /**
  * Reads and writes handballnetTeams.
  *
- * @property int      $id
- * @property int      $pid
- * @property int      $tstamp
- * @property string   $saison
- * @property string   $team_logo
- * @property string   $team_group_id
- * @property string   $liga_shortname
- * @property string   $liga_name
- * @property string   $provider
- * @property string  $verband
- * @property string   $handballnet_team_id
- * @property string   $handballnet_tournament_id
- * @property string   $tournament_type
+ * @property int    $id
+ * @property int    $pid
+ * @property int    $tstamp
+ * @property string $saison
+ * @property string $team_logo
+ * @property string $team_group_id
+ * @property string $liga_shortname
+ * @property string $liga_name
+ * @property string $provider
+ * @property string $verband
+ * @property string $handballnet_team_id
+ * @property string $handballnet_tournament_id
+ * @property string $tournament_type
  * @property string $ageGroup
- * @property string   $my_team_name
- * @property bool     $is_active
+ * @property string $my_team_name
+ * @property bool   $is_active
  *
  * @method static HandballnetTeamsModel|null             findById($id, array $opt=array())
  * @method static HandballnetTeamsModel|null             findByPk($id, array $opt=array())
@@ -64,17 +64,17 @@ class HandballnetTeamsModel extends Model
      */
     protected static $strTable = 'tl_hn_teams';
 
-    public function getProvider(): ?Provider
+    public function getProvider(): Provider|null
     {
         return Provider::tryFrom($this->provider);
     }
 
-    public function getVerband(): ?Verband
+    public function getVerband(): Verband|null
     {
         return Verband::tryFrom($this->verband);
     }
 
-    public function getAgeGroup(): ?AgeGroup
+    public function getAgeGroup(): AgeGroup|null
     {
         return AgeGroup::tryFrom($this->age_group);
     }

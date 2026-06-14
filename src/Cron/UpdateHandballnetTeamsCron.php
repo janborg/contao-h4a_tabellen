@@ -37,7 +37,7 @@ class UpdateHandballnetTeamsCron
             'is_active',
             true,
             ['order' => 'season_id ASC',
-            'eager' => true],
+                'eager' => true],
         );
 
         if (null === $objSeasons) {
