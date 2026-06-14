@@ -81,6 +81,7 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
         'season_name' => [
             'exclude' => true,
             'sorting' => true,
+            'filter' => true,
             'inputType' => 'text',
             'eval' => ['maxlength' => 9, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NULL default ''",
@@ -101,8 +102,6 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
         'club_name' => [
             'inputType' => 'text',
             'exclude' => true,
-            'sorting' => true,
-            'filter' => true,
             'eval' => [
                 'mandatory' => true,
                 'maxlength' => 255,
