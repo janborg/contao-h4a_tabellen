@@ -38,6 +38,9 @@ class H4aEventAutomator extends Backend
         parent::__construct();
     }
 
+    /**
+     * @deprecated since 4.1.0 - will be removed in 5.0.0
+     */
     public function updateEvents(): void
     {
         $objCalendars = CalendarModel::findby(
@@ -58,6 +61,9 @@ class H4aEventAutomator extends Backend
         $this->redirect($this->getReferer());
     }
 
+    /**
+     * @deprecated since 4.1.0 - will be removed in 5.0.0
+     */
     public function updateArchive(): void
     {
         $id = [Input::get('id')];
