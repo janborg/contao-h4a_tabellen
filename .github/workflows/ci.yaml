@@ -22,7 +22,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install the dependencies
-        run: composer install --no-interaction --no-suggest
+        run: |
+          composer install --no-interaction --no-progress
+          composer dump-autoload --optimize
 
       - name: Check the coding style
         run: vendor/bin/ecs check src tests --config ecs.php --ansi --no-progress-bar
