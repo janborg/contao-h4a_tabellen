@@ -22,9 +22,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install the dependencies
-        run: |
-          composer install --no-interaction --no-progress
-          composer dump-autoload --optimize
+        run: composer install --no-interaction --no-progress --optimize-autoloader
 
       - name: Check the coding style
         run: vendor/bin/ecs check src tests --config ecs.php --ansi --no-progress-bar
@@ -44,7 +42,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install the dependencies
-        run: composer install --no-interaction --no-suggest
+        run: composer install --no-interaction --no-suggest --optimize-autoloader
 
       - name: Analyze the code
         run: vendor/bin/phpstan analyse src tests --configuration phpstan.neon --no-progress --ansi
@@ -64,7 +62,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install the dependencies
-        run: composer install --no-interaction --no-suggest
+        run: composer install --no-interaction --no-suggest --optimize-autoloader
 
       - name: Check the dependencies
         run: vendor/bin/composer-dependency-analyser --config=composer-dependency-analyser.php
@@ -88,7 +86,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install the dependencies
-        run: composer install --no-interaction --no-suggest
+        run: composer install --no-interaction --no-suggest --optimize-autoloader
 
       - name: Run the unit tests
         run: vendor/bin/phpunit --colors=always
