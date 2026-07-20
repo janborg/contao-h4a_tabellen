@@ -61,7 +61,7 @@ class H4aUpdateResultsCommand extends Command
         $this->io->info('Suche alle H4a-Events von heute oder früher ohne Ergebnis...');
 
         $objEvents = CalendarEventsModel::findby(
-            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameID != ?'],
+            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'handballnet_id != ?'],
             [date('Y-m-d'), true, ''],
         );
 
@@ -101,10 +101,8 @@ class H4aUpdateResultsCommand extends Command
                 continue;
             }
 
-            $id = $objEvent->provider.'.'.$objEvent->verband.'.'.$objEvent->gGameID;
-
             try {
-                $data = json_decode($this->handballnetApiClient->getGameSummaryData($id, false), true);
+                $data = json_decode($this->handballnetApiClient->getGameSummaryData($objEvent->handballnet_id, false), true);
             } catch (\Exception $e) {
                 $this->io->error($e->getMessage());
                 continue;

@@ -1,5 +1,19 @@
 # Changelog
 
+## [4.0.22](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.21...v4.0.22) (2026-05-16)
+
+
+### Bug Fixes
+
+* only try to update events with handballnet_id ([3c87b92](https://github.com/janborg/contao-h4a_tabellen/commit/3c87b9225e1926542bf94bca877a745e703e2d38))
+
+## [4.0.21](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.20...v4.0.21) (2026-05-16)
+
+
+### Bug Fixes
+
+* liga_name must not be mandatory ([13803f9](https://github.com/janborg/contao-h4a_tabellen/commit/13803f9b736dc0502961c2542925c2a91a8d0887))
+
 ## [4.0.19](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.18...v4.0.19) (2026-03-31)
 
 

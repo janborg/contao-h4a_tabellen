@@ -37,7 +37,7 @@ class UpdateH4aResultsController extends Backend
     public function updateResults(): void
     {
         $objEvents = CalendarEventsModel::findby(
-            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameID != ?'],
+            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'handballnet_id != ?'],
             [date('Y-m-d'), true, ''],
         );
 
@@ -55,10 +55,8 @@ class UpdateH4aResultsController extends Backend
                 continue;
             }
 
-            $id = $objEvent->provider.'.'.$objEvent->verband.'.'.$objEvent->gGameID;
-
             try {
-                $data = json_decode($this->handballnetApiClient->getGameSummaryData($id), true);
+                $data = json_decode($this->handballnetApiClient->getGameSummaryData($objEvent->handballnet_id), true);
             } catch (\Exception $e) {
                 Message::addError($e->getMessage());
                 continue;

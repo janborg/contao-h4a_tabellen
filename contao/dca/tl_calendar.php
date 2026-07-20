@@ -118,7 +118,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
     ['liga_name' => [
         'inputType' => 'text',
         'eval' => [
-            'mandatory' => true,
             'maxlength' => 255,
             'tl_class' => 'w50',
         ],

@@ -35,7 +35,7 @@ class UpdateH4aResultsCron
     public function updateResults(): void
     {
         $objEvents = CalendarEventsModel::findby(
-            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'gGameID != ?'],
+            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'handballnet_id != ?'],
             [date('Y-m-d'), true, ''],
             [
                 'eager' => true,
@@ -55,10 +55,8 @@ class UpdateH4aResultsCron
                 continue;
             }
 
-            $id = $objEvent->provider.'.'.$objEvent->verband.'.'.$objEvent->gGameID;
-
             try {
-                $data = json_decode($this->handballnetApiClient->getGameSummaryData($id), true);
+                $data = json_decode($this->handballnetApiClient->getGameSummaryData($objEvent->handballnet_id), true);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());
                 continue;
