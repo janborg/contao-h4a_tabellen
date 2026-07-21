@@ -10,16 +10,17 @@ declare(strict_types=1);
  * @license MIT
  */
 
-use Contao\DC_Table;
 use Contao\DataContainer;
-use Janborg\H4aTabellen\HandballNet\Verband;
+use Contao\DC_Table;
+use Janborg\H4aTabellen\HandballNet\AgeGroup;
 use Janborg\H4aTabellen\HandballNet\Provider;
+use Janborg\H4aTabellen\HandballNet\Verband;
 
 $GLOBALS['TL_DCA']['tl_hn_teams'] = [
     // Config
     'config' => [
         'dataContainer' => DC_Table::class,
-        'ptable' => 'tl_h4a_seasons',
+        'ptable' => 'tl_hn_seasons',
         'sql' => [
             'keys' => [
                 'id' => 'primary',
@@ -29,14 +30,14 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
     'list' => [
         'sorting' => [
             'mode' => DataContainer::MODE_PARENT,
-            'flag' => DataContainer::SORT_INITIAL_LETTER_DESC,
-            'headerFields' => ['hn_season', 'club_name', 'club_id'],
-            'fields' => ['liga_shortname'],
-            'panelLayout' => 'search;filter;limit',
+            'flag' => DataContainer::SORT_INITIAL_LETTERS_BOTH,
+            'headerFields' => ['club_name', 'season_name', 'handballnet_club_id'],
+            'fields' => ['verband'],
+            'panelLayout' => 'sort,filter;search,limit',
         ],
         'label' => [
-            'fields' => ['liga_shortname', 'team_id', 'liga_name'],
-            'format' => '%s (%s) | %s',
+            'fields' => ['age_group', 'team_group_id', 'liga_name'],
+            'format' => '%s (Team Group: %s) – %s',
         ],
         'global_operations' => [
             'all' => [
@@ -44,155 +45,209 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
                 'class' => 'header_edit_all',
                 'attributes' => 'onclick="Backend.getScrollOffset()" accesskey="e"',
             ],
+            'update_hn_teams' => [
+                'href' => 'key=update_hn_teams',
+                'icon' => 'bundles/janborgh4atabellen/refresh.svg',
+                'attributes' => 'onclick="Backend.getScrollOffset()"',
+                'primary' => true
+            ],
         ],
         'operations' => [
             'edit',
             'delete',
             'toggle' => [
-				'href'                => 'act=toggle&amp;field=is_active',
-				'icon'                => 'visible.svg',
-				'showInHeader'        => true
-			],
+                'href'    => 'act=toggle&amp;field=is_active',
+                'icon'    => 'bundles/janborgh4atabellen/refresh.svg',
+                'primary' => true,
+            ],
             'show',
         ],
     ],
     // Palettes
     'palettes' => [
-        'default' => '{title_legend},saison,provider,verband;{handballnet_tournament_legend},liga_shortname,liga_name,handballnet_tournament_id;{handballnet_team_legend},team_id,my_team_name,handballnet_team_id; {status_legend}, is_active',
+        'default' => '{title_legend},saison,provider,verband;
+                      {handballnet_team_legend},my_team_name,team_group_id,handballnet_team_id,team_logo;
+                      {handballnet_tournament_legend},liga_name,liga_shortname,handballnet_tournament_id,tournament_type,age_group;
+                      {status_legend},is_active',
     ],
     // Fields
     'fields' => [
         'id' => [
             'sql' => 'int(10) unsigned NOT NULL auto_increment',
         ],
-        'pid' => array(
-            'sql' => "int(10) unsigned NOT NULL default '0"
-        ),
+        'pid' => [
+            'sql' => "int(10) unsigned NOT NULL default '0'",
+        ],
         'tstamp' => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
         ],
         'saison' => [
             'inputType' => 'text',
-            'exclude' => true,
-            'sorting' => true,
-            'filter' => false,
+            'exclude'   => true,
             'eval' => [
                 'mandatory' => true,
-                'rgxp' => 'digit',
+                'rgxp'      => 'digit',
                 'maxlength' => 4,
-                'tl_class' => 'w50',
-                'readonly' => true,
+                'tl_class'  => 'w50',
+                'readonly'  => true,
             ],
-            'sql' => "varchar(4) unsigned NOT NULL default '0'",
-        ],
-        'team_id' => [
-            'inputType' => 'text',
-            'exclude' => true,
-            'sorting' => true,
-            'search' => true,
-            'eval' => [
-                'mandatory' => true,
-                'rgxp' => 'digit',
-                'maxlength' => 7,
-                'tl_class' => 'w50',
-            ],
-            'sql' => "varchar(10) unsigned NOT NULL default ''",
-        ],
-        'liga_shortname' => [
-            'inputType' => 'text',
-            'exclude' => true,
-            'sorting' => true,
-            'filter' => true,
-            'search' => true,
-            'eval' => [
-                'mandatory' => true,
-                'maxlength' => 20,
-                'tl_class' => 'w50',
-            ],
-            'sql' => "varchar(20) NOT NULL default ''",
-        ],
-        'liga_name' => [
-            'inputType' => 'text',
-            'exclude' => true,
-            'sorting' => true,
-            'filter' => true,
-            'search' => true,
-            'eval' => [
-                'mandatory' => true,
-                'maxlength' => 255,
-                'tl_class' => 'w50',
-            ],
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => "varchar(4) NOT NULL default '0'",
         ],
         'provider' => [
             'inputType' => 'select',
-            'exclude' => true,
-            'sorting' => true,
-            'filter' => true,
-            'enum' => Provider::class,
+            'exclude'   => true,
+            'enum'      => Provider::class,
             'eval' => [
-                'mandatory' => true,
-                'maxlength' => 255,
-                'tl_class' => 'w50 clr',
+                'mandatory'          => true,
+                'maxlength'          => 255,
+                'tl_class'           => 'w50 clr',
                 'includeBlankOption' => true,
-                'chosen' => true,
+                'chosen'             => true,
             ],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'verband' => [
             'inputType' => 'select',
-            'exclude' => true,
-            'sorting' => true,
-            'filter' => true,
-            'enum' => Verband::class,
+            'exclude'   => true,
+            'filter'    => true,
+            'enum'      => Verband::class,
             'eval' => [
-                'mandatory' => true,
-                'maxlength' => 255,
-                'tl_class' => 'w50',
+                'mandatory'          => true,
+                'maxlength'          => 255,
+                'tl_class'           => 'w50',
                 'includeBlankOption' => true,
-                'chosen' => true,
-            ],
-            'sql' => "varchar(255) NOT NULL default ''",
-        ],
-        'handballnet_team_id' => [
-            'inputType' => 'text',
-            'exclude' => true, 
-            'eval' => [
-                'maxlength' => 255,
-                'tl_class' => 'w50',
-            ],
-            'sql' => "varchar(255) NOT NULL default ''",
-        ],
-        'handballnet_tournament_id' => [
-            'inputType' => 'text',
-            'exclude' => true, 
-            'eval' => [
-                'maxlength' => 255,
-                'tl_class' => 'w50',
+                'chosen'             => true,
             ],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
 
+        // === Team-Daten aus handball.net API ===
+
+        'handballnet_team_id' => [
+            'inputType' => 'text',
+            'exclude'   => true,
+            'search'    => true,
+            'eval' => [
+                'maxlength' => 255,
+                'tl_class'  => 'w50 clr',
+                'readonly'  => true,
+            ],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'team_logo' => [
+            // API: data[].logo
+            'inputType' => 'text',
+            'exclude'   => true,
+            'eval' => [
+                'maxlength' => 500,
+                'tl_class'  => 'w50',
+                'readonly'  => true,
+            ],
+            'sql' => "varchar(500) NOT NULL default ''",
+        ],
+        'team_group_id' => [
+            // API: data[].teamGroupId
+            'inputType' => 'text',
+            'exclude'   => true,
+            'sorting'   => true,
+            'filter'    => true,
+            'eval' => [
+                'rgxp'     => 'digit',
+                'maxlength' => 20,
+                'tl_class'  => 'w50',
+                'readonly'  => true,
+            ],
+            'sql' => "varchar(20) NOT NULL default ''",
+        ],
+
+        // === Tournament-Daten aus handball.net API ===
+
+        'handballnet_tournament_id' => [
+            // API: data[].defaultTournament.id
+            'inputType' => 'text',
+            'exclude'   => true,
+            'search'    => true,
+            'eval' => [
+                'maxlength' => 255,
+                'tl_class'  => 'w50 clr',
+                'readonly'  => true,
+            ],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'liga_name' => [
+            // API: data[].defaultTournament.name
+            'inputType' => 'text',
+            'exclude'   => true,
+            'sorting'   => true,
+            'search'    => true,
+            'eval' => [
+                'maxlength' => 255,
+                'tl_class'  => 'w50',
+                'readonly'  => true,
+            ],
+            'sql' => "varchar(255) NOT NULL default ''",
+        ],
+        'liga_shortname' => [
+            // API: data[].defaultTournament.acronym
+            'inputType' => 'text',
+            'exclude'   => true,
+            'sorting'   => true,
+            'search'    => true,
+            'eval' => [
+                'maxlength' => 60,
+                'tl_class'  => 'w50',
+                'readonly'  => true,
+            ],
+            'sql' => "varchar(60) NOT NULL default ''",
+        ],
+        'tournament_type' => [
+            // API: data[].defaultTournament.tournamentType  z.B. "League"
+            'inputType' => 'text',
+            'exclude'   => true,
+            'filter'    => true,
+            'sorting'   => true,
+            'eval' => [
+                'maxlength' => 50,
+                'tl_class'  => 'w50',
+                'readonly'  => true,
+            ],
+            'sql' => "varchar(50) NOT NULL default ''",
+        ],
+        'age_group' => [
+            // API: data[].defaultTournament.ageGroup  z.B. "Men", "Women", "AYouth" ...
+            'inputType' => 'select',
+            'exclude'   => true,
+            'sorting'   => true,
+            'filter'    => true,
+            'enum'      => AgeGroup::class,
+            'eval' => [
+                'maxlength' => 50,
+                'tl_class'  => 'w50',
+                'includeBlankOption' => true,
+                'chosen'             => true,
+            ],
+            'sql' => "varchar(50) NOT NULL default ''",
+        ],
+
+        // === Eigene Felder ===
+
         'my_team_name' => [
             'inputType' => 'text',
-            'exclude' => true,
-            'sorting' => true,
-            'filter' => true,
+            'exclude'   => true,
             'eval' => [
                 'mandatory' => true,
                 'maxlength' => 255,
-                'tl_class' => 'w50',
+                'tl_class'  => 'w50',
             ],
             'sql' => "varchar(255) NOT NULL default ''",
-        ], 
-        'is_active' => [
-            'toggle' => true,
-            'exclude' => true,
-            'filter' => true,
-            'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50 m12'],
-            'sql' => "char(1) NOT NULL default ''",
         ],
-   
+        'is_active' => [
+            'toggle'    => true,
+            'exclude'   => true,
+            'filter'    => true,
+            'inputType' => 'checkbox',
+            'eval'      => ['tl_class' => 'w50 m12'],
+            'sql'       => ['type' => 'boolean', 'default' => false],
+        ],
     ],
 ];

@@ -54,14 +54,34 @@ services:
                 method: updateEvents
                 priority: 10
 
+    h4atabellen.cron.updatehandballnetseasons:
+        class: Janborg\H4aTabellen\Cron\UpdateHandballnetSeasonsCron
+        arguments:
+            - '@contao.framework'
+            - '@h4atabellen.handballnet.apiclient'
+            - '@?monolog.logger.contao.cron'
+        tags:
+            -
+                name: contao.cronjob
+                interval: 'daily'
+                method: updateHandballnetSeasons
+                priority: 20
+
     h4atabellen.cron.updatehandballnetteams:
         class: Janborg\H4aTabellen\Cron\UpdateHandballnetTeamsCron
         arguments:
             - '@contao.framework'
             - '@h4atabellen.handballnet.apiclient'
             - '@event_dispatcher'
+            - '@h4atabellen.handballnet.handballnetteamsparser'
             - '@?monolog.logger.contao.cron'
-    
+        tags:
+            -
+                name: contao.cronjob
+                interval: 'daily'
+                method: updateHandballnetTeams
+                priority: 10
+
     h4atabellen.crawler.reportnocrawler:
         class: Janborg\H4aTabellen\Crawler\H4aReportNoCrawler
         public: true
@@ -76,3 +96,6 @@ services:
             - 'https://www.handball.net/a/sportdata/1/'
             - '%janborg_h4a_tabellen.handballnet_cache_ttl%'
 
+    h4atabellen.handballnet.handballnetteamsparser:
+        class: Janborg\H4aTabellen\HandballNet\Parser\HandballnetTeamsParser
+        public: true

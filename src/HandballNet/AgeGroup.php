@@ -15,17 +15,23 @@ namespace Janborg\H4aTabellen\HandballNet;
 use Contao\CoreBundle\Translation\TranslatableLabelInterface;
 use Symfony\Component\Translation\TranslatableMessage;
 
-enum Provider: string implements TranslatableLabelInterface
+enum AgeGroup: string implements TranslatableLabelInterface
 {
-    case HANDBALL4ALL = 'handball4all';
-    case NULIGA = 'nuliga';
-    case SPORTRADAR = 'sportradar';
-    case SR = 'sr';
+    case MEN = 'Men';
+    case WOMEN = 'Women';
+    case AYOUTH = 'AYouth';
+    case BYOUTH = 'BYouth';
+    case CYOUTH = 'CYouth';
+    case DYOUTH = 'DYouth';
+    case EYOUTH = 'EYouth';
+    case FYOUTH = 'FYouth';
+    case MINIS = 'Minis';
+    case SENIORS = 'Seniors';
 
     public function label(): TranslatableMessage
     {
         return new TranslatableMessage(
-            'provider.label.'.$this->value,
+            'agegroup.label.'.$this->value,
             [],
             'handballnet',
         );

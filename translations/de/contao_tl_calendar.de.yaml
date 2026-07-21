@@ -58,3 +58,7 @@ tl_calendar:
     liga_shortname:
         0: Liga Kurzbezeichnung
         1: Kurzname der Liga
+
+    liga_name:
+        0: Liga Name
+        1: Ausführlicher Name der Liga

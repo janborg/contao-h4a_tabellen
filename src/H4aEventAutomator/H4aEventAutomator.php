@@ -20,7 +20,7 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Input;
 use Contao\StringUtil;
 use Janborg\H4aTabellen\HandballnetApiClient;
-use Janborg\H4aTabellen\Model\H4aSeasonModel;
+use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -79,7 +79,7 @@ class H4aEventAutomator extends Backend
         $arrSeasons = unserialize($objCalendar->h4a_seasons);
 
         foreach ($arrSeasons as $arrSeason) {
-            $seasonID = H4aSeasonModel::findById($arrSeason['h4a_saison'])->id;
+            $seasonID = HandballnetSeasonsModel::findById($arrSeason['h4a_saison'])->id;
 
             try {
                 $data = json_decode($this->handballnetApiClient->getTeamScheduleData($arrSeason['handballnet_id']), true);

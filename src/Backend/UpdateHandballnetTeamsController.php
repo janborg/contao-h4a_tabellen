@@ -14,9 +14,12 @@ namespace Janborg\H4aTabellen\Backend;
 
 use Contao\Backend;
 use Contao\BackendUser;
+use Contao\Input;
 use Contao\Message;
+use Janborg\H4aTabellen\HandballNet\DataTransferObject\TeamDto;
+use Janborg\H4aTabellen\HandballNet\Parser\HandballnetTeamsParser;
 use Janborg\H4aTabellen\HandballnetApiClient;
-use Janborg\H4aTabellen\Model\H4aSeasonModel;
+use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -25,6 +28,7 @@ class UpdateHandballnetTeamsController extends Backend
     public function __construct(
         private HandballnetApiClient $handballnetApiClient,
         private UrlGeneratorInterface $urlGenerator,
+        private HandballnetTeamsParser $teamsParser,
         private int $new_teams = 0,
         private int $existing_teams = 0,
         private int $active_seasons = 0,
@@ -33,11 +37,40 @@ class UpdateHandballnetTeamsController extends Backend
         $this->import(BackendUser::class, 'User');
     }
 
+    public function updateTeamsForClubSeason(): void
+    {
+        $id = Input::get('id');
+
+        $objSeason = HandballnetSeasonsModel::findById(
+            $id,
+            ['eager' => true],
+        );
+
+        try {
+            $json = $this->handballnetApiClient->getClubTeamsData($objSeason->getRelated('handballnet_club_id')->handballnet_id, $objSeason->season_id);
+        } catch (\Exception $e) {
+            Message::addError($e->getMessage());
+
+            return;
+        }
+
+        $teams = $this->teamsParser->parseClubTeams($json);
+
+        foreach ($teams as $team) {
+            $this->processTeam($team, $objSeason);
+        }
+
+        $this->addSummaryMessages();
+
+        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams', 'table' => 'tl_hn_teams', 'id' => $id]));
+    }
+
     public function updateTeams(): void
     {
-        $objSeasons = H4aSeasonModel::findBy(
-            ['is_active = ?'],
-            [true],
+        $objSeasons = HandballnetSeasonsModel::findBy(
+            'is_active',
+            true,
+            ['eager' => true],
         );
 
         if (null === $objSeasons) {
@@ -48,54 +81,79 @@ class UpdateHandballnetTeamsController extends Backend
         $this->active_seasons = $objSeasons->count();
 
         foreach ($objSeasons as $season) {
-            $id = $season->provider.'.'.$season->verband.'.'.$season->club_id;
-
             try {
-                $data = json_decode($this->handballnetApiClient->getClubTeamsData($id, $season->hn_season), true);
+                $json = $this->handballnetApiClient->getClubTeamsData($season->getRelated('handballnet_club_id')->handballnet_id, $season->season_id);
             } catch (\Exception $e) {
                 Message::addError($e->getMessage());
                 continue;
             }
 
-            foreach ($data['data'] as $team) {
-                $handballnetTeam = HandballnetTeamsModel::findBy(
-                    ['handballnet_team_id=?'],
-                    [$team['id']],
-                );
+            $teams = $this->teamsParser->parseClubTeams($json);
 
-                // skip teams that already exist
-                if ($handballnetTeam) {
-                    // update existing team
-                    $handballnetTeamsModel = $handballnetTeam;
-                    ++$this->existing_teams;
-                } else {
-                    // create new team
-                    $handballnetTeamsModel = new HandballnetTeamsModel();
-                    ++$this->new_teams;
-                }
-
-                $teamIdParts = explode('.', $team['id']);
-
-                $handballnetTeamsModel->pid = $season->id;
-                $handballnetTeamsModel->saison = $season->hn_season;
-
-                $handballnetTeamsModel->provider = $teamIdParts[0];
-                $handballnetTeamsModel->verband = $teamIdParts[1];
-
-                $handballnetTeamsModel->liga_shortname = $team['defaultTournament']['acronym'];
-                $handballnetTeamsModel->liga_name = $team['defaultTournament']['name'];
-                $handballnetTeamsModel->handballnet_tournament_id = $team['defaultTournament']['id'];
-
-                $handballnetTeamsModel->team_id = $teamIdParts[2];
-                $handballnetTeamsModel->handballnet_team_id = $team['id'];
-                $handballnetTeamsModel->my_team_name = $team['name'];
-                $handballnetTeamsModel->is_active = true;
-                $handballnetTeamsModel->tstamp = time();
-
-                $handballnetTeamsModel->save();
+            foreach ($teams as $team) {
+                $this->processTeam($team, $season);
             }
         }
 
+        $this->addSummaryMessages();
+
+        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams']));
+    }
+
+    /**
+     * Undocumented function.
+     */
+    private function processTeam(TeamDto $dto, object $season): void
+    {
+        if (null === $dto->ageGroup) {
+            Message::addError(\sprintf(
+                'Unbekannte Altersgruppe bei Team %s (%s)',
+                $dto->id,
+                $dto->name,
+            ));
+        }
+
+        $model = $this->findOrCreate($dto->id);
+
+        $model->pid = $season->id;
+        $model->saison = $season->season_id;
+
+        $model->provider = $dto->provider->value;
+        $model->verband = $dto->verband->value;
+        $model->age_group = $dto->ageGroup->value ?? '';
+
+        $model->handballnet_team_id = $dto->id;
+        $model->my_team_name = $dto->name;
+        $model->team_group_id = $dto->teamGroupId;
+
+        $model->liga_name = $dto->tournamentName;
+        $model->liga_shortname = $dto->tournamentAcronym;
+        $model->handballnet_tournament_id = $dto->tournamentId;
+        $model->tournament_type = $dto->tournamentType;
+
+        $model->tstamp = time();
+        $model->save();
+    }
+
+    private function findOrCreate(string $externalId): HandballnetTeamsModel
+    {
+        $existing = HandballnetTeamsModel::findOneBy('handballnet_team_id', $externalId);
+
+        if ($existing) {
+            ++$this->existing_teams;
+
+            return $existing;
+        }
+
+        $model = new HandballnetTeamsModel();
+        $model->is_active = true;
+        ++$this->new_teams;
+
+        return $model;
+    }
+
+    private function addSummaryMessages(): void
+    {
         if ($this->active_seasons > 0) {
             Message::addConfirmation($this->active_seasons.' aktive Saison(s) gefunden und aktualisiert.');
         }
@@ -103,10 +161,9 @@ class UpdateHandballnetTeamsController extends Backend
         if ($this->new_teams > 0) {
             Message::addConfirmation($this->new_teams.' neue(s) Team(s) erstellt.');
         }
+
         if ($this->existing_teams > 0) {
             Message::addInfo($this->existing_teams.' existierende(s) Team(s) aktualisiert.');
         }
-
-        $this->redirect($this->urlGenerator->generate('contao_backend', ['do' => 'handballnet_teams']));
     }
 }

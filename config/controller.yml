@@ -50,8 +50,15 @@ services:
             - '@h4atabellen.h4aeventautomator'
             - '@router'
 
+    Janborg\H4aTabellen\Backend\UpdateHandballnetClubSeasonsController:
+        public: true
+        arguments:
+            - '@h4atabellen.handballnet.apiclient'
+            - '@router'
+
     Janborg\H4aTabellen\Backend\UpdateHandballnetTeamsController:
         public: true
         arguments:
             - '@h4atabellen.handballnet.apiclient'
             - '@router'
+            - '@h4atabellen.handballnet.handballnetteamsparser'

@@ -9,7 +9,9 @@ tl_hn_teams:
     toggle: 
       0: Automatische Updates für Team %s aktivieren/deaktivieren
       1: Automatische Updates für Team %s Team deaktivieren
-      2: Automatische Updates für Team %s Team aktivieren 
+      2: Automatische Updates für Team %s Team aktivieren
+      3: Team Updates deaktivieren
+      4: Teams Updates aktivieren 
 
     # Legends
     title_legend: Handball.net Team Einstellungen 
@@ -53,3 +55,19 @@ tl_hn_teams:
     my_team_name:
       0: Mein Team
       1: Name des Teams, um es per css hervorzuheben
+
+    age_group:
+      0: Altergruppe
+      1: Altergruppe, in der das Tournament ausgetragen wird
+
+    team_group_id:
+      0: Team Gruppen ID
+      1: 
+
+    team_logo:
+      0: Team Logo
+      1: 
+
+    tournament_type:
+      0: Tournament Art
+      1: 

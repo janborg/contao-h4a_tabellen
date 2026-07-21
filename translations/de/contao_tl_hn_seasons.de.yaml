@@ -1,8 +1,16 @@
-tl_h4a_seasons:
+tl_hn_seasons:
   # Global Operations
   update_hn_teams: 
     0: Update Teams
     1: Update Teams über handball.net
+
+  update_hn_clubs: 
+    0: Update Clubsaisons
+    1: Update Clubsaisons über handball.net
+
+  manage_clubs:
+    0: Clubs 
+    1: Clubs verwalten
 
   # Operations
   edit: Saison %s bearbeiten
@@ -13,22 +21,24 @@ tl_h4a_seasons:
     0: Automatische Updates für Saison %s aktivieren/deaktivieren
     1: Automatische Updates für Saison %s deaktivieren
     2: Automatische Updates für Saison %s aktivieren
+    3: Updates deaktivieren
+    4: Updates aktivieren
 
   # Legends
   title_legend: Saison Settings
   status_legend: Status Settings
   # Fields
-  season:
-    0: Saison Name
+  season_name:
+    0: Saison
     1: Bezeichnung der Saison, z.Bsp. "2024/2025"
 
-  hn_season:
+  season_id:
     0: Saison (handball.net)
     1: Jahr der Saison auf handball.net (2024 für 2024/2025)
   
-  club_id:
+  handballnet_club_id:
     0: Club ID
-    1: ID des Clubs auf handball.net (z.Bsp. 1234 für den Club mit der ID 1234)
+    1: ID des Clubs auf handball.net (z.Bsp. handball4all.wuerttemberg.1234)
 
   club_name:
     0: Club Name

@@ -15,17 +15,16 @@ namespace Janborg\H4aTabellen\HandballNet;
 use Contao\CoreBundle\Translation\TranslatableLabelInterface;
 use Symfony\Component\Translation\TranslatableMessage;
 
-enum Provider: string implements TranslatableLabelInterface
+enum Gender: string implements TranslatableLabelInterface
 {
-    case HANDBALL4ALL = 'handball4all';
-    case NULIGA = 'nuliga';
-    case SPORTRADAR = 'sportradar';
-    case SR = 'sr';
+    case MALE = 'Male';
+    case FEMALE = 'Female';
+    case MIXED = 'Mixed';
 
     public function label(): TranslatableMessage
     {
         return new TranslatableMessage(
-            'provider.label.'.$this->value,
+            'gender.label.'.$this->value,
             [],
             'handballnet',
         );

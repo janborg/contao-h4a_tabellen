@@ -3,11 +3,12 @@ provider:
     handball4all: Handball4All
     nuliga: NuLiga
     sportradar: Sportradar
+    sr: SR (Sportradar)
 verband:
   label:
     baden: Badischer Handball-Verband
     baden-wuerttemberg: Handball Baden-Württemberg
-    ol-baden-wuerttemberg: OL Baden-Württemberg
+    ol-baden-wuerttemberg: Oberligen Baden-Württemberg
     hamburg: Hamurger Handball-Verband
     pfalz: Pfälzer Handball-Verband
     rheinhessen: Handball-Verband Rheinhessen
@@ -26,3 +27,22 @@ verband:
     hvs: Handball-Verband Sachsen
     thv: Thüringer Handball-Verband
     hnr: Handball Nordrhein
+    ol-hamburg-schleswig-holstein: Oberligen Hamburg/Schleswig-Holstein
+    dhbdata: DHB
+agegroup:
+  label:
+    Men: Männer
+    Women: Frauen
+    AYouth: A-Jugend
+    BYouth: B-Jugend
+    CYouth: C-Jugend
+    DYouth: D-Jugend
+    EYouth: E-Jugend
+    FYouth: F-Jugend
+    Minis: Minis
+    Seniors: Senioren
+gender:
+  label:
+    Male: männlich
+    Female: weilblich
+    Mixed: gemischt

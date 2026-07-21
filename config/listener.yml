@@ -32,3 +32,21 @@ services:
         class: Janborg\H4aTabellen\EventListener\DataContainer\HandballnetTournamentIdOptionsCallback   
         arguments:
             - '@request_stack'
+
+    h4atabellen.calendar.handballnetseason.options.callback:
+        class: Janborg\H4aTabellen\EventListener\DataContainer\HandballnetSeasonOptionsCallback
+        arguments:
+            - '@request_stack'
+
+    h4atabellen.clubs.check_handballnet_id.callback:
+        class: Janborg\H4aTabellen\EventListener\DataContainer\HandballnetCheckClubIdCallback
+        arguments:
+            - '@h4atabellen.handballnet.apiclient'
+            - '@request_stack'
+    
+    h4atabellen.clubs.fill_handballnet_data.callback:
+        class: Janborg\H4aTabellen\EventListener\DataContainer\HandballnetFillClubDataCallback
+        arguments:
+            - '@h4atabellen.handballnet.apiclient'
+            - '@request_stack'
+    
