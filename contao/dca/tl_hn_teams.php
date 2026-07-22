@@ -194,11 +194,11 @@ $GLOBALS['TL_DCA']['tl_hn_teams'] = [
             'sorting'   => true,
             'search'    => true,
             'eval' => [
-                'maxlength' => 60,
+                'maxlength' => 255,
                 'tl_class'  => 'w50',
                 'readonly'  => true,
             ],
-            'sql' => "varchar(60) NOT NULL default ''",
+            'sql' => "varchar(255) NOT NULL default ''",
         ],
         'tournament_type' => [
             // API: data[].defaultTournament.tournamentType  z.B. "League"
