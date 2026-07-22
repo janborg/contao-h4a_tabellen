@@ -264,7 +264,7 @@ class H4aEventAutomator extends Backend
                     $objEvent->sGID = $params['sGID'] ?? '';
                     $objEvent->published = true;
 
-                    if ('Post' === $arrSpiel['data']['state']) {
+                    if ('Post' === $arrSpiel['state']) {
                         $objEvent->h4a_resultComplete = true;
                         $objEvent->gHomeGoals = $arrSpiel['homeGoals'] ?? '';
                         $objEvent->gGuestGoals = $arrSpiel['awayGoals'] ?? '';
