@@ -28,13 +28,13 @@ class HandballnetTeamIdOptionsCallback
     {
         $options = [];
 
-        if (!isset($dc->activeRecord->handballnet_saison) || !$dc->activeRecord->handballnet_saison) {
+        if (!isset($dc->activeRecord->handballnet_season) || !$dc->activeRecord->handballnet_season) {
             return $options;
         }
 
         $teams = HandballnetTeamsModel::findBy(
             ['pid=?'],
-            [$dc->activeRecord->handballnet_saison],
+            [$dc->activeRecord->handballnet_season],
             ['order' => 'liga_shortname ASC'],
         );
 
