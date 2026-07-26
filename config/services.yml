@@ -16,16 +16,6 @@ services:
             - '@h4atabellen.handballnet.apiclient'
             - '@?monolog.logger.contao.general'
     
-    h4atabellen.h4aapihelper:
-        class: Janborg\H4aTabellen\Helper\H4aApiHelper
-        arguments:
-            - 'https://api.h4a.mobi/spo/spo-proxy_public.php'
-            - '@http_client'
-            - '@cache.app'
-            - '@?monolog.logger.contao.general'
-            - '%janborg_h4a_tabellen.h4aCacheTtl%'
-        public: true
-    
     h4atabellen.cron.updateresults:
         class: Janborg\H4aTabellen\Cron\UpdateH4aResultsCron
         arguments:
