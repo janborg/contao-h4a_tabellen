@@ -2,18 +2,6 @@ services:
     _defaults:
         autoconfigure: true
 
-    Janborg\H4aTabellen\Controller\ContentElement\H4aSpielplanElement: 
-        public: true
-        arguments:
-            - '@contao.routing.scope_matcher'
-            - '@h4atabellen.h4aapihelper'
-
-    Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement: 
-        public: true
-        arguments:
-            - '@contao.routing.scope_matcher'
-            - '@h4atabellen.h4aapihelper'
-
     Janborg\H4aTabellen\Controller\ContentElement\HandballnetSpielplanElement: 
         public: true
         arguments:
