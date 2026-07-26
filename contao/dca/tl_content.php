@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 use Janborg\H4aTabellen\HandballNet\Verband;
 use Janborg\H4aTabellen\HandballNet\Provider;
-use Janborg\H4aTabellen\Controller\ContentElement\H4aTabelleElement;
-use Janborg\H4aTabellen\Controller\ContentElement\H4aSpielplanElement;
 use Janborg\H4aTabellen\Controller\ContentElement\HandballnetTabelleElement;
 use Janborg\H4aTabellen\Controller\ContentElement\HandballnetSpielplanElement;
 
@@ -29,8 +27,6 @@ use Janborg\H4aTabellen\Controller\ContentElement\HandballnetSpielplanElement;
  * Palettes
  */
 
-$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aTabelleElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_liga_ID, my_team_name;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
-$GLOBALS['TL_DCA']['tl_content']['palettes'][H4aSpielplanElement::TYPE] = '{type_legend},type,headline;{h4a_legend},h4a_team_ID, my_team_name;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
 $GLOBALS['TL_DCA']['tl_content']['palettes'][HandballnetSpielplanElement::TYPE] = '{type_legend,type,headline;{handballnet_legend},handballnet_saison,handballnet_team_id;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
 $GLOBALS['TL_DCA']['tl_content']['palettes'][HandballnetTabelleElement::TYPE] ='{type_legend,type,headline;{handballnet_legend},handballnet_saison,handballnet_tournament_id;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
 
