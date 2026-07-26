@@ -18,7 +18,6 @@
     ],
     "require": {
         "php": "^8.3",
-        "ext-curl": "*",
         "contao/core-bundle": "^5.3",
         "contao/calendar-bundle": "^5.3",
         "codefog/contao-haste": "^5.0",
@@ -27,7 +26,6 @@
         "symfony/config": "^6.0 || ^7.0",
         "symfony/console": "^6.0 || ^7.0",
         "symfony/dependency-injection": "^6.0 || ^7.0",
-        "symfony/dom-crawler": "^6.0 || ^7.0",
         "symfony/http-foundation": "^6.0 || ^7.0",
         "symfony/http-kernel": "^6.0 || ^7.0",
         "symfony/translation": "^6.0 || ^7.0",
