@@ -1,7 +1,7 @@
 on:
     push:
         branches:
-            - 4.x
+            - 5.x
     workflow_dispatch:
 
 permissions:
@@ -19,6 +19,6 @@ jobs:
               id: release-please-action
               with:
                   release-type: simple
-                  target-branch: 4.x
+                  target-branch: 5.x
                   manifest-file: .github/.release-please-manifest.json
                   token: ${{ secrets.GITHUB_TOKEN }}
