@@ -79,14 +79,12 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
         ],
         'season' => [
             'label' => &$GLOBALS['TL_LANG']['tl_h4a_seasons']['season'],
-            'exclude' => true,
             'sorting' => true,
             'inputType' => 'text',
             'eval' => ['maxlength' => 9, 'tl_class' => 'w50'],
             'sql' => "varchar(255) NULL default ''",
         ],
         'hn_season' => [
-            'exclude' => true,
             'sorting' => true,
             'inputType' => 'text',
             'eval' => [
@@ -100,7 +98,6 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
         ],
         'club_id' => [
             'inputType' => 'text',
-            'exclude' => true,
             'eval' => [
                 'mandatory' => true,
                 'rgxp' => 'digit',
@@ -112,7 +109,6 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
         ],
         'club_name' => [
             'inputType' => 'text',
-            'exclude' => true,
             'sorting' => true,
             'filter' => true,
             'eval' => [
@@ -124,7 +120,6 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
         ], 
         'provider' => [
             'inputType' => 'select',
-            'exclude' => true,
             'sorting' => true,
             'filter' => true,
             'enum' => Provider::class,
@@ -139,7 +134,6 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
         ],
         'verband' => [
             'inputType' => 'select',
-            'exclude' => true,
             'sorting' => true,
             'filter' => true,
             'enum' => Verband::class,
@@ -154,7 +148,6 @@ $GLOBALS['TL_DCA']['tl_h4a_seasons'] = [
         ],
         'is_active' => [
             'toggle' => true,
-            'exclude' => true,
             'filter' => true,
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
