@@ -76,7 +76,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['subpalettes'] = array_merge(
 $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
     ['h4a_imported' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_imported'],
-        'exclude' => true,
         'filter' => true,
         'inputType' => 'checkbox',
         'eval' => ['submitOnChange' => true],
@@ -84,7 +83,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
     ]],
     ['h4a_seasons' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_saison'],
-        'exclude' => false,
         'inputType' => 'group',
         'palette' => ['h4a_saison', 'handballnet_id', 'liga_shortname', 'liga_name', 'provider', 'verband'],
         'sql' => 'blob NULL',
@@ -147,7 +145,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields'] = array_merge(
     ['h4aEvents_author' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4aEvents_author'],
         'default' => BackendUser::getInstance()->id,
-        'exclude' => true,
         'filter' => true,
         'sorting' => true,
         'flag' => 1,

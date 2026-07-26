@@ -79,7 +79,6 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
             'sql' => "int(10) unsigned NOT NULL default '0'",
         ],
         'season_name' => [
-            'exclude' => true,
             'sorting' => true,
             'filter' => true,
             'inputType' => 'text',
@@ -87,7 +86,6 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
             'sql' => "varchar(255) NULL default ''",
         ],
         'season_id' => [
-            'exclude' => true,
             'sorting' => true,
             'inputType' => 'text',
             'eval' => [
@@ -101,7 +99,6 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
         ],
         'club_name' => [
             'inputType' => 'text',
-            'exclude' => true,
             'eval' => [
                 'mandatory' => true,
                 'maxlength' => 255,
@@ -122,7 +119,6 @@ $GLOBALS['TL_DCA']['tl_hn_seasons'] = [
         ],
         'is_active' => [
             'toggle' => true,
-            'exclude' => true,
             'filter' => true,
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
