@@ -24,21 +24,30 @@ class HandballnetSeasonOptionsCallback
      * @return array<int, string>
      */
     #[AsCallback(table: 'tl_calendar', target: 'fields.h4a_saison.options')]
+    #[AsCallback(table: 'tl_content', target: 'fields.handballnet_season.options')]
     public function getHandballnetSeasonOptions(DataContainer $dc): array
     {
         $options = [];
 
-        $seaons = HandballnetSeasonsModel::findBy(
-            ['is_active=?'],
-            [true],
+        if (isset($dc->activeRecord->handballnet_club)) {
+            $arrCol = ['pid=?', 'is_active=?'];
+            $arrVal = [$dc->activeRecord->handballnet_club, true];
+        } else {
+            $arrCol = ['is_active=?'];
+            $arrVal = [true];
+        }
+
+        $seasons = HandballnetSeasonsModel::findBy(
+            $arrCol,
+            $arrVal,
             ['order' => 'season_name DESC'],
         );
 
-        if (null === $seaons) {
+        if (null === $seasons) {
             return $options;
         }
 
-        foreach ($seaons as $season) {
+        foreach ($seasons as $season) {
             $options[$season->id] = \sprintf(
                 '%s - %s',
                 $season->season_name,

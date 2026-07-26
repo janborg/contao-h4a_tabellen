@@ -17,7 +17,11 @@ tl_content:
     0: Verein ID
     1: Bitte geben Sie die ID des Vereins (www.handball4all.de) ein
 
-  handballnet_saison:
+  handballnet_club:
+    0: Club
+    1: Wähle den Club aus
+
+  handballnet_season:
     0: Saison
     1: Wähle die Saison aus
 

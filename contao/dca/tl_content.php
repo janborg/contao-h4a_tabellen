@@ -27,18 +27,39 @@ use Janborg\H4aTabellen\Controller\ContentElement\HandballnetSpielplanElement;
  * Palettes
  */
 
-$GLOBALS['TL_DCA']['tl_content']['palettes'][HandballnetSpielplanElement::TYPE] = '{type_legend,type,headline;{handballnet_legend},handballnet_saison,handballnet_team_id;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
-$GLOBALS['TL_DCA']['tl_content']['palettes'][HandballnetTabelleElement::TYPE] ='{type_legend,type,headline;{handballnet_legend},handballnet_saison,handballnet_tournament_id;{template_legend:hide},customTpl;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][HandballnetSpielplanElement::TYPE] = '
+    {type_legend},type,headline;
+    {handballnet_legend},handballnet_club,handballnet_season,handballnet_team_id;
+    {template_legend:hide},customTpl;
+    {expert_legend:hide},cssID
+';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][HandballnetTabelleElement::TYPE] ='
+    {type_legend},type,headline;
+    {handballnet_legend},handballnet_club,handballnet_season,handballnet_tournament_id;
+    {template_legend:hide},customTpl;
+    {expert_legend:hide},cssID
+';
 
 /*
  * Fields
  */
 
-$GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_saison'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['handballnet_saison'],
-    'inputType' => 'select',
-    'foreignKey' => 'tl_h4a_seasons.season',
+$GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_club'] = [
+    'foreignKey' => 'tl_hn_clubs.name',
     'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
+    'inputType' => 'select',
+    'eval' => [
+        'mandatory' => true,
+        'tl_class' => 'w50',
+        'includeBlankOption' => true,
+        'chosen' => true,
+        'submitOnChange' => true,
+    ],
+    'sql' => "varchar(10) NOT NULL default ''",
+];
+
+$GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_season'] = [
+    'inputType' => 'select',
     'eval' => [
         'mandatory' => true,
         'tl_class' => 'w50',
@@ -49,7 +70,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_saison'] = [
     'sql' => "varchar(10) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_liga_ID'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['h4a_liga_ID'],
     'inputType' => 'text',
     'eval' => [
         'mandatory' => true,
@@ -61,7 +81,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_liga_ID'] = [
     'sql' => "varchar(255) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_team_ID'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['h4a_team_ID'],
     'inputType' => 'text',
     'eval' => [
         'mandatory' => true,
@@ -73,7 +92,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_team_ID'] = [
     'sql' => "varchar(255) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_content']['fields']['h4a_verein_ID'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['h4a_verein_ID'],
     'inputType' => 'text',
     'eval' => [
         'mandatory' => true,
@@ -124,7 +142,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['verband'] = [
     'sql' => "varchar(255) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_content']['fields']['team_id'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['team_id'],
     'inputType' => 'text',
     'eval' => [
         'mandatory' => true,
@@ -135,7 +152,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['team_id'] = [
     'sql' => "varchar(10) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_team_id'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_content']['handballnet_team_id'],
     'inputType' => 'select',
     'eval' => [
         'mandatory' => true,
@@ -146,7 +162,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_team_id'] = [
     'sql' => "varchar(255) NOT NULL default ''",
 ];
 $GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_tournament_id'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_calendar']['handballnet_id'],
     'inputType' => 'select',
     'eval' => [
         'mandatory' => false,

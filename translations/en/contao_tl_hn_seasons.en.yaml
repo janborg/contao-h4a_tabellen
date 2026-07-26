@@ -1,0 +1,56 @@
+tl_hn_seasons:
+  # Global Operations
+  update_hn_teams: 
+    0: Update Teams
+    1: Update Teams via handball.net
+
+  update_hn_clubs: 
+    0: Update Club Seasons
+    1: Update Club Seasons via handball.net
+
+  manage_clubs:
+    0: Clubs 
+    1: Manage Clubs
+  # Operations
+  edit: Edit Season %s
+  children: Manage Teams of Season %s
+  delete: Delete Season %s
+  show: Show Season %s
+  toggle: 
+    0: Enable/disable automatic updates for season %s
+    1: Disable automatic updates for season %s
+    2: Enable automatic updates for season %s
+    3: Disable updates
+    4: Enable updates
+  # Legends
+  title_legend: Season Settings
+  status_legend: Status Settings
+  # Fields
+  season_name:
+    0: Season
+    1: Season designation, e.g., "2024/2025"
+
+  season_id:
+    0: Season (handball.net)
+    1: Season year on handball.net (2024 for 2024/2025)
+  
+  handballnet_club_id:
+    0: Club ID
+    1: ID of the club on handball.net (e.g., handball4all.wuerttemberg.1234)
+
+  club_name:
+    0: Club Name
+    1: Name of the club (e.g., "TSV Handball")
+
+  provider:
+    0: Provider
+    1: Data provider (e.g., "handball4all")
+
+  verband:
+    0: Association
+    1: Club association (e.g., "Badischer Handballverband")
+  
+  is_active:
+    0: Active Season
+    1: Season is included in automatic updates via handball.net
+

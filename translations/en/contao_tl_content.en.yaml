@@ -17,7 +17,11 @@ tl_content:
     0: Club ID
     1: Please enter the ID of the club (www.handball4all.de)
 
-  handballnet_saison:
+  handballnet_club:
+    0: Club
+    1: Choose the club
+
+  handballnet_season:
     0: Season
     1: Choose the Season
 
