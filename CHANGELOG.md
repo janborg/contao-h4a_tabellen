@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.22...v4.1.0) (2026-07-26)
+
+
+### Features
+
+* add deprecation info for H4aEventAutomator functions ([#157](https://github.com/janborg/contao-h4a_tabellen/issues/157)) ([9bf6617](https://github.com/janborg/contao-h4a_tabellen/commit/9bf6617e28dc8d03f32ea23d323f050e872ee4ed))
+
 ## [4.0.22](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.21...v4.0.22) (2026-05-16)
 
 
