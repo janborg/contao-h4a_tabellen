@@ -17,7 +17,6 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\Input;
 use Contao\StringUtil;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
@@ -36,39 +35,6 @@ class H4aEventAutomator extends Backend
     ) {
         $this->contaoFramework->initialize();
         parent::__construct();
-    }
-
-    public function updateEvents(): void
-    {
-        $objCalendars = CalendarModel::findby(
-            ['tl_calendar.h4a_imported=?', 'tl_calendar.h4a_ignore !=?'],
-            ['1', '1'],
-        );
-
-        $intCalendars = \count($objCalendars);
-
-        $this->logger?->info('Update für '.$intCalendars.' Kalender über Handball4all gestartet');
-
-        foreach ($objCalendars as $objCalendar) {
-            $this->syncCalendars($objCalendar, false);
-        }
-
-        $this->logger?->info('Update der Kalender über Handball4all beendet');
-
-        $this->redirect($this->getReferer());
-    }
-
-    public function updateArchive(): void
-    {
-        $id = [Input::get('id')];
-
-        $objCalendar = CalendarModel::findById($id);
-
-        $this->syncCalendars($objCalendar, false);
-
-        $this->logger?->info('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.');
-
-        $this->redirect($this->getReferer());
     }
 
     /**
