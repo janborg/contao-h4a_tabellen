@@ -66,7 +66,6 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
         ],
         'handballnet_id' => [
             'inputType' => 'text',
-            'exclude' => true,
             'sorting' => true,
             'eval' => [
                 'mandatory' => true,
@@ -79,7 +78,6 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
         ],
         'name' => [
             'inputType' => 'text',
-            'exclude' => true,
             'sorting' => true,
             'filter' => true,
             'eval' => [
@@ -91,7 +89,6 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
         ],
         'acronym' => [
             'inputType' => 'text',
-            'exclude' => true,
             'filter' => true,
             'eval' => [
                 'mandatory' => false,
@@ -116,7 +113,6 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
         ],
         'org_id' => [
             'inputType' => 'text',
-            'exclude' => true,
             'sorting' => true,
             'eval' => [
                 'mandatory' => false,
@@ -127,7 +123,6 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
         ],
         'org_name' => [
             'inputType' => 'text',
-            'exclude' => true,
             'sorting' => true,
             'filter' => true,
             'eval' => [
@@ -139,7 +134,6 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
         ],
         'org_acronym' => [
             'inputType' => 'text',
-            'exclude' => true,
             'filter' => true,
             'eval' => [
                 'mandatory' => false,
@@ -150,7 +144,6 @@ $GLOBALS['TL_DCA']['tl_hn_clubs'] = [
         ],
         'is_active' => [
             'toggle' => true,
-            'exclude' => true,
             'filter' => true,
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
