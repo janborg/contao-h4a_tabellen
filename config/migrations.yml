@@ -7,13 +7,6 @@ services:
             calls:
                 - ["setFramework", ["@contao.framework"]]
 
-    janborg.h4atabellen.migration.h4aseasons:
-        class: Janborg\H4aTabellen\Migration\H4aSeasonsMigration
-        arguments:
-            - "@database_connection"
-            - "@contao.framework"
-            - "@h4atabellen.h4aapihelper"
-
     janborg.h4atabellen.migration.mcvtocgw:
         class: Janborg\H4aTabellen\Migration\MultiColumnWizardToContaoGroupWidgetMigration
         arguments:
