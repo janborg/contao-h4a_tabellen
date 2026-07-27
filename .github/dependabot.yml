@@ -9,10 +9,32 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+      time: "05:45"
+      timezone: "Europe/Berlin"
+    open-pull-requests-limit: 10
     assignees:
       - "janborg"
-    labels:
-      - "dependabot"
     commit-message:
       prefix: "chore:"
-      include: "scope"
+    labels:
+      - "dependencies"
+      - "php"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      #day: "monday"
+      time: "05:50"
+      timezone: "Europe/Berlin"
+    assignees:
+      - "janborg"
+    commit-message:
+      prefix: "chore:"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    labels:
+      - "dependencies"
+      - "ci"
