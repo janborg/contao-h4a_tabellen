@@ -187,11 +187,3 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['hn_widget_type'] = [
     'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
     'sql'                     => "varchar(255) NOT NULL default ''"
 ];
-$GLOBALS['TL_DCA']['tl_content']['fields']['hn_widget_type'] = [
-    'exclude'                 => true,
-    'sorting'                 => true,
-    'inputType'               => 'select',
-    'options'                 => ['spielplan', 'tabelle', 'club'],
-    'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
-    'sql'                     => "varchar(255) NOT NULL default ''"
-];
