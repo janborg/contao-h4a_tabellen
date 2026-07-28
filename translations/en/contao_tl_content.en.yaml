@@ -64,3 +64,7 @@ CTE:
   handballnet_spielplan:
     0: Match Schedule (handball.net)
     1: Shows the match schedule for a team
+
+  handballnet_widget:
+    0: Official Widget (handball.net)
+    1: Show table or games for a team or a club

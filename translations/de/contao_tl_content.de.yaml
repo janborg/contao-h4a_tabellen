@@ -64,3 +64,7 @@ CTE:
   handballnet_spielplan:
     0: Spielplan (handball.net)
     1: Zeigt den Spielplan für eine Mannschaft an
+
+  handballnet_widget:
+    0: Offizielles Widget (handball.net)
+    1: Zeigt die Tablelle oder den Spielplan für ein Team oder einen CLub
