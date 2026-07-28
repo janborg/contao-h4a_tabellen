@@ -1,0 +1,15 @@
+{% extends "@Contao/content_element/_base.html.twig" %}
+
+{% block content %}
+
+    <div id='{{ containerId }}'></div>
+
+<script>
+    _hb({
+        widget: '{{ widget_type == 'tabelle' ? 'tabelle' : 'spielplan' }}',
+        {{ widget_type == 'club' ?  'clubId' : 'teamId' }}: '{{ teamId }}', 
+        container: '{{ containerId }}'
+    });
+</script>
+
+{% endblock %}

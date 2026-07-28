@@ -32,6 +32,10 @@ tl_content:
   handballnet_tournament_id:
     0: Tournament ID
     1: Choose the League
+      
+  hn_widget_type:
+    0: 'Widget Type'
+    1: 'Select the widget type for this element'
 
 CTE:
   handball4all: Handball4All Elements
