@@ -1,15 +1,23 @@
 {% extends "@Contao/content_element/_base.html.twig" %}
 
 {% block content %}
-
-    <div id='{{ containerId }}'></div>
-
-<script>
-    _hb({
-        widget: '{{ widget_type == 'tabelle' ? 'tabelle' : 'spielplan' }}',
-        {{ widget_type == 'club' ?  'clubId' : 'teamId' }}: '{{ teamId }}', 
-        container: '{{ containerId }}'
-    });
-</script>
-
+    <div id="{{ containerId }}"></div>
 {% endblock %}
+
+{% block script %}
+    <script>
+        (function(e,t,n,r,i,s,o){
+            e[i]=e[i]||function(){(e[i].q=e[i].q||[]).push(arguments)},
+            e[i].l=1*new Date;
+            s=t.createElement(n),o=t.getElementsByTagName(n)[0];
+            s.async=1;s.src=r;o.parentNode.insertBefore(s,o)
+        })(window,document,"script",'https://www.handball.net/widgets/embed/v1.js',"_hb");
+
+        _hb({
+            widget: '{{ widget_type == 'tabelle' ? 'tabelle' : 'spielplan' }}',
+            {{ (widget_type == 'club' ? 'clubId' : 'teamId')|json_encode|raw }}: {{ (widget_type == 'club' ? clubId : teamId)|json_encode|raw }},
+            container: '{{ containerId }}'
+        });
+    </script>
+{% endblock %}
+

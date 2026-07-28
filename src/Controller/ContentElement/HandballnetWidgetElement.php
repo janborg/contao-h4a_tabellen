@@ -18,6 +18,7 @@ use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController
 use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Twig\FragmentTemplate;
+use Janborg\H4aTabellen\Model\HandballnetClubsModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -39,14 +40,17 @@ class HandballnetWidgetElement extends AbstractContentElementController
             return new Response($template->parse());
         }
 
-        // Base-Template Variablen setzen
+        $clubId = HandballnetClubsModel::findById($model->handballnet_club)->handballnet_id;
+
         $template->set('element_html_id', 'ce_'.$model->id);
         $template->set('element_css_classes', 'handballnet_widget');
 
-        $template->teamId = $model->handballnet_team_id;
-        $template->widget_type = $model->hn_widget_type;
+        $template->set('teamId', $model->handballnet_team_id);
+        $template->set('clubId', $clubId);
+        $template->set('widget_type', $model->hn_widget_type);
+        $template->set('widget_token', $model->handballnet_widget_token ?? '');
 
-        $template->containerId = 'handball-'.$model->hn_widget_type.'-'.$model->id;
+        $template->set('containerId', 'handball-'.$model->hn_widget_type.'-'.$model->id);
 
         return $template->getResponse();
     }
