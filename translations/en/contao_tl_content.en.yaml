@@ -32,6 +32,10 @@ tl_content:
   handballnet_tournament_id:
     0: Tournament ID
     1: Choose the League
+      
+  hn_widget_type:
+    0: 'Widget Type'
+    1: 'Select the widget type for this element'
 
 CTE:
   handball4all: Handball4All Elements
@@ -60,3 +64,7 @@ CTE:
   handballnet_spielplan:
     0: Match Schedule (handball.net)
     1: Shows the match schedule for a team
+
+  handballnet_widget:
+    0: Official Widget (handball.net)
+    1: Show table or games for a team or a club

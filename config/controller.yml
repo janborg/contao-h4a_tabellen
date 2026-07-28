@@ -18,6 +18,11 @@ services:
             - '@?monolog.logger.contao.general'
             - '%janborg_h4a_tabellen.handballnet_cache_ttl%'
 
+    Janborg\H4aTabellen\Controller\ContentElement\HandballnetWidgetElement: 
+        public: true
+        arguments:
+            - '@contao.routing.scope_matcher'
+
     Janborg\H4aTabellen\Backend\UpdateH4aResultsController:
         public: true
         arguments:

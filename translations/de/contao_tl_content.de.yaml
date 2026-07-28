@@ -33,6 +33,10 @@ tl_content:
     0: Tournament ID
     1: Wähle die Liga 
 
+  hn_widget_type:
+  0: 'Widget Typ'
+  1: 'Bitte Typ des anzuzeigenden Widgets auswählen'
+
 CTE:
   handball4all: Handball4All Elements
   handballnet: Handballnet Elements
@@ -60,3 +64,7 @@ CTE:
   handballnet_spielplan:
     0: Spielplan (handball.net)
     1: Zeigt den Spielplan für eine Mannschaft an
+
+  handballnet_widget:
+    0: Offizielles Widget (handball.net)
+    1: Zeigt die Tablelle oder den Spielplan für ein Team oder einen CLub
