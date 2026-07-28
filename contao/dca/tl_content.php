@@ -14,6 +14,7 @@ use Janborg\H4aTabellen\HandballNet\Verband;
 use Janborg\H4aTabellen\HandballNet\Provider;
 use Janborg\H4aTabellen\Controller\ContentElement\HandballnetTabelleElement;
 use Janborg\H4aTabellen\Controller\ContentElement\HandballnetSpielplanElement;
+use Janborg\H4aTabellen\Controller\ContentElement\HandballnetWidgetElement;
 
 /*
  * This file is part of contao-h4a_tabellen.
@@ -39,6 +40,12 @@ $GLOBALS['TL_DCA']['tl_content']['palettes'][HandballnetTabelleElement::TYPE] ='
     {template_legend:hide},customTpl;
     {expert_legend:hide},cssID
 ';
+$GLOBALS['TL_DCA']['tl_content']['palettes'][HandballnetWidgetElement::TYPE] = '
+    {type_legend},type;
+    {widget_legend},hn_widget_type;
+    {handballnet_legend},handballnet_club,handballnet_season,handballnet_team_id
+';
+    
 
 /*
  * Fields
@@ -170,4 +177,12 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['handballnet_tournament_id'] = [
         'tl_class' => 'w50',
     ],
     'sql' => "varchar(255) NOT NULL default ''",
+];
+$GLOBALS['TL_DCA']['tl_content']['fields']['hn_widget_type'] = [
+    'exclude'                 => true,
+    'sorting'                 => true,
+    'inputType'               => 'select',
+    'options'                 => ['spielplan', 'tabelle', 'club'],
+    'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
+    'sql'                     => "varchar(255) NOT NULL default ''"
 ];
