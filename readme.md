@@ -1,87 +1,43 @@
-# Spielpläne und Tabellen von handball4all in Contao CMS integrieren
+# Spielpläne und Tabellen deines Vereins von handball.net in Contao CMS integrieren
 
 [![GitHub license](https://img.shields.io/github/license/janborg/contao-h4a_tabellen)](https://github.com/janborg/contao-h4a_tabellen)
 ![Packagist Version](https://img.shields.io/packagist/v/janborg/contao-h4a_tabellen)
 ![Packagist](https://img.shields.io/packagist/dt/janborg/contao-h4a_tabellen)
 
 ## Features
-- Contentelemente zur Anzeige der Spiele eines Teams oder einer Liga 
+- Backend Module zur Anzeige der Saisons, Teams und Tournaments eines Clubs
+- Contentelement zur Anzeige der Spiele eines Teams einer Saison
 - Contentelement zur Anzeige der aktuellen Tabelle einer Liga
+- Contentelement zur Anzeige der offiziellen [Widgets](https://www.handball.net/widgets) von handball.net
 - Import der Spiele einer Mannschaft in einen Contao-Kalender 
-- tägliches Update der Spiele in einem Contao-Kalender 
-- stündliches Update der Ergebnisse der Spiele im Contao-Kalender
+- Cron zum Update der Spiele im Contao-Kalender 
+- Cron zum Update der Ergebnisse der Spiele im Contao-Kalender
+- Cron zum Abruf neuer Saisons eines Clubs
+- Cron zum Abruf neuer Teams und Tounaments in einer Saison
 
 (IDs der Ligen und Mannschaften kann der Verein in seinem Vereinsaccount abrufen)
 
 
-# Funktionen
-## Elemente
-Es stehen die folgenden Content-Elemente zur Verfügung.
+## Installation
 
-### Spielplan Team
-Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
-1. Überschrift
-2. Team ID: eine 6-stellige ID der Mannschaft, die der Übersicht im Vereinsaccount von handball4all entnommen werden kann
-3. Mein Team: Hier muss manuell die genaue Bezeichnung der Mannschaft eingegeben werden. Im Frontend kann dann über die CSS Klasse "myteam" eine Hervorhebung der Mannschaft erfolgen
+Installation erfolgt über den Contao Manager oder direkt per Composer: 
 
-Hier ein Beispiel:
-![](docs/images/h4a_Spielplan_BE.png)
-![](docs/images/h4a_Spielplan_FE.png)
+```
+composer require janborg/contao-h4a_tabellen
+```
 
-### Tabelle Liga
-Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
-1. Überschrift
-2. Liga ID: eine 5-stellige ID der anzuzeigenden Liga, die der Übersicht im Vereinsaccount von handball4all entnommen werden kann
-3. Mein Team: Hier muss manuell die genaue Bezeichnung der Mannschaft eingegeben werden. Im Frontend kann dann über die CSS Klasse "myteam" eine Hervorhebung der Mannschaft erfolgen.
+## Einrichtung
 
-Hier ein Beispiel:
-![](docs/images/h4a_Tabelle_BE.png)
-![](docs/images/h4a_Tabelle_FE.png)
-
-### Spielplan Liga
-Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
-1. Überschrift
-2. Liga ID: eine 5-stellige ID der anzuzeigenden Liga, die der Übersicht im Vereinsaccount von handball4all entnommen werden kann
-3. Mein Team: Hier muss manuell die genaue Bezeichnung der Mannschaft eingegeben werden. Im Frontend kann dann über die CSS Klasse "myteam" eine Hervorhebung der Mannschaft erfolgen
-
-### Aktuelle Spiele Verein
-Bei diesem Elementtyp stehen folgende Eingabefelder zur Verfügung:
-1. Überschrift
-2. Verein ID: eine ID des anzuzeigenden Vereins, die der Übersicht im Vereinsaccount von handball4all entnommen werden kann
-3. Mein Team: Hier muss manuell die genaue Bezeichnung der Mannschaft eingegeben werden. Im Frontend kann dann über die CSS Klasse "myteam" eine Hervorhebung der Mannschaft erfolgen.
+Zuerst muss der CLub im Backend Module "Handballnet Teams" angeegt werden. Dazu wird die ID des Vereins benötigt, diese findest du unter https://www.handball.net/vereine, z.Bsp:
+  
+  - handball4all.schleswig-holstein.1518 für den THW Kiel
+  - handball4all.suedbaden.592 für die HSG Konstanz
 
 
-## Kalender
-### Anlegen eines neuen Kalenders für einen Mannschaft
-Es besteh die Möglichkeit für die Spiele einer Mannschaft einen eigenen Contao Kalender anzulegen, um dann die Contao Standard-Module zur Ansicht der Spiele zu nutzen.
- Dazu muss man beim Anlegen eines neuen Kalenders lediglich das Häkchen "Handball4all Update" aktivieren und die entsprechenden Felder füllen.
-![](docs/images/h4a_Kalender.png)
+Zeige dann die Kindelemente an und klicke dort auf den Button "Update Clubsaisons". Im Anschluss siehst du die verfügbaren Saisons. 
 
-Dann am Besten mit "Speichern und Bearbeiten" schließen und in der Ansicht "Bearbeiten" des Kalenders auf "Update H4a Events" klicken.
+Zeige dann die Kindelemente einer Saison an und klicke dort auf den Button "Update Teams". Dadurch werden die Teams der Saison abgerufen.
 
-![](docs/images/h4a_Update_Events.png)
+Nun kannst die die Contentelemente auf einer Seite einbauen, indem du dort über die Select Felder den CLub, die Saison und das Team auswählst.
 
-Über einen CronJob werden dann für jeden Kalender, bei dem das Häkchen "Handball4all Update" gesetzt ist, einmal am Tag die Spiele aktualisiert, falls sich Termine ändern sollten
-
-Außerdem wird über einen CronJob stündlich geprüft, ob für die Spiele neue Ergebnisse vorliegen und diese ebenfalls aktuaisiert.
-
-# Handball4all: 
-## Nur Handballvereine folgender Verbände bzw. Oberligen dürfen die Daten verwenden
-- Badischer HV
-- Hamburger HV
-- HV Rheinhessen
-- HV Saar
-- HV Schleswig-Holstein
-- Pfälzer HV
-- Südbadischer HV
-- HV Westfalen
-- HV Württemberg
-- Oberliga Rheinland-Pfalz/Saar
-- Fédération Luxembourgeoise de Handball
-- Vorarlberger HV
-
-Jede weitere Verwendung der Schnittstellen bzw. der abgerufenen Daten ist nicht erlaubt. Dies gilt insbesondere für die Darstellung auf Webseiten die:
-
-- nicht vereinsbezogen sind,
-- mehrere Ligen und/oder mehrere Vereine darstellen, sofern keine Spielgemeinschaft besteht und/ oder
-- als Portalseiten ein möglichst weitreichendes Abbild unserer Daten verfolgen.
+Außerdem kannst du in einem Kalender die Handballnet Updates aktivieren und dort ebenfalls die Teams auswählen, deren Spiele im Kalender angezeigt werden soll.
