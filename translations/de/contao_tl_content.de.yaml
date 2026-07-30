@@ -1,13 +1,13 @@
 tl_content:
-  h4a_legend: Handball4all-Daten
+  h4a_legend: handball.net-Daten
 
   h4a_liga_ID:
     0: Liga ID
-    1: Bitte geben Sie die 5-stellige ID der Liga (www.handball4all.de) ein
+    1: Bitte geben Sie die 5-stellige ID der Liga (handball.net) ein
   
   h4a_team_ID:
     0: Team ID
-    1: Bitte geben Sie die 6-stellige ID des Teams (www.handball4all.de) ein
+    1: Bitte geben Sie die 6-stellige ID des Teams (handball.net) ein
   
   my_team_name:
     0: Mein Team
@@ -15,7 +15,7 @@ tl_content:
   
   h4a_verein_ID:
     0: Verein ID
-    1: Bitte geben Sie die ID des Vereins (www.handball4all.de) ein
+    1: Bitte geben Sie die ID des Vereins (handball.net) ein
 
   handballnet_club:
     0: Club

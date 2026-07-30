@@ -1,23 +1,23 @@
 tl_calendar:
-    operation_h4a_update_calendars: Update H4a-Kalender
+    operation_h4a_update_calendars: Update Handballnet-Kalender
 
-    operation_h4a_update_results: Update H4a-Ergebnisse
+    operation_h4a_update_results: Update Handballnet-Ergebnisse
     
     operation_h4a_seasons: Seasons pflegen
     
-    h4a_legend: Handball4all Daten
+    h4a_legend: Handballnet Daten
     
     h4a_imported:
-        0: Handball4all Update
-        1: Kalendereinträge für die Spiele einer Mansnchaft werden automatisch über Handball4all erstellt
+        0: Handballnet Update
+        1: Kalendereinträge für die Spiele einer Mansnchaft werden automatisch über handball.net erstellt
     
     h4a_liga_ID:
         0: Liga ID
-        1: Bitte geben Sie die 5-stellige ID der Liga (www.handball4all.de) ein
+        1: Bitte geben Sie die 5-stellige ID der Liga (handball.net) ein
     
     h4a_team_ID:
         0: Team ID
-        1: Bitte geben Sie die 6-stellige ID des Teams (www.handball4all.de) ein
+        1: Bitte geben Sie die 6-stellige ID des Teams (handball.net) ein
     
     my_team_name:
         0: Mein Team
@@ -28,12 +28,12 @@ tl_calendar:
         1: Benutzer, der bei den automatisch generierten Events als Autor hinterlegt werden soll
     
     h4a_seasons:
-        0: H4a Season Settings
+        0: Handballnet Season Settings
         1: Die Saisons in der die Spiele dieses Kalenders stattfinden
     
     h4a_saison:
         0: Saison
-        1: Saison der H4a Daten
+        1: Saison der Handballnet Daten
     
     h4a_liga:
         0: Liga ID
