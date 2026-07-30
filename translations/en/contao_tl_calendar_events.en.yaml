@@ -1,5 +1,5 @@
 tl_calendar_events:
-  update_h4a_events: Update H4a-Events
+  update_h4a_events: Update Handballnet-Events
   
   h4a_legend: Game No. Class and Teams
   
@@ -9,75 +9,75 @@ tl_calendar_events:
   
   gGameNo:
     0: Game No.
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gGameID:
     0: Game ID
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gClassID:
     0: ID class
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gClassName:
     0: Name class
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gHomeTeam:
     0: Home team
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gGuestTeam:
     0: Guest team
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gGymnasiumNo:
     0: Gym number
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gGymnasiumName:
     0: Gym name
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gGymnasiumStreet:
     0: Street
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gGymnasiumTown:
     0: City
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gGymnasiumPostal:
     0: Postal code
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gHomeGoals:
     0: Home goals
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gGuestGoals:
     0: Guest goals
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gHomeGoals_1:
     0: Home goals half-time
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   gGuestGoals_1:
     0: Guest goals half-time
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   h4a_resultComplete:
     0: Result complete
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   sGID:
     0: report ID
-    1: Automatically set during update via handball4all
+    1: Automatically set during update via handball.net
   
   h4a_season:
     0: Season
-    1: Season of the H4a data
+    1: Season of the Handballnet data
 
   provider:
       0: Provider
