@@ -7,15 +7,19 @@ tl_calendar:
     
     h4a_legend: Handballnet Daten
     
-    h4a_imported:
+    handballnet_imported:
         0: Handballnet Update
         1: Kalendereinträge für die Spiele einer Mansnchaft werden automatisch über handball.net erstellt
     
-    h4a_liga_ID:
-        0: Liga ID
-        1: Bitte geben Sie die 5-stellige ID der Liga (handball.net) ein
-    
-    h4a_team_ID:
+    handballnet_season:
+        0: Handballnet Season 
+        1: Die Saisons in der die Spiele dieses Kalenders stattfinden 
+
+    handballnet_club:
+        0: Club 
+        1: Club wählen (Anlage über Handballnet Teams)
+
+    handballnet_team_id:
         0: Team ID
         1: Bitte geben Sie die 6-stellige ID des Teams (handball.net) ein
     
@@ -25,40 +29,8 @@ tl_calendar:
     
     h4aEvents_author:
         0: Autor
-        1: Benutzer, der bei den automatisch generierten Events als Autor hinterlegt werden soll
-    
-    h4a_seasons:
-        0: Handballnet Season Settings
-        1: Die Saisons in der die Spiele dieses Kalenders stattfinden
-    
-    h4a_saison:
-        0: Saison
-        1: Saison der Handballnet Daten
-    
-    h4a_liga:
-        0: Liga ID
-        1: H4a ID für die Liga
-    
-    h4a_team:
-        0: Team ID
-        1: H4a ID für das Team
+        1: Benutzer, der bei den automatisch generierten Events als Autor hinterlegt werden soll  
 
-    handballnet_id:
-        0: handball.net ID
-        1: vollständige id des Teams auf handball.net
-
-    provider:
-        0: Provider
-        1: Provider für die Daten der Liga bereitstellt
-    
-    verband:
-        0: Verband
-        1: Verband in dem die Liga organisiert ist
-
-    liga_shortname:
-        0: Liga Kurzbezeichnung
-        1: Kurzname der Liga
-
-    liga_name:
-        0: Liga Name
-        1: Ausführlicher Name der Liga
+    add_team_group_id_events:
+        0: Spiele des Teams aus anderen Saisons ergänzen
+        1: Teams des Vereins mit derselben team_group_id, werden auch im Kalender ergänzt

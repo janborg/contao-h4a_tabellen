@@ -23,7 +23,7 @@ class HandballnetSeasonOptionsCallback
      *
      * @return array<int, string>
      */
-    #[AsCallback(table: 'tl_calendar', target: 'fields.h4a_saison.options')]
+    #[AsCallback(table: 'tl_calendar', target: 'fields.handballnet_season.options')]
     #[AsCallback(table: 'tl_content', target: 'fields.handballnet_season.options')]
     public function getHandballnetSeasonOptions(DataContainer $dc): array
     {

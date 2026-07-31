@@ -23,6 +23,7 @@ class HandballnetTeamIdOptionsCallback
      *
      * @return array<string, string>
      */
+    #[AsCallback(table: 'tl_calendar', target: 'fields.handballnet_team_id.options')]
     #[AsCallback(table: 'tl_content', target: 'fields.handballnet_team_id.options')]
     public function getHandballnetTeamOptions(DataContainer $dc): array
     {
