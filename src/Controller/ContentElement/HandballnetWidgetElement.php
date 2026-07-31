@@ -27,22 +27,20 @@ class HandballnetWidgetElement extends AbstractContentElementController
 {
     public const TYPE = 'handballnet_widget';
 
-    public function __construct(private ScopeMatcher $scopeMatcher)
-    {
-    }
+    public function __construct(private ScopeMatcher $scopeMatcher) {}
 
     protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
+        $clubId = HandballnetClubsModel::findById($model->handballnet_club)->handballnet_id;
+
         if ($this->scopeMatcher->isBackendRequest($request)) {
             $template = new BackendTemplate('be_wildcard');
-            $template->wildcard = '## Handball.net Widget | '.$model->hn_widget_type.' | '.$model->handballnet_team_id.' ##';
-
+            $identifier = 'club' === $model->hn_widget_type ? $clubId : $model->handballnet_team_id;
+            $template->wildcard = '## Handball.net Widget | ' . $model->hn_widget_type . ' | ' . $identifier . ' ##';
             return new Response($template->parse());
         }
 
-        $clubId = HandballnetClubsModel::findById($model->handballnet_club)->handballnet_id;
-
-        $template->set('element_html_id', 'ce_'.$model->id);
+        $template->set('element_html_id', 'ce_' . $model->id);
         $template->set('element_css_classes', 'handballnet_widget');
 
         $template->set('teamId', $model->handballnet_team_id);
@@ -50,7 +48,7 @@ class HandballnetWidgetElement extends AbstractContentElementController
         $template->set('widget_type', $model->hn_widget_type);
         $template->set('widget_token', $model->handballnet_widget_token ?? '');
 
-        $template->set('containerId', 'handball-'.$model->hn_widget_type.'-'.$model->id);
+        $template->set('containerId', 'handball-' . $model->hn_widget_type . '-' . $model->id);
 
         return $template->getResponse();
     }
