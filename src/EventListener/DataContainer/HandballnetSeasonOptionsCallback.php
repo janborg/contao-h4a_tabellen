@@ -33,7 +33,7 @@ class HandballnetSeasonOptionsCallback
         $options = [];
 
         switch ($dc->table) {
-            case "tl_calendar":
+            case 'tl_calendar':
                 $seasons = HandballnetSeasonsModel::findBy(
                     ['pid=?', 'is_active=?'],
                     [$dc->activeRecord->handballnet_club, true],
@@ -42,8 +42,7 @@ class HandballnetSeasonOptionsCallback
 
                 break;
 
-            case "tl_calendar_events":
-
+            case 'tl_calendar_events':
                 $calendarId = $dc->activeRecord->pid ?? null;
 
                 if (null === $calendarId) {
@@ -58,7 +57,7 @@ class HandballnetSeasonOptionsCallback
                 );
                 break;
 
-            case "tl_content":
+            case 'tl_content':
                 $seasons = HandballnetSeasonsModel::findBy(
                     ['pid=?'],
                     [$dc->activeRecord->handballnet_club],
@@ -71,7 +70,6 @@ class HandballnetSeasonOptionsCallback
                     ['order' => 'season_name DESC'],
                 );
         }
-
 
         if (null === $seasons) {
             return $options;

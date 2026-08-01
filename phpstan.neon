@@ -20,4 +20,5 @@ parameters:
 
     treatPhpDocTypesAsCertain: false
     
-    
+    ignoreErrors:
+        - '#Access to an undefined property Contao\\DataContainer::\$activeRecord#'

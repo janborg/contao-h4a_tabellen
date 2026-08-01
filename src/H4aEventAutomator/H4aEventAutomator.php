@@ -43,8 +43,8 @@ class H4aEventAutomator extends Backend
      */
     public function syncCalendars(CalendarModel $objCalendar, bool $cache = true): void
     {
-        // check for other seasons 
-        $team_group_id = HandballnetTeamsModel::findByHandballnet_team_id($objCalendar->handballnet_team_id)->team_group_id;
+        // check for other seasons
+        $team_group_id = HandballnetTeamsModel::findOneByHandballnet_team_id($objCalendar->handballnet_team_id)->team_group_id;
 
         if ($objCalendar->add_team_group_id_events) {
             $teamsToSync = HandballnetTeamsModel::findByTeam_group_id($team_group_id);
@@ -53,7 +53,8 @@ class H4aEventAutomator extends Backend
         }
 
         foreach ($teamsToSync as $team) {
-            //$objHandballnetSeason = HandballnetSeasonsModel::findById($arrSeason['h4a_saison'])->pid;
+            // $objHandballnetSeason =
+            // HandballnetSeasonsModel::findById($arrSeason['h4a_saison'])->pid;
 
             try {
                 $data = json_decode($this->handballnetApiClient->getTeamScheduleData($team->handballnet_team_id), true);
@@ -67,42 +68,13 @@ class H4aEventAutomator extends Backend
             }
 
             if (isset($data['code']) && '400' === $data['code']) {
-                $this->logger?->info('Updateversuch des Kalenders "' . $objCalendar->title . '" (ID: ' . $objCalendar->id . ') abgebrochen, prüfen Sie die handballnet ID!');
+                $this->logger?->info('Updateversuch des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') abgebrochen, prüfen Sie die handballnet ID!');
                 continue;
             }
 
             $arrSpiele = $data['data'];
 
-
-            // // Delete events, when sGID does not exist in $arrSpiele
-            // $objEvents = CalendarEventsModel::findBy(
-            //     ['pid=?', 'h4a_season=?', 'gClassName=?'],
-            //     [$objCalendar->id, $arrSeason['h4a_saison'], $arrSeason['liga_shortname']],
-            // );
-
-            // if (null !== $objEvents) {
-            //     // Wenn Events im Kalender existieren, aber nicht auf h4a, dann nicht mehr
-            //     // existierende Spiele löschen
-            //     foreach ($objEvents as $event) {
-            //         // prüfen, ob handballnet_id des Events in aktuellem Spielplan existiert
-            //         // (handball4all.wuerttemberg.1234567)
-            //         $existingEvent = array_filter(
-            //             $arrSpiele,
-            //             static fn ($spiel) => $event->provider.'.'.$event->verband.'.'.$event->gGameID === $spiel['id'],
-            //         );
-
-            //         // wenn nicht, Event löschen
-            //         if (empty($existingEvent)) {
-            //             $event->delete();
-            //             $this->logger?->info('Event '.$event->gClassname.': '.$event->gHomeTeam.': '.$event->gGuestTeam.' (gID: '.$event->gGameID.') wurde gelöscht');
-            //         }
-            //         unset($existingEvent);
-            //     }
-            // }
-
-            // Update or Create Event
             foreach ($arrSpiele as $arrSpiel) {
-
                 $objEvent = CalendarEventsModel::findOneBy(
                     ['pid=?', 'handballnet_game_id=?'],
                     [$objCalendar->id, $arrSpiel['id']],
@@ -116,9 +88,8 @@ class H4aEventAutomator extends Backend
                     $objEvent->author = $objCalendar->h4aEvents_author;
                     $objEvent->source = 'default';
                     $objEvent->addTime = true;
-                    //                   $objEvent->handballnet_id = $arrSpiel['id'] ?? '';
-
-                    // Check, if tournament id or name changed
+                    //                   $objEvent->handballnet_id = $arrSpiel['id'] ?? ''; Check, if
+                    // tournament id or name changed
                     if (
                         $objEvent->handballnet_tournament_id !== $arrSpiel['tournament']['id']
                         || $objEvent->handballnet_tournament_name !== $arrSpiel['tournament']['name']
@@ -166,7 +137,6 @@ class H4aEventAutomator extends Backend
                         || $objEvent->awayTeam_id !== $arrSpiel['awayTeam']['id']
                         || $objEvent->homeTeam_name !== $arrSpiel['homeTeam']['name']
                         || $objEvent->awayTeam_name !== $arrSpiel['awayTeam']['name']
-
                     ) {
                         $objEvent->homeTeam_id = $arrSpiel['homeTeam']['id'];
                         $objEvent->awayTeam_id = $arrSpiel['awayTeam']['id'];
@@ -198,7 +168,7 @@ class H4aEventAutomator extends Backend
                         try {
                             $objEvent->handballnet_state = GameState::from($arrSpiel['state'])->value;
                         } catch (\ValueError $e) {
-                            $this->logger?->warning('Unbekannter handballnet_state "' . $arrSpiel['state'] . '" für Spiel ' . $arrSpiel['id']);
+                            $this->logger?->warning('Unbekannter handballnet_state "'.$arrSpiel['state'].'" für Spiel '.$arrSpiel['id']);
                         }
                         $isChanged = true;
                     }
@@ -219,7 +189,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->save();
 
                         // log, that event was changed
-                        $this->logger?->info('Event für Spiel ' . $arrSpiel['tournament']['acronym'] . ': ' . $arrSpiel['homeTeam']['name'] . ': ' . $arrSpiel['awayTeam']['name'] . ' (gID: ' . $objEvent->gGameID . ') über Handball4all aktualisiert');
+                        $this->logger?->info('Event für Spiel '.$arrSpiel['tournament']['acronym'].': '.$arrSpiel['homeTeam']['name'].': '.$arrSpiel['awayTeam']['name'].' (gID: '.$objEvent->gGameID.') über Handball4all aktualisiert');
 
                         // Invalidate CacheTag for Event
                         $this->entityCacheTags->invalidateTagsFor($objEvent);
@@ -232,8 +202,8 @@ class H4aEventAutomator extends Backend
                     // --- Standard Contao Felder ---
                     $objEvent->pid = $objCalendar->id;
                     $objEvent->tstamp = time();
-                    $objEvent->title = $arrSpiel['tournament']['acronym'] . ': ' . $arrSpiel['homeTeam']['name'] . ' - ' . $arrSpiel['awayTeam']['name'];
-                    $objEvent->alias = StringUtil::generateAlias($arrSpiel['homeTeam']['name'] . '_' . $arrSpiel['awayTeam']['name'] . '_' . $arrSpiel['id']);
+                    $objEvent->title = $arrSpiel['tournament']['acronym'].': '.$arrSpiel['homeTeam']['name'].' - '.$arrSpiel['awayTeam']['name'];
+                    $objEvent->alias = StringUtil::generateAlias($arrSpiel['homeTeam']['name'].'_'.$arrSpiel['awayTeam']['name'].'_'.$arrSpiel['id']);
                     $objEvent->author = $objCalendar->h4aEvents_author;
                     $objEvent->source = 'default';
                     $objEvent->addTime = true;
@@ -277,7 +247,7 @@ class H4aEventAutomator extends Backend
                         $objEvent->handballnet_state = GameState::from($arrSpiel['state'] ?? '')->value;
                     } catch (\ValueError $e) {
                         $objEvent->handballnet_state = '';
-                        $this->logger?->warning('Unbekannter handballnet_state "' . ($arrSpiel['state'] ?? '') . '" für Spiel ' . $arrSpiel['id']);
+                        $this->logger?->warning('Unbekannter handballnet_state "'.($arrSpiel['state'] ?? '').'" für Spiel '.$arrSpiel['id']);
                     }
 
                     // Spielstatus & Ergebnisse (mapped to new DCA field names)
@@ -294,7 +264,6 @@ class H4aEventAutomator extends Backend
                         $objEvent->homeGoalsHalf = '';
                         $objEvent->awayGoalsHalf = '';
                     }
-
 
                     // save new Event
                     $objEvent->save();
@@ -334,7 +303,7 @@ class H4aEventAutomator extends Backend
             try {
                 $objEvent->handballnet_state = GameState::from($data['data']['state'])->value;
             } catch (\ValueError $e) {
-                $this->logger?->warning('Unbekannter handballnet_state "' . $data['data']['state'] . '" für Spiel ' . $objEvent->handballnet_game_id);
+                $this->logger?->warning('Unbekannter handballnet_state "'.$data['data']['state'].'" für Spiel '.$objEvent->handballnet_game_id);
             }
 
             if (GameState::POST->value === $objEvent->handballnet_state) {
@@ -345,11 +314,11 @@ class H4aEventAutomator extends Backend
                 $objEvent->hn_resultComplete = true;
                 $objEvent->save();
 
-                $this->logger?->info('Ergebnis (' . $data['data']['homeGoals'] . ':' . $data['data']['awayGoals'] . ') für Spiel ' . $objEvent->handballnet_game_id . ' über handball.net aktualisiert');
+                $this->logger?->info('Ergebnis ('.$data['data']['homeGoals'].':'.$data['data']['awayGoals'].') für Spiel '.$objEvent->handballnet_game_id.' über handball.net aktualisiert');
             } else {
                 $objEvent->hn_resultComplete = false;
 
-                $this->logger?->info('Ergebnis für Spiel ' . $objEvent->handballnet_game_id . ' über handball.net geprüft, kein Ergebnis vorhanden');
+                $this->logger?->info('Ergebnis für Spiel '.$objEvent->handballnet_game_id.' über handball.net geprüft, kein Ergebnis vorhanden');
             }
         }
         $this->redirect($this->getReferer());

@@ -65,7 +65,7 @@ class UpdateHandballnetSeasonsCron
      */
     private function processSeason(array $season, object $club): void
     {
-        $model = $this->findOrCreate((string) $club->id, (string) $season['id']);
+        $model = $this->findOrCreate($club->id, (string) $season['id']);
 
         $model->season_id = $season['id'];
         $model->season_name = $season['name'];
@@ -76,7 +76,7 @@ class UpdateHandballnetSeasonsCron
         $model->save();
     }
 
-    private function findOrCreate(string $clubId, string $seasonId): HandballnetSeasonsModel
+    private function findOrCreate(int $clubId, string $seasonId): HandballnetSeasonsModel
     {
         $existing = HandballnetSeasonsModel::findOneBy(
             ['handballnet_club_id=?', 'season_id=?'],
