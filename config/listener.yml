@@ -18,11 +18,6 @@ services:
         arguments:
             - '@request_stack'
 
-    h4atabellen.calendar.cheackseasondata.onload.callback: 
-        class: Janborg\H4aTabellen\EventListener\DataContainer\CalendarCheckSeasonDataCallback
-        arguments:
-            - '@request_stack'
-
     h4atabellen.calendar.handballnetteamid.options.callback:
         class: Janborg\H4aTabellen\EventListener\DataContainer\HandballnetTeamIdOptionsCallback   
         arguments:
