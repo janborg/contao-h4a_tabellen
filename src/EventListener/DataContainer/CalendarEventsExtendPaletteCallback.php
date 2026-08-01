@@ -38,16 +38,15 @@ class CalendarEventsExtendPaletteCallback
         if ($objCalendar->handballnet_imported) {
             PaletteManipulator::create()
                 ->addLegend('game_legend', 'title_legend', PaletteManipulator::POSITION_AFTER)
-                ->addField('homeTeam_name,awayTeam_name,homeTeam_id,awayTeam_id,homeGoals,awayGoals,homeGoalsHalf,awayGoalsHalf,hn_resultComplete', 'game_legend', PaletteManipulator::POSITION_APPEND)
+                ->addField('homeTeam_name,awayTeam_name,homeTeam_id,awayTeam_id,homeGoals,awayGoals,homeGoalsHalf,awayGoalsHalf,handballnet_state,hn_resultComplete', 'game_legend', PaletteManipulator::POSITION_APPEND)
                 ->applyToPalette('default', 'tl_calendar_events')
             ;
 
             PaletteManipulator::create()
                 ->addLegend('handballnet_legend', 'game_legend', PaletteManipulator::POSITION_AFTER)
-                ->addField('handballnet_game_id,handballnet_season,handballnet_tournament_name,handballnet_tournament_id,handballnet_phase_name,handballnet_phase_id,handballnet_round_name,handballnet_round_id,handballnet_field_id,handballnet_state', 'handballnet_legend', PaletteManipulator::POSITION_APPEND)
+                ->addField('handballnet_game_id,handballnet_season,handballnet_tournament_name,handballnet_tournament_id,handballnet_phase_name,handballnet_phase_id,handballnet_round_name,handballnet_round_id,handballnet_field_id', 'handballnet_legend', PaletteManipulator::POSITION_APPEND)
                 ->applyToPalette('default', 'tl_calendar_events')
             ;
-
         }
     }
 }
