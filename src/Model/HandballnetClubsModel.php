@@ -16,27 +16,51 @@ use Contao\Model;
 use Contao\Model\Collection;
 
 /**
- * Reads and writes handballnetTeams.
+ * Reads and writes handballnetClubs.
  *
  * @property int    $id
  * @property int    $tstamp
  * @property string $handballnet_id
  * @property string $name
  * @property string $acronym
+ * @property string $logo
  * @property string $org_id
  * @property string $org_name
  * @property string $org_acronym
  * @property bool   $is_active
  *
  * @method static HandballnetClubsModel|null             findById($id, array $opt=array())
+ * @method static HandballnetClubsModel|null             findByPk($id, array $opt=array())
+ * @method static HandballnetClubsModel|null             findByIdOrAlias($val, array $opt=array())
  * @method static HandballnetClubsModel|null             findOneBy($col, $val, array $opt=array())
  * @method static HandballnetClubsModel|null             findOneByHandballnet_id($val, array $opt=array())
+ * @method static HandballnetClubsModel|null             findOneByName($val, array $opt=array())
+ * @method static HandballnetClubsModel|null             findOneByAcronym($val, array $opt=array())
+ * @method static HandballnetClubsModel|null             findOneByLogo($val, array $opt=array())
+ * @method static HandballnetClubsModel|null             findOneByOrg_id($val, array $opt=array())
+ * @method static HandballnetClubsModel|null             findOneByOrg_name($val, array $opt=array())
+ * @method static HandballnetClubsModel|null             findOneByOrg_acronym($val, array $opt=array())
+ * @method static HandballnetClubsModel|null             findOneByIs_active($val, array $opt=array())
+ * @method static Collection<HandballnetClubsModel>|null findMultipleByIds($ids, array $opt=array())
+ * @method static Collection<HandballnetClubsModel>|null findBy($col, $val, array $opt=array())
+ * @method static Collection<HandballnetClubsModel>|null findByHandballnet_id($val, array $opt=array())
  * @method static Collection<HandballnetClubsModel>|null findByName($val, array $opt=array())
  * @method static Collection<HandballnetClubsModel>|null findByAcronym($val, array $opt=array())
+ * @method static Collection<HandballnetClubsModel>|null findByLogo($val, array $opt=array())
  * @method static Collection<HandballnetClubsModel>|null findByOrg_id($val, array $opt=array())
- * @method static Collection<HandballnetClubsModel>|null findByOrg_Name($val, array $opt=array())
+ * @method static Collection<HandballnetClubsModel>|null findByOrg_name($val, array $opt=array())
  * @method static Collection<HandballnetClubsModel>|null findByOrg_acronym($val, array $opt=array())
  * @method static Collection<HandballnetClubsModel>|null findByIs_active($val, array $opt=array())
+ * @method static Collection<HandballnetClubsModel>|null findAll(array $opt=array())
+ * @method static int                                    countById($id, array $opt=array())
+ * @method static int                                    countByHandballnet_id($val, array $opt=array())
+ * @method static int                                    countByName($val, array $opt=array())
+ * @method static int                                    countByAcronym($val, array $opt=array())
+ * @method static int                                    countByLogo($val, array $opt=array())
+ * @method static int                                    countByOrg_id($val, array $opt=array())
+ * @method static int                                    countByOrg_name($val, array $opt=array())
+ * @method static int                                    countByOrg_acronym($val, array $opt=array())
+ * @method static int                                    countByIs_active($val, array $opt=array())
  */
 class HandballnetClubsModel extends Model
 {
