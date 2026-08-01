@@ -32,7 +32,7 @@ class UpdateH4aCalendarsController extends Backend
     public function updateCalendars(): void
     {
         $objCalendars = CalendarModel::findby(
-            ['tl_calendar.h4a_imported=?'],
+            ['tl_calendar.handballnet_imported=?'],
             ['1'],
         );
 

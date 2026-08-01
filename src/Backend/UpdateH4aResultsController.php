@@ -37,7 +37,7 @@ class UpdateH4aResultsController extends Backend
     public function updateResults(): void
     {
         $objEvents = CalendarEventsModel::findby(
-            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'handballnet_id != ?'],
+            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'hn_resultComplete != ?', 'handballnet_game_id != ?'],
             [date('Y-m-d'), true, ''],
         );
 
@@ -56,18 +56,18 @@ class UpdateH4aResultsController extends Backend
             }
 
             try {
-                $data = json_decode($this->handballnetApiClient->getGameSummaryData($objEvent->handballnet_id), true);
+                $data = json_decode($this->handballnetApiClient->getGameSummaryData($objEvent->handballnet_game_id), true);
             } catch (\Exception $e) {
                 Message::addError($e->getMessage());
                 continue;
             }
 
             if ('Post' === $data['data']['state']) {
-                $objEvent->gHomeGoals = $data['data']['homeGoals'];
-                $objEvent->gGuestGoals = $data['data']['awayGoals'];
-                $objEvent->gHomeGoals_1 = $data['data']['homeGoalsHalf'];
-                $objEvent->gGuestGoals_1 = $data['data']['awayGoalsHalf'];
-                $objEvent->h4a_resultComplete = true;
+                $objEvent->homeGoals = $data['data']['homeGoals'];
+                $objEvent->awayGoals = $data['data']['awayGoals'];
+                $objEvent->homeGoalsHalf = $data['data']['homeGoalsHalf'];
+                $objEvent->awayGoalsHalf = $data['data']['awayGoalsHalf'];
+                $objEvent->hn_resultComplete = true;
                 $objEvent->save();
 
                 // Dispatch Event
@@ -75,14 +75,14 @@ class UpdateH4aResultsController extends Backend
                 $this->eventDispatcher->dispatch($event);
 
                 // Add message for the updated Event
-                Message::addConfirmation('Ergebnis ('.$data['data']['homeGoals'].':'.$data['data']['awayGoals'].' für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' erhalten.');
+                Message::addConfirmation('Ergebnis '.$data['data']['homeGoals'].':'.$data['data']['awayGoals'].' für Spiel '.$objEvent->handballnet_game_id.' '.$objEvent->title.' erhalten.');
 
                 // Invalidate CacheTag for Event
                 $this->entityCacheTags->invalidateTagsFor($objEvent);
             } else {
                 $objEvent->h4a_resultComplete = false;
 
-                Message::addInfo('Ergebnis für Spiel '.$objEvent->gGameID.' '.$objEvent->title.' über Handballnet geprüft, kein Ergebnis vorhanden.');
+                Message::addInfo('Ergebnis für Spiel '.$objEvent->handballnet_game_id.' '.$objEvent->title.' über Handballnet geprüft, kein Ergebnis vorhanden.');
             }
         }
 

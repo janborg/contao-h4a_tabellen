@@ -35,24 +35,19 @@ class CalendarEventsExtendPaletteCallback
         $objCalendarEvent = CalendarEventsModel::findById($dc->id);
         $objCalendar = CalendarModel::findById($objCalendarEvent->pid);
 
-        if ('1' === $objCalendar->h4a_imported) {
+        if ($objCalendar->handballnet_imported) {
             PaletteManipulator::create()
-                ->addLegend('h4a_legend', 'title_legend', PaletteManipulator::POSITION_AFTER)
-                ->addField('gHomeTeam,gGuestTeam,gClassName,liga_name,gGameID,gGameNo,provider,verband,h4a_season,handballnet_id', 'h4a_legend', PaletteManipulator::POSITION_APPEND)
+                ->addLegend('game_legend', 'title_legend', PaletteManipulator::POSITION_AFTER)
+                ->addField('homeTeam_name,awayTeam_name,homeTeam_id,awayTeam_id,homeGoals,awayGoals,homeGoalsHalf,awayGoalsHalf,hn_resultComplete', 'game_legend', PaletteManipulator::POSITION_APPEND)
                 ->applyToPalette('default', 'tl_calendar_events')
             ;
 
             PaletteManipulator::create()
-                ->addLegend('gymnasium_legend', 'h4a_legend', PaletteManipulator::POSITION_AFTER)
-                ->addField('gGymnasiumNo,gGymnasiumName,gGymnasiumStreet,gGymnasiumTown,gGymnasiumPostal', 'gymnasium_legend', PaletteManipulator::POSITION_APPEND)
+                ->addLegend('handballnet_legend', 'game_legend', PaletteManipulator::POSITION_AFTER)
+                ->addField('handballnet_game_id,handballnet_season,handballnet_tournament_name,handballnet_tournament_id,handballnet_phase_name,handballnet_phase_id,handballnet_round_name,handballnet_round_id,handballnet_field_id,handballnet_state', 'handballnet_legend', PaletteManipulator::POSITION_APPEND)
                 ->applyToPalette('default', 'tl_calendar_events')
             ;
 
-            PaletteManipulator::create()
-                ->addLegend('result_legend', 'gymnasium_legend', PaletteManipulator::POSITION_AFTER)
-                ->addField('gHomeGoals,gGuestGoals,gHomeGoals_1,gGuestGoals_1,sGID,gComment,h4a_resultComplete', 'result_legend', PaletteManipulator::POSITION_APPEND)
-                ->applyToPalette('default', 'tl_calendar_events')
-            ;
         }
     }
 }
