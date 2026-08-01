@@ -43,7 +43,7 @@ gender:
     Male: male
     Female: female
     Mixed: mixed
-handballnet_state:
+game_state:
   label:
     Pre: Upcoming
     Live: Live

@@ -23,7 +23,7 @@ enum GameState: string
     public function label(): TranslatableMessage
     {
         return new TranslatableMessage(
-            'provider.label.' . $this->value,
+            'game_state.label.'.$this->value,
             [],
             'handballnet',
         );
