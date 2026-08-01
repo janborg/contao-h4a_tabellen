@@ -18,6 +18,7 @@ use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\StringUtil;
+use Janborg\H4aTabellen\HandballNet\GameState;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Psr\Log\LoggerInterface;
@@ -122,18 +123,18 @@ class H4aEventAutomator extends Backend
                         $objEvent->handballnet_tournament_id !== $arrSpiel['tournament']['id']
                         || $objEvent->handballnet_tournament_name !== $arrSpiel['tournament']['name']
                     ) {
-                        $objEvent->handballnet_pahse_id = $arrSpiel['tournament']['id'] ?? '';
-                        $objEvent->handballnet_pahse_name = $arrSpiel['tournament']['name'] ?? '';
+                        $objEvent->handballnet_tournament_id = $arrSpiel['tournament']['id'] ?? '';
+                        $objEvent->handballnet_tournament_name = $arrSpiel['tournament']['name'] ?? '';
                         $isChanged = true;
                     }
 
                     // Check, if Phase id or name changed
                     if (
                         $objEvent->handballnet_phase_id !== $arrSpiel['phase']['id']
-                        || $objEvent->handballnet_pahse_name !== $arrSpiel['phase']['name']
+                        || $objEvent->handballnet_phase_name !== $arrSpiel['phase']['name']
                     ) {
-                        $objEvent->handballnet_pahse_id = $arrSpiel['phase']['id'] ?? '';
-                        $objEvent->handballnet_pahse_name = $arrSpiel['phase']['name'] ?? '';
+                        $objEvent->handballnet_phase_id = $arrSpiel['phase']['id'] ?? '';
+                        $objEvent->handballnet_phase_name = $arrSpiel['phase']['name'] ?? '';
                         $isChanged = true;
                     }
                     // Check, if round id or name changed
@@ -191,7 +192,17 @@ class H4aEventAutomator extends Backend
                             $isChanged = true;
                         }
                     }
-                    
+
+                    // Check, if state changed
+                    if ($objEvent->handballnet_state !== $arrSpiel['state']) {
+                        try {
+                            $objEvent->handballnet_state = GameState::from($arrSpiel['state'])->value;
+                        } catch (\ValueError $e) {
+                            $this->logger?->warning('Unbekannter handballnet_state "' . $arrSpiel['state'] . '" für Spiel ' . $arrSpiel['id']);
+                        }
+                        $isChanged = true;
+                    }
+
                     // TODO: How to check if it has changed ?!
                     if ('Post' === $arrSpiel['state']) {
                         $objEvent->homeGoals = $arrSpiel['homeGoals'];
@@ -261,8 +272,16 @@ class H4aEventAutomator extends Backend
                     $objEvent->liga_name = $arrSpiel['phase']['name'] ?? '';
                     $objEvent->gClassName = $arrSpiel['phase']['acronym'] ?? '';
 
+                    // Spielstatus (Enum)
+                    try {
+                        $objEvent->handballnet_state = GameState::from($arrSpiel['state'] ?? '')->value;
+                    } catch (\ValueError $e) {
+                        $objEvent->handballnet_state = '';
+                        $this->logger?->warning('Unbekannter handballnet_state "' . ($arrSpiel['state'] ?? '') . '" für Spiel ' . $arrSpiel['id']);
+                    }
+
                     // Spielstatus & Ergebnisse (mapped to new DCA field names)
-                    if ('Post' === $arrSpiel['state'] ?? '') {
+                    if (GameState::POST->value === ($arrSpiel['state'] ?? '')) {
                         $objEvent->hn_resultComplete = true;
                         $objEvent->homeGoals = $arrSpiel['homeGoals'] ?? '';
                         $objEvent->awayGoals = $arrSpiel['awayGoals'] ?? '';
@@ -312,7 +331,13 @@ class H4aEventAutomator extends Backend
                 continue;
             }
 
-            if ('Post' === $data['data']['state']) {
+            try {
+                $objEvent->handballnet_state = GameState::from($data['data']['state'])->value;
+            } catch (\ValueError $e) {
+                $this->logger?->warning('Unbekannter handballnet_state "' . $data['data']['state'] . '" für Spiel ' . $objEvent->handballnet_game_id);
+            }
+
+            if (GameState::POST->value === $objEvent->handballnet_state) {
                 $objEvent->homeGoals = $data['data']['homeGoals'];
                 $objEvent->awayGoals = $data['data']['awayGoals'];
                 $objEvent->homeGoalsHalf = $data['data']['homeGoalsHalf'];
@@ -320,11 +345,11 @@ class H4aEventAutomator extends Backend
                 $objEvent->hn_resultComplete = true;
                 $objEvent->save();
 
-                $this->logger?->info('Ergebnis ('.$data['data']['homeGoals'].':'.$data['data']['awayGoals'].') für Spiel '.$objEvent->handballnet_game_id.' über handball.net aktualisiert');
+                $this->logger?->info('Ergebnis (' . $data['data']['homeGoals'] . ':' . $data['data']['awayGoals'] . ') für Spiel ' . $objEvent->handballnet_game_id . ' über handball.net aktualisiert');
             } else {
                 $objEvent->hn_resultComplete = false;
 
-                $this->logger?->info('Ergebnis für Spiel '.$objEvent->handballnet_game_id.' über handball.net geprüft, kein Ergebnis vorhanden');
+                $this->logger?->info('Ergebnis für Spiel ' . $objEvent->handballnet_game_id . ' über handball.net geprüft, kein Ergebnis vorhanden');
             }
         }
         $this->redirect($this->getReferer());

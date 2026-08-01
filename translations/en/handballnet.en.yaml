@@ -26,3 +26,25 @@ verband:
     hvs: Handball-Verband Sachsen
     thv: Thüringer Handball-Verband
     hnr: Handball Nordrhein
+agegroup:
+  label:
+    Men: Men
+    Women: Women
+    AYouth: Youth A
+    BYouth: Youth B
+    CYouth: Youth C
+    DYouth: Youth D
+    EYouth: Youth E
+    FYouth: Youth F
+    Minis: Minis
+    Seniors: Seniors
+gender:
+  label:
+    Male: male
+    Female: female
+    Mixed: mixed
+handballnet_state:
+  label:
+    Pre: Upcoming
+    Live: Live
+    Post: Finished

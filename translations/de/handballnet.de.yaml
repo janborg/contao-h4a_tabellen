@@ -46,3 +46,8 @@ gender:
     Male: männlich
     Female: weilblich
     Mixed: gemischt
+handballnet_state:
+  label:
+    Pre: Bevorstehend
+    Live: Live
+    Post: Beendet

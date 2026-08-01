@@ -11,6 +11,7 @@ declare(strict_types=1);
  */
 
 use Contao\ArrayUtil;
+use Janborg\H4aTabellen\HandballNet\GameState;
 
 /*
  * Global Operation(s)
@@ -151,7 +152,19 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
         'eval' => ['mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'],
         'sql' => ['type' => 'string', 'length' => 255, 'default' => '', 'notnull' => false],
     ]],
-    //['handballnet_state' => []],
+    ['handballnet_state' => [
+    'filter' => true,
+    'sorting' => true,
+    'inputType' => 'select',
+    'enum' => GameState::class,
+    'eval' => [
+        'readonly' => true,
+        'includeBlankOption' => true,
+        'chosen' => true,
+        'tl_class' => 'w50',
+    ],
+    'sql' => ['type' => 'string', 'length' => 10, 'default' => ''],
+]],
     ['sGID' => [
         'search' => true,
         'inputType' => 'text',
