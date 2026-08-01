@@ -1,36 +1,37 @@
 tl_calendar:
-    operation_h4a_update_calendars: Update Handballnet Calendar
+    update_handballnet_calendars: Update Handballnet calendars
 
-    operation_h4a_update_results: Update Handballnet Results
-    
-    operation_h4a_seasons: Manage Seasons
-    
-    h4a_legend: Handballnet Data
-    
+    update_handballnet_results: Update Handballnet results
+
+    # Note: no matching global operation found in the DCA shown – remove if unused, or keep if referenced elsewhere
+    operation_h4a_seasons: Manage seasons
+
+    handballnet_legend: Handballnet data
+
     handballnet_imported:
-        0: Handballnet Update
-        1: Calendar entries for a team's matches are automatically created via handball.net
-    
+        0: Handballnet update
+        1: Calendar entries for a team's matches are created automatically via handball.net
+
     handballnet_season:
-        0: Handballnet Season 
+        0: Handballnet season
         1: Select the season from the list
 
     handballnet_club:
-        0: Club 
-        1: Select Club from the list
+        0: Club
+        1: Select the club from the list
 
     handballnet_team_id:
-        0: Team 
-        1: Select the the team from the list
-    
+        0: Team ID
+        1: Select the team from the list
+
     my_team_name:
-        0: My Team
+        0: My team
         1: Exact name of the team to be highlighted
-    
+
     h4aEvents_author:
         0: Author
-        1: User to be set as the author for automatically generated events  
+        1: User to be set as the author for automatically generated events
 
     add_team_group_id_events:
-        0: Add matches of the team from other seasons
-        1: Teams of the club with the same team_group_id are also included in the calendar
+        0: Include matches of the team from other seasons
+        1: Teams of the club with the same team_group_id will also be added to the calendar

@@ -1,96 +1,110 @@
 tl_calendar_events:
-  update_h4a_events: Update Handballnet-Events
-  
-  h4a_legend: Game No. Class and Teams
-  
-  gymnasium_legend: Gym information
-  
-  result_legend: Half-time and final result
-  
-  gGameNo:
-    0: Game No.
-    1: Automatically set during update via handball.net
-  
-  gGameID:
-    0: Game ID
-    1: Automatically set during update via handball.net
-  
-  gClassID:
-    0: ID class
-    1: Automatically set during update via handball.net
-  
+  update_handballnet_events: Update Handballnet events
+
+  handballnet_legend: handball.net data
+
+  game_legend: Game information
+
   gClassName:
-    0: Name class
-    1: Automatically set during update via handball.net
-  
-  gHomeTeam:
+    0: Class name
+    1: Set automatically during the update via handball.net
+
+  liga_name:
+    0: League
+    1: Set automatically during the update via handball.net
+
+  homeTeam_name:
     0: Home team
-    1: Automatically set during update via handball.net
-  
-  gGuestTeam:
-    0: Guest team
-    1: Automatically set during update via handball.net
-  
-  gGymnasiumNo:
-    0: Gym number
-    1: Automatically set during update via handball.net
-  
-  gGymnasiumName:
-    0: Gym name
-    1: Automatically set during update via handball.net
-  
-  gGymnasiumStreet:
-    0: Street
-    1: Automatically set during update via handball.net
-  
-  gGymnasiumTown:
-    0: City
-    1: Automatically set during update via handball.net
-  
-  gGymnasiumPostal:
-    0: Postal code
-    1: Automatically set during update via handball.net
-  
-  gHomeGoals:
+    1: Set automatically during the update via handball.net
+
+  homeTeam_id:
+    0: Home team ID
+    1: Set automatically during the update via handball.net
+
+  awayTeam_name:
+    0: Away team
+    1: Set automatically during the update via handball.net
+
+  awayTeam_id:
+    0: Away team ID
+    1: Set automatically during the update via handball.net
+
+  handballnet_tournament_id:
+    0: Tournament ID
+    1: Set automatically during the update via handball.net
+
+  handballnet_tournament_name:
+    0: Tournament name
+    1: Set automatically during the update via handball.net
+
+  handballnet_phase_id:
+    0: Phase ID
+    1: Set automatically during the update via handball.net
+
+  handballnet_phase_name:
+    0: Phase name
+    1: Set automatically during the update via handball.net
+
+  handballnet_round_id:
+    0: Round ID
+    1: Set automatically during the update via handball.net
+
+  handballnet_round_name:
+    0: Round name
+    1: Set automatically during the update via handball.net
+
+  handballnet_field_id:
+    0: Field ID
+    1: Set automatically during the update via handball.net
+
+  homeGoals:
     0: Home goals
-    1: Automatically set during update via handball.net
-  
-  gGuestGoals:
-    0: Guest goals
-    1: Automatically set during update via handball.net
-  
-  gHomeGoals_1:
-    0: Home goals half-time
-    1: Automatically set during update via handball.net
-  
-  gGuestGoals_1:
-    0: Guest goals half-time
-    1: Automatically set during update via handball.net
-  
-  h4a_resultComplete:
-    0: Result complete
-    1: Automatically set during update via handball.net
-  
+    1: Set automatically during the update via handball.net
+
+  awayGoals:
+    0: Away goals
+    1: Set automatically during the update via handball.net
+
+  homeGoalsHalf:
+    0: Home goals (half-time)
+    1: Set automatically during the update via handball.net
+
+  awayGoalsHalf:
+    0: Away goals (half-time)
+    1: Set automatically during the update via handball.net
+
   sGID:
-    0: report ID
-    1: Automatically set during update via handball.net
-  
-  h4a_season:
+    0: Match report number
+    1: The ID of the match report on handball.net
+
+  handballnet_season:
     0: Season
-    1: Season of the Handballnet data
+    1: The season the match takes place in
+
+  handballnet_game_id:
+    0: Handballnet match ID
+    1: Unique ID of the match on handball.net
+
+  hn_resultComplete:
+    0: Result available
+    1: Set automatically during the update via handball.net
 
   provider:
-      0: Provider
-      1: Provider that supplies the league's data
-      
+    0: Provider
+    1: Provider supplying the league's data
+
   verband:
-      0: Association
-      1: Association in which the league is organized
+    0: Association
+    1: Association organising the league
 
   liga_shortname:
-      0: League Short Name
-      1: Short name of the league
+    0: League abbreviation
+    1: Short name of the league
 
   handballnet_id:
-      0: Handballnet ID 
-      1: Complete Game ID from handball.net
+    0: Handballnet ID
+    1: Full ID of the match on handball.net
+
+  handballnet_state:
+    0: Match status
+    1: Set automatically during the update via handball.net
