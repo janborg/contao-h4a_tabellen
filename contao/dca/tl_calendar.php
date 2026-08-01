@@ -22,17 +22,15 @@ ArrayUtil::arrayInsert(
     $GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'],
     1,
     [
-        'h4a_update_calendars' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_update_calendars'],
-            'class' => 'header_h4a',
-            'href' => 'key=h4a_update_calendars',
-            'icon' => 'bundles/janborgh4atabellen/update.svg',
+        'update_handballnet_calendars' => [
+            'href' => 'key=update_handballnet_calendars',
+            'icon' => 'bundles/janborgh4atabellen/refresh.svg',
+            'primary' => true
         ],
-        'h4a_update_results' => [
-            'label' => &$GLOBALS['TL_LANG']['tl_calendar']['operation_h4a_update_results'],
-            'class' => 'header_h4a',
-            'href' => 'key=h4a_update_results',
-            'icon' => 'bundles/janborgh4atabellen/update.svg',
+        'update_handballnet_results' => [
+            'href' => 'key=update_handballnet_results',
+            'icon' => 'bundles/janborgh4atabellen/refresh.svg',
+            'primary' => true
         ]
     ]
 );

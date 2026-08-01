@@ -27,9 +27,9 @@ use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
  * @license MIT
  */
 
-$GLOBALS['BE_MOD']['content']['calendar']['h4a_update_events'] = [UpdateH4aEventsController::class, 'updateEvents'];
-$GLOBALS['BE_MOD']['content']['calendar']['h4a_update_calendars'] = [UpdateH4aCalendarsController::class, 'updateCalendars'];
-$GLOBALS['BE_MOD']['content']['calendar']['h4a_update_results'] = [UpdateH4aResultsController::class, 'updateResults'];
+$GLOBALS['BE_MOD']['content']['calendar']['update_handballnet_events'] = [UpdateH4aEventsController::class, 'updateEvents'];
+$GLOBALS['BE_MOD']['content']['calendar']['update_handballnet_calendars'] = [UpdateH4aCalendarsController::class, 'updateCalendars'];
+$GLOBALS['BE_MOD']['content']['calendar']['update_handballnet_results'] = [UpdateH4aResultsController::class, 'updateResults'];
 $GLOBALS['BE_MOD']['content']['handballnet_teams']['update_hn_teams'] = [UpdateHandballnetTeamsController::class, 'updateTeamsForClubSeason'];
 $GLOBALS['BE_MOD']['content']['handballnet_teams']['update_hn_clubs'] = [UpdateHandballnetClubSeasonsController::class, 'updateClubSeasonsForClub'];
 

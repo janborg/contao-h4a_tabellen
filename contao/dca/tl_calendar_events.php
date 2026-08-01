@@ -17,11 +17,11 @@ use Contao\ArrayUtil;
  */
 ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'], 
 1, [
-    'h4a_update_events' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['update_h4a_events'],
+    'update_handballnet_events' => [
         'class' => 'header_h4a',
-        'href' => 'key=h4a_update_events',
-        'icon' => 'bundles/janborgh4atabellen/update.svg',
+        'href' => 'key=update_handballnet_events',
+        'icon' => 'bundles/janborgh4atabellen/refresh.svg',
+        'primary' => true
     ]],
 );
     
