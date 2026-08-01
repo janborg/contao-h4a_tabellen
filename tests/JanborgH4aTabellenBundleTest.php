@@ -14,13 +14,14 @@ namespace Janborg\H4aTabellen\Tests;
 
 use Janborg\H4aTabellen\JanborgH4aTabellenBundle;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
-class JanborgH4aTabellenBundleTest extends TestCase
+final class JanborgH4aTabellenBundleTest extends TestCase
 {
     public function testCanBeInstantiated(): void
     {
         $bundle = new JanborgH4aTabellenBundle();
 
-        $this->assertInstanceOf(JanborgH4aTabellenBundle::class, $bundle);
+        $this->assertInstanceOf(BundleInterface::class, $bundle);
     }
 }

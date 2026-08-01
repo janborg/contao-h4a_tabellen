@@ -20,11 +20,11 @@ use Janborg\H4aTabellen\ContaoManager\Plugin;
 use Janborg\H4aTabellen\JanborgH4aTabellenBundle;
 use PHPUnit\Framework\TestCase;
 
-class PluginTest extends TestCase
+final class PluginTest extends TestCase
 {
     public function testReturnsTheBundles(): void
     {
-        $parser = $this->createMock(ParserInterface::class);
+        $parser = $this->createStub(ParserInterface::class);
 
         /** @var BundleConfig $config */
         $config = (new Plugin())->getBundles($parser)[0];

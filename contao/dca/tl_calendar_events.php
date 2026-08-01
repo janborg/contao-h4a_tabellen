@@ -11,46 +11,31 @@ declare(strict_types=1);
  */
 
 use Contao\ArrayUtil;
+use Janborg\H4aTabellen\HandballNet\GameState;
 
 /*
  * Global Operation(s)
  */
 ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'], 
 1, [
-    'h4a_update_events' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['update_h4a_events'],
+    'update_handballnet_events' => [
         'class' => 'header_h4a',
-        'href' => 'key=h4a_update_events',
-        'icon' => 'bundles/janborgh4atabellen/update.svg',
+        'href' => 'key=update_handballnet_events',
+        'icon' => 'bundles/janborgh4atabellen/refresh.svg',
+        'primary' => true
     ]],
 );
-    
-
 /*
  * Table tl_calendar_events
  */
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
-    ['gGameID' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGameID'],
-        'search' => true,
-        'inputType' => 'text',
-        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ]],
-    ['gGameNo' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGameNo'],
-        'search' => true,
-        'inputType' => 'text',
-        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ]],
     ['gClassName' => [
         'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gClassName'],
         'search' => true,
         'inputType' => 'text',
         'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
     ]],
     ['liga_name' => [
         'inputType' => 'text',
@@ -62,148 +47,153 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields'] = array_merge(
             'maxlength' => 255,
             'tl_class' => 'w50',
         ],
-        'sql' => "varchar(255) NOT NULL default ''",
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
     ]],
-    ['provider' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['provider'],
-        'inputType' => 'text',
-        'eval' => [
-            'mandatory' => true,
-            'maxlength' => 255,
-            'tl_class' => 'w50',
-        ],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ]],
-    ['verband' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['verband'],
-        'inputType' => 'text',
-        'eval' => [
-            'mandatory' => true,
-            'maxlength' => 255,
-            'tl_class' => 'w50',
-        ],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ]],
-    ['gHomeTeam' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gHomeTeam'],
+    ['homeTeam_name' => [
         'search' => true,
         'inputType' => 'text',
         'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
     ]],
-    ['gGuestTeam' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGuestTeam'],
+    ['homeTeam_id' => [
         'search' => true,
         'inputType' => 'text',
         'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
     ]],
-    ['gGymnasiumNo' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumNo'],
+    ['awayTeam_name' => [
         'search' => true,
         'inputType' => 'text',
-        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NULL default ''",
+        'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
     ]],
-    ['gGymnasiumName' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumName'],
+    ['awayTeam_id' => [
         'search' => true,
         'inputType' => 'text',
-        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NULL default ''",
+        'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
     ]],
-    ['gGymnasiumStreet' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumStreet'],
-        'search' => true,
+    ['handballnet_tournament_id' => [
         'inputType' => 'text',
-        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NULL default ''",
+        'eval' => [
+            'mandatory' => false,
+            'tl_class' => 'w50',
+        ],
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
     ]],
-    ['gGymnasiumTown' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumTown'],
-        'search' => true,
+    ['handballnet_tournament_name' => [
         'inputType' => 'text',
-        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NULL default ''",
+        'eval' => [
+            'mandatory' => false,
+            'tl_class' => 'w50',
+        ],
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
     ]],
-    ['gGymnasiumPostal' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGymnasiumPostal'],
-        'search' => true,
+    ['handballnet_phase_id' => [
         'inputType' => 'text',
-        'eval' => ['mandatory' => false, 'maxlength' => 5, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NULL default ''",
+        'eval' => [
+            'mandatory' => false,
+            'tl_class' => 'w50',
+        ],
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
     ]],
-    ['gHomeGoals' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gHomeGoals'],
+    ['handballnet_phase_name' => [
+        'inputType' => 'text',
+        'eval' => [
+            'mandatory' => false,
+            'tl_class' => 'w50',
+        ],
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+    ]],
+    ['handballnet_round_id' => [
+        'inputType' => 'text',
+        'eval' => [
+            'mandatory' => false,
+            'tl_class' => 'w50',
+        ],
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+    ]],
+    ['handballnet_round_name' => [
+        'inputType' => 'text',
+        'eval' => [
+            'mandatory' => false,
+            'tl_class' => 'w50',
+        ],
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+    ]],
+    ['handballnet_field_id' => ['inputType' => 'text',
+        'eval' => [
+            'mandatory' => false,
+            'tl_class' => 'w50',
+        ],
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+    ]],
+    ['homeGoals' => [
         'search' => false,
         'inputType' => 'text',
         'eval' => ['mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NULL default ''",
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => '', 'notnull' => false],
     ]],
-    ['gGuestGoals' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGuestGoals'],
+    ['awayGoals' => [
         'search' => false,
         'inputType' => 'text',
         'eval' => ['mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NULL default ''",
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => '', 'notnull' => false],
     ]],
-    ['gHomeGoals_1' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gHomeGoals_1'],
+    ['homeGoalsHalf' => [
         'search' => false,
         'inputType' => 'text',
         'eval' => ['mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NULL default ''",
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => '', 'notnull' => false],
     ]],
-    ['gGuestGoals_1' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gGuestGoals_1'],
+    ['awayGoalsHalf' => [
         'search' => false,
         'inputType' => 'text',
         'eval' => ['mandatory' => false, 'maxlength' => 3, 'rgxp' => 'digit', 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NULL default ''",
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => '', 'notnull' => false],
     ]],
-    ['h4a_resultComplete' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['h4a_resultComplete'],
-        'filter' => true,
-        'inputType' => 'checkbox',
-        'eval' => ['tl_class' => 'w50 m12'],
-        'sql' => "char(1) NOT NULL default ''",
-    ]],
-    ['gComment' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['gComment'],
-        'search' => false,
-        'inputType' => 'text',
-        'eval' => ['mandatory' => false, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
-    ]],
+    ['handballnet_state' => [
+    'filter' => true,
+    'sorting' => true,
+    'inputType' => 'select',
+    'enum' => GameState::class,
+    'eval' => [
+        'readonly' => true,
+        'includeBlankOption' => true,
+        'chosen' => true,
+        'tl_class' => 'w50',
+    ],
+    'sql' => ['type' => 'string', 'length' => 10, 'default' => ''],
+]],
     ['sGID' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['sGID'],
         'search' => true,
         'inputType' => 'text',
-        'eval' => ['mandatory' => false, 'maxlength' => 255, 'tl_class' => 'w50'],
-        'sql' => "varchar(255) NOT NULL default ''",
+        'eval' => ['mandatory' => false, 'maxlength' => 50, 'tl_class' => 'w50'],
+        'sql' => ['type' => 'string', 'length' => 50, 'default' => ''],
     ]],
-    ['h4a_season' => [
-        'label' => &$GLOBALS['TL_LANG']['tl_calendar']['h4a_season'],
+    ['handballnet_season' => [
         'inputType' => 'select',
-        'foreignKey' => 'tl_h4a_seasons.season',
-        'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
         'filter' => true,
         'eval' => [
-            'mandatory' => true,
-            'unique' => false,
+            'readonly' => true,
             'tl_class' => 'w50',
         ],
-        'sql' => "varchar(9) NOT NULL default ''",
+        'sql' => ['type' => 'string', 'length' => 9, 'default' => ''],
     ]],
-    ['handballnet_id' => [
-        'label' =>&$GLOBALS['TL_LANG']['tl_calendar_events']['handballnet_id'],
+    ['handballnet_game_id' => [
         'inputType' => 'text',
         'eval' => [
             'mandatory' => false,
             'unique' => true,
             'tl_class' => 'w50',
         ],
-        'sql' => "varchar(255) NOT NULL default ''",
+        'sql' => ['type' => 'string', 'length' => 255, 'default' => ''],
+    ]],
+    ['hn_resultComplete' => [
+        'filter' => true,
+        'inputType' => 'checkbox',
+        'eval' => ['tl_class' => 'w50 m12'],
+        'sql' => ['type' => 'boolean', 'default' => false]
     ]],
     $GLOBALS['TL_DCA']['tl_calendar_events']['fields'],
 );

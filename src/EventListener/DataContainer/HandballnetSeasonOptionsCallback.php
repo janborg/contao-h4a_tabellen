@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\EventListener\DataContainer;
 
+use Contao\CalendarModel;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\DataContainer;
+use Contao\Input;
 use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 
 class HandballnetSeasonOptionsCallback
@@ -23,25 +25,51 @@ class HandballnetSeasonOptionsCallback
      *
      * @return array<int, string>
      */
-    #[AsCallback(table: 'tl_calendar', target: 'fields.h4a_saison.options')]
+    #[AsCallback(table: 'tl_calendar', target: 'fields.handballnet_season.options')]
+    #[AsCallback(table: 'tl_calendar_events', target: 'fields.handballnet_season.options')]
     #[AsCallback(table: 'tl_content', target: 'fields.handballnet_season.options')]
     public function getHandballnetSeasonOptions(DataContainer $dc): array
     {
         $options = [];
 
-        if (isset($dc->activeRecord->handballnet_club)) {
-            $arrCol = ['pid=?', 'is_active=?'];
-            $arrVal = [$dc->activeRecord->handballnet_club, true];
-        } else {
-            $arrCol = ['is_active=?'];
-            $arrVal = [true];
-        }
+        switch ($dc->table) {
+            case 'tl_calendar':
+                $seasons = HandballnetSeasonsModel::findBy(
+                    ['pid=?', 'is_active=?'],
+                    [$dc->activeRecord->handballnet_club, true],
+                    ['order' => 'season_name DESC'],
+                );
 
-        $seasons = HandballnetSeasonsModel::findBy(
-            $arrCol,
-            $arrVal,
-            ['order' => 'season_name DESC'],
-        );
+                break;
+
+            case 'tl_calendar_events':
+                $calendarId = $dc->activeRecord->pid ?? null;
+
+                if (null === $calendarId) {
+                    $calendarId = Input::get('id');
+                }
+                $objCalendar = CalendarModel::findById($calendarId);
+
+                $seasons = HandballnetSeasonsModel::findBy(
+                    ['pid=?'],
+                    [$objCalendar->handballnet_club],
+                    ['order' => 'season_name DESC'],
+                );
+                break;
+
+            case 'tl_content':
+                $seasons = HandballnetSeasonsModel::findBy(
+                    ['pid=?'],
+                    [$dc->activeRecord->handballnet_club],
+                    ['order' => 'season_name DESC'],
+                );
+                break;
+
+            default:
+                $seasons = HandballnetSeasonsModel::findAll(
+                    ['order' => 'season_name DESC'],
+                );
+        }
 
         if (null === $seasons) {
             return $options;

@@ -16,6 +16,7 @@ use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
+use Janborg\H4aTabellen\HandballNet\GameState;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -25,7 +26,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class ShowTeamSceduleCommand.
+ * Class H4aUpdateResultsCommand.
  *
  * @property SymfonyStyle $io
  * @property int          $statusCode
@@ -60,8 +61,8 @@ class H4aUpdateResultsCommand extends Command
 
         $this->io->info('Suche alle H4a-Events von heute oder früher ohne Ergebnis...');
 
-        $objEvents = CalendarEventsModel::findby(
-            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'h4a_resultComplete != ?', 'handballnet_id != ?'],
+        $objEvents = CalendarEventsModel::findBy(
+            ['DATE(FROM_UNIXTIME(startDate)) <= ?', 'hn_resultComplete != ?', 'handballnet_game_id != ?'],
             [date('Y-m-d'), true, ''],
         );
 
@@ -85,7 +86,7 @@ class H4aUpdateResultsCommand extends Command
 
         foreach ($objEvents as $objEvent) {
             $output->writeln([
-                'Spiel '.$objEvent->gGameID.' '.$objEvent->title.':',
+                'Spiel '.$objEvent->handballnet_game_id.' '.$objEvent->title.':',
                 '-----------------------------------------------------',
                 'Versuche Ergebnis abzurufen...',
             ]);
@@ -94,7 +95,7 @@ class H4aUpdateResultsCommand extends Command
 
             if ($objEvent->startTime > $now || '00:00' === date('H:i', (int) $objEvent->startTime)) {
                 $output->writeln([
-                    '<comment>Spiel ist noch nicht gestartet. Abruch ...</comment>',
+                    '<comment>Spiel ist noch nicht gestartet. Abbruch ...</comment>',
                     '',
                 ]);
 
@@ -102,18 +103,26 @@ class H4aUpdateResultsCommand extends Command
             }
 
             try {
-                $data = json_decode($this->handballnetApiClient->getGameSummaryData($objEvent->handballnet_id, false), true);
+                $data = json_decode($this->handballnetApiClient->getGameSummaryData($objEvent->handballnet_game_id, false), true);
             } catch (\Exception $e) {
                 $this->io->error($e->getMessage());
                 continue;
             }
 
-            if ('Post' === $data['data']['state']) {
-                $objEvent->gHomeGoals = $data['data']['homeGoals'];
-                $objEvent->gGuestGoals = $data['data']['awayGoals'];
-                $objEvent->gHomeGoals_1 = $data['data']['homeGoalsHalf'];
-                $objEvent->gGuestGoals_1 = $data['data']['awayGoalsHalf'];
-                $objEvent->h4a_resultComplete = true;
+            $state = $data['data']['state'] ?? null;
+
+            try {
+                $objEvent->handballnet_state = GameState::from($state)->value;
+            } catch (\ValueError $e) {
+                $this->io->warning('Unbekannter handballnet_state "'.$state.'" für Spiel '.$objEvent->handballnet_game_id);
+            }
+
+            if (GameState::POST->value === $state) {
+                $objEvent->homeGoals = $data['data']['homeGoals'];
+                $objEvent->awayGoals = $data['data']['awayGoals'];
+                $objEvent->homeGoalsHalf = $data['data']['homeGoalsHalf'] ?? '';
+                $objEvent->awayGoalsHalf = $data['data']['awayGoalsHalf'] ?? '';
+                $objEvent->hn_resultComplete = true;
                 $objEvent->save();
 
                 $output->writeln([
@@ -128,10 +137,11 @@ class H4aUpdateResultsCommand extends Command
                 // Invalidate CacheTag for Event
                 $this->entityCacheTags->invalidateTagsFor($objEvent);
             } else {
-                $objEvent->h4a_resultComplete = false;
+                $objEvent->hn_resultComplete = false;
+                $objEvent->save();
 
                 $output->writeln([
-                    '<comment>Ergebnis über Handball4all geprüft, kein Ergebnis vorhanden</comment>',
+                    '<comment>Ergebnis über handball.net geprüft, kein Ergebnis vorhanden</comment>',
                     '',
                 ]);
             }

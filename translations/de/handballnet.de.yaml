@@ -46,3 +46,8 @@ gender:
     Male: männlich
     Female: weilblich
     Mixed: gemischt
+game_state:
+  label:
+    Pre: Bevorstehend
+    Live: Live
+    Post: Beendet

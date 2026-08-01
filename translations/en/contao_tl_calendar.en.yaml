@@ -1,60 +1,37 @@
 tl_calendar:
-    operation_h4a_update_calendars: Update Handballnet Calendars
+    update_handballnet_calendars: Update Handballnet calendars
 
-    operation_h4a_update_results: Update Handballnet Results
-    
-    operation_h4a_seasons: Manage Seasons
-    
-    h4a_legend: handball.net Data
-    
-    h4a_imported:
-        0: handball.net Update
-        1: Calendar entries for a team's games are automatically created via handball.net
-    
-    h4a_liga_ID:
-        0: League ID
-        1: Please enter the 5-digit ID of the league (handball.net)
-    
-    h4a_team_ID:
+    update_handballnet_results: Update Handballnet results
+
+    # Note: no matching global operation found in the DCA shown – remove if unused, or keep if referenced elsewhere
+    operation_h4a_seasons: Manage seasons
+
+    handballnet_legend: Handballnet data
+
+    handballnet_imported:
+        0: Handballnet update
+        1: Calendar entries for a team's matches are created automatically via handball.net
+
+    handballnet_season:
+        0: Handballnet season
+        1: Select the season from the list
+
+    handballnet_club:
+        0: Club
+        1: Select the club from the list
+
+    handballnet_team_id:
         0: Team ID
-        1: Please enter the 6-digit ID of the team (handball.net)
-    
+        1: Select the team from the list
+
     my_team_name:
-        0: My Team
+        0: My team
         1: Exact name of the team to be highlighted
-    
+
     h4aEvents_author:
         0: Author
         1: User to be set as the author for automatically generated events
-    
-    h4a_seasons:
-        0: Handballnet Season Settings
-        1: The seasons in which the games of this calendar take place
-    
-    h4a_saison:
-        0: Season
-        1: Season of the Handballnet data
-    
-    h4a_liga:
-        0: League ID
-        1: Handballnet ID for the league
-    
-    h4a_team:
-        0: Team ID
-        1: H4a ID for the team
 
-    handballnet_id:
-        0: handball.net ID
-        1: Complete team id from handball.net
-
-    provider:
-        0: Provider
-        1: Provider that supplies the league's data
-        
-    verband:
-        0: Association
-        1: Association in which the league is organized
-
-    liga_shortname:
-        0: League Short Name
-        1: Short name of the league
+    add_team_group_id_events:
+        0: Include matches of the team from other seasons
+        1: Teams of the club with the same team_group_id will also be added to the calendar
