@@ -7,3 +7,9 @@ services:
             calls:
                 - ["setFramework", ["@contao.framework"]]
 
+    # Registriere die Migration für das Bundle
+    Janborg\H4aTabellen\Migration\CreateHandballnetClubsFromH4aSeasonsMigration:
+        public: true
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'
+            $handballnetApiClient: '@Janborg\H4aTabellen\HandballnetApiClient' 
