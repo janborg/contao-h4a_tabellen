@@ -17,18 +17,22 @@ use Contao\CoreBundle\Migration\MigrationResult;
 use Doctrine\DBAL\Connection;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\HandballnetClubsModel;
+use Janborg\H4aTabellen\Sync\HandballnetSeasonSync;
+use Janborg\H4aTabellen\Sync\HandballnetTeamSync;
 
 class CreateHandballnetClubsFromH4aSeasonsMigration extends AbstractMigration
 {
     public function __construct(
         private Connection $connection,
         private readonly HandballnetApiClient $handballnetApiClient,
+        private readonly HandballnetSeasonSync $seasonSync,
+        private readonly HandballnetTeamSync $teamSync,
     ) {
     }
 
     public function shouldRun(): bool
     {
-        if (!$this->tableExists('tl_hn_clubs') || !$this->tableExists('tl_h4a_seasons')) {
+        if (!$this->tableExists('tl_hn_clubs') || !$this->tableExists('tl_h4a_seasons') || !$this->tableExists('tl_hn_seasons') || !$this->tableExists('tl_hn_teams')) {
             return false;
         }
 
@@ -52,6 +56,8 @@ class CreateHandballnetClubsFromH4aSeasonsMigration extends AbstractMigration
             }
 
             $clubCount = 0;
+            $seasonCount = 0;
+            $teamCount = 0;
 
             foreach ($seasons as $season) {
                 $clubId = $season['club_id'];
@@ -94,11 +100,26 @@ class CreateHandballnetClubsFromH4aSeasonsMigration extends AbstractMigration
                 $club->save();
 
                 ++$clubCount;
+
+                // Zugehörige Seasons anlegen
+                $clubSeasons = $this->seasonSync->syncSeasonsForClub($club, '2025');
+                $seasonCount += \count($clubSeasons);
+
+                // Zugehörige Teams je Season anlegen
+                foreach ($clubSeasons as $clubSeason) {
+                    $this->teamSync->syncTeamsForSeason($clubSeason);
+                    ++$teamCount;
+                }
             }
 
             return new MigrationResult(
                 true,
-                \sprintf('%d neue Clubs aus tl_h4a_seasons angelegt.', $clubCount),
+                \sprintf(
+                    '%d neue Clubs, %d Season(s) und Teams für %d Season(s) angelegt/aktualisiert.',
+                    $clubCount,
+                    $seasonCount,
+                    $teamCount,
+                ),
             );
         } catch (\Throwable $e) {
             return new MigrationResult(

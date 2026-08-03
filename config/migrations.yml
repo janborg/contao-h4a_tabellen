@@ -12,4 +12,6 @@ services:
         public: true
         arguments:
             $connection: '@doctrine.dbal.default_connection'
-            $handballnetApiClient: '@Janborg\H4aTabellen\HandballnetApiClient' 
+            $handballnetApiClient: '@h4atabellen.handballnet.apiclient' 
+            $seasonSync: '@h4atabellen.handballnet.seasonsync'
+            $teamSync: '@h4atabellen.handballnet.teamsync'
