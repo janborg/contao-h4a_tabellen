@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license MIT
  */
 
-namespace Janborg\H4aTabellen\Sync;
+namespace Janborg\H4aTabellen\HandballNet\Sync;
 
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\HandballnetClubsModel;

@@ -15,10 +15,10 @@ namespace Janborg\H4aTabellen\Migration;
 use Contao\CoreBundle\Migration\AbstractMigration;
 use Contao\CoreBundle\Migration\MigrationResult;
 use Doctrine\DBAL\Connection;
+use Janborg\H4aTabellen\HandballNet\Sync\HandballnetSeasonSync;
+use Janborg\H4aTabellen\HandballNet\Sync\HandballnetTeamSync;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\HandballnetClubsModel;
-use Janborg\H4aTabellen\Sync\HandballnetSeasonSync;
-use Janborg\H4aTabellen\Sync\HandballnetTeamSync;
 
 class CreateHandballnetClubsFromH4aSeasonsMigration extends AbstractMigration
 {
