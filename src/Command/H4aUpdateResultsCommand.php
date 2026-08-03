@@ -16,7 +16,7 @@ use Contao\CalendarEventsModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Janborg\H4aTabellen\Event\H4aResultUpdatedEvent;
-use Janborg\H4aTabellen\HandballNet\GameState;
+use Janborg\H4aTabellen\HandballNet\Enum\GameState;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

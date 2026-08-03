@@ -18,7 +18,7 @@ use Contao\CalendarModel;
 use Contao\CoreBundle\Cache\EntityCacheTags;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\StringUtil;
-use Janborg\H4aTabellen\HandballNet\GameState;
+use Janborg\H4aTabellen\HandballNet\Enum\GameState;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 use Psr\Log\LoggerInterface;

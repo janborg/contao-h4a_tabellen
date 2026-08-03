@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license MIT
  */
 
-namespace Janborg\H4aTabellen\HandballNet;
+namespace Janborg\H4aTabellen\HandballNet\Enum;
 
 use Symfony\Component\Translation\TranslatableMessage;
 
