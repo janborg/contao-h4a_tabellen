@@ -89,3 +89,16 @@ services:
     h4atabellen.handballnet.handballnetteamsparser:
         class: Janborg\H4aTabellen\HandballNet\Parser\HandballnetTeamsParser
         public: true
+
+    h4atabellen.handballnet.seasonsync:
+        class: Janborg\H4aTabellen\Sync\HandballnetSeasonSync
+        public: true
+        arguments:
+            $handballnetApiClient: '@h4atabellen.handballnet.apiclient' 
+
+    h4atabellen.handballnet.teamsync:
+        class: Janborg\H4aTabellen\Sync\HandballnetTeamSync
+        public: true
+        arguments:
+            $handballnetApiClient: '@h4atabellen.handballnet.apiclient' 
+            $teamsParser: '@h4atabellen.handballnet.handballnetteamsparser'
