@@ -30,6 +30,11 @@ class CreateHandballnetClubsFromH4aSeasonsMigration extends AbstractMigration
     ) {
     }
 
+    public function getName(): string
+    {
+        return 'Handballnet: Erstelle Handballnet Clubs, Saisons und Teams aus bisherigen H4a-Seasons';
+    }
+
     public function shouldRun(): bool
     {
         if (!$this->tableExists('tl_hn_clubs') || !$this->tableExists('tl_h4a_seasons') || !$this->tableExists('tl_hn_seasons') || !$this->tableExists('tl_hn_teams')) {
