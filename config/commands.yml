@@ -19,7 +19,7 @@ services:
         class: Janborg\H4aTabellen\Command\H4aUpdateEventsCommand
         arguments:
             - '@contao.framework'
-            - '@h4atabellen.h4aeventautomator'
+            - '@h4atabellen.handballnet.eventautomator'
 
     h4a.command.showgamesdata:
         class: Janborg\H4aTabellen\Command\ShowGamesDataCommand

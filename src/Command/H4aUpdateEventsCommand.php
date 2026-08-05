@@ -14,7 +14,7 @@ namespace Janborg\H4aTabellen\Command;
 
 use Contao\CalendarModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
+use Janborg\H4aTabellen\HandballNet\HandballnetEventAutomator;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,7 +28,7 @@ class H4aUpdateEventsCommand extends Command
 {
     public function __construct(
         private ContaoFramework $framework,
-        private H4aEventAutomator $h4aEventAutomator,
+        private HandballnetEventAutomator $handballnetEventAutomator,
     ) {
         parent::__construct();
     }
@@ -77,7 +77,7 @@ class H4aUpdateEventsCommand extends Command
             $output->writeln('Starte Update...');
 
             try {
-                $this->h4aEventAutomator->syncCalendars($objCalendar, false);
+                $this->handballnetEventAutomator->syncCalendars($objCalendar);
 
                 $output->writeln([
                     '<info>Update des Kalenders über Handballnet durchgeführt.</info>',

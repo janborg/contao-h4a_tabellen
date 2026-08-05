@@ -23,7 +23,6 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder(self::ROOT_KEY);
 
-        /** @phpstan-ignore-next-line */
         $treeBuilder->getRootNode()
             ->children()
             ->integerNode('AktuelleSpieleCacheTime')

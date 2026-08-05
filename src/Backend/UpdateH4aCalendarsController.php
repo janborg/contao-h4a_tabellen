@@ -16,13 +16,13 @@ use Contao\Backend;
 use Contao\BackendUser;
 use Contao\CalendarModel;
 use Contao\Message;
-use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
+use Janborg\H4aTabellen\HandballNet\HandballnetEventAutomator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UpdateH4aCalendarsController extends Backend
 {
     public function __construct(
-        private H4aEventAutomator $h4aEventAutomator,
+        private HandballnetEventAutomator $handballnetEventEutomator,
         private UrlGeneratorInterface $urlGenerator,
     ) {
         parent::__construct();
@@ -43,7 +43,7 @@ class UpdateH4aCalendarsController extends Backend
         }
 
         foreach ($objCalendars as $objCalendar) {
-            $this->h4aEventAutomator->syncCalendars($objCalendar, false);
+            $this->handballnetEventEutomator->syncCalendars($objCalendar);
         }
 
         Message::addConfirmation('Update der Kalender über Handballnet durchgeführt.');

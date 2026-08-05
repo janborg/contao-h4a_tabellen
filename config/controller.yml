@@ -34,13 +34,13 @@ services:
     Janborg\H4aTabellen\Backend\UpdateH4aEventsController:
         public: true
         arguments:
-            - '@h4atabellen.h4aeventautomator'
+            - '@h4atabellen.handballnet.eventautomator'
             - '@router'
 
     Janborg\H4aTabellen\Backend\UpdateH4aCalendarsController:
         public: true
         arguments:
-            - '@h4atabellen.h4aeventautomator'
+            - '@h4atabellen.handballnet.eventautomator'
             - '@router'
 
     Janborg\H4aTabellen\Backend\UpdateHandballnetClubSeasonsController:

@@ -14,14 +14,14 @@ namespace Janborg\H4aTabellen\Cron;
 
 use Contao\CalendarModel;
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator;
+use Janborg\H4aTabellen\HandballNet\HandballnetEventAutomator;
 use Psr\Log\LoggerInterface;
 
 class UpdateH4aEventsCron
 {
     public function __construct(
         private ContaoFramework $framework,
-        private H4aEventAutomator $h4aEventAutomator,
+        private HandballnetEventAutomator $handballnetEventAutomator,
         private readonly LoggerInterface|null $logger,
     ) {
         $this->framework->initialize();
@@ -35,7 +35,7 @@ class UpdateH4aEventsCron
         );
 
         foreach ($objCalendars as $objCalendar) {
-            $this->h4aEventAutomator->syncCalendars($objCalendar, false);
+            $this->handballnetEventAutomator->syncCalendars($objCalendar);
 
             $this->logger?->info('Update des Kalenders "'.$objCalendar->title.'" (ID: '.$objCalendar->id.') über Handball4all durchgeführt.');
         }
