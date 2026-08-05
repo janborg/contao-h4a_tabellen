@@ -21,6 +21,7 @@
         "contao/core-bundle": "^5.3",
         "contao/calendar-bundle": "^5.3",
         "codefog/contao-haste": "^5.0",
+        "doctrine/dbal": "^3.6 || ^4.0",
         "mvo/contao-group-widget": "^1.5",
         "symfony/config": "^6.0 || ^7.0",
         "symfony/console": "^6.0 || ^7.0",

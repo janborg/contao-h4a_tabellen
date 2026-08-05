@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 use Contao\DataContainer;
 use Contao\DC_Table;
-use Janborg\H4aTabellen\HandballNet\AgeGroup;
-use Janborg\H4aTabellen\HandballNet\Provider;
-use Janborg\H4aTabellen\HandballNet\Verband;
+use Janborg\H4aTabellen\HandballNet\Enum\AgeGroup;
+use Janborg\H4aTabellen\HandballNet\Enum\Provider;
+use Janborg\H4aTabellen\HandballNet\Enum\Verband;
 
 $GLOBALS['TL_DCA']['tl_hn_teams'] = [
     // Config

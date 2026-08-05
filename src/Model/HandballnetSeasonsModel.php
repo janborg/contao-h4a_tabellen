@@ -24,7 +24,7 @@ use Contao\Model\Collection;
  * @property string $season_name
  * @property string $season_id
  * @property string $club_name
- * @property string $handballnet_club_id
+ * @property int    $handballnet_club_id
  * @property bool   $is_active
  *
  * @method static HandballnetSeasonsModel|null             findById($id, array $opt=array())

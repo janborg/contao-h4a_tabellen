@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Janborg\H4aTabellen\Command;
 
 use Contao\CoreBundle\Framework\ContaoFramework;
-use Janborg\H4aTabellen\HandballNet\Provider;
-use Janborg\H4aTabellen\HandballNet\Verband;
+use Janborg\H4aTabellen\HandballNet\Enum\Provider;
+use Janborg\H4aTabellen\HandballNet\Enum\Verband;
 use Janborg\H4aTabellen\HandballnetApiClient;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

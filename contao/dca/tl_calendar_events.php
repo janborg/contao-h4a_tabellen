@@ -11,7 +11,7 @@ declare(strict_types=1);
  */
 
 use Contao\ArrayUtil;
-use Janborg\H4aTabellen\HandballNet\GameState;
+use Janborg\H4aTabellen\HandballNet\Enum\GameState;
 
 /*
  * Global Operation(s)
