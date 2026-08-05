@@ -7,14 +7,15 @@ services:
             calls:
                 - ['setFramework', ['@contao.framework']]
 
-    h4atabellen.h4aeventautomator:
-        class: Janborg\H4aTabellen\H4aEventAutomator\H4aEventAutomator
+    h4atabellen.handballnet.eventautomator:
+        class: Janborg\H4aTabellen\HandballNet\HandballnetEventAutomator
         public: true
         arguments:
-            - '@contao.framework'
-            - '@contao.cache.entity_tags'
-            - '@h4atabellen.handballnet.apiclient'
-            - '@?monolog.logger.contao.general'
+            $entityCacheTags: '@contao.cache.entity_tags'
+            $handballnetApiClient: '@h4atabellen.handballnet.apiclient'
+            $scheduleParser: '@h4atabellen.handballnet.parser.gamescheduleparser'  
+            $eventMapper: '@h4atabellen.handballnet.mapper.calendareventmapper'
+            $logger: '@?monolog.logger.contao.general'
     
     h4atabellen.cron.updateresults:
         class: Janborg\H4aTabellen\Cron\UpdateH4aResultsCron
@@ -35,7 +36,7 @@ services:
         class: Janborg\H4aTabellen\Cron\UpdateH4aEventsCron
         arguments:
             - '@contao.framework'
-            - '@h4atabellen.h4aeventautomator'
+            - '@h4atabellen.handballnet.eventautomator'
             - '@?monolog.logger.contao.cron'
         tags:
             -
@@ -102,3 +103,14 @@ services:
         arguments:
             $handballnetApiClient: '@h4atabellen.handballnet.apiclient' 
             $teamsParser: '@h4atabellen.handballnet.handballnetteamsparser'
+
+    h4atabellen.handballnet.mapper.calendareventmapper:
+        class: Janborg\H4aTabellen\HandballNet\Mapper\CalendarEventMapper
+        public: true
+    
+
+    h4atabellen.handballnet.parser.gamescheduleparser:
+        class: Janborg\H4aTabellen\HandballNet\Parser\HandballnetGameScheduleParser
+        public: true
+    
+    
