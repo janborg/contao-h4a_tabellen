@@ -12,9 +12,10 @@ declare(strict_types=1);
 
 namespace Janborg\H4aTabellen\HandballNet\Enum;
 
+use Contao\CoreBundle\Translation\TranslatableLabelInterface;
 use Symfony\Component\Translation\TranslatableMessage;
 
-enum GameState: string
+enum GameState: string implements TranslatableLabelInterface
 {
     case PRE = 'Pre';
     case LIVE = 'Live';
