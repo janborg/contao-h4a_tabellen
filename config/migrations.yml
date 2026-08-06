@@ -21,3 +21,13 @@ services:
         arguments:
             $connection: '@doctrine.dbal.default_connection'
         
+    Janborg\H4aTabellen\Migration\LinkHandballnetClubToTabelleElementsMigration:
+        public: true
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'
+        
+    Janborg\H4aTabellen\Migration\LinkHandballnetClubToSpielplanElementsMigration:
+        public: true
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'
+        
