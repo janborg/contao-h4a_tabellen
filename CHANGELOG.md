@@ -1,5 +1,49 @@
 # Changelog
 
+## [5.0.0](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.22...v5.0.0) (2026-08-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* refactor EventAutomator for handballnet ([#172](https://github.com/janborg/contao-h4a_tabellen/issues/172))
+* remove deprecated functions in H4aEventAutomator ([#158](https://github.com/janborg/contao-h4a_tabellen/issues/158))
+* remove CE from tl_content
+* remove service H4aApiHelper
+* remove obsolete Migrations
+* remove H4a ContentElementController
+
+### Features
+
+* add backend administration for handballnet clubs, teams and seasons ([#147](https://github.com/janborg/contao-h4a_tabellen/issues/147)) ([2871bf4](https://github.com/janborg/contao-h4a_tabellen/commit/2871bf46a824317bddc848fa9629a4a3bd96c913))
+* add handball.net widgets as content_element ([#164](https://github.com/janborg/contao-h4a_tabellen/issues/164)) ([8a02c20](https://github.com/janborg/contao-h4a_tabellen/commit/8a02c20a3fb6d13b21e997959744cefe1d025203))
+* add Migrations from v4 to v5 ([#171](https://github.com/janborg/contao-h4a_tabellen/issues/171)) ([980c53f](https://github.com/janborg/contao-h4a_tabellen/commit/980c53fad284811ebe46886c11ba6c7b5bd79632))
+* new calendar update logic ([#169](https://github.com/janborg/contao-h4a_tabellen/issues/169)) ([36d96d6](https://github.com/janborg/contao-h4a_tabellen/commit/36d96d61d8e2087cb60a2abce3be7eba0d1fb2b1))
+
+
+### Bug Fixes
+
+* ContentElements for Table and Games ([#156](https://github.com/janborg/contao-h4a_tabellen/issues/156)) ([5d5ec8a](https://github.com/janborg/contao-h4a_tabellen/commit/5d5ec8af1bed59d471fdb60f132ef8d1fa1e208d))
+* delete duplicate handballnetwidget Template ([cb52c1e](https://github.com/janborg/contao-h4a_tabellen/commit/cb52c1e441c60d9559d079e032974e514bd36c90))
+* nuliga needs longer liga_shortnames ([2c96de7](https://github.com/janborg/contao-h4a_tabellen/commit/2c96de76e07b1f2a51622378f7349902eeb64d20))
+* remove redundant [data] ([af60b6e](https://github.com/janborg/contao-h4a_tabellen/commit/af60b6e5877dfdacdbc917d545ecdd820a03460d))
+* remove unused dependencies ([76933eb](https://github.com/janborg/contao-h4a_tabellen/commit/76933eb49590fcb977da4d094a8e43e76fd6ad0c))
+* replace h4a with handballnet in translations ([b219d46](https://github.com/janborg/contao-h4a_tabellen/commit/b219d46832b43ff5a4347cc7c935754e05181e4f))
+* show wildcard info depending on widget type ([7fb2a67](https://github.com/janborg/contao-h4a_tabellen/commit/7fb2a675ff10ba2aaea1aa9aeab0aa9916da0193))
+
+
+### Miscellaneous Chores
+
+* refactor EventAutomator for handballnet ([#172](https://github.com/janborg/contao-h4a_tabellen/issues/172)) ([5d33c38](https://github.com/janborg/contao-h4a_tabellen/commit/5d33c3865a8b62ae3aa00a3ae656398f9e01dba7))
+
+
+### Code Refactoring
+
+* remove CE from tl_content ([28edd29](https://github.com/janborg/contao-h4a_tabellen/commit/28edd294b022b615b874956f0c3d2530ce954412))
+* remove deprecated functions in H4aEventAutomator ([#158](https://github.com/janborg/contao-h4a_tabellen/issues/158)) ([a1079e8](https://github.com/janborg/contao-h4a_tabellen/commit/a1079e8ef70f45d522ec86ed5cb3ca51ea380c75))
+* remove H4a ContentElementController ([ac35ae2](https://github.com/janborg/contao-h4a_tabellen/commit/ac35ae2d2efbba0729aa47c94a23c49e861e63b1))
+* remove obsolete Migrations ([660e778](https://github.com/janborg/contao-h4a_tabellen/commit/660e77818de3f5c92242ca52844f6c37a989fa73))
+* remove service H4aApiHelper ([63544b0](https://github.com/janborg/contao-h4a_tabellen/commit/63544b03a7a007c71b8137e46787ebad8baa8b0f))
+
 ## [4.0.22](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.21...v4.0.22) (2026-05-16)
 
 
