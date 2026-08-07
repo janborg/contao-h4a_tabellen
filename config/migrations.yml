@@ -31,3 +31,9 @@ services:
         arguments:
             $connection: '@doctrine.dbal.default_connection'
         
+    Janborg\H4aTabellen\Migration\MigrateCalendarEventsToHandballnetSchemaMigration:
+        public: true
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'
+            $handballnetEventAutomator: '@h4atabellen.handballnet.eventautomator'
+        
