@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license MIT
  */
 
-namespace Janborg\H4aTabellen\Migration;
+namespace Janborg\H4aTabellen\Migration\Version500;
 
 use Contao\ContentModel;
 use Contao\CoreBundle\Migration\AbstractMigration;
@@ -19,9 +19,9 @@ use Doctrine\DBAL\Connection;
 use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 
-class LinkHandballnetClubToTabelleElementsMigration extends AbstractMigration
+class LinkHandballnetClubToSpielplanElementsMigration extends AbstractMigration
 {
-    private const CE_TYPE = 'handballnet_tabelle';
+    private const CE_TYPE = 'handballnet_spielplan';
 
     public function __construct(private Connection $connection)
     {
@@ -29,7 +29,7 @@ class LinkHandballnetClubToTabelleElementsMigration extends AbstractMigration
 
     public function getName(): string
     {
-        return 'Handballnet: Verknüpfe handballnet_tabelle Content Elements über handballnet_tournament_id';
+        return 'Handballnet: Verknüpfe handballnet_spielplan Content Elements über handballnet_team_id';
     }
 
     public function shouldRun(): bool
@@ -40,7 +40,7 @@ class LinkHandballnetClubToTabelleElementsMigration extends AbstractMigration
 
         $columns = $this->connection->createSchemaManager()->listTableColumns('tl_content');
 
-        foreach (['type', 'handballnet_club', 'handballnet_season', 'handballnet_tournament_id'] as $required) {
+        foreach (['type', 'handballnet_club', 'handballnet_season', 'handballnet_team_id'] as $required) {
             if (!isset($columns[$required])) {
                 return false;
             }
@@ -50,7 +50,7 @@ class LinkHandballnetClubToTabelleElementsMigration extends AbstractMigration
             "SELECT COUNT(*) FROM tl_content
              WHERE type = ?
                AND COALESCE(handballnet_club, '') = ''
-               AND COALESCE(handballnet_tournament_id, '') != ''",
+               AND COALESCE(handballnet_team_id, '') != ''",
             [self::CE_TYPE],
         );
 
@@ -63,7 +63,7 @@ class LinkHandballnetClubToTabelleElementsMigration extends AbstractMigration
             "SELECT id FROM tl_content
              WHERE type = ?
                AND COALESCE(handballnet_club, '') = ''
-               AND COALESCE(handballnet_tournament_id, '') != ''",
+               AND COALESCE(handballnet_team_id, '') != ''",
             [self::CE_TYPE],
         );
 
@@ -77,7 +77,7 @@ class LinkHandballnetClubToTabelleElementsMigration extends AbstractMigration
                 continue;
             }
 
-            $team = HandballnetTeamsModel::findOneByHandballnet_tournament_id($contentElement->handballnet_tournament_id);
+            $team = HandballnetTeamsModel::findOneByHandballnet_team_id($contentElement->handballnet_team_id);
 
             if (null === $team) {
                 ++$skipped;
@@ -101,7 +101,7 @@ class LinkHandballnetClubToTabelleElementsMigration extends AbstractMigration
         return new MigrationResult(
             true,
             \sprintf(
-                '%d Tabelle-Element(e) verknüpft, %d übersprungen (Team/Turnier noch nicht synchronisiert).',
+                '%d Spielplan-Element(e) verknüpft, %d übersprungen (Team noch nicht synchronisiert).',
                 $linked,
                 $skipped,
             ),

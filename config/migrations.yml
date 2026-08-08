@@ -8,7 +8,7 @@ services:
                 - ["setFramework", ["@contao.framework"]]
 
     # Registriere die Migration für das Bundle
-    Janborg\H4aTabellen\Migration\CreateHandballnetClubsFromH4aSeasonsMigration:
+    Janborg\H4aTabellen\Migration\Version500\CreateHandballnetClubsFromH4aSeasonsMigration:
         public: true
         arguments:
             $connection: '@doctrine.dbal.default_connection'
@@ -16,18 +16,24 @@ services:
             $seasonSync: '@h4atabellen.handballnet.seasonsync'
             $teamSync: '@h4atabellen.handballnet.teamsync'
 
-    Janborg\H4aTabellen\Migration\LinkHandballnetTeamsToCalendarsMigration:
+    Janborg\H4aTabellen\Migration\Version500\LinkHandballnetTeamsToCalendarsMigration:
         public: true
         arguments:
             $connection: '@doctrine.dbal.default_connection'
         
-    Janborg\H4aTabellen\Migration\LinkHandballnetClubToTabelleElementsMigration:
+    Janborg\H4aTabellen\Migration\Version500\LinkHandballnetClubToTabelleElementsMigration:
         public: true
         arguments:
             $connection: '@doctrine.dbal.default_connection'
         
-    Janborg\H4aTabellen\Migration\LinkHandballnetClubToSpielplanElementsMigration:
+    Janborg\H4aTabellen\Migration\Version500\LinkHandballnetClubToSpielplanElementsMigration:
         public: true
         arguments:
             $connection: '@doctrine.dbal.default_connection'
+        
+    Janborg\H4aTabellen\Migration\Version500\MigrateCalendarEventsToHandballnetSchemaMigration:
+        public: true
+        arguments:
+            $connection: '@doctrine.dbal.default_connection'
+            $handballnetEventAutomator: '@h4atabellen.handballnet.eventautomator'
         
