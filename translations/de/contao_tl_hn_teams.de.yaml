@@ -1,6 +1,9 @@
 tl_hn_teams:
 
     # Global operations
+    update_hn_teams:
+      0: Update Teams
+      1: Update Teams über handball.net
 
     # Operations
     edit: Team %s bearbeiten

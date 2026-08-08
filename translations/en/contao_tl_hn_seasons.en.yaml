@@ -1,16 +1,9 @@
 tl_hn_seasons:
   # Global Operations
-  update_hn_teams: 
-    0: Update Teams
-    1: Update Teams via handball.net
-
-  update_hn_clubs: 
+  update_hn_clubs:
     0: Update Club Seasons
     1: Update Club Seasons via handball.net
 
-  manage_clubs:
-    0: Clubs 
-    1: Manage Clubs
   # Operations
   edit: Edit Season %s
   children: Manage Teams of Season %s
@@ -24,6 +17,7 @@ tl_hn_seasons:
     4: Enable updates
   # Legends
   title_legend: Season Settings
+  handballnet_legend: Handballnet data
   status_legend: Status Settings
   # Fields
   season_name:
@@ -42,14 +36,6 @@ tl_hn_seasons:
     0: Club Name
     1: Name of the club (e.g., "TSV Handball")
 
-  provider:
-    0: Provider
-    1: Data provider (e.g., "handball4all")
-
-  verband:
-    0: Association
-    1: Club association (e.g., "Badischer Handballverband")
-  
   is_active:
     0: Active Season
     1: Season is included in automatic updates via handball.net

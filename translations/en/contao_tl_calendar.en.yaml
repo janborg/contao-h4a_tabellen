@@ -3,9 +3,6 @@ tl_calendar:
 
     update_handballnet_results: Update Handballnet results
 
-    # Note: no matching global operation found in the DCA shown – remove if unused, or keep if referenced elsewhere
-    operation_h4a_seasons: Manage seasons
-
     handballnet_legend: Handballnet data
 
     handballnet_imported:
@@ -23,10 +20,6 @@ tl_calendar:
     handballnet_team_id:
         0: Team ID
         1: Select the team from the list
-
-    my_team_name:
-        0: My team
-        1: Exact name of the team to be highlighted
 
     h4aEvents_author:
         0: Author

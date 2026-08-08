@@ -3,9 +3,6 @@ tl_calendar:
 
     update_handballnet_results: Handballnet-Ergebnisse aktualisieren
 
-    # Hinweis: kein zugehöriges Global Operation Element in der DCA gefunden – ggf. entfernen oder woanders referenziert
-    operation_h4a_seasons: Seasons pflegen
-
     handballnet_legend: Handballnet Daten
 
     handballnet_imported:
@@ -23,10 +20,6 @@ tl_calendar:
     handballnet_team_id:
         0: Team ID
         1: Wähle das Team aus der Liste
-
-    my_team_name:
-        0: Mein Team
-        1: Genaue Bezeichnung der Mannschaft, die hervorgehoben werden soll
 
     h4aEvents_author:
         0: Autor

@@ -3,6 +3,7 @@ provider:
     handball4all: Handball4All
     nuliga: NuLiga
     sportradar: Sportradar
+    sr: SR (Sportradar)
 verband:
   label:
     baden: Badischer Handball-Verband
@@ -24,8 +25,11 @@ verband:
     hvn: Handball-Verband Niedersachsen-Bremen
     hvr: Handball-Verband Rheinland
     hvs: Handball-Verband Sachsen
+    hvsa: Handball-Verband Sachsen-Anhalt
     thv: Thüringer Handball-Verband
     hnr: Handball Nordrhein
+    ol-hamburg-schleswig-holstein: Oberligen Hamburg/Schleswig-Holstein
+    dhbdata: DHB
 agegroup:
   label:
     Men: Men

@@ -19,6 +19,18 @@ tl_content:
     0: Verein ID
     1: Bitte geben Sie die ID des Vereins (handball.net) ein
 
+  provider:
+    0: Provider
+    1: Provider, der die Daten der Liga bereitstellt
+
+  verband:
+    0: Verband
+    1: Verband, in dem die Liga organisiert ist
+
+  team_id:
+    0: Team ID
+    1: ID des Teams
+
   handballnet_club:
     0: Club
     1: Wähle den Club aus
@@ -40,24 +52,7 @@ tl_content:
     1: Bitte Typ des anzuzeigenden Widgets auswählen
 
 CTE:
-  handball4all: Handball4All Elements
   handballnet: Handballnet Elements
-
-  h4a_tabelle:
-    0: Tabelle Liga
-    1: Erzeugt die aktuelle Tabelle für die angegebene Liga
-
-  h4a_spiele:
-    0: Spielplan Team
-    1: Erzeugt den Spielplan für das angegebene Team
-
-  h4a_ligaspiele:
-    0: Spielplan Liga
-    1: Erzeugt den Spielplan für die angegebene Liga
-
-  h4a_aktuellespiele:
-    0: Aktuelle Spiele Verein
-    1: Erzeugt die aktuelle Spielübersicht des Vereins
 
   handballnet_tabelle:
     0: Tabelle (handball.net)

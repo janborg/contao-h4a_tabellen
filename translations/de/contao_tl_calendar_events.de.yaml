@@ -89,22 +89,6 @@ tl_calendar_events:
     0: Ergebnis vorhanden
     1: Wird automatisch beim Update über handball.net gesetzt
 
-  provider:
-    0: Provider
-    1: Provider, der die Daten der Liga bereitstellt
-
-  verband:
-    0: Verband
-    1: Verband, in dem die Liga organisiert ist
-
-  liga_shortname:
-    0: Liga Kurzbezeichnung
-    1: Kurzname der Liga
-
-  handballnet_id:
-    0: Handballnet ID
-    1: Vollständige ID des Spiels auf handball.net
-
   handballnet_state:
     0: Spielstatus
     1: Wird automatisch beim Update über handball.net gesetzt
