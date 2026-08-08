@@ -45,7 +45,7 @@ class MigrateCalendarEventsToHandballnetSchemaMigration extends AbstractMigratio
         $columns = $this->connection->createSchemaManager()->listTableColumns('tl_calendar_events');
 
         foreach ($requiredAll as $required) {
-            if (!isset($columns[$required])) {
+            if (!isset($columns[strtolower($required)])) {
                 return false;
             }
         }
