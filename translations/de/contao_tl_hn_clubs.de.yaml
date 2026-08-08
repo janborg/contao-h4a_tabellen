@@ -3,6 +3,7 @@ tl_hn_clubs:
 
     # Operations
     edit: Club %s bearbeiten
+    children: Saisons des Clubs %s verwalten
     delete: Club %s löschen
     toggle: 
       0: Aktualisierung aktivieren/deaktivieren

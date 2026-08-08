@@ -19,6 +19,18 @@ tl_content:
     0: Club ID
     1: Please enter the ID of the club (handball.net)
 
+  provider:
+    0: Provider
+    1: Provider supplying the league's data
+
+  verband:
+    0: Association
+    1: Association organising the league
+
+  team_id:
+    0: Team ID
+    1: ID of the team
+
   handballnet_club:
     0: Club
     1: Select the club
@@ -40,24 +52,7 @@ tl_content:
     1: Please select the type of widget to display
 
 CTE:
-  handball4all: Handball4All elements
   handballnet: Handballnet elements
-
-  h4a_tabelle:
-    0: League table
-    1: Generates the current table for the specified league
-
-  h4a_spiele:
-    0: Team schedule
-    1: Generates the schedule for the specified team
-
-  h4a_ligaspiele:
-    0: League schedule
-    1: Generates the schedule for the specified league
-
-  h4a_aktuellespiele:
-    0: Current matches (club)
-    1: Generates the current match overview for the club
 
   handballnet_tabelle:
     0: Table (handball.net)

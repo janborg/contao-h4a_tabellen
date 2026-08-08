@@ -1,11 +1,7 @@
 tl_hn_teams:
 
   # Global operations
-  edit_h4a_seasons: 
-    0: Edit Seasons
-    1: Edit season data
-
-  update_hn_teams: 
+  update_hn_teams:
     0: Update Teams
     1: Update teams via handball.net
 
@@ -21,8 +17,8 @@ tl_hn_teams:
   # Legends
   title_legend: Handball.net Team Settings
   status_legend: Status Settings
-  handballnet_tournament_legend: Handballnet Liga Daten
-  handballnet_team_legend: Handballnet Team Daten
+  handballnet_tournament_legend: Handballnet League Data
+  handballnet_team_legend: Handballnet Team Data
 
 
   # Fields
@@ -61,3 +57,19 @@ tl_hn_teams:
   my_team_name:
     0: My Team
     1: Name of the team to highlight it via CSS
+
+  age_group:
+    0: Age group
+    1: Age group in which the tournament is played
+
+  team_group_id:
+    0: Team Group ID
+    1:
+
+  team_logo:
+    0: Team Logo
+    1:
+
+  tournament_type:
+    0: Tournament Type
+    1:

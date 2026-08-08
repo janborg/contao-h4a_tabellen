@@ -89,22 +89,6 @@ tl_calendar_events:
     0: Result available
     1: Set automatically during the update via handball.net
 
-  provider:
-    0: Provider
-    1: Provider supplying the league's data
-
-  verband:
-    0: Association
-    1: Association organising the league
-
-  liga_shortname:
-    0: League abbreviation
-    1: Short name of the league
-
-  handballnet_id:
-    0: Handballnet ID
-    1: Full ID of the match on handball.net
-
   handballnet_state:
     0: Match status
     1: Set automatically during the update via handball.net

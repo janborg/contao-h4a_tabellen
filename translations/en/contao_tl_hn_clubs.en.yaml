@@ -1,0 +1,54 @@
+tl_hn_clubs:
+    # Global operations
+
+    # Operations
+    edit: Edit club %s
+    children: Manage seasons of club %s
+    delete: Delete club %s
+    toggle:
+      0: Enable/disable updates
+      1: Disable updates for club %s
+      2: Enable updates for club %s
+      3: Disable updates
+      4: Enable updates
+    show: Show club %s
+
+    # Legends
+    title_legend: Club
+
+    organization_legend: Organisation
+
+    status_legend: Status
+
+    # Fields
+    handballnet_id:
+      0: Handballnet ID
+      1: ID of the club on handball.net (e.g. handball4all.schleswig-holstein.1518)
+
+    name:
+      0: Name
+      1: Name of the club
+
+    acronym:
+      0: Acronym
+      1: Short form of the club
+
+    logo:
+      0: Logo
+      1: Link to the club's logo
+
+    org_id:
+      0: Organisation ID
+      1: ID of the association the club belongs to
+
+    org_name:
+      0: Organisation name
+      1: Name of the association the club belongs to
+
+    org_acronym:
+      0: Organisation acronym
+      1: Short form of the association the club belongs to
+
+    is_active:
+      0: Updates active
+      1: If active, the club seasons are updated via handball.net
