@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.1](https://github.com/janborg/contao-h4a_tabellen/compare/v5.0.0...v5.0.1) (2026-08-08)
+
+
+### Bug Fixes
+
+* readme.md überarbeiten ([c2c19cf](https://github.com/janborg/contao-h4a_tabellen/commit/c2c19cfe1b9482647414ea9d3e4ec5f1bc926f13)), closes [#177](https://github.com/janborg/contao-h4a_tabellen/issues/177)
+
 ## [5.0.0](https://github.com/janborg/contao-h4a_tabellen/compare/v4.0.22...v5.0.0) (2026-08-06)
 
 
