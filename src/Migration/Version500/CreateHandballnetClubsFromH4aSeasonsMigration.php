@@ -10,7 +10,7 @@ declare(strict_types=1);
  * @license MIT
  */
 
-namespace Janborg\H4aTabellen\Migration;
+namespace Janborg\H4aTabellen\Migration\Version500;
 
 use Contao\CoreBundle\Migration\AbstractMigration;
 use Contao\CoreBundle\Migration\MigrationResult;
