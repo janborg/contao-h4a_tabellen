@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.2](https://github.com/janborg/contao-h4a_tabellen/compare/v5.0.1...v5.0.2) (2026-08-14)
+
+
+### Bug Fixes
+
+* Spaltenname im UpdateH4aEventsCron korrigieren ([#180](https://github.com/janborg/contao-h4a_tabellen/issues/180)) ([441f5a0](https://github.com/janborg/contao-h4a_tabellen/commit/441f5a0b5250a16df9403f4b825c4c660df60667))
+
 ## [5.0.1](https://github.com/janborg/contao-h4a_tabellen/compare/v5.0.0...v5.0.1) (2026-08-08)
 
 
