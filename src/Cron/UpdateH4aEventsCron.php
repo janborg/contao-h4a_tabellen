@@ -30,7 +30,7 @@ class UpdateH4aEventsCron
     public function updateEvents(): void
     {
         $objCalendars = CalendarModel::findby(
-            ['tl_calendar.hn_imported=?'],
+            ['tl_calendar.handballnet_imported=?'],
             [true],
         );
 
