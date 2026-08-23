@@ -47,10 +47,16 @@ class HandballnetSpielplanElement extends AbstractContentElementController
         }
 
         try {
-            $data = json_decode($this->handballnetApiClient->getTeamScheduleData($model->handballnet_team_id, true), true);
-        } catch (\Exception $e) {
+            $json = $this->handballnetApiClient->getTeamScheduleData($model->handballnet_team_id, true);
+
+            if (null === $json) {
+                throw new \RuntimeException('Handball.net API returned no data.');
+            }
+
+            $data = json_decode($json, true, 512, \JSON_THROW_ON_ERROR);
+        } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
-            $data['data'] = [];
+            $data = ['data' => [], 'meta' => ['lastUpdated' => 0]];
         }
 
         $team = HandballnetTeamsModel::findOneByHandballnet_team_id($model->handballnet_team_id);

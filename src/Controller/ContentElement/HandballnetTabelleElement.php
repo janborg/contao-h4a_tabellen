@@ -47,7 +47,14 @@ class HandballnetTabelleElement extends AbstractContentElementController
         }
 
         try {
-            $data = json_decode($this->handballnetApiClient->getTournamentTableData($model->handballnet_tournament_id, true), true);
+            $json = $this->handballnetApiClient->getTournamentTableData($model->handballnet_tournament_id, true);
+
+            if (null === $json) {
+                throw new \RuntimeException('Handball.net API returned no data.');
+            }
+
+            $data = json_decode($json, true, 512, \JSON_THROW_ON_ERROR);
+
             // Timestamp in Sekunden umrechnen
             if (isset($data['data']['updatedAt'])) {
                 $data['data']['updatedAtFormatted'] = date('d.m.Y H:i', (int) ($data['data']['updatedAt'] / 1000));
@@ -55,9 +62,9 @@ class HandballnetTabelleElement extends AbstractContentElementController
             if (isset($data['data']['refUpdatedAt'])) {
                 $data['data']['refUpdatedAtFormatted'] = date('d.m.Y H:i', (int) ($data['data']['refUpdatedAt'] / 1000));
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
-            $data['data'] = [];
+            $data = ['data' => []];
         }
 
         $team = HandballnetTeamsModel::findOneByHandballnet_tournament_id($model->handballnet_tournament_id);
