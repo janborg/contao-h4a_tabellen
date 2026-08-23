@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.3](https://github.com/janborg/contao-h4a_tabellen/compare/v5.0.2...v5.0.3) (2026-08-23)
+
+
+### Bug Fixes
+
+* 500er bei fehlgeschlagener handball.net API-Antwort verhindern ([#182](https://github.com/janborg/contao-h4a_tabellen/issues/182)) ([b85d168](https://github.com/janborg/contao-h4a_tabellen/commit/b85d168a7d79fa2038fbdda29f51a97ecbf76585))
+
 ## [5.0.2](https://github.com/janborg/contao-h4a_tabellen/compare/v5.0.1...v5.0.2) (2026-08-14)
 
 
