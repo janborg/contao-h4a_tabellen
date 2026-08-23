@@ -53,7 +53,7 @@ class HandballnetSpielplanElement extends AbstractContentElementController
                 throw new \RuntimeException('Handball.net API returned no data.');
             }
 
-            $data = json_decode($json, true, 512, \JSON_THROW_ON_ERROR);
+            $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage());
             $data = ['data' => [], 'meta' => ['lastUpdated' => 0]];

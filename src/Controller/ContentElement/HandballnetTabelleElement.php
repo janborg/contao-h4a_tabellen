@@ -53,7 +53,7 @@ class HandballnetTabelleElement extends AbstractContentElementController
                 throw new \RuntimeException('Handball.net API returned no data.');
             }
 
-            $data = json_decode($json, true, 512, \JSON_THROW_ON_ERROR);
+            $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
             // Timestamp in Sekunden umrechnen
             if (isset($data['data']['updatedAt'])) {
