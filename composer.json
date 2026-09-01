@@ -36,7 +36,7 @@
         "symfony/routing": "^6.0 || ^7.0"
     },
     "require-dev": {
-        "contao/easy-coding-standard": "^6.0",
+        "contao/easy-coding-standard": "^7.1",
         "contao/manager-plugin": "^2.0",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-phpunit": "^2.",
