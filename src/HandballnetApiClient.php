@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of contao-h4a_tabellen.
+ *
+ * (c) Jan Lünborg
+ *
+ * @license MIT
+ */
+
 namespace Janborg\H4aTabellen;
 
 use Psr\Log\LoggerInterface;
@@ -40,7 +48,7 @@ class HandballnetApiClient
 
                 try {
                     return $this->httpClient->request('GET', $url, [])->getContent();
-                } catch (TransportExceptionInterface|HttpExceptionInterface $e) {
+                } catch (HttpExceptionInterface|TransportExceptionInterface $e) {
                     $this->contaoLogger->error(\sprintf('Unable to fetch Handballnet data from "%s": %s', $url, $e->getMessage()));
                     $item->expiresAfter(0);
 
