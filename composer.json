@@ -46,7 +46,7 @@
         "symfony/phpunit-bridge": "^8.0",
         "contao/test-case": "^5.0",
         "shipmonk/composer-dependency-analyser": "^1.7",
-        "symplify/easy-coding-standard": "13.3.0"
+        "symplify/easy-coding-standard": "13.3.2"
     },
     "conflict": {
         "contao/manager-plugin": "<2.0 || >=3.0"
