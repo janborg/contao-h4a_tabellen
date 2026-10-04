@@ -34,6 +34,11 @@ class HandballnetTeamSync
         }
 
         $json = $this->handballnetApiClient->getClubTeamsData($club->handballnet_id, $season->season_id);
+
+        if (null === $json) {
+            return;
+        }
+
         $teams = $this->teamsParser->parseClubTeams($json);
 
         foreach ($teams as $dto) {

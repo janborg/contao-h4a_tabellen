@@ -54,6 +54,12 @@ class UpdateHandballnetTeamsController extends Backend
             return;
         }
 
+        if (null === $json) {
+            Message::addError('Die Teams konnten nicht von handball.net abgerufen werden (siehe System-Log).');
+
+            return;
+        }
+
         $teams = $this->teamsParser->parseClubTeams($json);
 
         foreach ($teams as $team) {
@@ -85,6 +91,11 @@ class UpdateHandballnetTeamsController extends Backend
                 $json = $this->handballnetApiClient->getClubTeamsData($season->getRelated('handballnet_club_id')->handballnet_id, $season->season_id);
             } catch (\Exception $e) {
                 Message::addError($e->getMessage());
+                continue;
+            }
+
+            if (null === $json) {
+                Message::addError(\sprintf('Die Teams für Saison %s konnten nicht von handball.net abgerufen werden (siehe System-Log).', $season->season_id));
                 continue;
             }
 

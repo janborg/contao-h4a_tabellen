@@ -19,9 +19,17 @@ class HandballnetTeamsParser
     /**
      * @return array<TeamDto>
      */
-    public function parseClubTeams(string $json): array
+    public function parseClubTeams(string|null $json): array
     {
+        if (null === $json) {
+            return [];
+        }
+
         $data = json_decode($json, true);
+
+        if (!\is_array($data) || !\is_array($data['data'] ?? null)) {
+            return [];
+        }
 
         return array_filter(
             array_map(
@@ -32,7 +40,7 @@ class HandballnetTeamsParser
                         return null;
                     }
                 },
-                $data['data'] ?? [],
+                $data['data'],
             ),
         );
     }
