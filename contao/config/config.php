@@ -19,14 +19,6 @@ use Janborg\H4aTabellen\Model\HandballnetClubsModel;
 use Janborg\H4aTabellen\Model\HandballnetSeasonsModel;
 use Janborg\H4aTabellen\Model\HandballnetTeamsModel;
 
-/*
- * This file is part of contao-h4a_tabellen.
- *
- * (c) Jan Lünborg
- *
- * @license MIT
- */
-
 $GLOBALS['BE_MOD']['content']['calendar']['update_handballnet_events'] = [UpdateH4aEventsController::class, 'updateEvents'];
 $GLOBALS['BE_MOD']['content']['calendar']['update_handballnet_calendars'] = [UpdateH4aCalendarsController::class, 'updateCalendars'];
 $GLOBALS['BE_MOD']['content']['calendar']['update_handballnet_results'] = [UpdateH4aResultsController::class, 'updateResults'];
@@ -39,7 +31,7 @@ $GLOBALS['BE_MOD']['content']['handballnet_teams']['update_hn_clubs'] = [UpdateH
 
 $GLOBALS['BE_MOD']['content']['calendar']['tables'] = array_merge(
     $GLOBALS['BE_MOD']['content']['calendar']['tables'],
-    ['tl_h4a_seasons', 'tl_hn_teams']
+    ['tl_hn_teams']
 );
 $GLOBALS['BE_MOD']['content']['handballnet_teams']['tables'] = ['tl_hn_clubs', 'tl_hn_seasons', 'tl_hn_teams'];
 

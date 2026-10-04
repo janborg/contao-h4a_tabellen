@@ -73,10 +73,6 @@ services:
                 method: updateHandballnetTeams
                 priority: 10
 
-    h4atabellen.crawler.reportnocrawler:
-        class: Janborg\H4aTabellen\Crawler\H4aReportNoCrawler
-        public: true
-
     h4atabellen.handballnet.apiclient:
         class: Janborg\H4aTabellen\HandballnetApiClient
         public: true
