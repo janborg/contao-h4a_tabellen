@@ -69,6 +69,11 @@ class UpdateHandballnetTeamsCron
                 continue;
             }
 
+            if (null === $json) {
+                $this->contaoCronLogger->error(\sprintf('Keine Teamdaten von handball.net für Saison %s erhalten', $season->id));
+                continue;
+            }
+
             $teams = $this->teamsParser->parseClubTeams($json);
 
             foreach ($teams as $team) {
