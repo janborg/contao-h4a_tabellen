@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.0.4](https://github.com/janborg/contao-h4a_tabellen/compare/v5.0.3...v5.0.4) (2026-10-09)
+
+
+### Bug Fixes
+
+* handle failed handball.net requests when updating teams ([4483d98](https://github.com/janborg/contao-h4a_tabellen/commit/4483d98e7bce60cb730112042948056501390e8b))
+* remove stale service and table references, drop leftover files ([e08281b](https://github.com/janborg/contao-h4a_tabellen/commit/e08281bd85939536b3b09aa21aaa02c2252e36c0))
+
 ## [5.0.3](https://github.com/janborg/contao-h4a_tabellen/compare/v5.0.2...v5.0.3) (2026-08-23)
 
 
